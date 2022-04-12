@@ -8,12 +8,9 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/advertisement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:minHeight="150dp">
 
         <TextView
@@ -86,17 +83,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/duration"
             app:layout_constraintVertical_weight="1" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location"
-            app:layout_constraintVertical_weight="1"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
