@@ -1,4 +1,4 @@
-package it.polito.lab2
+package it.polito.lab3
 
 import org.junit.Test
 
