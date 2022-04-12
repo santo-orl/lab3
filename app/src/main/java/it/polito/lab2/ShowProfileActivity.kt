@@ -5,15 +5,15 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 
@@ -46,12 +46,29 @@ class MainActivity : AppCompatActivity() {
     //field used to make the changes persistent
     lateinit var sharedPref:SharedPreferences;
 
+    var drawerLayout: DrawerLayout? = null
+    var actionBarDrawerToggle: ActionBarDrawerToggle? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         /* editor.putString("fullName","Full Name")
         editor.apply()*/
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // findViewById<TextView>(R.id.nome).text =pref.getString("fullName",null)
+
+
+        drawerLayout = findViewById(R.id.my_drawer_layout)
+        actionBarDrawerToggle =
+            ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
+
+        // pass the Open and Close toggle for the drawer layout listener
+        // to toggle the button
+        drawerLayout?.addDrawerListener(actionBarDrawerToggle!!)
+        actionBarDrawerToggle!!.syncState()
+
+        // to make the Navigation drawer icon always appear on the action bar
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         sharedPref = this.getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
 
@@ -100,19 +117,41 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    /* function used to make the pencil menu icon responsive
+    /* function used to make the pencil menu icon and menuASINISTRA responsive
        when clicked
     */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item:MenuItem):Boolean{
+        //if pencil clicked
+        if(item.itemId.equals(R.id.pencil)){
+            editProfile()
+            return true
+        }
+        //if drawerIcon clicked
+        if(actionBarDrawerToggle!!.onOptionsItemSelected(item)){
+            return true
+        }
+        else return super.onOptionsItemSelected(item)
+    }
+
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
             R.id.pencil -> {
                 editProfile()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
-    }
+    }*/
+
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (actionBarDrawerToggle!!.onOptionsItemSelected(item)) {
+            true
+        }
+
+        else super.onOptionsItemSelected(item)
+    }*/
 
 
     override fun onSaveInstanceState(outState: Bundle) {
