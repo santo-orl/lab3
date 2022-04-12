@@ -37,6 +37,13 @@ class TimeSlotDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_time_slot_details, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //perform here any UI customization
+    }
+
+
     companion object {
         /**
          * Use this factory method to create a new instance of
