@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
        in order to activate the menu
     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        getMenuInflater().inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
