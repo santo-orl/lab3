@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Lab2</string>
+    <string name="add_todo_title">ADD SKILL</string>
+    <string name="todo_number">Skill %1$s</string>
+    <string name="todo_title">Title</string>
+    <string name="email_address">email@address</string>
+    <string name="nickname">Nickname</string>
+    <string name="full_name">Full Name</string>
+    <string name="location">Location</string>
+    <string name="keyword">Title</string>
+    <string name="short_description">Short description</string>
+</resources>
