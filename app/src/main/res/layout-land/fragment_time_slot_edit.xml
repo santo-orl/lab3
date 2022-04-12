@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".TimeSlotEditFragment">
+    <?xml version="1.0" encoding="utf-8"?>
+    
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp">
+
+            <EditText
+                android:id="@+id/title_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:hint="Title"
+                android:textColor="#000000"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/description_edit"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="1" />
+
+            <EditText
+                android:id="@+id/description_edit"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:hint="Description"
+                android:inputType="textMultiLine"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toTopOf="@+id/date_edit"
+                app:layout_constraintHeight="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/title_edit"
+                app:layout_constraintVertical_weight="5"
+                tools:ignore="TouchTargetSizeCheck"
+                />
+
+            <DatePicker
+                android:id="@+id/date_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/location_edit"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/duration_edit"
+                app:layout_constraintTop_toBottomOf="@+id/description_edit" />
+
+            <DatePicker
+                android:id="@+id/duration_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/location_edit"
+                app:layout_constraintLeft_toRightOf="@id/date_edit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_edit" />
+
+
+            <EditText
+                android:id="@+id/location_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:hint="Location"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/duration_edit"
+                app:layout_constraintVertical_weight="1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
