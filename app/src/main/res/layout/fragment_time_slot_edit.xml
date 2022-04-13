@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".TimeSlotEditFragment">
+    <?xml version="1.0" encoding="utf-8"?>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="150dp">
+
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:hint="Title"
+                android:textColor="#000000"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/description"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="1" />
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:inputType="textMultiLine"
+                android:hint="Description"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toTopOf="@+id/date"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintVertical_weight="3"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:inputType="date"
+                android:hint="Date"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toTopOf="@+id/location"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/duration"
+                app:layout_constraintTop_toBottomOf="@+id/description"
+                app:layout_constraintVertical_weight="1"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/duration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:inputType="number"
+                android:hint="Duration"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toTopOf="@+id/location"
+                app:layout_constraintLeft_toRightOf="@id/date"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description"
+                app:layout_constraintVertical_weight="1"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:hint="Location"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/duration"
+                app:layout_constraintVertical_weight="1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>

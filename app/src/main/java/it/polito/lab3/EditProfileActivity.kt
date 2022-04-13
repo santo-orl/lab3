@@ -1,20 +1,16 @@
-package it.polito.lab2
+package it.polito.lab3
 
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
-import android.os.PersistableBundle
 import android.os.SystemClock
 import android.provider.MediaStore
-import android.text.InputType
 import android.text.InputType.*
 import android.view.Gravity
 import android.widget.EditText
@@ -23,7 +19,6 @@ import android.widget.PopupMenu
 import androidx.core.content.FileProvider.getUriForFile
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import java.io.File
 import java.io.File.separator

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="it.polito.lab2">
+    package="it.polito.lab3">
 
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShowProfileActivity">
         <activity
-            android:name="it.polito.lab2.EditProfileActivity"
+            android:name="it.polito.lab3.EditProfileActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="it.polito.lab2.MainActivity"
+            android:name="it.polito.lab3.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
