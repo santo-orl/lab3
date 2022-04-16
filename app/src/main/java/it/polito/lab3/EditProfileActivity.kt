@@ -31,6 +31,7 @@ import java.util.*
 //Activity designed to let the user edit information
 class EditProfileActivity : AppCompatActivity() {
 
+    //fields
     lateinit var nameToUpdate: String
     lateinit var nicknameToUpdate: String
     lateinit var emailToUpdate: String
@@ -129,6 +130,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     }
 
+    //layout manager function
     private fun setUpLayout() {
         if(skillList.size == 0){
             skillList.add(Skill("", "", -1))
@@ -300,7 +302,6 @@ class EditProfileActivity : AppCompatActivity() {
             super.onBackPressed()
 
             //ii.putExtra("group19.lab2.SKILLS",findViewById<EditText>(R.id.editTextTextSkills).text);
-
 
             //startActivity(ii);
 

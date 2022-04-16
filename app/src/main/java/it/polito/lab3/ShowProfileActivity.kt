@@ -16,12 +16,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
-
+//Main Activity
 class MainActivity : AppCompatActivity() {
 
     //to make the persistency unique
     private val sharedPrefFIle = "it.polito.showprofileactivityy"
-    private lateinit var skillAdapter: Skill_Adapter
 
     //fields
     var name: String = "Full name"
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var skillList: ArrayList<Skill> = arrayListOf()
     private lateinit var uriImage: Uri
     private var uriImageString: String = ""
-
+    //associated fields to layout
     lateinit var name_field: TextView
     lateinit var nickname_field: TextView
     lateinit var location_field: TextView
@@ -39,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var photo_field: ImageView
     private lateinit var state: Parcelable
     //skills field
+    private lateinit var skillAdapter: Skill_Adapter
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterText: Adapter_Text
@@ -50,28 +50,24 @@ class MainActivity : AppCompatActivity() {
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
 
 
+    /* function called each time the activity is creater or re-opened */
     override fun onCreate(savedInstanceState: Bundle?) {
-        /* editor.putString("fullName","Full Name")
-        editor.apply()*/
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // findViewById<TextView>(R.id.nome).text =pref.getString("fullName",null)
 
-
+        //Code referring to DrawerMenu
         drawerLayout = findViewById(R.id.my_drawer_layout)
-        actionBarDrawerToggle =
-            ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
-
+        actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
         // pass the Open and Close toggle for the drawer layout listener
         // to toggle the button
         drawerLayout?.addDrawerListener(actionBarDrawerToggle!!)
         actionBarDrawerToggle!!.syncState()
-
         // to make the Navigation drawer icon always appear on the action bar
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        //persistency
         sharedPref = this.getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
-
 
         photo_field = findViewById<ImageView>(R.id.imageView)
         photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb)
@@ -87,15 +83,12 @@ class MainActivity : AppCompatActivity() {
         email_field = findViewById<TextView>(R.id.email)
         email =  sharedPref.getString("id_email", "email@address").toString()
         email_field.text =email
-
         uriImageString = sharedPref.getString("id_photo", "").toString()
         if(uriImageString!= "") {
             uriImage = Uri.parse(uriImageString)
             photo_field.setImageURI(uriImage)
         }
-
         var skills = sharedPref.getString("id_skills","")
-        //[Skill(....),Skill(...)]
         if(skills!= "") {
             var ll = skills!!.split("&&&")
             for(s in ll){
@@ -110,14 +103,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     /* function used to add the pencil icon
-       in order to activate the menu
+       in order to activate the right hand-side menu
     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
-    /* function used to make the pencil menu icon and menuASINISTRA responsive
+    /* function used to make the pencil menu icon and drawer menu responsive
        when clicked
     */
     override fun onOptionsItemSelected(item:MenuItem):Boolean{
@@ -133,27 +126,7 @@ class MainActivity : AppCompatActivity() {
         else return super.onOptionsItemSelected(item)
     }
 
-    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle item selection
-        return when (item.itemId) {
-            R.id.pencil -> {
-                editProfile()
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
-    }*/
-
-    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (actionBarDrawerToggle!!.onOptionsItemSelected(item)) {
-            true
-        }
-
-        else super.onOptionsItemSelected(item)
-    }*/
-
-
+    /* function used for saving fields' state */
     override fun onSaveInstanceState(outState: Bundle) {
 
         outState.putString("Full name", name)
@@ -162,12 +135,10 @@ class MainActivity : AppCompatActivity() {
         outState.putString("Location", location)
         outState.putString("Picture", uriImageString)
         outState.putParcelableArrayList("Skills", skillList)
-
-        //  outState.putParcelable("Skills", recycler.layoutManager?.onSaveInstanceState())
         super.onSaveInstanceState(outState)
-        //outState.putString("Skills", skills)
     }
 
+    /* function used for restoring fields' state */
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
 
         name = savedInstanceState.getString("Full name", "0")
@@ -191,14 +162,8 @@ class MainActivity : AppCompatActivity() {
         adapterText = Adapter_Text(skillList)
         recycler.adapter = adapterText
 
-
-        //state = savedInstanceState.getParcelable("Skills")!!
-        //  recycler.layoutManager?.onRestoreInstanceState(state)
-
-        //recycler.layoutManager = LinearLayoutManager(this)
         super.onRestoreInstanceState(savedInstanceState)
     }
-
 
     //to be invoked when the pencil menu icon is clicked
     private fun editProfile() {
@@ -211,10 +176,10 @@ class MainActivity : AppCompatActivity() {
         i.putExtra("group19.lab2.ImageProfile", uriImageString)
         i.putExtra("group19.lab2.SKILLS", skillList)
         startActivityForResult(i, 25);
-        //finish();
 
     }
 
+    /* receiving and managing data from other intents.. */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 25 && resultCode == RESULT_OK) {
             if (data?.getStringExtra("group19.lab2.NAME") != "") {
@@ -259,6 +224,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+    /* plus option on pressing back button: make fields persistent */
     override fun onBackPressed() {
 
         val editor: SharedPreferences.Editor = sharedPref.edit()
@@ -268,7 +234,6 @@ class MainActivity : AppCompatActivity() {
         editor.putString("id_location", location_field.text.toString())
         editor.putString("id_email", email_field.text.toString())
         editor.putString("id_photo", uriImageString)
-
         var ss = skillList.joinToString("&&&")
         editor.putString("id_skills",ss)
         editor.apply();
