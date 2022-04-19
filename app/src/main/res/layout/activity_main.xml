@@ -11,6 +11,12 @@
     tools:context=".MainActivity"
     tools:ignore="HardcodedText">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="it.polito.lab3.ShowProfileFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
