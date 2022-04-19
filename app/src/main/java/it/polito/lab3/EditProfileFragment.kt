@@ -1,10 +1,15 @@
 package it.polito.lab3
 
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import java.io.File
+import java.util.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,17 +21,36 @@ private const val ARG_PARAM2 = "param2"
  * Use the [EditProfileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class EditProfileFragment : Fragment() {
+class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    lateinit var nameToUpdate: String
+    lateinit var nicknameToUpdate: String
+    lateinit var emailToUpdate: String
+    lateinit var locationToUpdate: String
+    private lateinit var profileUri: Uri
+    private var uriImageString: String = ""
+
+    val name:String = "Full name"
+    private val nickname:String = "Nickname"
+    private val location:String = "Location"
+    private val email:String = "email@address"
+
+    private  var skillList: ArrayList<Skill> =  arrayListOf()
+    private lateinit var skillAdapter: Skill_Adapter
+
+
+    lateinit var filePhoto: File
+    lateinit var photo_button: ImageButton
+
+    private val FILE_NAME = "photo.jpg"
+    private val REQUEST_CODE_CAMERA = 13
+    private val REQUEST_CODE_GALLERY = 15
+    private lateinit var state: Parcelable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+
     }
 
     override fun onCreateView(
