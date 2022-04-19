@@ -1,32 +1,97 @@
 package it.polito.lab3
 
+import it.polito.lab3.DatePickerFragment
+import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.annotation.RequiresApi
+import it.polito.lab3.databinding.FragmentTimeSlotEditBinding
+import kotlinx.android.synthetic.main.fragment_time_slot_edit.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TimeSlotEditFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TimeSlotEditFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentTimeSlotEditBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentTimeSlotEditBinding.bind(view)
+
+        binding.apply {
+            date_edit.setOnClickListener {
+                // create new instance of DatePickerFragment
+                val datePickerFragment = DatePickerFragment()
+                val supportFragmentManager = requireActivity().supportFragmentManager
+
+                // we have to implement setFragmentResultListener
+                supportFragmentManager.setFragmentResultListener(
+                    "REQUEST_KEY",
+                    viewLifecycleOwner
+                ) { resultKey, bundle ->
+                    if (resultKey == "REQUEST_KEY") {
+                        val date = bundle.getString("SELECTED_DATE")
+                        date_edit.setText(date)
+                    }
+                }
+
+                // show
+                datePickerFragment.show(supportFragmentManager, "DatePickerFragment")
+            }
+            from_edit.setOnClickListener {
+                // create new instance of DatePickerFragment
+                val timePickerFragment = TimePickerFragment()
+                val supportFragmentManager = requireActivity().supportFragmentManager
+
+                // we have to implement setFragmentResultListener
+                supportFragmentManager.setFragmentResultListener(
+                    "REQUEST_KEY",
+                    viewLifecycleOwner
+                ) { resultKey, bundle ->
+                    if (resultKey == "REQUEST_KEY") {
+                        val duration = bundle.getString("SELECTED_TIME")
+                        from_edit.setText(duration)
+                    }
+                }
+
+                // show
+                timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
+            }
+
+            to_edit.setOnClickListener {
+                // create new instance of DatePickerFragment
+                val timePickerFragment = TimePickerFragment()
+                val supportFragmentManager = requireActivity().supportFragmentManager
+
+                // we have to implement setFragmentResultListener
+                supportFragmentManager.setFragmentResultListener(
+                    "REQUEST_KEY",
+                    viewLifecycleOwner
+                ) { resultKey, bundle ->
+                    if (resultKey == "REQUEST_KEY") {
+                        val duration = bundle.getString("SELECTED_TIME")
+                        to_edit.setText(duration)
+                    }
+                }
+
+                // show
+                timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
+            }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onCreateView(
@@ -37,23 +102,6 @@ class TimeSlotEditFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_time_slot_edit, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TimeSlotEditFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TimeSlotEditFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
+
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,10 +67,11 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         super.onViewCreated(view, savedInstanceState);
         edit_button = view.findViewById(R.id.editButton)
         edit_button.setOnClickListener {
-            val fragmentManager = fragmentManager
+            findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+          /*  val fragmentManager = fragmentManager
             if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(R.id.fragment, this).commit()
-            };
+                //fragmentManager.beginTransaction().replace(R.id.fragment, this).commit()
+            };*/
         }
 
     }
