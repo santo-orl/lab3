@@ -16,8 +16,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
-
+// TODO: Rename parameter arguments, choose names that match
+// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+/**
+ * A simple [Fragment] subclass.
+ * Use the [ShowProfileFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ */
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
+    // TODO: Rename and change types of parameters
     //to make the persistency unique
     private val sharedPrefFIle = "it.polito.showprofileactivityy"
 
@@ -47,6 +54,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,24 +67,15 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         if (savedInstanceState != null) {
 
             //persistency
-           sharedPref = requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
+           // sharedPref = this.getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
 
             name = savedInstanceState.getString("Full name", "0")
-            nickname = savedInstanceState.getString("Nickname", "0")
-            location = savedInstanceState.getString("Location", "0")
-            email = savedInstanceState.getString("Email", "0")
-
-            /*      QUESTO SE USIAMO LE SHARED PREFERENCES
-            name = sharedPref.getString("id_name","Full name").toString()
-            nickname = sharedPref.getString("id_nickname","Nickname").toString()
-            location = sharedPref.getString("id_location","Location").toString()
-            email =  sharedPref.getString("id_email", "email@address").toString()
-            uriImageString = sharedPref.getString("id_photo", "").toString()
-             */
-
             name_field.text = name
+            nickname = savedInstanceState.getString("Nickname", "0")
             nickname_field.text = nickname
+            location = savedInstanceState.getString("Location", "0")
             location_field.text = location
+            email = savedInstanceState.getString("Email", "0")
             email_field.text = email
 
             if (savedInstanceState.getString("Picture", "0") != "") {
@@ -103,6 +102,9 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         outState.putString("Location", location)
         outState.putString("Picture", uriImageString)
         outState.putParcelableArrayList("Skills", skillList)
+        super.onSaveInstanceState(outState)
+
+
 
         //  outState.putParcelable("Skills", recycler.layoutManager?.onSaveInstanceState())
         super.onSaveInstanceState(outState)
@@ -110,4 +112,16 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     }
 
 
+
+    companion object {
+
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            ShowProfileFragment().apply {
+                arguments = Bundle().apply {
+
+                }
+            }
+    }
 }

@@ -19,15 +19,19 @@
         <entry key="..\:/Users/Simona/AndroidStudioProjects/Lab2/app/src/main/res/menu/header_menu.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Simona/AndroidStudioProjects/Lab2/app/src/main/res/menu/main_menu.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Simona/AndroidStudioProjects/Lab2/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.195" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout-land/activityMain.xml" value="0.1" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout-land/activity_main.xml" value="0.16927083333333334" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout-land/fragment_time_slot_details.xml" value="0.16197916666666667" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout-port/activityMain.xml" value="0.14719202898550723" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/activityMain.xml" value="0.14719202898550723" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/activity_main.xml" value="0.14719202898550723" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/fragment_edit_profile.xml" value="0.14719202898550723" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/fragment_time_slot_details.xml" value="0.14855072463768115" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/home_activity.xml" value="0.14855072463768115" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout-land/activity_edit_profile.xml" value="0.1728395061728395" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout-land/activity_main.xml" value="0.11067019400352733" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout-land/fragment_time_slot_edit.xml" value="0.1728395061728395" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout-sw600dp/fragment_time_slot_edit.xml" value="0.12739071038251365" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/activity_edit_profile.xml" value="0.16893115942028986" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/activity_main.xml" value="0.13072916666666667" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/fragment_blank.xml" value="0.16893115942028986" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/fragment_time_slot_details.xml" value="0.16893115942028986" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/fragment_time_slot_edit.xml" value="0.18854166666666666" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/main_activity.xml" value="0.1875" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/skill_list_layout.xml" value="0.16893115942028986" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/layout/skill_text_layout.xml" value="0.16893115942028986" />
+        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/menu/navigation_menu.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/fabio/OneDrive/Desktop/Esami/Lab2/app/src/main/res/layout-land/activity_edit_profile.xml" value="0.1" />
         <entry key="..\:/Users/fabio/OneDrive/Desktop/Esami/Lab2/app/src/main/res/layout/activity_edit_profile.xml" value="0.1" />
         <entry key="..\:/Users/fabio/OneDrive/Desktop/Esami/ShowProfileActivity/app/src/main/res/layout/activity_main.xml" value="0.1453804347826087" />
