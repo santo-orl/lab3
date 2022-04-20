@@ -22,5 +22,19 @@
         <action
             android:id="@+id/action_timeSlotEditFragment_to_timeSlotDetailsFragment"
             app:destination="@id/timeSlotDetailsFragment" />
+        <action
+            android:id="@+id/action_timeSlotEditFragment_to_datePickerFragment"
+            app:destination="@id/datePickerFragment" />
+        <action
+            android:id="@+id/action_timeSlotEditFragment_to_timePickerFragment"
+            app:destination="@id/timePickerFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/timePickerFragment"
+        android:name="it.polito.lab3.TimePickerFragment"
+        android:label="TimePickerFragment" />
+    <dialog
+        android:id="@+id/datePickerFragment"
+        android:name="it.polito.lab3.DatePickerFragment"
+        android:label="DatePickerFragment" />
 </navigation>
