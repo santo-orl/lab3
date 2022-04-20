@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/timeSlotDetailsFragment">
+
+    <fragment
+        android:id="@+id/timeSlotDetailsFragment"
+        android:name="it.polito.lab3.TimeSlotDetailsFragment"
+        android:label="fragment_time_slot_details"
+        tools:layout="@layout/fragment_time_slot_details" >
+        <action
+            android:id="@+id/action_timeSlotDetailsFragment_to_timeSlotEditFragment"
+            app:destination="@id/timeSlotEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timeSlotEditFragment"
+        android:name="it.polito.lab3.TimeSlotEditFragment"
+        android:label="fragment_time_slot_edit"
+        tools:layout="@layout/fragment_time_slot_edit" >
+        <action
+            android:id="@+id/action_timeSlotEditFragment_to_timeSlotDetailsFragment"
+            app:destination="@id/timeSlotDetailsFragment" />
+        <action
+            android:id="@+id/action_timeSlotEditFragment_to_datePickerFragment"
+            app:destination="@id/datePickerFragment" />
+        <action
+            android:id="@+id/action_timeSlotEditFragment_to_timePickerFragment"
+            app:destination="@id/timePickerFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/timePickerFragment"
+        android:name="it.polito.lab3.TimePickerFragment"
+        android:label="TimePickerFragment" />
+    <dialog
+        android:id="@+id/datePickerFragment"
+        android:name="it.polito.lab3.DatePickerFragment"
+        android:label="DatePickerFragment" />
+</navigation>

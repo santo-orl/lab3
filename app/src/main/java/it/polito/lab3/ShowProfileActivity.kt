@@ -16,8 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
-//Main Activity
-class MainActivity : AppCompatActivity() {
+class ShowProfileActivity : AppCompatActivity() {
 
     //to make the persistency unique
     private val sharedPrefFIle = "it.polito.showprofileactivityy"
@@ -54,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_show_profile)
 
         //Code referring to DrawerMenu
         drawerLayout = findViewById(R.id.my_drawer_layout)
