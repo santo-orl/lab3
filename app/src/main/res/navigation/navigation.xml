@@ -45,7 +45,12 @@
             android:label="activity_main"
             tools:layout="@layout/activity_main" />
         <action
-            android:id="@+id/action_global_timeSlotDetailsFragment"
-            app:destination="@id/timeSlotDetailsFragment" />
+            android:id="@+id/action_global_showProfileFragment"
+            app:destination="@id/showProfileFragment" />
     </navigation>
+    <fragment
+        android:id="@+id/showProfileFragment"
+        android:name="it.polito.lab3.ShowProfileFragment"
+        android:label="fragment_show_profile"
+        tools:layout="@layout/fragment_show_profile" />
 </navigation>

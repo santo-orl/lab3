@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
 
 // Main activity, is the base for all the fragments
 class MainActivity : AppCompatActivity() {
@@ -24,12 +25,19 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem):Boolean{
+    override fun onOptionsItemSelected(item:MenuItem):Boolean{
+        //if pencil clicked
+        if(item.itemId.equals(R.id.profile)){
 
+            findNavController(R.id.profile).navigate(R.id.action_global_showProfileFragment)
+            return true
+        }
         //if drawerIcon clicked
         if(actionBarDrawerToggle!!.onOptionsItemSelected(item)){
             return true
         }
         else return super.onOptionsItemSelected(item)
     }
+
+
 }
