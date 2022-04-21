@@ -14,6 +14,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import it.polito.lab3.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 class ShowProfileActivity : AppCompatActivity() {
@@ -54,7 +55,6 @@ class ShowProfileActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_profile)
-
         //Code referring to DrawerMenu
         drawerLayout = findViewById(R.id.my_drawer_layout)
         actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)

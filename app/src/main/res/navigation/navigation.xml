@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/navigation2">
+    app:startDestination="@id/timeSlotDetailsFragment">
 
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
@@ -37,20 +37,18 @@
         android:id="@+id/datePickerFragment"
         android:name="it.polito.lab3.DatePickerFragment"
         android:label="DatePickerFragment" />
-    <navigation android:id="@+id/navigation2"
-        app:startDestination="@id/mainActivity">
-        <activity
-            android:id="@+id/mainActivity"
-            android:name="it.polito.lab3.MainActivity"
-            android:label="activity_main"
-            tools:layout="@layout/activity_main" />
-        <action
-            android:id="@+id/action_global_showProfileFragment"
-            app:destination="@id/showProfileFragment" />
-    </navigation>
     <fragment
         android:id="@+id/showProfileFragment"
         android:name="it.polito.lab3.ShowProfileFragment"
         android:label="fragment_show_profile"
-        tools:layout="@layout/fragment_show_profile" />
+        tools:layout="@layout/fragment_show_profile" >
+        <action
+            android:id="@+id/action_showProfileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="it.polito.lab3.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
 </navigation>

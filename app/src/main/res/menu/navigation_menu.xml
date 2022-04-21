@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText">
+    android:id="@+id/ciao"
+    >
 
     <item
         android:id="@+id/profile"
         android:title="Profile" />
 
     <item
-        android:id="@+id/advertisement"
-        android:title="Advertisement" />
+        android:id="@+id/timeSlot"
+        android:title="Time Slot" />
 
 </menu>

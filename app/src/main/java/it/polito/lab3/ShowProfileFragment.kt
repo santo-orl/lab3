@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,21 +12,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-/**
- * A simple [Fragment] subclass.
- * Use the [ShowProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
-    // TODO: Rename and change types of parameters
+   /*
     //to make the persistency unique
     private val sharedPrefFIle = "it.polito.showprofileactivityy"
-
+*/
     //fields
     var name: String = "Full name"
     var nickname: String = "Nickname"
@@ -64,7 +58,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (savedInstanceState != null) {
+        /*if (savedInstanceState != null) {
 
             //persistency
            // sharedPref = this.getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
@@ -90,11 +84,11 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             adapterText = Adapter_Text(skillList)
             recycler.adapter = adapterText
             }
-
+*/
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_show_profile, container, false)
     }
-
+/*
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("Full name", name)
         outState.putString("Nickname", nickname)
@@ -111,8 +105,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         //outState.putString("Skills", skills)
     }
 
-
-
+*/
+/*
     companion object {
 
         // TODO: Rename and change types and number of parameters
@@ -123,5 +117,5 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
                 }
             }
-    }
+    }*/
 }
