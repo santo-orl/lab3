@@ -33,6 +33,6 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val selectedDateBundle = Bundle()
         selectedDateBundle.putString("SELECTED_DATE", selectedDate)
 
-        setFragmentResult("REQUEST_KEY", selectedDateBundle)
+        setFragmentResult("KeyDate", selectedDateBundle)
     }
 }

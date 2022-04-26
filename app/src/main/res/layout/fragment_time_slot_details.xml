@@ -13,21 +13,21 @@
         android:id="@+id/advertisement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:minHeight="150dp">
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="@string/todo_title"
             android:textColor="#000000"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/description"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="1" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/editButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/description"
@@ -39,14 +39,14 @@
             android:textColor="#000000"
             android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@+id/date"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintVertical_weight="3"
+            app:layout_constraintTop_toBottomOf="@+id/editButton"
+            app:layout_constraintVertical_weight="1"
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:inputType="date"
             android:text="Date"
@@ -62,7 +62,7 @@
         <TextView
             android:id="@+id/duration"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:inputType="number"
             android:text="Duration"
@@ -78,25 +78,27 @@
         <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Location"
             android:textColor="#000000"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/duration"
-            app:layout_constraintVertical_weight="1" />
+            app:layout_constraintVertical_weight="1"
+            tools:layout_editor_absoluteX="1dp" />
 
         <Button
             android:id="@+id/editButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Edit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/description"
+            app:layout_constraintLeft_toRightOf="@id/title"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location"
-            app:layout_constraintVertical_weight="1" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
