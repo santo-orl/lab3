@@ -54,7 +54,6 @@ class ShowProfileActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_profile)
-
         //Code referring to DrawerMenu
         drawerLayout = findViewById(R.id.my_drawer_layout)
         actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)

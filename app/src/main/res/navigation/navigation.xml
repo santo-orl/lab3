@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/timeSlotDetailsFragment">
+    app:startDestination="@id/showProfileFragment">
 
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
@@ -42,4 +42,18 @@
         android:id="@+id/datePickerFragment"
         android:name="it.polito.lab3.DatePickerFragment"
         android:label="DatePickerFragment" />
+    <fragment
+        android:id="@+id/showProfileFragment"
+        android:name="it.polito.lab3.ShowProfileFragment"
+        android:label="fragment_show_profile"
+        tools:layout="@layout/fragment_show_profile" >
+        <action
+            android:id="@+id/action_showProfileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="it.polito.lab3.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
 </navigation>
