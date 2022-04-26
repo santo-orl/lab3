@@ -32,7 +32,12 @@
     <dialog
         android:id="@+id/timePickerFragment"
         android:name="it.polito.lab3.TimePickerFragment"
-        android:label="TimePickerFragment" />
+        android:label="TimePickerFragment" >
+        <argument
+            android:name="time"
+            app:argType="string"
+            android:defaultValue='""' />
+    </dialog>
     <dialog
         android:id="@+id/datePickerFragment"
         android:name="it.polito.lab3.DatePickerFragment"

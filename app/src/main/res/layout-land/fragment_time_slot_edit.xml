@@ -55,7 +55,8 @@
                 app:layout_constraintRight_toLeftOf="@+id/from_edit"
                 app:layout_constraintTop_toBottomOf="@+id/description_edit"
                 app:layout_constraintVertical_weight="1"
-                tools:ignore="TouchTargetSizeCheck" />
+                tools:ignore="TouchTargetSizeCheck"
+                android:focusableInTouchMode="false"/>
 
             <EditText
                 android:id="@+id/from_edit"
@@ -71,7 +72,8 @@
                 app:layout_constraintRight_toRightOf="@+id/to_edit"
                 app:layout_constraintTop_toBottomOf="@+id/description_edit"
                 app:layout_constraintVertical_weight="1"
-                tools:ignore="TouchTargetSizeCheck" />
+                tools:ignore="TouchTargetSizeCheck"
+                android:focusableInTouchMode="false"/>
 
             <EditText
                 android:id="@+id/to_edit"
@@ -87,7 +89,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description_edit"
                 app:layout_constraintVertical_weight="1"
-                tools:ignore="TouchTargetSizeCheck" />
+                tools:ignore="TouchTargetSizeCheck"
+                android:focusableInTouchMode="false"/>
 
 
             <EditText
