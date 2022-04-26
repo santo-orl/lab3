@@ -1,22 +1,14 @@
 package it.polito.lab3
 
-import android.content.ClipData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.view.menu.MenuView
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.onNavDestinationSelected
 import com.google.android.material.navigation.NavigationView
-import it.polito.lab3.databinding.ActivityMainBinding
 
 // Main activity, is the base for all the fragments
 class MainActivity : AppCompatActivity(){
@@ -60,11 +52,18 @@ class MainActivity : AppCompatActivity(){
     override fun onOptionsItemSelected(item:MenuItem):Boolean{
         //if pencil clicked
 
+        val img = findViewById<ImageView>(R.id.imageView)
+
         //if drawerIcon clicked
         if(actionBarDrawerToggle!!.onOptionsItemSelected(item)){
+            img.alpha = 0.5F
             return true
         }
-        else return super.onOptionsItemSelected(item)
+        else {
+            return super.onOptionsItemSelected(item)
+        }
+
+
     }
 
 }

@@ -14,7 +14,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import it.polito.lab3.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 class ShowProfileActivity : AppCompatActivity() {
