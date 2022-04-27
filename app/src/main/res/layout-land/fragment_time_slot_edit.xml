@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="150dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:id="@+id/card_pertanyaan"
+    card_view:cardBackgroundColor="#FFFF"
+    card_view:cardCornerRadius="8dp"
+    card_view:contentPadding="10dp"
+    android:foreground="?selectableItemBackground"
+    android:clickable="true">
+<FrameLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".TimeSlotEditFragment">
-    
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="100dp">
+            android:minHeight="150dp">
 
             <EditText
                 android:id="@+id/title_edit"
@@ -28,18 +41,17 @@
             <EditText
                 android:id="@+id/description_edit"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:hint="Description"
                 android:inputType="textMultiLine"
+                android:hint="Description"
                 android:textColor="#000000"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toTopOf="@+id/date_edit"
-                app:layout_constraintHeight="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/title_edit"
-                app:layout_constraintVertical_weight="5"
-                tools:ignore="TouchTargetSizeCheck"
-                />
+                app:layout_constraintVertical_weight="3"
+                tools:ignore="TouchTargetSizeCheck" />
+
 
             <EditText
                 android:id="@+id/date_edit"
@@ -52,7 +64,7 @@
                 android:textSize="25sp"
                 app:layout_constraintBottom_toTopOf="@+id/location_edit"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/from_edit"
+                app:layout_constraintRight_toLeftOf="@id/from_edit"
                 app:layout_constraintTop_toBottomOf="@+id/description_edit"
                 app:layout_constraintVertical_weight="1"
                 tools:ignore="TouchTargetSizeCheck"
@@ -92,7 +104,6 @@
                 tools:ignore="TouchTargetSizeCheck"
                 android:focusableInTouchMode="false"/>
 
-
             <EditText
                 android:id="@+id/location_edit"
                 android:layout_width="match_parent"
@@ -102,8 +113,10 @@
                 android:textColor="#000000"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/duration_edit"
+                app:layout_constraintTop_toBottomOf="@+id/to_edit"
                 app:layout_constraintVertical_weight="1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>
+
+</androidx.cardview.widget.CardView>
