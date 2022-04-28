@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.options_menu,menu)
         return true
     }
 
@@ -70,7 +71,6 @@ class MainActivity : AppCompatActivity(){
         }
 
         val img = findViewById<ImageView>(R.id.imageView)
-
         //if drawerIcon clicked
         if(actionBarDrawerToggle!!.onOptionsItemSelected(item)){
             img.alpha = 0.5F
