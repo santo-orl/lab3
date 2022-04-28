@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 
 
@@ -26,10 +27,8 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var duration_field: TextView
     lateinit var location_field: TextView
 
+    val vm by viewModels<TimeSlotViewModel>()
 
-    private fun editAdv(): Boolean {
-        return true
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState);
@@ -46,6 +45,8 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         duration_field = view.findViewById<TextView>(R.id.duration)
         location_field = view.findViewById<TextView>(R.id.location)
 
+        vm.editTitle(title_field.text.toString())
+
         title_field.text = title
         description_field.text = description
         date_field.text = date
@@ -59,18 +60,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
 
-        outState.putString("Title", title)
-        outState.putString("Description", description)
-        outState.putString("Date", date)
-        outState.putString("Time", duration)
-        outState.putString("Location", location)
-
-        //  outState.putParcelable("Skills", recycler.layoutManager?.onSaveInstanceState())
-        super.onSaveInstanceState(outState)
-        //outState.putString("Skills", skills)
-    }
 
 
 
