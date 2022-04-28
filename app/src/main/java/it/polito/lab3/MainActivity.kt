@@ -1,13 +1,20 @@
 package it.polito.lab3
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationView
 
 // Main activity, is the base for all the fragments
@@ -49,8 +56,18 @@ class MainActivity : AppCompatActivity(){
     }
 
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item:MenuItem):Boolean{
         //if pencil clicked
+        if(item.itemId.equals(R.id.pencil)){
+            val navController = findNavController(R.id.myNavHostFragment)
+            navController.navigate(R.id.action_showProfileFragment_to_editProfileFragment)
+            return true
+        }
 
         val img = findViewById<ImageView>(R.id.imageView)
 

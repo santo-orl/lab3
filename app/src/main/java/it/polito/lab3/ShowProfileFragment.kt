@@ -1,20 +1,10 @@
 package it.polito.lab3
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.navigation.NavigationView
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 
@@ -30,8 +20,15 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_show_profile, container, false)
     }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
+            return true
+    }
+
+
 
 }
