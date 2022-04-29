@@ -19,6 +19,9 @@ import android.widget.PopupMenu
 import androidx.core.content.FileProvider.getUriForFile
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
+import it.polito.lab3.skills.Skill
+import it.polito.lab3.skills.SkillUI
+import it.polito.lab3.skills.Skill_Adapter
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import java.io.File
 import java.io.File.separator

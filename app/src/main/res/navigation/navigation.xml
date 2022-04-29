@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
-        android:name="it.polito.lab3.TimeSlotDetailsFragment"
+        android:name="it.polito.lab3.fragments.TimeSlotDetailsFragment"
         android:label="fragment_time_slot_details"
         tools:layout="@layout/fragment_time_slot_details" >
         <action
@@ -16,12 +16,9 @@
     </fragment>
     <fragment
         android:id="@+id/timeSlotEditFragment"
-        android:name="it.polito.lab3.TimeSlotEditFragment"
+        android:name="it.polito.lab3.fragments.TimeSlotEditFragment"
         android:label="fragment_time_slot_edit"
         tools:layout="@layout/fragment_time_slot_edit" >
-        <action
-            android:id="@+id/action_timeSlotEditFragment_to_timeSlotDetailsFragment"
-            app:destination="@id/timeSlotDetailsFragment" />
         <action
             android:id="@+id/action_timeSlotEditFragment_to_datePickerFragment"
             app:destination="@id/datePickerFragment" />
@@ -31,7 +28,7 @@
     </fragment>
     <dialog
         android:id="@+id/timePickerFragment"
-        android:name="it.polito.lab3.TimePickerFragment"
+        android:name="it.polito.lab3.fragments.TimePickerFragment"
         android:label="TimePickerFragment" >
         <argument
             android:name="time"
@@ -40,11 +37,11 @@
     </dialog>
     <dialog
         android:id="@+id/datePickerFragment"
-        android:name="it.polito.lab3.DatePickerFragment"
+        android:name="it.polito.lab3.fragments.DatePickerFragment"
         android:label="DatePickerFragment" />
     <fragment
         android:id="@+id/showProfileFragment"
-        android:name="it.polito.lab3.ShowProfileFragment"
+        android:name="it.polito.lab3.fragments.ShowProfileFragment"
         android:label="fragment_show_profile"
         tools:layout="@layout/fragment_show_profile" >
         <action
@@ -56,4 +53,21 @@
         android:name="it.polito.lab3.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/itemListFragment"
+        android:name="it.polito.lab3.ItemListFragment"
+        android:label="ItemListFragment" >
+        <action
+            android:id="@+id/action_itemListFragment_to_timeSlotDetailsFragment"
+            app:destination="@id/timeSlotDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/containerFragment"
+        android:name="it.polito.lab3.fragments.ContainerFragment"
+        android:label="fragment_container"
+        tools:layout="@layout/fragment_container" >
+        <action
+            android:id="@+id/action_containerFragment_to_timeSlotEditFragment"
+            app:destination="@id/timeSlotEditFragment" />
+    </fragment>
 </navigation>

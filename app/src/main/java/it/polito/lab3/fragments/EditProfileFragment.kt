@@ -1,4 +1,4 @@
-package it.polito.lab3
+package it.polito.lab3.fragments
 
 import android.net.Uri
 import android.os.Bundle
@@ -8,19 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import it.polito.lab3.R
+import it.polito.lab3.skills.Skill
+import it.polito.lab3.skills.Skill_Adapter
 import java.io.File
 import java.util.ArrayList
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [EditProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     // TODO: Rename and change types of parameters
     lateinit var nameToUpdate: String
@@ -30,12 +23,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private lateinit var profileUri: Uri
     private var uriImageString: String = ""
 
-    val name:String = "Full name"
-    private val nickname:String = "Nickname"
-    private val location:String = "Location"
-    private val email:String = "email@address"
+    val name: String = "Full name"
+    private val nickname: String = "Nickname"
+    private val location: String = "Location"
+    private val email: String = "email@address"
 
-    private  var skillList: ArrayList<Skill> =  arrayListOf()
+    private var skillList: ArrayList<Skill> = arrayListOf()
     private lateinit var skillAdapter: Skill_Adapter
 
 
@@ -59,25 +52,5 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_profile, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }
