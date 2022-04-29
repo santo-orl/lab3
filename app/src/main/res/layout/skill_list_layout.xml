@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textColor="#000000"
+            android:textColor="@color/dark_blue"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:ignore="RelativeOverlap" />
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/keyword"
         android:inputType="text|textCapSentences"
-        android:textColor="#000000"
+        android:textColor="@color/dark_blue"
         android:textSize="14sp"
         android:textStyle="bold"
         tools:ignore="Autofill,LabelFor" />
@@ -49,7 +49,7 @@
         android:id="@+id/input_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
+        android:textColor="@color/dark_blue"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/short_description"
