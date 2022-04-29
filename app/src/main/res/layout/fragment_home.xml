@@ -37,6 +37,7 @@
             android:backgroundTint="@color/dirty_white"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Welcome to our App!"
+            android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textColorLink="@color/dark_blue"
             android:textSize="48sp"

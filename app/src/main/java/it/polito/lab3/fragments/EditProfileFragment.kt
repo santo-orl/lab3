@@ -15,7 +15,6 @@ import java.io.File
 import java.util.ArrayList
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
-    // TODO: Rename and change types of parameters
     lateinit var nameToUpdate: String
     lateinit var nicknameToUpdate: String
     lateinit var emailToUpdate: String
