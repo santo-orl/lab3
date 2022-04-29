@@ -2,6 +2,7 @@ package it.polito.lab3.fragments
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import it.polito.lab3.R
@@ -22,6 +23,9 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         return inflater.inflate(R.layout.fragment_show_profile, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
             findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
