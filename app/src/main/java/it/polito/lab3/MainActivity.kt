@@ -1,20 +1,16 @@
 package it.polito.lab3
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.app.ActionBar.DISPLAY_SHOW_CUSTOM
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationView
 
 // Main activity, is the base for all the fragments
@@ -36,6 +32,7 @@ class MainActivity : AppCompatActivity(){
         drawerLayout?.addDrawerListener(actionBarDrawerToggle!!)
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -47,8 +44,8 @@ class MainActivity : AppCompatActivity(){
                     //DEVO APRIRE IL FRAMMENTO CHE MI MOSTRA IL TIME_SLOT_DETAILS
                 R.id.timeSlot -> {
                     val navController = findNavController(R.id.myNavHostFragment)
-                    navController.navigate(R.id.action_showProfileFragment_to_timeSlotDetailsFragment)
-                    //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
+                    //navController.navigate(R.id.action_showProfileFragment_to_editProfileFragment)
+                    Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
@@ -64,7 +61,7 @@ class MainActivity : AppCompatActivity(){
         return true
     }
 
-    override fun onOptionsItemSelected(item:MenuItem):Boolean{
+    override fun onOptionsItemSelected(item: MenuItem):Boolean{
         //if pencil clicked
         if(item.itemId.equals(R.id.pencil)){
             val navController = findNavController(R.id.myNavHostFragment)
@@ -72,7 +69,7 @@ class MainActivity : AppCompatActivity(){
             return true
         }
 
-        val img = findViewById<ImageView>(R.id.imageView)
+        /*val img = findViewById<ImageView>(R.id.imageView)
         //if drawerIcon clicked
         if(actionBarDrawerToggle!!.onOptionsItemSelected(item)){
             img.alpha = 0.5F
@@ -80,9 +77,8 @@ class MainActivity : AppCompatActivity(){
         }
         else {
             return super.onOptionsItemSelected(item)
-        }
-
-
+        }*/
+        return true
     }
 
 }
