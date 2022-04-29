@@ -1,4 +1,4 @@
-package it.polito.lab3
+package it.polito.lab3.skills
 
 
 import android.text.Editable
@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import it.polito.lab3.R
 import kotlinx.android.synthetic.main.skill_list_layout.view.*
 
 class SkillViewHolder(

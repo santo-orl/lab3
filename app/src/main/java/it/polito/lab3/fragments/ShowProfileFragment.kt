@@ -1,11 +1,10 @@
-package it.polito.lab3
+package it.polito.lab3.fragments
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.activity_edit_profile.*
+import it.polito.lab3.R
 
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {

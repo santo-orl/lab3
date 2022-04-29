@@ -1,9 +1,10 @@
-package it.polito.lab3
+package it.polito.lab3.skills
 
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import it.polito.lab3.R
 
 class Skill_Adapter(
     private val skillList: MutableList<Skill>

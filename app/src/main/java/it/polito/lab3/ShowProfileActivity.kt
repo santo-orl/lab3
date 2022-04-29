@@ -14,6 +14,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import it.polito.lab3.skills.Adapter_Text
+import it.polito.lab3.skills.Skill
+import it.polito.lab3.skills.Skill_Adapter
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 class ShowProfileActivity : AppCompatActivity() {
@@ -36,8 +39,6 @@ class ShowProfileActivity : AppCompatActivity() {
     lateinit var email_field: TextView
     lateinit var photo_field: ImageView
     private lateinit var state: Parcelable
-    //skills field
-    private lateinit var skillAdapter: Skill_Adapter
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterText: Adapter_Text
