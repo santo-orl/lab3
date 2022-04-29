@@ -20,7 +20,7 @@
         android:backgroundTint="@color/dirty_white">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/home_pic"
             android:layout_width="351dp"
             android:layout_height="350dp"
             android:scaleType="centerCrop"
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/welcome_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/dirty_white"
@@ -47,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/home_pic"
             app:layout_constraintVertical_bias="0.188" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

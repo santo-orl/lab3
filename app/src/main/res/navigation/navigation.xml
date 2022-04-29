@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/showProfileFragment">
 
     <fragment
         android:id="@+id/timeSlotDetailsFragment"
@@ -73,5 +73,9 @@
         android:id="@+id/homeFragment"
         android:name="it.polito.lab3.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_showProfileFragment2"
+            app:destination="@id/showProfileFragment" />
+    </fragment>
 </navigation>
