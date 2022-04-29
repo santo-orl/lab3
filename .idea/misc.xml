@@ -56,6 +56,8 @@
         <entry key="..\:/Users/valen/AndroidStudioProjects/Lab2/app/src/main/res/menu/header_menu.xml" value="0.1796875" />
         <entry key="..\:/Users/valen/AndroidStudioProjects/Lab2/app/src/main/res/menu/main_menu.xml" value="0.1796875" />
         <entry key="..\:/Users/valen/AndroidStudioProjects/Lab2/app/src/main/res/xml/file_paths.xml" value="0.16485507246376813" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1275" />
         <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/layout-land/fragment_home.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/layout-land/fragment_time_slot_details.xml" value="0.12447916666666667" />
         <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/layout-land/skill_list_layout.xml" value="0.15211640211640212" />
@@ -73,6 +75,8 @@
         <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/layout/skill_text_layout.xml" value="0.1490036231884058" />
         <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/menu/adv_edit_menu.xml" value="0.1796875" />
         <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/menu/main_menu.xml" value="0.1796875" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/menu/navigation_menu.xml" value="0.11666666666666667" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab3/app/src/main/res/menu/options_menu.xml" value="0.11666666666666667" />
       </map>
     </option>
   </component>
