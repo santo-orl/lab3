@@ -46,7 +46,9 @@ class MainActivity : AppCompatActivity(){
                 }
                     //DEVO APRIRE IL FRAMMENTO CHE MI MOSTRA IL TIME_SLOT_DETAILS
                 R.id.timeSlot -> {
-                    Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
+                    val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.action_showProfileFragment_to_timeSlotDetailsFragment)
+                    //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
