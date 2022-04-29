@@ -1,4 +1,4 @@
-package it.polito.lab3
+package it.polito.lab3.fragments
 
 
 import android.app.Dialog
@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.util.Log.DEBUG
 import android.widget.TimePicker
 
 import androidx.fragment.app.DialogFragment

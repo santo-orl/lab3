@@ -1,4 +1,4 @@
-package it.polito.lab3
+package it.polito.lab3.skills
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,14 +6,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.skill_list_layout.view.*
+import it.polito.lab3.R
 import kotlinx.android.synthetic.main.skill_text_layout.view.*
 
 class Adapter_Text(private val dataSet: ArrayList<Skill>) :
     RecyclerView.Adapter<Adapter_Text.ViewHolder>() {
-
-
-
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -21,8 +18,8 @@ class Adapter_Text(private val dataSet: ArrayList<Skill>) :
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val number: TextView = view.skill_number_label2
-         val sTitle: TextView = view.Title
-         val sDesc: TextView = view.Description
+        val sTitle: TextView = view.Title
+        val sDesc: TextView = view.Description
         private lateinit var listener: AdapterView.OnItemClickListener
 
         init {

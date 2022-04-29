@@ -1,4 +1,4 @@
-package it.polito.lab3
+package it.polito.lab3.fragments
 
 import android.os.Bundle
 import android.view.View
@@ -6,8 +6,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
-
-import kotlinx.android.synthetic.main.fragment_time_slot_edit.*
+import it.polito.lab3.R
 
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {

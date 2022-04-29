@@ -1,15 +1,14 @@
-package it.polito.lab3
+package it.polito.lab3.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import it.polito.lab3.R
+import it.polito.lab3.TimeSlotViewModel
 
 
 class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
