@@ -1,15 +1,20 @@
 package it.polito.lab3
 
+import android.icu.text.CaseMap
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class TimeSlotViewModel: ViewModel() {
-    val title = MutableLiveData<String>().also{
-        it.value = "Title"
+    private val _title = MutableLiveData<String>("Title")
+    val title: LiveData<String> = _title
+
+    fun setTitle(desiredTitle: String) {
+        _title.value = desiredTitle
     }
 
-    fun editTitle(title_text: String){
-        title.value = title_text
+    fun hasNoTitleSet(): Boolean {
+        return _title.value.isNullOrEmpty()
     }
 
 }
