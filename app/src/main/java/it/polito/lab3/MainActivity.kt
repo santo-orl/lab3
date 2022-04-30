@@ -37,12 +37,13 @@ class MainActivity : AppCompatActivity(){
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {
-                //APRO IL FRAMMENTO DELLA HOME
+                //mostro l'home fragment
                 R.id.home -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.homeFragment)
                     true
                 }
+                //mostro lo show profile fragment
                 R.id.profile -> {
                     // DEVO APRIRE IL FRAMMENTO CHE MOSTRA LO SHOW PROFILE FRAGMENT
                     val navController = findNavController(R.id.myNavHostFragment)
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity(){
                     //Toast.makeText(this,"APRI SHOW PROFILE",Toast.LENGTH_SHORT).show()
                     true
                 }
-                    //DEVO APRIRE IL FRAMMENTO CHE MI MOSTRA IL TIME_SLOT_DETAILS
+                //mostro il time slot details fragment
                 R.id.details -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.timeSlotDetailsFragment)
@@ -69,7 +70,6 @@ class MainActivity : AppCompatActivity(){
                     true
                 }
                 else -> {
-                    Toast.makeText(this,"CHIUDO",Toast.LENGTH_SHORT).show()
                     false
                 }
             }
@@ -87,14 +87,6 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onOptionsItemSelected(item: MenuItem):Boolean{
-        //if pencil clicked
-        if(item.itemId.equals(R.id.pencil)){
-            val navController = findNavController(R.id.myNavHostFragment)
-            navController.navigate(R.id.action_showProfileFragment_to_editProfileFragment)
-            return true
-        }
-
-
         //if drawerIcon clicked
         if(actionBarDrawerToggle!!.onOptionsItemSelected(item)){
             /*img.alpha=0.1F
