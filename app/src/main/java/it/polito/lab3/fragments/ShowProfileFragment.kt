@@ -1,5 +1,6 @@
 package it.polito.lab3.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -10,6 +11,9 @@ import it.polito.lab3.R
 
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
+
+    private val sharedPrefFIle = "it.polito.showprofileactivityy"
+    lateinit var sharedPref: SharedPreferences;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
