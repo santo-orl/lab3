@@ -5,11 +5,15 @@
     >
 
     <item
+        android:id="@+id/home"
+        android:title="Home" />
+
+    <item
         android:id="@+id/profile"
         android:title="Profile" />
 
     <item
-        android:id="@+id/timeSlot"
-        android:title="Time Slot" />
+        android:id="@+id/listTimeSlot"
+        android:title="List of time slots" />
 
 </menu>
