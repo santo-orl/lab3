@@ -33,20 +33,22 @@ class MainActivity : AppCompatActivity(){
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        //val navController = findNavController(R.id.myNavHostFragment)
+
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.profile -> {
                     // DEVO APRIRE IL FRAMMENTO CHE MOSTRA LO SHOW PROFILE FRAGMENT
-                    //navController.navigate(R.id.action_homeFragment_to_showProfileFragment)
-                    Toast.makeText(this,"APRI SHOW PROFILE",Toast.LENGTH_SHORT).show()
+                    val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.showProfileFragment)
+                    //Toast.makeText(this,"APRI SHOW PROFILE",Toast.LENGTH_SHORT).show()
                     true
                 }
                     //DEVO APRIRE IL FRAMMENTO CHE MI MOSTRA IL TIME_SLOT_DETAILS
                 R.id.timeSlot -> {
-                    //navController.navigate(R.id.action_homeFragment_to_timeSlotDetailsFragment)
-                    Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
+                    val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.timeSlotDetailsFragment)
+                    //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false
@@ -58,7 +60,7 @@ class MainActivity : AppCompatActivity(){
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        //menuInflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         //menuInflater.inflate(R.menu.options_menu,menu)
         //menuInflater.inflate(R.menu.navigation_menu, menu)
         return true
@@ -66,11 +68,11 @@ class MainActivity : AppCompatActivity(){
 
     override fun onOptionsItemSelected(item: MenuItem):Boolean{
         //if pencil clicked
-        /*if(item.itemId.equals(R.id.pencil)){
+        if(item.itemId.equals(R.id.pencil)){
             val navController = findNavController(R.id.myNavHostFragment)
             navController.navigate(R.id.action_showProfileFragment_to_editProfileFragment)
             return true
-        }*/
+        }
 
 
         //if drawerIcon clicked
