@@ -54,7 +54,8 @@
             app:itemIconTint="@color/dark_blue"
             app:itemTextAppearance="@style/TextAppearance.AppCompat.Medium"
             app:itemTextColor="@color/dark_blue"
-            app:menu="@menu/navigation_menu" />
+            app:menu="@menu/navigation_menu"
+            app:headerLayout="@layout/nav_header_main"/>
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </FrameLayout>

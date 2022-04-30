@@ -14,4 +14,7 @@
     <string name="nav_close">Close</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_header_desc">nav_image</string>
+    <string name="nav_header_title">Your name</string>
+    <string name="nav_header_subtitle">Your email</string>
 </resources>
