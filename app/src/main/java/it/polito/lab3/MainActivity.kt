@@ -37,6 +37,12 @@ class MainActivity : AppCompatActivity(){
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {
+                //APRO IL FRAMMENTO DELLA HOME
+                R.id.home -> {
+                    val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.homeFragment)
+                    true
+                }
                 R.id.profile -> {
                     // DEVO APRIRE IL FRAMMENTO CHE MOSTRA LO SHOW PROFILE FRAGMENT
                     val navController = findNavController(R.id.myNavHostFragment)
@@ -45,10 +51,15 @@ class MainActivity : AppCompatActivity(){
                     true
                 }
                     //DEVO APRIRE IL FRAMMENTO CHE MI MOSTRA IL TIME_SLOT_DETAILS
-                R.id.timeSlot -> {
+                /*R.id.timeSlot -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.timeSlotDetailsFragment)
                     //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
+                    true
+                }*/
+                R.id.listTimeSlot -> {
+                    val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.itemListFragment)
                     true
                 }
                 else -> false
