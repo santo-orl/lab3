@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity(){
                     true
                 }
                 else -> {
-                    Toast.makeText(this,"CHIUDO",Toast.LENGTH_SHORT).show()
                     false
                 }
             }
@@ -74,7 +73,7 @@ class MainActivity : AppCompatActivity(){
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+        //menuInflater.inflate(R.menu.main_menu, menu)
         //menuInflater.inflate(R.menu.options_menu,menu)
         //menuInflater.inflate(R.menu.navigation_menu, menu)
         return true
@@ -82,11 +81,11 @@ class MainActivity : AppCompatActivity(){
 
     override fun onOptionsItemSelected(item: MenuItem):Boolean{
         //if pencil clicked
-        if(item.itemId.equals(R.id.pencil)){
+        /*if(item.itemId.equals(R.id.pencil)){
             val navController = findNavController(R.id.myNavHostFragment)
             navController.navigate(R.id.action_showProfileFragment_to_editProfileFragment)
             return true
-        }
+        }*/
 
 
         //if drawerIcon clicked
