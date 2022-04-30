@@ -62,7 +62,10 @@ class MainActivity : AppCompatActivity(){
                     navController.navigate(R.id.itemListFragment)
                     true
                 }
-                else -> false
+                else -> {
+                    Toast.makeText(this,"CHIUDO",Toast.LENGTH_SHORT).show()
+                    false
+                }
             }
         }
 
