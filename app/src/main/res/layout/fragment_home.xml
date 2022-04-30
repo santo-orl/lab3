@@ -6,9 +6,6 @@
     android:id= "@+id/home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:scrollbarSize="6dp"
     tools:context="HomeFragment"
     >
@@ -25,9 +22,9 @@
             android:layout_height="350dp"
             android:scaleType="centerCrop"
             android:src="@drawable/selfiedoodle"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.65"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +39,7 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textColorLink="@color/dark_blue"
-            android:textSize="48sp"
+            android:textSize="60sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
