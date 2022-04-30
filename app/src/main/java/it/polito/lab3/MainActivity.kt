@@ -51,15 +51,21 @@ class MainActivity : AppCompatActivity(){
                     true
                 }
                     //DEVO APRIRE IL FRAMMENTO CHE MI MOSTRA IL TIME_SLOT_DETAILS
-                /*R.id.timeSlot -> {
+                R.id.details -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.timeSlotDetailsFragment)
                     //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
                     true
-                }*/
+                }
+                R.id.edit -> {
+                    val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.timeSlotEditFragment)
+                    //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
+                    true
+                }
                 R.id.listTimeSlot -> {
                     val navController = findNavController(R.id.myNavHostFragment)
-                    navController.navigate(R.id.itemListFragment)
+                    navController.navigate(R.id.containerFragment)
                     true
                 }
                 else -> {
