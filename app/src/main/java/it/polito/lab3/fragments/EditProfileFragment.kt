@@ -8,9 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.lab3.R
 import it.polito.lab3.skills.Skill
+import it.polito.lab3.skills.SkillUI
 import it.polito.lab3.skills.Skill_Adapter
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 import java.io.File
 import java.util.ArrayList
 
@@ -42,7 +45,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
     }
 
     override fun onCreateView(
@@ -52,4 +54,39 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_profile, container, false)
     }
-}
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpLayout()
+
+    }
+
+    private fun setUpLayout() {
+        if(skillList.size == 0){
+            skillList.add(Skill("", "", -1))
+        }
+
+        recycler.layoutManager = LinearLayoutManager(this.activity)
+        skillAdapter = Skill_Adapter(skillList)
+        recycler.adapter = skillAdapter
+
+        skillAdapter.setOnTodoDeleteClick(object : SkillUI.SkillListener {
+            override fun onSkillDeleted(position: Int) {
+                skillList.removeAt(position)
+                skillAdapter.notifyDataSetChanged()
+            }
+
+        })
+
+        btn_add_skill.setOnClickListener {
+            val position = if (skillList.isEmpty()) 0 else skillList.size - 1
+            skillList.add(Skill("", "",-1))
+            skillAdapter.notifyItemInserted(position)
+            skillAdapter.notifyDataSetChanged()
+        }
+
+    }
+
+}//class
+
+
