@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/spf"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ShowProfileFragment">
@@ -17,9 +18,12 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:src="@drawable/default_user_profile_picture_hvoncb"
             app:layout_constraintBottom_toTopOf="@+id/name"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="5"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -33,9 +37,10 @@
             android:text="@string/full_name"
             android:textAlignment="viewStart"
             android:textColor="@color/dark_blue"
-
             android:textSize="30sp"
             android:textStyle="bold"
+            android:enabled="true"
+            android:saveEnabled="true"
             app:layout_constraintBottom_toTopOf="@+id/nickname"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:layout_constraintVertical_weight="1"

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/spf"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ShowProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_show_profile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dirty_white"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        tools:context=".MainActivity">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textColor="@color/dark_blue"
+            android:src="@drawable/default_user_profile_picture_hvoncb"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/divider"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="5"
+            tools:ignore="SpeakableTextPresentCheck"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="16dp"
+            android:layout_height="match_parent"
+
+            android:background="@color/dirty_white"
+            android:textColor="@color/dark_blue"
+            android:textSize="26sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/imageView"
+            app:layout_constraintRight_toRightOf="@+id/name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:ems="10"
+            android:background="@color/dirty_white"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:lineSpacingExtra="8sp"
+            android:text="@string/full_name"
+            android:textAlignment="viewStart"
+            android:textColor="@color/dark_blue"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/nickname"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@+id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:background="@color/dirty_white"
+            android:text="@string/nickname"
+            android:textColor="@color/dark_blue"
+            android:textSize="26sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/email"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:layout_constraintVertical_weight="1"
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/dirty_white"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="@string/email_address"
+            android:textColor="@color/dark_blue"
+            android:textSize="26sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/location"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nickname"
+            app:layout_constraintVertical_weight="1"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="@string/location"
+            android:background="@color/dirty_white"
+            android:textColor="@color/dark_blue"
+            android:textSize="26sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/recycler"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email"
+            app:layout_constraintVertical_weight="1"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/dirty_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location"
+            app:layout_constraintVertical_weight="5">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

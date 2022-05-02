@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dirty_white"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:scrollbarSize="6dp"
     tools:context=".MainActivity"
     >
@@ -19,33 +17,10 @@
         tools:context=".MainActivity"
         tools:ignore="HardcodedText,SpeakableTextPresentCheck">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="128dp"
-                android:gravity="center"
-                android:text=" "
-                android:textSize="18sp" />
+        <androidx.fragment.app.FragmentContainerView
 
-        </LinearLayout>
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/gray"
-            app:itemIconTint="@color/dark_blue"
-            app:itemTextAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:itemTextColor="@color/dark_blue"
-            app:menu="@menu/navigation_menu" />
-    </androidx.drawerlayout.widget.DrawerLayout>
-
-    <androidx.fragment.app.FragmentContainerView
+            app:itemTextAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/myNavHostFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
@@ -55,5 +30,20 @@
         app:navGraph="@navigation/navigation">
 
     </androidx.fragment.app.FragmentContainerView>
+
+        <com.google.android.material.navigation.NavigationView
+
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/gray"
+            android:visibility="visible"
+            app:itemIconTint="@color/dark_blue"
+            app:itemTextColor="@color/dark_blue"
+            app:itemTextAppearance="@style/NavigationViewStyle"
+            app:menu="@menu/navigation_menu"
+            app:headerLayout="@layout/nav_header_main"/>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </FrameLayout>

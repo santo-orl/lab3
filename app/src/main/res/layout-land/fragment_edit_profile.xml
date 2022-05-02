@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.EditProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:foregroundTint="#FFFFFF"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        tools:context=".EditProfileActivity">
+
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/divider"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.477"
+            app:layout_constraintVertical_weight="4"
+            app:srcCompat="@drawable/camera_icon_21"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="16dp"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/imageButton"
+            app:layout_constraintRight_toRightOf="@+id/editName"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#FFFFFF"
+            android:textColor="#000000"
+            android:ems="10"
+            android:inputType="textPersonName|textCapSentences"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:hint="Full name"
+            app:layout_constraintBottom_toTopOf="@+id/editNick"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@+id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
+            android:id="@+id/editNick"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#FFFFFF"
+            android:textColor="#000000"
+            android:ems="10"
+            android:inputType="text|textCapSentences"
+            android:textSize="26sp"
+            android:textStyle="italic"
+            android:fontFamily="sans-serif-condensed-light"
+            android:hint="Nickname"
+            app:layout_constraintBottom_toTopOf="@+id/editEmail"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editName"
+            app:layout_constraintVertical_weight="1"
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#FFFFFF"
+            android:textColor="#000000"
+            android:inputType="textEmailAddress"
+            android:textSize="26sp"
+            android:textStyle="italic"
+            android:fontFamily="sans-serif-condensed-light"
+            android:hint="email@address"
+            app:layout_constraintBottom_toTopOf="@+id/editLocation"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editNick"
+            app:layout_constraintVertical_weight="1"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
+            tools:visibility="visible" />
+
+        <EditText
+            android:id="@+id/editLocation"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#FFFFFF"
+            android:textColor="#000000"
+            android:inputType="text|textCapSentences"
+            android:textSize="26sp"
+            android:textStyle="italic"
+            android:fontFamily="sans-serif-condensed-light"
+            android:hint="Location"
+            app:layout_constraintBottom_toTopOf="@+id/recycler"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editEmail"
+            app:layout_constraintVertical_weight="1"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#FFFFFF"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/btn_add_skill"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editLocation"
+            app:layout_constraintVertical_weight="5">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/btn_add_skill"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#FFFFFF"
+            android:backgroundTint="@android:color/white"
+            android:backgroundTintMode="multiply"
+            android:text="@string/add_todo_title"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            app:iconTint="#3F51B5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycler"
+            app:layout_constraintVertical_weight="1.5"
+            tools:ignore="ButtonStyle,RtlSymmetry" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

@@ -6,6 +6,9 @@
     android:id= "@+id/home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dirty_white"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:scrollbarSize="6dp"
     tools:context="HomeFragment"
     >
@@ -13,18 +16,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:background="@color/dirty_white"
         android:backgroundTint="@color/dirty_white">
 
         <ImageView
             android:id="@+id/home_pic"
-            android:layout_width="351dp"
-            android:layout_height="350dp"
+            android:layout_width="319dp"
+            android:layout_height="389dp"
+            android:layout_marginTop="16dp"
             android:scaleType="centerCrop"
             android:src="@drawable/selfiedoodle"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.007"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,19 +36,19 @@
             android:id="@+id/welcome_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:background="@color/dirty_white"
             android:backgroundTint="@color/dirty_white"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Welcome to our App!"
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textColorLink="@color/dark_blue"
-            android:textSize="60sp"
+            android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_pic"
-            app:layout_constraintVertical_bias="0.188" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/home_pic"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.498" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

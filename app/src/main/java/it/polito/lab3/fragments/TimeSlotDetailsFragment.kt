@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import it.polito.lab3.R
@@ -26,42 +27,16 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var duration_field: TextView
     lateinit var location_field: TextView
 
-    val vm by viewModels<TimeSlotViewModel>()
-
+    //val vm by viewModels<TimeSlotViewModel>()
+    //START FRAGMENT
+    private val sharedViewModel: TimeSlotViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState != null) {
-            title = savedInstanceState.getString("Title", "0")
-            description = savedInstanceState.getString("Description", "0")
-            date = savedInstanceState.getString("Date", "0")
-            duration= savedInstanceState.getString("Time", "0")
-            location = savedInstanceState.getString("Location", "0")
-        }
-        title_field = view.findViewById<TextView>(R.id.title)
-        description_field= view.findViewById<TextView>(R.id.description)
-        date_field = view.findViewById<TextView>(R.id.date)
-        duration_field = view.findViewById<TextView>(R.id.duration)
-        location_field = view.findViewById<TextView>(R.id.location)
-
-        vm.editTitle(title_field.text.toString())
-
-        title_field.text = title
-        description_field.text = description
-        date_field.text = date
-        duration_field.text = duration
-        location_field.text = location
 
         edit_button = view.findViewById(R.id.editButton)
         edit_button.setOnClickListener{
-            findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+            findNavController().navigate(R.id.timeSlotEditFragment)}
         }
 
     }
-
-
-
-
-
-
-}

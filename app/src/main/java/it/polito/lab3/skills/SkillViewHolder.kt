@@ -37,7 +37,6 @@ class SkillViewHolder(
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val name = s.toString()
                 if(name!= ""){
-
                 skillSaved.run {
                     if (adapterPosition != RecyclerView.NO_POSITION) {
                         skillSaved.onSkillTitleUpdated(adapterPosition, name)
@@ -46,7 +45,6 @@ class SkillViewHolder(
                 }
             }
         })
-
         skillDesc.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 

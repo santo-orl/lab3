@@ -5,8 +5,8 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:foregroundTint="#FFFFFF"
+    android:background="@color/dirty_white"
+    android:foregroundTint="@color/dirty_white"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     tools:context=".MainActivity" >
@@ -31,10 +31,27 @@
 
         </LinearLayout>
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/myNavHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/gray"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/navigation">
+        </androidx.fragment.app.FragmentContainerView>
+
         <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:menu="@menu/navigation_menu" />
+            android:background="@color/gray"
+            android:visibility="visible"
+            app:itemIconTint="@color/dark_blue"
+            app:itemTextAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:itemTextColor="@color/dark_blue"
+            app:menu="@menu/navigation_menu"
+            app:headerLayout="@layout/nav_header_main"/>
     </androidx.drawerlayout.widget.DrawerLayout>
 </FrameLayout>
