@@ -175,9 +175,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                             Log.i("test", s.toString())
                              listNoEmpty.add(s)
                          }else if(s.title.length < 5){
-                            Toast.makeText(activity,"Sorry, the title must be at least of 5 characters",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity,"Sorry, the title of a skill must be at least of 5 characters",Toast.LENGTH_SHORT).show()
                         }else if(s.description.length < 10){
-                            Toast.makeText(activity,"Sorry, the description must be at least of 10 characters",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity,"Sorry, the description of a skill must be at least of 10 characters",Toast.LENGTH_SHORT).show()
                         }
 
                      }
