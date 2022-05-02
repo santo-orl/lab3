@@ -65,34 +65,36 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         super.onViewCreated(view, savedInstanceState)
 
         name_field = view.findViewById(R.id.name)
-        name_field.text = name
+        //name_field.text = name
         nickname_field = view.findViewById(R.id.nickname)
+        nickname_field.text = nickname
         email_field = view.findViewById(R.id.email)
+        email_field.text = email
         location_field = view.findViewById(R.id.location)
+        location_field.text = location
         photo_field = view.findViewById(R.id.imageView)
         photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
 
 
         profViewModel.name.observe(this.viewLifecycleOwner){
-            if(it != name) {
+            if(it != "" && it != name)
                 name_field.text = it
-            }
         }
 
         profViewModel.nickname.observe(this.viewLifecycleOwner){
-            if(it != nickname) {
+            if(it != "" && it != nickname) {
                 nickname_field.text = it
             }
         }
 
         profViewModel.email.observe(this.viewLifecycleOwner){
-            if(it != email) {
+            if(it != "" && it != email) {
                 email_field.text = it
             }
         }
 
         profViewModel.location.observe(this.viewLifecycleOwner){
-            if(it != location) {
+            if(it != "" && it != location) {
                 location_field.text = it
             }
         }

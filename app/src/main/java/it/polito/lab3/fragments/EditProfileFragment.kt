@@ -107,34 +107,37 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         nickname_field = view.findViewById(R.id.editNick)
         email_field = view.findViewById(R.id.editEmail)
         location_field = view.findViewById(R.id.editLocation)
+        photo_button = view.findViewById(R.id.imageButton)
 
         profViewModel.name.observe(this.viewLifecycleOwner){
-            if(it!= name) {
+            if(it != "" && it!= name) {
                 name_field.setText(it.toString())
             }
         }
 
         profViewModel.nickname.observe(this.viewLifecycleOwner){
-            if(it!= nickname) {
+            if(it != ""  && it!= nickname) {
                 nickname_field.setText(it.toString())
             }
         }
 
         profViewModel.email.observe(this.viewLifecycleOwner){
-            if(it!= email) {
+            if(it != "" && it!= email) {
                 email_field.setText(it.toString())
             }
         }
 
         profViewModel.location.observe(this.viewLifecycleOwner){
-            if(it!= location) {
+            if(it != "" && it!= location) {
                 location_field.setText(it.toString())
             }
         }
 
         profViewModel.photoString.observe(this.viewLifecycleOwner){
-            if(it!= def_uriImageString) {
-                photo_button.setImageURI(it.toUri())
+            if(it!= "") {
+                profileUri = Uri.parse(it)
+                photo_button.setImageURI(profileUri)
+
             }
         }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -143,14 +146,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 profViewModel.setNickname(nickname_field.text.toString())
                 profViewModel.setEmail(email_field.text.toString())
                 profViewModel.setLocation(location_field.text.toString())
-                profViewModel.setPhoto(uriImageString)
+                profViewModel.setPhoto(profileUri.toString())
                 findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
             }
         })
 
 
         setUpLayout()
-        photo_button = view.findViewById(R.id.imageButton)
+        //photo_button = view.findViewById(R.id.imageButton)
         photo_button.setOnClickListener {
             showPopUp(photo_button)
         }
