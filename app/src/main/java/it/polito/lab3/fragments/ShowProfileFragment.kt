@@ -67,52 +67,54 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         super.onViewCreated(view, savedInstanceState)
 
         name_field = view.findViewById(R.id.name)
-        name_field.text = name
         nickname_field = view.findViewById(R.id.nickname)
-        nickname_field.text = nickname
         email_field = view.findViewById(R.id.email)
-        email_field.text = email
         location_field = view.findViewById(R.id.location)
-        location_field.text = location
         photo_field = view.findViewById(R.id.imageView)
-        photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
+
 
 
         profViewModel.name.observe(this.viewLifecycleOwner) {
             if (it != "") {
                 name_field.text = it
+            }else{
+                name_field.text = name
+            }
+        }
+        profViewModel.nickname.observe(this.viewLifecycleOwner) {
+            if (it != "") {
+                nickname_field.text = it
+            }else{
+                nickname_field.text = nickname
+            }
+        }
+        profViewModel.email.observe(this.viewLifecycleOwner) {
+            if (it != "") {
+                email_field.text = it
+            }else{
+                email_field.text = email
             }
         }
 
-            profViewModel.nickname.observe(this.viewLifecycleOwner) {
-                if (it != "") {
-                    nickname_field.text = it
-                }
+        profViewModel.location.observe(this.viewLifecycleOwner) {
+            if (it != "") {
+                location_field.text = it
+            }else{
+                location_field.text = location
             }
+        }
 
-
-            profViewModel.email.observe(this.viewLifecycleOwner) {
-                if (it != "") {
-                    email_field.text = it
-                }
+        profViewModel.photoString.observe(this.viewLifecycleOwner) {
+            if (it != "") {
+                uriImage = Uri.parse(it)
+                photo_field.setImageURI(uriImage)
+            }else{
+                photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
             }
+        }
 
-            profViewModel.location.observe(this.viewLifecycleOwner) {
-                if (it != "") {
-                    location_field.text = it
-                }
-            }
-
-            profViewModel.photoString.observe(this.viewLifecycleOwner) {
-                if (it != "") {
-                    uriImage = Uri.parse(it)
-                    photo_field.setImageURI(uriImage)
-                }
-            }
-
-            sharedPref =
-                this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
-
+        sharedPref =
+            this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
 
         }
 
