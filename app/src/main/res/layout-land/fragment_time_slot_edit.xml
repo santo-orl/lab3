@@ -26,7 +26,7 @@
             android:minHeight="150dp">
 
             <EditText
-                android:id="@+id/title_list"
+                android:id="@+id/editTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
@@ -34,12 +34,12 @@
                 android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/description_list"
+                app:layout_constraintBottom_toTopOf="@+id/editDescription"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_weight="1" />
 
             <EditText
-                android:id="@+id/description_list"
+                android:id="@+id/editDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
@@ -48,7 +48,7 @@
                 android:textColor="#000000"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toTopOf="@+id/date_edit"
-                app:layout_constraintTop_toBottomOf="@+id/title_list"
+                app:layout_constraintTop_toBottomOf="@+id/editTitle"
                 app:layout_constraintVertical_weight="3"
                 tools:ignore="TouchTargetSizeCheck" />
 
@@ -65,7 +65,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/location_edit"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/from_edit"
-                app:layout_constraintTop_toBottomOf="@+id/description_list"
+                app:layout_constraintTop_toBottomOf="@+id/editDescription"
                 app:layout_constraintVertical_weight="1"
                 tools:ignore="TouchTargetSizeCheck"
                 android:focusableInTouchMode="false"/>
@@ -82,7 +82,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/location_edit"
                 app:layout_constraintLeft_toRightOf="@+id/date_edit"
                 app:layout_constraintRight_toRightOf="@+id/to_edit"
-                app:layout_constraintTop_toBottomOf="@+id/description_list"
+                app:layout_constraintTop_toBottomOf="@+id/editDescription"
                 app:layout_constraintVertical_weight="1"
                 tools:ignore="TouchTargetSizeCheck"
                 android:focusableInTouchMode="false"/>
@@ -99,7 +99,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/location_edit"
                 app:layout_constraintLeft_toRightOf="@id/from_edit"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description_list"
+                app:layout_constraintTop_toBottomOf="@+id/editDescription"
                 app:layout_constraintVertical_weight="1"
                 tools:ignore="TouchTargetSizeCheck"
                 android:focusableInTouchMode="false"/>

@@ -13,8 +13,5 @@ class TimeSlotViewModel: ViewModel() {
         _title.value = desiredTitle
     }
 
-    fun hasNoTitleSet(): Boolean {
-        return _title.value.isNullOrEmpty()
-    }
 
 }

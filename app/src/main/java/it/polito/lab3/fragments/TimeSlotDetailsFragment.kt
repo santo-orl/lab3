@@ -29,10 +29,12 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     //val vm by viewModels<TimeSlotViewModel>()
     //START FRAGMENT
-    private val sharedViewModel: TimeSlotViewModel by activityViewModels()
+    private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState);
+
+
 
         edit_button = view.findViewById(R.id.editButton)
         edit_button.setOnClickListener{
