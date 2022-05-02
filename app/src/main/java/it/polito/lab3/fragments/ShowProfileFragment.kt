@@ -16,9 +16,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.lab3.R
 import it.polito.lab3.skills.Adapter_Text
 import it.polito.lab3.skills.Skill
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
@@ -72,8 +74,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         location_field = view.findViewById(R.id.location)
         photo_field = view.findViewById(R.id.imageView)
 
-
-
         profViewModel.name.observe(this.viewLifecycleOwner) {
             if (it != "") {
                 name_field.text = it
@@ -110,6 +110,14 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 photo_field.setImageURI(uriImage)
             }else{
                 photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
+            }
+        }
+         profViewModel.skills.observe(this.viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                skillList= it
+                recycler.layoutManager = LinearLayoutManager(this.activity)
+                adapterText = Adapter_Text(skillList)
+                recycler.adapter = adapterText
             }
         }
 

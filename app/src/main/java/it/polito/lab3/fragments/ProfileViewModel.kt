@@ -24,6 +24,7 @@ class ProfileViewModel: ViewModel() {
     var photoString: LiveData<String> = _photoString
 
     private val _skills = MutableLiveData<ArrayList<Skill>>(arrayListOf())
+    var skills: LiveData<ArrayList<Skill>> =_skills
 
     fun setName(desiredName: String){
         _name.value = desiredName
@@ -43,5 +44,9 @@ class ProfileViewModel: ViewModel() {
 
     fun setPhoto(desiredUri: String){
         _photoString.value = desiredUri
+    }
+    fun setSkills(desiredSkills:ArrayList<Skill>){
+        _skills.value = ArrayList(desiredSkills)
+
     }
 }
