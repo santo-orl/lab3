@@ -40,9 +40,9 @@ class ContainerFragment : Fragment(R.layout.fragment_container) {
 override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     add_button = view.findViewById(R.id.add_FAB)
-  add_button.setOnClickListener{
+    add_button.setOnClickListener{
       findNavController().navigate(R.id.action_containerFragment_to_timeSlotEditFragment)
-  }
+    }
 }
 
 }

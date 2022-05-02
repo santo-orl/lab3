@@ -36,11 +36,6 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
         edit_button = view.findViewById(R.id.editButton)
         edit_button.setOnClickListener{
-            if(sharedViewModel.hasNoTitleSet()){
-                sharedViewModel.setTitle("Title")
-            }else{
-                sharedViewModel.setTitle(title_field.text.toString())
-            }
             findNavController().navigate(R.id.timeSlotEditFragment)}
         }
 
