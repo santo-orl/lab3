@@ -12,7 +12,7 @@ import it.polito.lab3.timeSlots.Adapter_frgTime
 import it.polito.lab3.timeSlots.Slot
 
 
-class ContainerFragment : Fragment(R.layout.fragment_container) {
+class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var adapterFrgTime: Adapter_frgTime
     private var slotList: ArrayList<Slot> = arrayListOf()
     private lateinit var add_button: FloatingActionButton

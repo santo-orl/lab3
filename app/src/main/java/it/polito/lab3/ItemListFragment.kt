@@ -26,7 +26,7 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val timeSlot = view.findViewById<TextView>(R.id.title_list)
+        val timeSlot = view.findViewById<TextView>(R.id.editTitle)
 
         timeSlot.setOnClickListener{
             findNavController().navigate(R.id.action_itemListFragment_to_timeSlotDetailsFragment)

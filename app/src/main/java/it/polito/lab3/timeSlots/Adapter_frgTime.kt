@@ -16,8 +16,8 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val title: TextView = view.title
-        val description:  TextView = view.description
+        val title: TextView = view.editTitle
+        val description:  TextView = view.editDescription
         val cardView: CardView =  itemView.findViewById(R.id.card_list)
         init {
             view.setOnClickListener {
