@@ -32,9 +32,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 
 import android.widget.PopupMenu
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.navigation.fragment.findNavController
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.lab3.R
@@ -104,8 +106,15 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 name_field.text = it
             }
         }
-        profViewModel.setName(name_field.text.toString())
-        Log.i("test1", name_field.text.toString())
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                profViewModel.setName(name_field.text.toString())
+                findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
+            }
+        })
+        //profViewModel.setName("CAMBIO")
+        //Log.i("test1", name_field.text.toString())
 
        /* name_field.addTextChangedListener(object : TextWatcher {
             var check = false

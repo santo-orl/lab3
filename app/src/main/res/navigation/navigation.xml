@@ -51,7 +51,11 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="it.polito.lab3.fragments.EditProfileFragment"
-        android:label="fragment_edit_profile" />
+        android:label="fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_showProfileFragment"
+            app:destination="@id/showProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemListFragment"
         android:name="it.polito.lab3.ItemListFragment"
