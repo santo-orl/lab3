@@ -40,7 +40,7 @@
         android:background="@color/dirty_white"
         android:ems="10"
         android:fontFamily="sans-serif-condensed-medium"
-        android:hint="Name"
+        android:hint="Full name"
         android:inputType="textPersonName|textCapSentences"
         android:textColor="@color/dark_blue"
         android:textSize="30sp"
