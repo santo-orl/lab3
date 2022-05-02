@@ -15,6 +15,7 @@ import android.text.TextWatcher
 
 import android.os.SystemClock
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Gravity
 
 import androidx.fragment.app.Fragment
@@ -78,7 +79,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private val REQUEST_CODE_GALLERY = 15
     private lateinit var state: Parcelable
 
-    private val profViewModel by viewModels<ProfileViewModel>()
+    private val profViewModel by activityViewModels<ProfileViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,14 +97,34 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         name_field = view.findViewById(R.id.editName)
-        profViewModel.name.observe(this.viewLifecycleOwner){
-            name_field.text = it
-        }
 
-        name_field.doAfterTextChanged { editable-> if(editable!=null)
-            profViewModel.setName(editable.toString()) }
+        profViewModel.name.observe(this.viewLifecycleOwner){
+            if(it!= name) {
+                name_field.text = it
+            }
+        }
+        profViewModel.setName(name_field.text.toString())
+        Log.i("test1", name_field.text.toString())
+
+       /* name_field.addTextChangedListener(object : TextWatcher {
+            var check = false
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+            override fun afterTextChanged(editable: Editable) {
+                if (check) {
+                    Log.i("test", "check")
+                    return
+                }else{
+                    check = true
+                    Log.i("test1", name_field.text.toString())
+                    profViewModel.setName(name_field.text.toString())
+                }
+            }
+
+        })*/
+
 
 
         setUpLayout()

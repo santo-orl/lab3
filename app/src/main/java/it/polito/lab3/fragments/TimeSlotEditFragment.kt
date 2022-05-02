@@ -37,8 +37,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         to_text.showSoftInputOnFocus = false
 
 
-
-
         date_text.setOnClickListener {
            findNavController().navigate(R.id.action_timeSlotEditFragment_to_datePickerFragment)
             setFragmentResultListener("KeyDate") { _, bundle ->
