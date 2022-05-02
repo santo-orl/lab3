@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,6 +21,7 @@ import it.polito.lab3.skills.Adapter_Text
 import it.polito.lab3.skills.Skill
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
+
 // Main activity, is the base for all the fragments
 class MainActivity : AppCompatActivity(){
 
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity(){
     lateinit var nv : NavigationView
     var drawerLayout: DrawerLayout? = null
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
+
     private val profViewModel by viewModels<ProfileViewModel>()
     private lateinit var name_field: TextView
     private lateinit var email_field: TextView
@@ -36,6 +39,8 @@ class MainActivity : AppCompatActivity(){
     private  var name= "Your name"
     private  var email= "Your email"
     private lateinit var uriImageString: String
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,32 +1,42 @@
 package it.polito.lab3.fragments
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import it.polito.lab3.R
 import it.polito.lab3.TimeSlotViewModel
 
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
+    var title: String = "Title"
+
     private lateinit var date_text: EditText
     private lateinit var from_text: EditText
     private lateinit var to_text: EditText
-    private lateinit var title: EditText
+    private lateinit var title_field: EditText
     //val vm by viewModels<TimeSlotViewModel>()
-    private val sharedViewModel: TimeSlotViewModel by activityViewModels()
+    private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        title = view.findViewById(R.id.title_list)
+        title_field = view.findViewById(R.id.editTitle)
 
-        //title.text = sharedViewModel.title.value
+        timeSlotViewModel.title.observe(this.viewLifecycleOwner){
+            if(it != "" && it!= title) {
+                title_field.setText(it.toString())
+            }
+        }
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                timeSlotViewModel.setTitle(title_field.text.toString())
+            }
+        })
         /*date_text = view.findViewById(R.id.date_edit)
         date_text.showSoftInputOnFocus = false
 
@@ -74,7 +84,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        sharedViewModel.setTitle(title.text.toString())
         findNavController().navigate(R.id.timeSlotDetailsFragment)
         return true
     }
