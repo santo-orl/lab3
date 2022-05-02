@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ProfileViewModel: ViewModel() {
-    private val _name = MutableLiveData<String>("Full name")
-    val name: LiveData<String> = _name
+    val name = MutableLiveData<String>().also{it.value = "PROVA"}
+    //val name: LiveData<String> = _name
 
     fun setName(desiredName: String){
-        _name.value = desiredName
+        name.value = desiredName
     }
 }
