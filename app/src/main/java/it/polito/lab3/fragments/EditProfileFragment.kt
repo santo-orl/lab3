@@ -22,17 +22,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
+import android.widget.*
 
-import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 
-import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -42,6 +39,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.lab3.R
 import it.polito.lab3.TimeSlotViewModel
+import it.polito.lab3.skills.Adapter_Text
 import it.polito.lab3.skills.Skill
 import it.polito.lab3.skills.SkillUI
 import it.polito.lab3.skills.Skill_Adapter
@@ -52,6 +50,7 @@ import java.io.IOException
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
@@ -141,9 +140,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
             }
         }
+
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-
                 if(name_field.text.toString()==""){
                     profViewModel.setName(name)
                 }else {
@@ -169,12 +168,34 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }else{
                     profViewModel.setPhoto(profileUri.toString())
                 }
+                if(skillList.isNotEmpty()) {
+                    var listNoEmpty: ArrayList<Skill> = arrayListOf()
+                      for (s in skillList) {
+                        if(s.title.length >= 5 && s.description.length >= 10){
+                            Log.i("test", s.toString())
+                             listNoEmpty.add(s)
+                         }else if(s.title.length < 5){
+                            Toast.makeText(activity,"Sorry, the title must be at least of 5 characters",Toast.LENGTH_SHORT).show()
+                        }else if(s.description.length < 10){
+                            Toast.makeText(activity,"Sorry, the description must be at least of 10 characters",Toast.LENGTH_SHORT).show()
+                        }
+
+                     }
+                    profViewModel.setSkills(listNoEmpty)
+                }else{
+                    profViewModel.setSkills(arrayListOf())
+                }
                 findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
             }
         })
+        profViewModel.skills.observe(this.viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                skillList = it
+                Log.i("test", skillList[0].toString())
+            }
+            setUpLayout()
+        }
 
-
-        setUpLayout()
         //photo_button = view.findViewById(R.id.imageButton)
         photo_button.setOnClickListener {
             showPopUp(photo_button)
@@ -183,9 +204,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     private fun setUpLayout() {
         if(skillList.size == 0){
+            Log.i("test", "Entra?")
             skillList.add(Skill("", "", -1))
         }
-
         recycler.layoutManager = LinearLayoutManager(this.activity)
         skillAdapter = Skill_Adapter(skillList)
         recycler.adapter = skillAdapter

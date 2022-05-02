@@ -29,7 +29,6 @@ class Skill_Adapter(
     }
 
     override fun onSkillTitleUpdated(position: Int, title: String) {
-
         skillList[position].title = title
         skillList[position].pos = position+1
     }
