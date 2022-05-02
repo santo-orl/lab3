@@ -3,13 +3,23 @@ package it.polito.lab3.fragments
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.ContactsContract
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.lab3.R
+import it.polito.lab3.TimeSlotViewModel
 import it.polito.lab3.skills.Skill
 import it.polito.lab3.skills.SkillUI
 import it.polito.lab3.skills.Skill_Adapter
@@ -18,6 +28,8 @@ import java.io.File
 import java.util.ArrayList
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
+    lateinit var name_field: TextView
+
     lateinit var nameToUpdate: String
     lateinit var nicknameToUpdate: String
     lateinit var emailToUpdate: String
@@ -42,6 +54,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private val REQUEST_CODE_GALLERY = 15
     private lateinit var state: Parcelable
 
+    private val profViewModel by viewModels<ProfileViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,7 +71,15 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpLayout()
+        name_field = view.findViewById(R.id.editName)
+        profViewModel.name.observe(this.viewLifecycleOwner){
+            name_field.text = it
+        }
+
+        name_field.doAfterTextChanged { editable-> if(editable!=null)
+            profViewModel.setName(editable.toString()) }
+
+        //setUpLayout()
 
     }
 
