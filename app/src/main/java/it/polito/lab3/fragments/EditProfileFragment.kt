@@ -135,6 +135,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
         profViewModel.photoString.observe(this.viewLifecycleOwner){
             if(it!= "") {
+                uriImageString = it
                 profileUri = Uri.parse(it)
                 photo_button.setImageURI(profileUri)
 
@@ -142,6 +143,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+
                 if(name_field.text.toString()==""){
                     profViewModel.setName(name)
                 }else {
@@ -177,8 +179,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         photo_button.setOnClickListener {
             showPopUp(photo_button)
         }
-
-
     }
 
     private fun setUpLayout() {

@@ -5,6 +5,7 @@ import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import it.polito.lab3.skills.Skill
 
 class ProfileViewModel: ViewModel() {
     private val _name = MutableLiveData<String>("Full name")
@@ -21,6 +22,8 @@ class ProfileViewModel: ViewModel() {
 
     private val _photoString = MutableLiveData<String>("")
     var photoString: LiveData<String> = _photoString
+
+    private val _skills = MutableLiveData<ArrayList<Skill>>(arrayListOf())
 
     fun setName(desiredName: String){
         _name.value = desiredName
