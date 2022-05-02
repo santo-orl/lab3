@@ -34,7 +34,7 @@
             android:layout_height="0dp"
 
             android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/full_name"
+
             android:textAlignment="viewStart"
             android:textColor="@color/dark_blue"
             android:textSize="30sp"

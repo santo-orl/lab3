@@ -109,7 +109,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         photo_button = view.findViewById(R.id.imageButton)
 
         profViewModel.name.observe(this.viewLifecycleOwner){
-            if(it != "" && it!= name) {
+            if(it != "" && it != name) {
                 name_field.setText(it.toString())
             }
         }

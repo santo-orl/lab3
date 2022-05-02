@@ -7,14 +7,18 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.lab3.R
@@ -25,26 +29,22 @@ import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
-    var name: String = "Full name"
-    var nickname: String = "Nickname"
-    var location: String = "Location"
-    var email: String = "email@address"
     private var skillList: ArrayList<Skill> = arrayListOf()
     private lateinit var uriImage: Uri
     private var uriImageString: String = ""
 
     //associated fields to layout
-    lateinit var name_field: TextView
-    lateinit var nickname_field: TextView
-    lateinit var location_field: TextView
-    lateinit var email_field: TextView
-    lateinit var photo_field: ImageView
+    private lateinit var name_field: TextView
+    private lateinit var nickname_field: TextView
+    private lateinit var location_field: TextView
+    private lateinit var email_field: TextView
+    private lateinit var photo_field: ImageView
     private lateinit var state: Parcelable
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterText: Adapter_Text
 
-    private val sharedPrefFIle = "it.polito.showprofileactivityy"
+    private val sharedPrefFIle = "it.polito.lab3"
     lateinit var sharedPref: SharedPreferences;
 
 
@@ -54,7 +54,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         super.onCreate(savedInstanceState)
 
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +66,9 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedPref =
+            this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
+
 
         name_field = view.findViewById(R.id.name)
         nickname_field = view.findViewById(R.id.nickname)
@@ -74,25 +76,33 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         location_field = view.findViewById(R.id.location)
         photo_field = view.findViewById(R.id.imageView)
 
+
+        //Log.i("test1", sharedPref.getString("id_name","hoooooooooo").toString())
         profViewModel.name.observe(this.viewLifecycleOwner) {
             if (it != "") {
+                Log.i("test_nome", it.toString())
                 name_field.text = it
             }else{
-                name_field.text = name
+                //Log.i("test2", "if")
+                name_field.text = sharedPref.getString("id_name","Full name").toString()
+                profViewModel.setName(name_field.text.toString())
             }
         }
         profViewModel.nickname.observe(this.viewLifecycleOwner) {
             if (it != "") {
                 nickname_field.text = it
             }else{
-                nickname_field.text = nickname
+                Log.i("test_nick", sharedPref.getString("id_nickname","Nickname").toString())
+                nickname_field.text = sharedPref.getString("id_nickname","Nickname").toString()
+                profViewModel.setNickname(nickname_field.text.toString())
             }
         }
         profViewModel.email.observe(this.viewLifecycleOwner) {
             if (it != "") {
                 email_field.text = it
             }else{
-                email_field.text = email
+                email_field.text =  sharedPref.getString("id_email","email@address").toString()
+                profViewModel.setEmail(email_field.text.toString())
             }
         }
 
@@ -100,31 +110,75 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             if (it != "") {
                 location_field.text = it
             }else{
-                location_field.text = location
+                location_field.text =  sharedPref.getString("id_location","Location").toString()
+                profViewModel.setLocation(location_field.text.toString())
             }
         }
 
         profViewModel.photoString.observe(this.viewLifecycleOwner) {
             if (it != "") {
+                uriImageString = it
                 uriImage = Uri.parse(it)
                 photo_field.setImageURI(uriImage)
             }else{
-                photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
+                uriImageString = sharedPref.getString("id_photo", "").toString()
+                if(uriImageString!= "") {
+                    uriImage = Uri.parse(uriImageString)
+                    photo_field.setImageURI(uriImage)
+                    profViewModel.setPhoto(uriImageString)
+                }else{
+                    photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
+                }
+
             }
         }
-         profViewModel.skills.observe(this.viewLifecycleOwner){
+        profViewModel.skills.observe(this.viewLifecycleOwner){
+            Log.i("test1", "observe")
+            Log.i("test1", it.toString())
+
             if (it.isNotEmpty()){
-                skillList= it
+                skillList = it
+                Log.i("tes1", "empty")
+            }else{
+                var skills = sharedPref.getString("id_skills","")
+                Log.i("test1444", skills.toString())
+                if(skills != "") {
+                    var ll = skills!!.split("&&&")
+                    for(s in ll){
+                        var skillItem = s.split("###")
+                        skillList.add(Skill(skillItem[0], skillItem[1],skillItem[2].toInt()))
+                    }
+                    profViewModel.setSkills(skillList)
+            }
+            }
+            if(skillList.isNotEmpty()){
+                Log.i("test10", skillList.toString())
                 recycler.layoutManager = LinearLayoutManager(this.activity)
                 adapterText = Adapter_Text(skillList)
                 recycler.adapter = adapterText
             }
-        }
 
-        sharedPref =
-            this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
 
         }
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val editor: SharedPreferences.Editor = sharedPref.edit()
+                    editor.putString("id_name", name_field.text.toString())
+                    editor.putString("id_nickname", nickname_field.text.toString())
+                    editor.putString("id_email", email_field.text.toString())
+                    editor.putString("id_location", location_field.text.toString())
+                Log.i("test488", uriImageString)
+                    editor.putString("id_photo", uriImageString)
+                    var ss = skillList.joinToString("&&&")
+                    editor.putString("id_skills",ss)
+
+                editor.apply()
+                findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
+            }
+        })
+
+        }
+
 
         //creo la pencil icon in alto a dx
         override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -140,5 +194,43 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             }
             return false
         }
+
+    /* function used for saving fields' state */
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("Full name", name_field.text.toString())
+        outState.putString("Nickname", nickname_field.text.toString())
+        outState.putString("Email", email_field.text.toString())
+        outState.putString("Location", location_field.text.toString())
+        outState.putString("Picture", uriImageString)
+        outState.putParcelableArrayList("Skills", skillList)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            val name = savedInstanceState.getString("Full name", "0")
+            name_field.text = name
+            val nickname = savedInstanceState.getString("Nickname", "0")
+            nickname_field.text = nickname
+            val location = savedInstanceState.getString("Location", "0")
+            location_field.text = location
+            val email = savedInstanceState.getString("Email", "0")
+            email_field.text = email
+
+            if (savedInstanceState.getString("Picture", "0") != "") {
+                uriImageString = savedInstanceState.getString("Picture", "0")
+                uriImage = Uri.parse(uriImageString)
+                photo_field.setImageURI(uriImage)
+            }
+            skillList = arrayListOf()
+            skillList = savedInstanceState.getParcelableArrayList<Skill>("Skills") as ArrayList<Skill>
+
+            recycler.layoutManager = LinearLayoutManager(this.activity)
+            adapterText = Adapter_Text(skillList)
+            recycler.adapter = adapterText
+        }
+
+        super.onViewStateRestored(savedInstanceState)
+    }
 
 }

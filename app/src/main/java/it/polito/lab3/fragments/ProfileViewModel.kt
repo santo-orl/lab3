@@ -8,16 +8,16 @@ import androidx.lifecycle.ViewModel
 import it.polito.lab3.skills.Skill
 
 class ProfileViewModel: ViewModel() {
-    private val _name = MutableLiveData<String>("Full name")
+    private val _name = MutableLiveData<String>("")
     val name: LiveData<String> = _name
 
-    private val _nickname = MutableLiveData<String>("Nickname")
+    private val _nickname = MutableLiveData<String>("")
     val nickname: LiveData<String> = _nickname
 
-    private val _email = MutableLiveData<String>("email@address")
+    private val _email = MutableLiveData<String>("")
     val email: LiveData<String> = _email
 
-    private val _location = MutableLiveData<String>("Location")
+    private val _location = MutableLiveData<String>("")
     val location: LiveData<String> = _location
 
     private val _photoString = MutableLiveData<String>("")
