@@ -7,19 +7,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ProfileViewModel: ViewModel() {
-    private val _name = MutableLiveData<String>().also{it.value = "Full name"}
+    private val _name = MutableLiveData<String>("Full name")
     val name: LiveData<String> = _name
 
-    private val _nickname = MutableLiveData<String>().also{it.value = "Nickname"}
+    private val _nickname = MutableLiveData<String>("Nickname")
     val nickname: LiveData<String> = _nickname
 
-    private val _email = MutableLiveData<String>().also{it.value = "email@address"}
+    private val _email = MutableLiveData<String>("email@address")
     val email: LiveData<String> = _email
 
-    private val _location = MutableLiveData<String>().also{it.value = "Location"}
+    private val _location = MutableLiveData<String>("Location")
     val location: LiveData<String> = _location
 
-    private val _photoString = MutableLiveData<String>().also{it.value = ""}
+    private val _photoString = MutableLiveData<String>("")
     var photoString: LiveData<String> = _photoString
 
     fun setName(desiredName: String){

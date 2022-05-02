@@ -142,11 +142,31 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                profViewModel.setName(name_field.text.toString())
-                profViewModel.setNickname(nickname_field.text.toString())
+                if(name_field.text.toString()==""){
+                    profViewModel.setName(name)
+                }else {
+                    profViewModel.setName(name_field.text.toString())
+                }
+                if(nickname_field.text.toString()==""){
+                    profViewModel.setNickname(nickname)
+                }else {
+                    profViewModel.setNickname(nickname_field.text.toString())
+                }
+                if(email_field.text.toString()==""){
+                    profViewModel.setEmail(email)
+                }else {
                 profViewModel.setEmail(email_field.text.toString())
+                }
+                if(location_field.text.toString()==""){
+                    profViewModel.setLocation(location)
+                }else {
                 profViewModel.setLocation(location_field.text.toString())
-                profViewModel.setPhoto(profileUri.toString())
+                }
+                if(uriImageString == ""){
+                    profViewModel.setPhoto("")
+                }else{
+                    profViewModel.setPhoto(profileUri.toString())
+                }
                 findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
             }
         })
