@@ -6,11 +6,14 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
+import it.polito.lab3.fragments.ProfileViewModel
 
 // Main activity, is the base for all the fragments
 class MainActivity : AppCompatActivity(){
@@ -19,7 +22,7 @@ class MainActivity : AppCompatActivity(){
     lateinit var nv : NavigationView
     var drawerLayout: DrawerLayout? = null
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
-
+    private val profViewModel by viewModels<ProfileViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

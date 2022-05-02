@@ -2,8 +2,6 @@ package it.polito.lab3.fragments
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -12,7 +10,7 @@ import it.polito.lab3.timeSlots.Adapter_frgTime
 import it.polito.lab3.timeSlots.Slot
 
 
-class ContainerFragment : Fragment(R.layout.fragment_container) {
+class TimeSlotListFragment : Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var adapterFrgTime: Adapter_frgTime
     private var slotList: ArrayList<Slot> = arrayListOf()
     private lateinit var add_button: FloatingActionButton
