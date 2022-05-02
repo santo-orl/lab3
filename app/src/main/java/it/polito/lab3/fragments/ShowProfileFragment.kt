@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
@@ -25,7 +26,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     var name: String = "Full name"
     var nickname: String = "Nickname"
     var location: String = "Location"
-    private var email: String = "email@address"
+    var email: String = "email@address"
     private var skillList: ArrayList<Skill> = arrayListOf()
     private lateinit var uriImage: Uri
     private var uriImageString: String = ""
@@ -64,9 +65,43 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         super.onViewCreated(view, savedInstanceState)
 
         name_field = view.findViewById(R.id.name)
+        name_field.text = name
+        nickname_field = view.findViewById(R.id.nickname)
+        email_field = view.findViewById(R.id.email)
+        location_field = view.findViewById(R.id.location)
+        photo_field = view.findViewById(R.id.imageView)
+        photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
+
 
         profViewModel.name.observe(this.viewLifecycleOwner){
-           name_field.text = it
+            if(it != name) {
+                name_field.text = it
+            }
+        }
+
+        profViewModel.nickname.observe(this.viewLifecycleOwner){
+            if(it != nickname) {
+                nickname_field.text = it
+            }
+        }
+
+        profViewModel.email.observe(this.viewLifecycleOwner){
+            if(it != email) {
+                email_field.text = it
+            }
+        }
+
+        profViewModel.location.observe(this.viewLifecycleOwner){
+            if(it != location) {
+                location_field.text = it
+            }
+        }
+
+        profViewModel.photoString.observe(this.viewLifecycleOwner){
+            if(it!="") {
+                uriImage = Uri.parse(it)
+                photo_field.setImageURI(uriImage)
+            }
         }
 
         sharedPref = this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)

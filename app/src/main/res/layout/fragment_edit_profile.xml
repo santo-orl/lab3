@@ -96,7 +96,7 @@
         android:layout_height="0dp"
         android:background="@color/dirty_white"
         android:fontFamily="sans-serif-condensed-light"
-        android:hint="location"
+        android:hint="Location"
         android:inputType="text|textCapSentences"
         android:textColor="@color/dark_blue"
         android:textSize="26sp"

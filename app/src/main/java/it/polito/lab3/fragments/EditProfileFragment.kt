@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageButton
 
 import android.widget.TextView
@@ -54,8 +55,10 @@ import java.util.*
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
-    lateinit var name_field: TextView
-
+    lateinit var name_field: EditText
+    lateinit var nickname_field: EditText
+    lateinit var email_field: EditText
+    lateinit var location_field: EditText
 
     lateinit var nameToUpdate: String
     lateinit var nicknameToUpdate: String
@@ -63,6 +66,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var locationToUpdate: String
     private lateinit var profileUri: Uri
     private var uriImageString: String = ""
+    private var def_uriImageString: String = ""
 
     val name: String = "Full name"
     private val nickname: String = "Nickname"
@@ -100,40 +104,49 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         name_field = view.findViewById(R.id.editName)
+        nickname_field = view.findViewById(R.id.editNick)
+        email_field = view.findViewById(R.id.editEmail)
+        location_field = view.findViewById(R.id.editLocation)
 
         profViewModel.name.observe(this.viewLifecycleOwner){
             if(it!= name) {
-                name_field.text = it
+                name_field.setText(it.toString())
             }
         }
 
+        profViewModel.nickname.observe(this.viewLifecycleOwner){
+            if(it!= nickname) {
+                nickname_field.setText(it.toString())
+            }
+        }
+
+        profViewModel.email.observe(this.viewLifecycleOwner){
+            if(it!= email) {
+                email_field.setText(it.toString())
+            }
+        }
+
+        profViewModel.location.observe(this.viewLifecycleOwner){
+            if(it!= location) {
+                location_field.setText(it.toString())
+            }
+        }
+
+        profViewModel.photoString.observe(this.viewLifecycleOwner){
+            if(it!= def_uriImageString) {
+                photo_button.setImageURI(it.toUri())
+            }
+        }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 profViewModel.setName(name_field.text.toString())
+                profViewModel.setNickname(nickname_field.text.toString())
+                profViewModel.setEmail(email_field.text.toString())
+                profViewModel.setLocation(location_field.text.toString())
+                profViewModel.setPhoto(uriImageString)
                 findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
             }
         })
-        //profViewModel.setName("CAMBIO")
-        //Log.i("test1", name_field.text.toString())
-
-       /* name_field.addTextChangedListener(object : TextWatcher {
-            var check = false
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-            }
-            override fun afterTextChanged(editable: Editable) {
-                if (check) {
-                    Log.i("test", "check")
-                    return
-                }else{
-                    check = true
-                    Log.i("test1", name_field.text.toString())
-                    profViewModel.setName(name_field.text.toString())
-                }
-            }
-
-        })*/
-
 
 
         setUpLayout()
@@ -236,6 +249,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 profileUri!!,
                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
+
+        profViewModel.setPhoto(uriImageString)
     }
 
     private fun Bitmap.saveImage(context: Context): Uri? {
