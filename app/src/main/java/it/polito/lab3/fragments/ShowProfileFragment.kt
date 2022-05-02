@@ -6,10 +6,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.*
+
 import android.widget.ImageView
+
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import it.polito.lab3.R
@@ -39,6 +42,10 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private val sharedPrefFIle = "it.polito.showprofileactivityy"
     lateinit var sharedPref: SharedPreferences;
 
+    lateinit var name_field: TextView
+
+    private val profViewModel by viewModels<ProfileViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,7 +63,16 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        name_field = view.findViewById(R.id.name)
+        profViewModel.name.observe(this.viewLifecycleOwner){
+            name_field.text = it
+        }
+
+
+
         sharedPref = this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
+
 
     }
 

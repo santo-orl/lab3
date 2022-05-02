@@ -8,20 +8,36 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
+
+import android.provider.ContactsContract
+import android.text.Editable
+import android.text.TextWatcher
+
 import android.os.SystemClock
 import android.provider.MediaStore
 import android.view.Gravity
+
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+
+import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.polito.lab3.R
+import it.polito.lab3.TimeSlotViewModel
 import it.polito.lab3.skills.Skill
 import it.polito.lab3.skills.SkillUI
 import it.polito.lab3.skills.Skill_Adapter
@@ -34,6 +50,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
+
+    lateinit var name_field: TextView
+
 
     lateinit var nameToUpdate: String
     lateinit var nicknameToUpdate: String
@@ -59,6 +78,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private val REQUEST_CODE_GALLERY = 15
     private lateinit var state: Parcelable
 
+    private val profViewModel by viewModels<ProfileViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,11 +96,22 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        name_field = view.findViewById(R.id.editName)
+        profViewModel.name.observe(this.viewLifecycleOwner){
+            name_field.text = it
+        }
+
+        name_field.doAfterTextChanged { editable-> if(editable!=null)
+            profViewModel.setName(editable.toString()) }
+
+
         setUpLayout()
         photo_button = view.findViewById(R.id.imageButton)
         photo_button.setOnClickListener {
             showPopUp(photo_button)
         }
+
 
     }
 
