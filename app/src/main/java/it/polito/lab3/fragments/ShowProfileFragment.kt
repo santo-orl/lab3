@@ -5,15 +5,15 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
-
 import android.widget.ImageView
-
 import android.widget.TextView
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import it.polito.lab3.R
 import it.polito.lab3.skills.Adapter_Text
@@ -42,9 +42,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private val sharedPrefFIle = "it.polito.showprofileactivityy"
     lateinit var sharedPref: SharedPreferences;
 
-    lateinit var name_field: TextView
 
-    private val profViewModel by viewModels<ProfileViewModel>()
+    private val profViewModel by activityViewModels<ProfileViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +64,10 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         super.onViewCreated(view, savedInstanceState)
 
         name_field = view.findViewById(R.id.name)
+
         profViewModel.name.observe(this.viewLifecycleOwner){
-            name_field.text = it
+           name_field.text = it
         }
-
-
 
         sharedPref = this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
 
