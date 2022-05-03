@@ -32,9 +32,6 @@
             app:destination="@id/containerFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/slide_out" />
-        <action
-            android:id="@+id/action_timeSlotEditFragment_to_timeSlotDetailsFragment2"
-            app:destination="@id/timeSlotDetailsFragment" />
     </fragment>
     <dialog
         android:id="@+id/timePickerFragment"

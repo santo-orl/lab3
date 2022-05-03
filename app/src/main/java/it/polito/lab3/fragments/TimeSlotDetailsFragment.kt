@@ -45,12 +45,12 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val pos = requireArguments().getInt("Position", 10000)
-        Log.i("test!!!", "prima $pos")
+        //Log.i("test!!!", "prima $pos")
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val pos = requireArguments().getInt("Position", 10000)
-        Log.i("test!!!", "prima $pos")
+        val pos = requireArguments().getInt("Position", 0)
+        //Log.i("test!!!", "prima $pos")
         title_field = view.findViewById(R.id.title)
         description_field = view.findViewById(R.id.description)
         duration_field = view.findViewById(R.id.duration)
@@ -63,14 +63,14 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         duration = duration_field.text.toString()
         location = location_field.text.toString()
 
-        Log.i("test", "dopo iniz $pos")
+       // Log.i("test", "dopo iniz $pos")
 
         timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
-            Log.i("test", "observe $pos")
+           // Log.i("test", "observe $pos")
             if (it.isNotEmpty()) {
-                Log.i("test", "ENRA")
+                //Log.i("test", "ENRA")
                 val slotList = it
-                    Log.i("test3", "position $pos $")
+                    //Log.i("test3", "position $pos $")
                     title_field.text = slotList[pos!!].title
                     description_field.text = slotList[pos].description
                     date_field.text = slotList[pos].date
@@ -81,11 +81,14 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             }
 
             edit_button = view.findViewById(R.id.editButton)
+            edit_button.isClickable = true
             edit_button.setOnClickListener {
+                val fragment = TimeSlotEditFragment.newInstance(pos)
                 activity?.supportFragmentManager?.commit {
-                    addToBackStack(TimeSlotEditFragment::class.toString())
+                    addToBackStack(fragment::class.toString())
                     setReorderingAllowed(true)
-                    replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
+                    replace(R.id.myNavHostFragment,fragment)
+                    Log.i("test", "apre detail?" )
                     //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
                 }
             }

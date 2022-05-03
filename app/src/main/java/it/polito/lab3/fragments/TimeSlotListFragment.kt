@@ -15,6 +15,8 @@ import androidx.activity.OnBackPressedCallback
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,7 +54,11 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
 
         add_button = view.findViewById(R.id.add_FAB)
         add_button.setOnClickListener {
-            findNavController().navigate(R.id.action_containerFragment_to_timeSlotEditFragment)
+            activity?.supportFragmentManager?.commit {
+                addToBackStack(TimeSlotEditFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
+            }
         }
 
         timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
