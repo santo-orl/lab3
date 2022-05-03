@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_timeSlotEditFragment_to_timePickerFragment"
             app:destination="@id/timePickerFragment" />
+        <action
+            android:id="@+id/action_timeSlotEditFragment_to_containerFragment"
+            app:destination="@id/containerFragment" />
     </fragment>
     <dialog
         android:id="@+id/timePickerFragment"
@@ -80,9 +83,5 @@
         android:id="@+id/homeFragment"
         android:name="it.polito.lab3.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_showProfileFragment2"
-            app:destination="@id/showProfileFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
 </navigation>
