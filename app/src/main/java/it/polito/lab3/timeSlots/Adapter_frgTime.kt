@@ -85,7 +85,6 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>(),SlotUI.SlotSaved {
                Log.i("TEST", position.toString())
 
                val fragment = TimeSlotDetailsFragment.newInstance(position)
-
                val activity = it.context as? AppCompatActivity
                activity?.supportFragmentManager?.commit {
                    addToBackStack(fragment::class.toString())

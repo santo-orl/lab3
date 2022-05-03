@@ -7,9 +7,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.*
 import androidx.navigation.fragment.findNavController
 import it.polito.lab3.R
 import it.polito.lab3.TimeSlotViewModel
@@ -19,14 +17,14 @@ import kotlinx.android.synthetic.main.activity_show_profile.*
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     companion object {
-        private val ARG = "Position"
-        fun newInstance(pos: Int): TimeSlotDetailsFragment {
+        private val ARG = "Position)"
+        fun newInstance(pos: Int): TimeSlotEditFragment {
             val args: Bundle = Bundle()
-            // Log.i("test", "EEEEEEEEEEEEEEEE $pos")
+            Log.i("test", "AAAAAAAAAAAAA $pos")
             args.putInt(ARG, pos)
-            val fragment = TimeSlotDetailsFragment()
+            val fragment = TimeSlotEditFragment()
             fragment.arguments = args
-            Log.i("test", fragment.requireArguments().getInt("Position", 10000).toString())
+            Log.i("test??", fragment.requireArguments().getInt("Position)", -1).toString())
             return fragment
         }
     }
@@ -49,8 +47,15 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val args: Bundle = Bundle()
+        args.putInt("inutile", 5)
+        this.arguments = args
+
         activity?.setTitle("Edit time slot")
-        val pos = requireArguments().getInt("Position", 10000)
+
+        Log.i("Test", "SUSA")
+        var  pos = requireArguments().getInt("Position)", -1)
+            Log.i("Test", "SUSA $pos")
 
         title_field = view.findViewById(R.id.editTitle)
         description_field = view.findViewById(R.id.editDescription)
@@ -65,17 +70,28 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         to_field.showSoftInputOnFocus = false
 
         timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
-            Log.i("test", "observe $pos")
-            if (it.isNotEmpty()) {
-                Log.i("test", "ENRA")
-                val slotList = it
-                Log.i("test3", "position $pos $")
-                title_field.setText(slotList[pos].title)
-                description_field.setText(slotList[pos].description)
-                date_field.setText(slotList[pos].date)
-                from_field.setText(slotList[pos].duration.split("-")[0])
-                to_field.setText(slotList[pos].duration.split("-")[1])
-                location_field.setText(slotList[pos].location)
+            if( pos!= -1){
+                Log.i("test!!!", "Dentroo")
+                if (it.isNotEmpty()) {
+                    val slotList = it
+                    if(slotList[pos].title!= ""){
+                        title_field.setText(slotList[pos].title)
+                    }
+                    if(slotList[pos].description!=""){
+                        description_field.setText(slotList[pos].description)
+                    }
+                    if(slotList[pos].date!= ""){
+                        date_field.setText(slotList[pos].date)
+                    }
+                    if(slotList[pos].duration!= ""){
+                        from_field.setText(slotList[pos].duration.split("-")[0])
+                        to_field.setText(slotList[pos].duration.split("-")[1])
+                    }
+                    if(slotList[pos].location!= ""){
+                        location_field.setText(slotList[pos].location)
+                    }
+            }
+
 
             }
         }
@@ -108,14 +124,24 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     timeSlotViewModel.setSlot(new)
                 }
 
-               findNavController().navigate(R.id.action_timeSlotEditFragment_to_containerFragment)
+                this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
+               /* activity?.supportFragmentManager?.commit {
+                    addToBackStack(TimeSlotListFragment::class.toString())
+                    setReorderingAllowed(true)
+                    replace<TimeSlotListFragment>(R.id.myNavHostFragment)
+                }*/
+               //findNavController().navigate(R.id.action_timeSlotEditFragment_to_containerFragment)
                 //this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
             }
-
         })
 
         date_field.setOnClickListener {
-           findNavController().navigate(R.id.action_timeSlotEditFragment_to_datePickerFragment)
+           /* activity?.supportFragmentManager?.commit {
+                addToBackStack(DatePickerFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<DatePickerFragment>(R.id.myNavHostFragment)
+            }*/
+            findNavController().navigate(R.id.action_timeSlotEditFragment_to_datePickerFragment)
             setFragmentResultListener("KeyDate") { _, bundle ->
                 val result = bundle.getString("SELECTED_DATE")
                 date_field.setText(result)
@@ -123,6 +149,11 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
         }
         from_field.setOnClickListener {
+          /*  activity?.supportFragmentManager?.commit {
+                addToBackStack(TimePickerFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<TimePickerFragment>(R.id.myNavHostFragment)
+            }*/
             findNavController().navigate(R.id.action_timeSlotEditFragment_to_timePickerFragment)
             setFragmentResultListener("KeyTime") { _, bundle ->
                 val result1 = bundle.getString("TIME")
