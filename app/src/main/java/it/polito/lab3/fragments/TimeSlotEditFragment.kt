@@ -135,9 +135,10 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
                // this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
                 activity?.supportFragmentManager?.commit {
-                    addToBackStack(TimeSlotListFragment::class.toString())
+                    var fragment = TimeSlotListFragment()
+                    addToBackStack(fragment::class.toString())
                     setReorderingAllowed(true)
-                    replace<TimeSlotListFragment>(R.id.myNavHostFragment)
+                    replace(R.id.myNavHostFragment, fragment)
                 }
                //findNavController().navigate(R.id.action_timeSlotEditFragment_to_containerFragment)
                 //this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
@@ -145,39 +146,40 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         })
 
         date_field.setOnClickListener {
-           activity?.supportFragmentManager?.commit {
-                addToBackStack(DatePickerFragment::class.toString())
-                setReorderingAllowed(true)
-                replace<DatePickerFragment>(R.id.myNavHostFragment)
-            }
-            /*findNavController().navigate(R.id.action_homeFragment_to_datePickerFragment)*/
+            val datePickerFragment = DatePickerFragment()
+            val supportFragmentManager = requireActivity().supportFragmentManager
+
+            // we have to implement setFragmentResultListener
             setFragmentResultListener("KeyDate") { _, bundle ->
                 val result = bundle.getString("SELECTED_DATE")
                 date_field.setText(result)
             }
+            // show
+            datePickerFragment.show(supportFragmentManager, "DatePickerFragment")
+
 
         }
         from_field.setOnClickListener {
-          /*  activity?.supportFragmentManager?.commit {
-                addToBackStack(TimePickerFragment::class.toString())
-                setReorderingAllowed(true)
-                replace<TimePickerFragment>(R.id.myNavHostFragment)
-            }*/
-            findNavController().navigate(R.id.action_timeSlotEditFragment_to_timePickerFragment)
+            val timePickerFragment = TimePickerFragment()
+            val supportFragmentManager = requireActivity().supportFragmentManager
+
             setFragmentResultListener("KeyTime") { _, bundle ->
                 val result1 = bundle.getString("TIME")
                 from_field.setText(result1)
             }
+            timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
         }
 
         to_field.setOnClickListener {
 
-            findNavController().navigate(R.id.action_timeSlotEditFragment_to_timePickerFragment)
+            val timePickerFragment = TimePickerFragment()
+            val supportFragmentManager = requireActivity().supportFragmentManager
             setFragmentResultListener("KeyTime") { _, bundle ->
                 val result1 = bundle.getString("TIME")
                 to_field.setText(result1)
 
             }
+            timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
         }
     }
 
