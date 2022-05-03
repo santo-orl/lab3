@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ContainerFragment">
+    tools:context=".fragments.TimeSlotListFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_container"
@@ -34,7 +34,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view"
             app:srcCompat="@android:drawable/ic_input_add" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
