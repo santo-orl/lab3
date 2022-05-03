@@ -39,14 +39,14 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private val sharedPrefFIle = "it.polito.lab3.timeSlott"
     lateinit var sharedPref: SharedPreferences
 
- override fun onCreateView(
-     inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-): View {
-    // Inflate the layout for this fragment
-    val view: View = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
-    // Add the following lines to create RecyclerView
-    return view
-}
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        val view: View = inflater.inflate(R.layout.fragment_time_slot_list, container, false)
+        // Add the following lines to create RecyclerView
+        return view
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -98,8 +98,8 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
             } else {
                 recycler_view.layoutManager = LinearLayoutManager(view.context)
                 adapterFrgTime = Adapter_frgTime(slotList)
-                    recycler_view.adapter = adapterFrgTime
-                }
+                recycler_view.adapter = adapterFrgTime
+            }
             adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                 override fun onSlotDeleted(position: Int) {
                     slotList.removeAt(position)
@@ -126,6 +126,3 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
         })
     }
 }
-
-
-

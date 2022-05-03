@@ -20,5 +20,4 @@ class TimeSlotViewModel: ViewModel() {
         _slots.value?.remove(desiredSlot)
     }
 
-
 }
