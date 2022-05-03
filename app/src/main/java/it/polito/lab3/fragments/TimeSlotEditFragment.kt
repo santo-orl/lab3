@@ -18,6 +18,18 @@ import kotlinx.android.synthetic.main.activity_show_profile.*
 
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
+    companion object {
+        private val ARG = "Position"
+        fun newInstance(pos: Int): TimeSlotDetailsFragment {
+            val args: Bundle = Bundle()
+            // Log.i("test", "EEEEEEEEEEEEEEEE $pos")
+            args.putInt(ARG, pos)
+            val fragment = TimeSlotDetailsFragment()
+            fragment.arguments = args
+            Log.i("test", fragment.requireArguments().getInt("Position", 10000).toString())
+            return fragment
+        }
+    }
     private  var date=  "Date"
     private  var from= "From"
     private  var to= "To"
@@ -38,6 +50,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("Edit time slot")
+        val pos = requireArguments().getInt("Position", 10000)
 
         title_field = view.findViewById(R.id.editTitle)
         description_field = view.findViewById(R.id.editDescription)
@@ -51,7 +64,21 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         to_field = view.findViewById(R.id.to_edit)
         to_field.showSoftInputOnFocus = false
 
+        timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
+            Log.i("test", "observe $pos")
+            if (it.isNotEmpty()) {
+                Log.i("test", "ENRA")
+                val slotList = it
+                Log.i("test3", "position $pos $")
+                title_field.setText(slotList[pos].title)
+                description_field.setText(slotList[pos].description)
+                date_field.setText(slotList[pos].date)
+                from_field.setText(slotList[pos].duration.split("-")[0])
+                to_field.setText(slotList[pos].duration.split("-")[1])
+                location_field.setText(slotList[pos].location)
 
+            }
+        }
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

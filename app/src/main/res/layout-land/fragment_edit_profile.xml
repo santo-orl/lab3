@@ -145,11 +145,30 @@
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.778"
+            app:layout_constraintHorizontal_bias="0.235"
             app:layout_constraintStart_toEndOf="@+id/recycler"
             app:layout_constraintTop_toBottomOf="@+id/editLocation"
+            app:layout_constraintVertical_bias="0.673"
             app:layout_constraintVertical_weight="1"
             tools:ignore="ButtonStyle,RtlSymmetry" />
 
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="Save"
+            android:textColor="#FFFF"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.863"
+            app:layout_constraintStart_toEndOf="@+id/recycler"
+            app:layout_constraintTop_toBottomOf="@+id/editLocation"
+            app:layout_constraintVertical_bias="0.111"
+            app:layout_constraintVertical_weight="1"
+
+
+            tools:ignore="ButtonStyle,RtlSymmetry" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -119,16 +119,16 @@ class MainActivity : AppCompatActivity(){
                 var uriImage = Uri.parse(it)
                 image_field.setImageURI(uriImage)
             }else {
-                image_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb)
+                var uriImageString = sharedPref.getString("id_photo", "").toString()
+                if(uriImageString!= "") {
+                    var uriImage = Uri.parse(uriImageString)
+                    image_field.setImageURI(uriImage)
+                }else{
+                    image_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
+                }
             }//default pic
         }
-       var uriImageString = sharedPref.getString("id_photo", "").toString()
-        if(uriImageString!= "") {
-            var uriImage = Uri.parse(uriImageString)
-            image_field.setImageURI(uriImage)
-        }else{
-            image_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
-        }
+
 
     }
 
