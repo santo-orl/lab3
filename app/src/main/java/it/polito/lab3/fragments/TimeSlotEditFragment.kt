@@ -42,7 +42,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private lateinit var title_field: EditText
     private lateinit var description_field: EditText
     private lateinit var location_field: EditText
-    private lateinit var eliminare: Slot
+    private  var eliminare = Slot("","","","","")
     //val vm by viewModels<TimeSlotViewModel>()
     private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +73,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         to_field.showSoftInputOnFocus = false
 
         timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
-            if( pos!= -1){
+            if( pos!= 0){
                 Log.i("test!!!", "Dentroo")
                 if (it.isNotEmpty()) {
                     val slotList = it
@@ -122,7 +122,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     location = location_field.text.toString()
                 }
 
-                if(pos!=-1){
+                if(eliminare.title!=""){
                     timeSlotViewModel.remove(eliminare)
                 }
                     var new = Slot(title,description, date, "$from-$to", location)
