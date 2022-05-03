@@ -55,12 +55,25 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                title = title_field.text.toString()
-                description = description_field.text.toString()
-                date = date_field.text.toString()
-                from = from_field.text.toString()
-                to = to_field.text.toString()
-                location = location_field.text.toString()
+                if(title_field.text.toString()!= ""){
+                    title = title_field.text.toString()
+                }
+
+                if(description_field.text.toString()!= ""){
+                    description = description_field.text.toString()
+                }
+                if(date_field.text.toString()!= ""){
+                    date = date_field.text.toString()
+                }
+                if(from_field.text.toString()!= ""){
+                    from = from_field.text.toString()
+                }
+                if(to_field.text.toString()!= ""){
+                    to = to_field.text.toString()
+                }
+                if(location_field.text.toString()!= ""){
+                    location = location_field.text.toString()
+                }
 
                 var new = Slot(title,description, date, "$from-$to", location)
                 Log.i("test",new.toString())
