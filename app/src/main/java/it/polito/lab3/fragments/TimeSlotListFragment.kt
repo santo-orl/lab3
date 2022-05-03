@@ -29,7 +29,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var add_button: FloatingActionButton
     private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
 
-    private val sharedPrefFIle = "it.polito.lab3.timeSlot"
+    private val sharedPrefFIle = "it.polito.lab3.timeSlott"
     lateinit var sharedPref: SharedPreferences
 
  override fun onCreateView(
@@ -63,6 +63,8 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                     var ll = slots!!.split("&&&")
                     for(s in ll){
                         var slotItem = s.split("###")
+                        //ho dovuto mettere "" perchè salva solo i primi due campi
+                        //altrimenti quando recupera i dati va in IndexOutOfBoundsException
                         slotList.add(Slot(slotItem[0],slotItem[1],"","",""))
                     }
                     timeSlotViewModel.setSlots(slotList)
@@ -93,6 +95,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 val editor : SharedPreferences.Editor = sharedPref.edit()
+                Log.i("prova2",slotList.toString())
                 var ss = slotList.joinToString("&&&")
                 editor.putString("id_slots",ss)
                 editor.apply()
