@@ -20,106 +20,116 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="278dp"
+            android:layout_height="132dp"
             android:adjustViewBounds="true"
             android:background="#AEECEF"
             android:backgroundTint="@color/dirty_white"
             android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@+id/editName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.112"
             app:layout_constraintVertical_weight="5"
             app:srcCompat="@drawable/camera_icon_21"
-            tools:ignore="SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="16dp"
-
-            />
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/editName"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="240dp"
+            android:layout_height="55dp"
             android:background="@color/dirty_white"
             android:ems="10"
             android:fontFamily="sans-serif-condensed-medium"
             android:hint="Full name"
             android:inputType="textPersonName|textCapSentences"
             android:textColor="@color/dark_blue"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/editNick"
-            app:layout_constraintTop_toBottomOf="@+id/imageButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/editNick"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.092"
             app:layout_constraintVertical_weight="1"
-            tools:ignore="SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="16dp" />
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/editNick"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="339dp"
+            android:layout_height="41dp"
             android:background="@color/dirty_white"
             android:ems="10"
             android:fontFamily="sans-serif-condensed-light"
             android:hint="Nickname"
             android:inputType="text|textCapSentences"
             android:textColor="@color/dark_blue"
-            android:textSize="26sp"
+            android:textSize="24sp"
             android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/editEmail"
-            app:layout_constraintTop_toBottomOf="@+id/editName"
 
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/editEmail"
+            app:layout_constraintTop_toBottomOf="@+id/editName"
+            app:layout_constraintVertical_bias="0.039"
             app:layout_constraintVertical_weight="1"
-            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="16dp" />
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/editEmail"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="440dp"
+            android:layout_height="42dp"
             android:background="@color/dirty_white"
             android:fontFamily="sans-serif-condensed-light"
             android:hint="email@address"
             android:inputType="textEmailAddress"
             android:textColor="@color/dark_blue"
-            android:textSize="26sp"
+            android:textSize="24sp"
             android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/editLocation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/editLocation"
             app:layout_constraintTop_toBottomOf="@+id/editNick"
+            app:layout_constraintVertical_bias="0.046"
             app:layout_constraintVertical_weight="1"
             tools:ignore="SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="16dp"
             tools:visibility="visible" />
 
         <EditText
             android:id="@+id/editLocation"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="336dp"
+            android:layout_height="45dp"
             android:background="@color/dirty_white"
             android:fontFamily="sans-serif-condensed-light"
             android:hint="Location"
             android:inputType="text|textCapSentences"
             android:textColor="@color/dark_blue"
-            android:textSize="26sp"
+            android:textSize="24sp"
             android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/recycler"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.619"
+            app:layout_constraintStart_toEndOf="@+id/imageButton"
             app:layout_constraintTop_toBottomOf="@+id/editEmail"
+            app:layout_constraintVertical_bias="0.067"
             app:layout_constraintVertical_weight="1"
-            tools:ignore="SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="16dp" />
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="297dp"
+            android:layout_height="206dp"
             android:background="@color/dirty_white"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:textColor="@color/dark_blue"
-            app:layout_constraintBottom_toTopOf="@+id/btn_add_skill"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editLocation"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton"
+            app:layout_constraintVertical_bias="0.589"
             app:layout_constraintVertical_weight="5">
 
 
@@ -127,16 +137,19 @@
 
         <Button
             android:id="@+id/btn_add_skill"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="198dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/add_todo_title"
             android:textColor="#FFFF"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.778"
+            app:layout_constraintStart_toEndOf="@+id/recycler"
+            app:layout_constraintTop_toBottomOf="@+id/editLocation"
             app:layout_constraintVertical_weight="1"
-            tools:ignore="ButtonStyle,RtlSymmetry"
-            tools:layout_editor_absoluteX="138dp" />
+            tools:ignore="ButtonStyle,RtlSymmetry" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
