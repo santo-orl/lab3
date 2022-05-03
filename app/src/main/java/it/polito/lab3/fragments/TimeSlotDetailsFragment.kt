@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -42,6 +43,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var location_field: TextView
 
     private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val pos = requireArguments().getInt("Position", 10000)
@@ -84,6 +86,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             edit_button.isClickable = true
             edit_button.setOnClickListener {
                 val fragment = TimeSlotEditFragment.newInstance(pos)
+                val activity = it.context as? AppCompatActivity
                 activity?.supportFragmentManager?.commit {
                     addToBackStack(fragment::class.toString())
                     setReorderingAllowed(true)

@@ -17,14 +17,14 @@ import kotlinx.android.synthetic.main.activity_show_profile.*
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     companion object {
-        private val ARG = "Position)"
+        private val ARG = "Posi"
         fun newInstance(pos: Int): TimeSlotEditFragment {
             val args: Bundle = Bundle()
             Log.i("test", "AAAAAAAAAAAAA $pos")
             args.putInt(ARG, pos)
             val fragment = TimeSlotEditFragment()
             fragment.arguments = args
-            Log.i("test??", fragment.requireArguments().getInt("Position)", -1).toString())
+            Log.i("test??", fragment.requireArguments().getInt("Posi", -1).toString())
             return fragment
         }
     }
@@ -34,7 +34,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private  var title = "Title"
     private  var description= "Description"
     private  var location= "Location"
-    var count = 0
 
     private lateinit var date_field: EditText
     private lateinit var from_field: EditText
@@ -43,8 +42,10 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private lateinit var description_field: EditText
     private lateinit var location_field: EditText
     private  var eliminare = Slot("","","","","")
+
     //val vm by viewModels<TimeSlotViewModel>()
     private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args: Bundle = Bundle()
@@ -55,11 +56,10 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val posi = this.arguments?.getInt("Posi", 0)
+        Log.i("Test", "SUSA $posi")
         activity?.setTitle("Edit time slot")
         Log.i("Test", "SUSA")
-        val  pos = requireArguments().getInt("Position)", 0)
-        Log.i("Test", "SUSA $pos")
-
         title_field = view.findViewById(R.id.editTitle)
         description_field = view.findViewById(R.id.editDescription)
         date_field = view.findViewById(R.id.date_edit)
@@ -73,11 +73,11 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         to_field.showSoftInputOnFocus = false
 
         timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
-            if( pos!= 0){
+            if( posi!= 0){
                 Log.i("test!!!", "Dentroo")
                 if (it.isNotEmpty()) {
                     val slotList = it
-                    eliminare = slotList[pos]
+                    eliminare = slotList[posi!!]
                     if(eliminare.title!= ""){
                         title_field.setText(eliminare.title)
                     }
@@ -102,11 +102,11 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         }
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(title_field.text.toString()!= ""){
+                if(title_field.text.toString()!= "Title"){
                     title = title_field.text.toString()
                 }
 
-                if(description_field.text.toString()!= ""){
+                if(description_field.text.toString()!= "Description"){
                     description = description_field.text.toString()
                 }
                 if(date_field.text.toString()!= ""){
