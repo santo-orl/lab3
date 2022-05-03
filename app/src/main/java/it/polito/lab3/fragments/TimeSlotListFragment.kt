@@ -50,7 +50,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
         if (slotList.isEmpty()) {
             val prova = ArrayList<Slot>(arrayListOf())
             prova.add(
-                Slot("No advertisement", "Click on the button below to add your first advertisement")
+                Slot("No advertisement", "Click on the button below to add your first advertisement","","","")
             )
             recycler_view.layoutManager = LinearLayoutManager(view.context)
             adapterFrgTime = Adapter_frgTime(prova)
