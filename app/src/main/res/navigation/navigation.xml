@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_time_slot_details" >
         <action
             android:id="@+id/action_timeSlotDetailsFragment_to_timeSlotEditFragment"
-            app:destination="@id/timeSlotEditFragment" />
+            app:destination="@id/timeSlotEditFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/timeSlotEditFragment"
@@ -27,7 +29,9 @@
             app:destination="@id/timePickerFragment" />
         <action
             android:id="@+id/action_timeSlotEditFragment_to_containerFragment"
-            app:destination="@id/containerFragment" />
+            app:destination="@id/containerFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_timeSlotEditFragment_to_timeSlotDetailsFragment2"
             app:destination="@id/timeSlotDetailsFragment" />
@@ -84,7 +88,9 @@
         tools:layout="@layout/fragment_time_slot_list" >
         <action
             android:id="@+id/action_containerFragment_to_timeSlotEditFragment"
-            app:destination="@id/timeSlotEditFragment" />
+            app:destination="@id/timeSlotEditFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"

@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
 
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="sans-serif-condensed-light"
             android:text="@string/nickname"
             android:textColor="@color/dark_blue"
             android:textSize="26sp"
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
 
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="sans-serif-condensed-light"
             android:inputType="textWebEmailAddress|textEmailAddress"
             android:text="@string/email_address"
             android:textColor="@color/dark_blue"
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
 
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="sans-serif-condensed-light"
             android:text="@string/location"
             android:textColor="@color/dark_blue"
             android:textSize="26sp"
