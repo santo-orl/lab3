@@ -96,31 +96,22 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
         }
         from_field.setOnClickListener {
-            //findNavController().navigate(R.id.action_timeSlotEditFragment_to_timePickerFragment)
-            val supportFragmentManager = requireActivity().supportFragmentManager
-
-            TimePickerFragment().show(supportFragmentManager,"TimePicker")
-            TimePickerFragment().show(supportFragmentManager,"TimePicker")
-            supportFragmentManager.setFragmentResultListener("KeyTime",
-                viewLifecycleOwner) { _, bundle ->
-                val result1 = bundle.getString("FROM_TIME")
+            findNavController().navigate(R.id.action_timeSlotEditFragment_to_timePickerFragment)
+            setFragmentResultListener("KeyTime") { _, bundle ->
+                val result1 = bundle.getString("TIME")
                 from_field.setText(result1)
-                val result = bundle.getString("TO_TIME")
-                to_field.setText(result)
             }
-
         }
 
         to_field.setOnClickListener {
-            val supportFragmentManager = requireActivity().supportFragmentManager
-            TimePickerFragment().show(supportFragmentManager,"TimePicker")
-            supportFragmentManager.setFragmentResultListener("KeyTime",
-                viewLifecycleOwner) { _, bundle ->
-                val result = bundle.getString("TO_TIME")
-                to_field.setText(result)
+
+            findNavController().navigate(R.id.action_timeSlotEditFragment_to_timePickerFragment)
+            setFragmentResultListener("KeyTime") { _, bundle ->
+                val result1 = bundle.getString("TIME")
+                to_field.setText(result1)
+
             }
         }
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
