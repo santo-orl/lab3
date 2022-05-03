@@ -24,6 +24,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private  var title = "Title"
     private  var description= "Description"
     private  var location= "Location"
+    var count = 0
 
     private lateinit var date_field: EditText
     private lateinit var from_field: EditText
@@ -51,11 +52,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         to_field.showSoftInputOnFocus = false
 
 
-     /*   timeSlotViewModel.slots.observe(this.viewLifecycleOwner){
-            if(it != "" && it!= title) {
-                title_field.setText(it.toString())
-            }
-        }*/
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -70,13 +66,10 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 Log.i("test",new.toString())
                 if(title != "" && description != ""){
                     timeSlotViewModel.setSlot(new)
-                }else{
-                    Toast.makeText(activity,"Sorry, you must insert a title and description",
-                        Toast.LENGTH_SHORT).show()
                 }
 
-               //findNavController().navigate(R.id.action_timeSlotEditFragment_to_containerFragment)
-                this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
+               findNavController().navigate(R.id.action_timeSlotEditFragment_to_containerFragment)
+                //this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
             }
 
         })

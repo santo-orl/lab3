@@ -45,10 +45,13 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
         return ViewHolder(view)
     }
 
+
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+
         //private val timeSlotViewModel: TimeSlotViewModel by iewModels()
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
+
        if(dataSet[0].title == "No advertisement" && dataSet[0].description == "Click on the button below to add your first advertisement"){
            viewHolder.title.text =  dataSet[position].title
            viewHolder.description.text = dataSet[position].description
@@ -62,7 +65,7 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
                    setReorderingAllowed(true)
                    replace<TimeSlotDetailsFragment>(R.id.myNavHostFragment)
                    Log.i("test2", "Vede il click")
-                //   viewHolder.cardView.findNavController().navigate(R.id.action_itemListFragment_to_timeSlotDetailsFragment)
+                    //viewHolder.cardView.findNavController().navigate(R.id.action_itemListFragment_to_timeSlotDetailsFragment)
                }
            }
          //   val s1 = "Date: " + dataSet[position].date
