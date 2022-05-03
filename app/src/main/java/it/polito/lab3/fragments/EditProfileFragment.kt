@@ -204,6 +204,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }
     }
 
+
+
     private fun setUpLayout() {
         if(skillList.size == 0){
             Log.i("test", "Entra?")
@@ -351,6 +353,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             }
         }
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("Full name", name_field.text.toString())
         outState.putString("Nickname", nickname_field.text.toString())
@@ -361,6 +364,17 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
         super.onSaveInstanceState(outState)
     }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if(savedInstanceState != null){
+            name_field.setText(savedInstanceState.getString("Full name","0"))
+            nickname_field.setText(savedInstanceState.getString("Nickname","0"))
+            email_field.setText(savedInstanceState.getString("Email","0"))
+            location_field.setText(savedInstanceState.getString("Location","0"))
+        }
+    }
+
 
 
 }//class
