@@ -22,20 +22,22 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <TextView
                 android:id="@+id/title_itemList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:text="Title"
+                android:textAlignment="viewStart"
                 android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 card_view:layout_constraintBottom_toTopOf="@+id/description_itemList"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintLeft_toLeftOf="parent"
+                card_view:layout_constraintRight_toLeftOf="@id/delete_card"
                 card_view:layout_constraintTop_toTopOf="parent"
                 card_view:layout_constraintVertical_weight="1" />
 
@@ -45,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:text="Description"
+                android:textAlignment="textStart"
                 android:textColor="#000000"
                 android:textSize="25sp"
                 card_view:layout_constraintBottom_toTopOf="parent"
@@ -54,6 +57,15 @@
                 card_view:layout_constraintVertical_weight="3"
                 tools:ignore="TouchTargetSizeCheck" />
 
+            <ImageView
+                android:id="@+id/delete_card"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                card_view:layout_constraintBottom_toTopOf="@+id/description_itemList"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintLeft_toRightOf="@id/title_itemList"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:srcCompat="@android:drawable/ic_delete" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

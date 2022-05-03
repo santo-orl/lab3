@@ -5,9 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextClock
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -15,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.polito.lab3.R
 import it.polito.lab3.TimeSlotViewModel
+import it.polito.lab3.skills.SkillUI
 import it.polito.lab3.timeSlots.Adapter_frgTime
 import it.polito.lab3.timeSlots.Slot
+import it.polito.lab3.timeSlots.SlotUI
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
 
@@ -68,6 +67,13 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 adapterFrgTime = Adapter_frgTime(slotList)
                     recycler_view.adapter = adapterFrgTime
                 }
+            adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
+                override fun onSlotDeleted(position: Int) {
+                    slotList.removeAt(position)
+                    adapterFrgTime.notifyDataSetChanged()
+                }
+
+            })
 
         }
     }
