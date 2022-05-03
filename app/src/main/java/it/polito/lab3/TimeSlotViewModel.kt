@@ -16,6 +16,9 @@ class TimeSlotViewModel: ViewModel() {
     fun setSlot(desiredSlot:Slot){
         _slots.value?.add(desiredSlot)
     }
+    fun remove(desiredSlot: Slot){
+        _slots.value?.remove(desiredSlot)
+    }
 
 
 }

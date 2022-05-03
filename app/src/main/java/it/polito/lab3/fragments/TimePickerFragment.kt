@@ -21,7 +21,6 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
     private var minute by Delegates.notNull<Int>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
         super.onCreateDialog(savedInstanceState)
         // default date
             hour = calendar.get(Calendar.HOUR_OF_DAY)

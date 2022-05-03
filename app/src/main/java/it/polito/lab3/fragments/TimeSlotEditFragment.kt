@@ -42,20 +42,23 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private lateinit var title_field: EditText
     private lateinit var description_field: EditText
     private lateinit var location_field: EditText
+    private lateinit var eliminare: Slot
     //val vm by viewModels<TimeSlotViewModel>()
     private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         val args: Bundle = Bundle()
         args.putInt("inutile", 5)
         this.arguments = args
-
+        val pos = requireArguments().getInt("Position", 10000)
+        //Log.i("test!!!", "prima $pos")
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("Edit time slot")
-
         Log.i("Test", "SUSA")
-        var  pos = requireArguments().getInt("Position)", -1)
-            Log.i("Test", "SUSA $pos")
+        val  pos = requireArguments().getInt("Position)", 0)
+        Log.i("Test", "SUSA $pos")
 
         title_field = view.findViewById(R.id.editTitle)
         description_field = view.findViewById(R.id.editDescription)
@@ -74,28 +77,29 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 Log.i("test!!!", "Dentroo")
                 if (it.isNotEmpty()) {
                     val slotList = it
-                    if(slotList[pos].title!= ""){
-                        title_field.setText(slotList[pos].title)
+                    eliminare = slotList[pos]
+                    if(eliminare.title!= ""){
+                        title_field.setText(eliminare.title)
                     }
-                    if(slotList[pos].description!=""){
-                        description_field.setText(slotList[pos].description)
+                    if(eliminare.description!=""){
+                        description_field.setText(eliminare.description)
                     }
-                    if(slotList[pos].date!= ""){
-                        date_field.setText(slotList[pos].date)
+                    if(eliminare.date!= ""){
+                        date_field.setText(eliminare.date)
                     }
-                    if(slotList[pos].duration!= ""){
-                        from_field.setText(slotList[pos].duration.split("-")[0])
-                        to_field.setText(slotList[pos].duration.split("-")[1])
+                    if(eliminare.duration!= ""){
+                        from_field.setText(eliminare.duration.split("-")[0])
+                        to_field.setText(eliminare.duration.split("-")[1])
                     }
-                    if(slotList[pos].location!= ""){
-                        location_field.setText(slotList[pos].location)
+                    if(eliminare.location!= ""){
+                        location_field.setText(eliminare.location)
                     }
             }
 
 
             }
+
         }
-
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if(title_field.text.toString()!= ""){
@@ -118,30 +122,35 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     location = location_field.text.toString()
                 }
 
-                var new = Slot(title,description, date, "$from-$to", location)
-                Log.i("test",new.toString())
-                if(title != "" && description != ""){
-                    timeSlotViewModel.setSlot(new)
+                if(pos!=-1){
+                    timeSlotViewModel.remove(eliminare)
+                }
+                    var new = Slot(title,description, date, "$from-$to", location)
+                    Log.i("test",new.toString())
+                    if(title != "" && description != ""){
+                        timeSlotViewModel.setSlot(new)
+
                 }
 
-                this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
-               /* activity?.supportFragmentManager?.commit {
+
+               // this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
+                activity?.supportFragmentManager?.commit {
                     addToBackStack(TimeSlotListFragment::class.toString())
                     setReorderingAllowed(true)
                     replace<TimeSlotListFragment>(R.id.myNavHostFragment)
-                }*/
+                }
                //findNavController().navigate(R.id.action_timeSlotEditFragment_to_containerFragment)
                 //this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
             }
         })
 
         date_field.setOnClickListener {
-           /* activity?.supportFragmentManager?.commit {
+           activity?.supportFragmentManager?.commit {
                 addToBackStack(DatePickerFragment::class.toString())
                 setReorderingAllowed(true)
                 replace<DatePickerFragment>(R.id.myNavHostFragment)
-            }*/
-            findNavController().navigate(R.id.action_timeSlotEditFragment_to_datePickerFragment)
+            }
+            /*findNavController().navigate(R.id.action_homeFragment_to_datePickerFragment)*/
             setFragmentResultListener("KeyDate") { _, bundle ->
                 val result = bundle.getString("SELECTED_DATE")
                 date_field.setText(result)
