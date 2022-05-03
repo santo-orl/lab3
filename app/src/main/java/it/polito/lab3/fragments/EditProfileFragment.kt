@@ -200,8 +200,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }else{
                     profViewModel.setSkills(arrayListOf())
                 }
-                findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
-                //this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
+                //findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
+                this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
 
             }
         })
