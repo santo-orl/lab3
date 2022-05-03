@@ -93,5 +93,9 @@
         android:id="@+id/homeFragment"
         android:name="it.polito.lab3.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_datePickerFragment"
+            app:destination="@id/datePickerFragment" />
+    </fragment>
 </navigation>

@@ -88,7 +88,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                     addToBackStack(fragment::class.toString())
                     setReorderingAllowed(true)
                     replace(R.id.myNavHostFragment,fragment)
-                    Log.i("test", "apre detail?" )
+                    Log.i("test", "apre detail?$pos" )
                     //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
                 }
             }
