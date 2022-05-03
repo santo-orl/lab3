@@ -102,6 +102,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.setTitle("Edit profile")
         name_field = view.findViewById(R.id.editName)
         nickname_field = view.findViewById(R.id.editNick)
         email_field = view.findViewById(R.id.editEmail)
