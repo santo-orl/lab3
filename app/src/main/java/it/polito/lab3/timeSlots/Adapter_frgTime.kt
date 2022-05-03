@@ -4,32 +4,47 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab3.R
-import it.polito.lab3.TimeSlotViewModel
 import it.polito.lab3.fragments.TimeSlotDetailsFragment
+import it.polito.lab3.skills.SkillUI
+
 import kotlinx.android.synthetic.main.fragment_item_list.view.*
-import kotlinx.android.synthetic.main.fragment_time_slot_details.view.*
+
 
 
 class Adapter_frgTime (private val dataSet: ArrayList<Slot>) :
-RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
+RecyclerView.Adapter<Adapter_frgTime.ViewHolder>(),SlotUI.SlotSaved {
     constructor(dataSet: ArrayList<Slot>, itemClick: (Int) -> Unit) : this(dataSet)
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.title_itemList
-        val description:  TextView = view.description_itemList
-        val cardView: CardView =  itemView.findViewById(R.id.card_list)
-       }
 
-      /*   fun bind(listener: (Int) -> Unit)= with(itemView){
+    private lateinit var slotListener: SlotUI.SlotListener
+    fun setOnTodoDeleteClick(listener: SlotUI.SlotListener) {
+        slotListener = listener
+    }
+
+
+    class ViewHolder(view: View, slotListener: SlotUI.SlotListener,
+                     slotSaved: SlotUI.SlotSaved) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.title_itemList
+        val description: TextView = view.description_itemList
+         val iconDeleteSlot: ImageView = view.delete_card
+        val cardView: CardView = itemView.findViewById(R.id.card_list)
+
+        init {
+            iconDeleteSlot.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    slotListener.onSlotDeleted(adapterPosition)
+                }
+            }
+        }
+
+        /*   fun bind(listener: (Int) -> Unit)= with(itemView){
             setOnClickListener { listener(layoutPosition) }
         val title: TextView = view.title_itemList
         val description:  TextView = view.description_itemList
@@ -40,7 +55,7 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
                 // Log.i("test2","Vede il click")
                // cardView.findNavController().navigate(R.id.action_itemListFragment_to_timeSlotDetailsFragment)
         }*/
-
+    }
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
@@ -48,7 +63,7 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.fragment_item_list, viewGroup, false)
-        return ViewHolder(view)
+        return ViewHolder(view, slotListener,this)
     }
 
 
@@ -62,6 +77,8 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
            viewHolder.title.text =  dataSet[position].title
            viewHolder.description.text = dataSet[position].description
            viewHolder.cardView.isClickable = false
+           viewHolder.iconDeleteSlot.isClickable= false
+           viewHolder.iconDeleteSlot.visibility = View.GONE
        }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
            viewHolder.cardView.isClickable = true
            viewHolder.cardView.setOnClickListener {
@@ -92,6 +109,14 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
         }
     }
     override fun getItemCount() = dataSet.size
+    override fun onSlotTitleUpdated(position: Int, title: String) {
+        dataSet[position].title = title
+       // dataSet[position].pos = position+1
+    }
+
+    override fun onSlotDescUpdated(position: Int, description: String) {
+        dataSet[position].description = description
+    }
 
 
 }
