@@ -1,10 +1,18 @@
 package it.polito.lab3.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
+import android.widget.Button
+import android.widget.TextClock
+import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -25,6 +33,9 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var add_button: FloatingActionButton
     private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
 
+    private val sharedPrefFIle = "it.polito.lab3.timeSlott"
+    lateinit var sharedPref: SharedPreferences
+
  override fun onCreateView(
      inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
 ): View {
@@ -37,6 +48,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("List of advertisements")
+        sharedPref = this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
 
         add_button = view.findViewById(R.id.add_FAB)
         add_button.setOnClickListener {
@@ -47,6 +59,20 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
             if (it.isNotEmpty()) {
                 slotList = it
                 Log.i("test", slotList[0].toString())
+            }
+            else{
+                var slots = sharedPref.getString("id_slots","")
+                Log.i("elenco",slots.toString())
+                if(slots != ""){
+                    var ll = slots!!.split("&&&")
+                    for(s in ll){
+                        var slotItem = s.split("###")
+                        //ho dovuto mettere "" perchè salva solo i primi due campi
+                        //altrimenti quando recupera i dati va in IndexOutOfBoundsException
+                        slotList.add(Slot(slotItem[0],slotItem[1],"","",""))
+                    }
+                    timeSlotViewModel.setSlots(slotList)
+                }
             }
             if (slotList.isEmpty()) {
                 val prova = ArrayList<Slot>(arrayListOf())
@@ -76,6 +102,16 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
             })
 
         }
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val editor : SharedPreferences.Editor = sharedPref.edit()
+                Log.i("prova2",slotList.toString())
+                var ss = slotList.joinToString("&&&")
+                editor.putString("id_slots",ss)
+                editor.apply()
+            }
+        })
     }
 }
 

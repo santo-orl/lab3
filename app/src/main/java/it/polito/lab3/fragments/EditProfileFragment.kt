@@ -45,6 +45,9 @@ import it.polito.lab3.skills.Skill
 import it.polito.lab3.skills.SkillUI
 import it.polito.lab3.skills.Skill_Adapter
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.activity_edit_profile.btn_add_skill
+import kotlinx.android.synthetic.main.activity_edit_profile.recycler
+import kotlinx.android.synthetic.main.fragment_edit_profile.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -197,8 +200,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }else{
                     profViewModel.setSkills(arrayListOf())
                 }
-                findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
-                //this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
+                //findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
+                this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
 
             }
         })
@@ -214,6 +217,67 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         photo_button.setOnClickListener {
             showPopUp(photo_button)
         }
+
+
+        btn_save.setOnClickListener {
+            if (name_field.text.toString() == "") {
+                profViewModel.setName(name)
+            } else {
+                profViewModel.setName(name_field.text.toString())
+            }
+            if (nickname_field.text.toString() == "") {
+                profViewModel.setNickname(nickname)
+            } else {
+                profViewModel.setNickname(nickname_field.text.toString())
+                //editor.putString("id_nickname", nickname_field.text.toString())
+            }
+            if (email_field.text.toString() == "") {
+                profViewModel.setEmail(email)
+            } else {
+                profViewModel.setEmail(email_field.text.toString())
+                //editor.putString("id_email", email_field.text.toString())
+            }
+            if (location_field.text.toString() == "") {
+                profViewModel.setLocation(location)
+            } else {
+                profViewModel.setLocation(location_field.text.toString())
+                //editor.putString("id_location", location_field.text.toString())
+            }
+            if (uriImageString == "") {
+                profViewModel.setPhoto("")
+            } else {
+                profViewModel.setPhoto(profileUri.toString())
+                //editor.putString("id_photo", uriImageString)
+            }
+
+            if (skillList.isNotEmpty()) {
+                var listNoEmpty: ArrayList<Skill> = arrayListOf()
+                for (s in skillList) {
+                    if (s.title.length >= 5 && s.description.length >= 10) {
+                        Log.i("test", s.toString())
+                        listNoEmpty.add(s)
+                    } else if (s.title.length < 5) {
+                        Toast.makeText(
+                            activity,
+                            "Sorry, the title must be at least of 5 characters",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (s.description.length < 10) {
+                        Toast.makeText(
+                            activity,
+                            "Sorry, the description must be at least of 10 characters",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                }
+                profViewModel.setSkills(listNoEmpty)
+            } else {
+                profViewModel.setSkills(arrayListOf())
+            }
+            this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
+        }
+
 
         super.onViewCreated(view, savedInstanceState)
     }
