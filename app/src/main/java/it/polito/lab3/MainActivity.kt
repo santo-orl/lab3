@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(){
     lateinit var sharedPref: SharedPreferences;
     private  var name= "Your name"
     private  var email= "Your email"
-    private lateinit var uriImageString: String
+    private  var uriImageString: String = ""
 
 
 

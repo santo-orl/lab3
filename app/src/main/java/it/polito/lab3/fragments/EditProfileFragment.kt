@@ -90,6 +90,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         super.onCreate(savedInstanceState)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -350,6 +351,17 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             }
         }
     }
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("Full name", name_field.text.toString())
+        outState.putString("Nickname", nickname_field.text.toString())
+        outState.putString("Email", email_field.text.toString())
+        outState.putString("Location", location_field.text.toString())
+        outState.putString("Picture", uriImageString)
+        outState.putParcelableArrayList("Skills", skillList)
+
+        super.onSaveInstanceState(outState)
+    }
+
 
 }//class
 
