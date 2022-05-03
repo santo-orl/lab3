@@ -14,11 +14,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.*
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -192,7 +190,12 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         //gestisco il click
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
             if (item.itemId.equals(R.id.pencil)) {
-                findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
+                activity?.supportFragmentManager?.commit {
+                    addToBackStack(EditProfileFragment::class.toString())
+                    setReorderingAllowed(true)
+                    replace<EditProfileFragment>(R.id.myNavHostFragment)
+                }
+               // findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
                 return true
             }
             return false
@@ -235,5 +238,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
         super.onViewStateRestored(savedInstanceState)
     }
+
 
 }

@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.Button
 import android.widget.TextClock
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -18,8 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.polito.lab3.R
 import it.polito.lab3.TimeSlotViewModel
+import it.polito.lab3.skills.SkillUI
 import it.polito.lab3.timeSlots.Adapter_frgTime
 import it.polito.lab3.timeSlots.Slot
+import it.polito.lab3.timeSlots.SlotUI
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
 
@@ -29,7 +33,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var add_button: FloatingActionButton
     private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
 
-    private val sharedPrefFIle = "it.polito.lab3.timeSlot"
+    private val sharedPrefFIle = "it.polito.lab3.timeSlott"
     lateinit var sharedPref: SharedPreferences
 
  override fun onCreateView(
@@ -63,7 +67,9 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                     var ll = slots!!.split("&&&")
                     for(s in ll){
                         var slotItem = s.split("###")
-                        slotList.add(Slot(slotItem[0],slotItem[1],"","",""))
+                        //ho dovuto mettere "" perchè salva solo i primi due campi
+                        //altrimenti quando recupera i dati va in IndexOutOfBoundsException
+                        slotList.add(Slot(slotItem[0],slotItem[1],slotItem[2],slotItem[3],slotItem[4]))
                     }
                     timeSlotViewModel.setSlots(slotList)
                 }
@@ -87,12 +93,20 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 adapterFrgTime = Adapter_frgTime(slotList)
                     recycler_view.adapter = adapterFrgTime
                 }
+            adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
+                override fun onSlotDeleted(position: Int) {
+                    slotList.removeAt(position)
+                    adapterFrgTime.notifyDataSetChanged()
+                }
+
+            })
 
         }
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 val editor : SharedPreferences.Editor = sharedPref.edit()
+                Log.i("prova2",slotList.toString())
                 var ss = slotList.joinToString("&&&")
                 editor.putString("id_slots",ss)
                 editor.apply()

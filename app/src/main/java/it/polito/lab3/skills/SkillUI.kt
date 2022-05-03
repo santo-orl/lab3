@@ -10,4 +10,5 @@ interface SkillUI {
     interface SkillListener {
         fun onSkillDeleted(position: Int)
     }
+
 }
