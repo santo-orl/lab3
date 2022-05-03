@@ -21,20 +21,26 @@ import kotlinx.android.synthetic.main.fragment_time_slot_details.view.*
 
 class Adapter_frgTime (private val dataSet: ArrayList<Slot>) :
 RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
+    constructor(dataSet: ArrayList<Slot>, itemClick: (Int) -> Unit) : this(dataSet)
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.title_itemList
+        val description:  TextView = view.description_itemList
+        val cardView: CardView =  itemView.findViewById(R.id.card_list)
+       }
 
+      /*   fun bind(listener: (Int) -> Unit)= with(itemView){
+            setOnClickListener { listener(layoutPosition) }
         val title: TextView = view.title_itemList
         val description:  TextView = view.description_itemList
         val cardView: CardView =  itemView.findViewById(R.id.card_list)
         init {
-            cardView.setOnClickListener {
-               // Log.i("test2","Vede il click")
-               // cardView.findNavController().navigate(R.id.action_itemListFragment_to_timeSlotDetailsFragment)
-            }
+            itemView.setOnClickListener ( {itemClick(layoutPosition)})
 
-        }
-    }
+                // Log.i("test2","Vede il click")
+               // cardView.findNavController().navigate(R.id.action_itemListFragment_to_timeSlotDetailsFragment)
+        }*/
+
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
@@ -59,11 +65,15 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>() {
        }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
            viewHolder.cardView.isClickable = true
            viewHolder.cardView.setOnClickListener {
+               Log.i("TEST", position.toString())
+
+               val fragment = TimeSlotDetailsFragment.newInstance(position)
+
                val activity = it.context as? AppCompatActivity
                activity?.supportFragmentManager?.commit {
-                   addToBackStack(TimeSlotDetailsFragment()::class.toString())
+                   addToBackStack(fragment::class.toString())
                    setReorderingAllowed(true)
-                   replace<TimeSlotDetailsFragment>(R.id.myNavHostFragment)
+                   replace(R.id.myNavHostFragment, fragment)
                    Log.i("test2", "Vede il click")
                     //viewHolder.cardView.findNavController().navigate(R.id.action_itemListFragment_to_timeSlotDetailsFragment)
                }
