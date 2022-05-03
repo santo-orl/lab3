@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity(){
     lateinit var sharedPref: SharedPreferences;
     private  var name= "Your name"
     private  var email= "Your email"
-    private lateinit var uriImageString: String
+    private var uriImageString: String = ""
 
 
 
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.home -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.homeFragment)
+                    drawerLayout?.closeDrawer(GravityCompat.START)
                     true
                 }
                 //mostro lo show profile fragment
@@ -71,6 +73,7 @@ class MainActivity : AppCompatActivity(){
                     // DEVO APRIRE IL FRAMMENTO CHE MOSTRA LO SHOW PROFILE FRAGMENT
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.showProfileFragment)
+                    drawerLayout?.closeDrawer(GravityCompat.START)
                     //Toast.makeText(this,"APRI SHOW PROFILE",Toast.LENGTH_SHORT).show()
                     true
                 }
@@ -78,18 +81,21 @@ class MainActivity : AppCompatActivity(){
                 R.id.details -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.timeSlotDetailsFragment)
+                    drawerLayout?.closeDrawer(GravityCompat.START)
                     //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.edit -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.timeSlotEditFragment)
+                    drawerLayout?.closeDrawer(GravityCompat.START)
                     //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.listTimeSlot -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.containerFragment)
+                    drawerLayout?.closeDrawer(GravityCompat.START)
                     true
                 }
                 else -> {
@@ -109,13 +115,13 @@ class MainActivity : AppCompatActivity(){
             email  = sharedPref.getString("id_email","Your email").toString()
         }
         image_field = view.findViewById(R.id.image_nv)
-     /*  var uriImageString = sharedPref.getString("id_photo", "").toString()
+       var uriImageString = sharedPref.getString("id_photo", "").toString()
         if(uriImageString!= "") {
             var uriImage = Uri.parse(uriImageString)
             image_field.setImageURI(uriImage)
         }else{
             image_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
-        }*/
+        }
 
     }
     override fun onSaveInstanceState(outState: Bundle) {
