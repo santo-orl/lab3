@@ -31,9 +31,8 @@
             app:layout_constraintVertical_weight="5"
             app:srcCompat="@drawable/camera_icon_21"
             tools:ignore="SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="16dp"
 
-            />
+            tools:layout_editor_absoluteX="16dp" />
 
         <EditText
             android:id="@+id/editName"
@@ -127,16 +126,32 @@
 
         <Button
             android:id="@+id/btn_add_skill"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_todo_title"
             android:textColor="#FFFF"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_save"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler"
             app:layout_constraintVertical_weight="1"
-            tools:ignore="ButtonStyle,RtlSymmetry"
-            tools:layout_editor_absoluteX="138dp" />
+            tools:ignore="ButtonStyle,RtlSymmetry" />
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="#FFFF"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_add_skill"
+            app:layout_constraintTop_toBottomOf="@+id/recycler"
+            tools:ignore="ButtonStyle,RtlSymmetry" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

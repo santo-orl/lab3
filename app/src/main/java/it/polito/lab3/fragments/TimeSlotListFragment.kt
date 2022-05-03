@@ -1,5 +1,6 @@
 package it.polito.lab3.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -49,21 +50,27 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 slotList = it
                 Log.i("test", slotList[0].toString())
             }
-        if (slotList.isEmpty()) {
-            val prova = ArrayList<Slot>(arrayListOf())
-            prova.add(
-                Slot("No advertisement", "Click on the button below to add your first advertisement","","","")
-            )
-            recycler_view.layoutManager = LinearLayoutManager(view.context)
-            adapterFrgTime = Adapter_frgTime(prova)
-            recycler_view.adapter = adapterFrgTime
-        }else {
+            if (slotList.isEmpty()) {
+                val prova = ArrayList<Slot>(arrayListOf())
+                prova.add(
+                    Slot(
+                        "No advertisement",
+                        "Click on the button below to add your first advertisement",
+                        "",
+                        "",
+                        ""
+                    )
+                )
+                recycler_view.layoutManager = LinearLayoutManager(view.context)
+                adapterFrgTime = Adapter_frgTime(prova)
+                recycler_view.adapter = adapterFrgTime
+            } else {
                 recycler_view.layoutManager = LinearLayoutManager(view.context)
                 adapterFrgTime = Adapter_frgTime(slotList)
-                recycler_view.adapter = adapterFrgTime
-            }
-        }
+                    recycler_view.adapter = adapterFrgTime
+                }
 
+        }
     }
 }
 
