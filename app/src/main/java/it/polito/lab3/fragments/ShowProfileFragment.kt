@@ -39,14 +39,12 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var location_field: TextView
     private lateinit var email_field: TextView
     private lateinit var photo_field: ImageView
-    private lateinit var state: Parcelable
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterText: Adapter_Text
 
     private val sharedPrefFIle = "it.polito.lab3"
     lateinit var sharedPref: SharedPreferences;
-
 
     private val profViewModel by activityViewModels<ProfileViewModel>()
 
