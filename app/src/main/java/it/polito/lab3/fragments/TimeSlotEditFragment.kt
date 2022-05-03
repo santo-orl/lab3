@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -35,6 +36,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.setTitle("Edit time slot")
+
         title_field = view.findViewById(R.id.editTitle)
         description_field = view.findViewById(R.id.editDescription)
         date_field = view.findViewById(R.id.date_edit)
@@ -65,7 +68,12 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
                 var new = Slot(title,description, date, "$from-$to", location)
                 Log.i("test",new.toString())
-                timeSlotViewModel.setSlot(new)
+                if(title != "" && description != ""){
+                    timeSlotViewModel.setSlot(new)
+                }else{
+                    Toast.makeText(activity,"Sorry, you must insert a title and description",
+                        Toast.LENGTH_SHORT).show()
+                }
 
                //findNavController().navigate(R.id.action_timeSlotEditFragment_to_containerFragment)
                 this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()

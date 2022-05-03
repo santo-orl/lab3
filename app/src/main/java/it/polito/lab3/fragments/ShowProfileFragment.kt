@@ -2,6 +2,7 @@ package it.polito.lab3.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
@@ -64,9 +65,9 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.setTitle("Profile")
         sharedPref =
             this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
-
 
         name_field = view.findViewById(R.id.name)
         nickname_field = view.findViewById(R.id.nickname)

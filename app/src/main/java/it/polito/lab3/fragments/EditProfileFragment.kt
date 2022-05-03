@@ -90,6 +90,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         super.onCreate(savedInstanceState)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -101,6 +102,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.setTitle("Edit profile")
         name_field = view.findViewById(R.id.editName)
         nickname_field = view.findViewById(R.id.editNick)
         email_field = view.findViewById(R.id.editEmail)
@@ -202,6 +204,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             showPopUp(photo_button)
         }
     }
+
+
 
     private fun setUpLayout() {
         if(skillList.size == 0){
@@ -350,6 +354,29 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             }
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("Full name", name_field.text.toString())
+        outState.putString("Nickname", nickname_field.text.toString())
+        outState.putString("Email", email_field.text.toString())
+        outState.putString("Location", location_field.text.toString())
+        outState.putString("Picture", uriImageString)
+        outState.putParcelableArrayList("Skills", skillList)
+
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if(savedInstanceState != null){
+            name_field.setText(savedInstanceState.getString("Full name","0"))
+            nickname_field.setText(savedInstanceState.getString("Nickname","0"))
+            email_field.setText(savedInstanceState.getString("Email","0"))
+            location_field.setText(savedInstanceState.getString("Location","0"))
+        }
+    }
+
+
 
 }//class
 
