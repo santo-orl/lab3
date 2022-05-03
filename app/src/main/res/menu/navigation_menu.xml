@@ -18,11 +18,5 @@
             android:id="@+id/listTimeSlot"
 
             android:title="List of time slots" />
-    <item
-        android:id="@+id/edit"
-        android:title="edit" />
-    <item
-        android:id="@+id/details"
-        android:title="details" />
-    </group>
+      </group>
 </menu>
