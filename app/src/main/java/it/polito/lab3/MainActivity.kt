@@ -9,17 +9,13 @@ import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import it.polito.lab3.fragments.ProfileViewModel
-import it.polito.lab3.skills.Adapter_Text
-import it.polito.lab3.skills.Skill
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 
@@ -39,7 +35,8 @@ class MainActivity : AppCompatActivity(){
     lateinit var sharedPref: SharedPreferences;
     private  var name= "Your name"
     private  var email= "Your email"
-    private var uriImageString: String = ""
+    private  var uriImageString: String = ""
+
 
 
 
@@ -166,6 +163,7 @@ class MainActivity : AppCompatActivity(){
         }
 
     }
+
 
 }
 

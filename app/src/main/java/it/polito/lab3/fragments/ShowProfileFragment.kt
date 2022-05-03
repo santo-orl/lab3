@@ -2,6 +2,7 @@ package it.polito.lab3.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
@@ -39,14 +40,12 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var location_field: TextView
     private lateinit var email_field: TextView
     private lateinit var photo_field: ImageView
-    private lateinit var state: Parcelable
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterText: Adapter_Text
 
     private val sharedPrefFIle = "it.polito.lab3"
     lateinit var sharedPref: SharedPreferences;
-
 
     private val profViewModel by activityViewModels<ProfileViewModel>()
 
@@ -68,7 +67,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         super.onViewCreated(view, savedInstanceState)
         sharedPref =
             this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
-
 
         name_field = view.findViewById(R.id.name)
         nickname_field = view.findViewById(R.id.nickname)
@@ -173,7 +171,10 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     editor.putString("id_skills",ss)
 
                 editor.apply()
-                findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
+                this@ShowProfileFragment.activity?.supportFragmentManager?.popBackStack()
+                //findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
+
+
             }
         })
 
