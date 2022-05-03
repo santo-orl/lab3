@@ -20,6 +20,7 @@ import androidx.fragment.app.replace
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import it.polito.lab3.HomeFragment
 import it.polito.lab3.R
 import it.polito.lab3.TimeSlotViewModel
 import it.polito.lab3.skills.SkillUI
@@ -116,6 +117,11 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 var ss = slotList.joinToString("&&&")
                 editor.putString("id_slots",ss)
                 editor.apply()
+                activity?.supportFragmentManager?.commit {
+                    addToBackStack(HomeFragment::class.toString())
+                    setReorderingAllowed(true)
+                    replace<HomeFragment>(R.id.myNavHostFragment)
+                }
             }
         })
     }

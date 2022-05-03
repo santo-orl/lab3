@@ -1,6 +1,7 @@
 package it.polito.lab3
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
@@ -13,10 +14,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.findNavController
+import androidx.fragment.app.commit
 import com.google.android.material.navigation.NavigationView
 import it.polito.lab3.fragments.ProfileViewModel
-import kotlinx.android.synthetic.main.activity_edit_profile.*
+import it.polito.lab3.fragments.ShowProfileFragment
+import it.polito.lab3.fragments.TimeSlotListFragment
 
 
 // Main activity, is the base for all the fragments
@@ -60,16 +62,26 @@ class MainActivity : AppCompatActivity(){
             when (it.itemId) {
                 //mostro l'home fragment
                 R.id.home -> {
-                    val navController = findNavController(R.id.myNavHostFragment)
-                    navController.navigate(R.id.homeFragment)
+                    this.supportFragmentManager.commit {
+                        addToBackStack(HomeFragment::class.toString())
+                        setReorderingAllowed(true)
+                        replace(R.id.myNavHostFragment, HomeFragment())
+                    }
+              /*     val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.homeFragment)*/
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     true
                 }
                 //mostro lo show profile fragment
                 R.id.profile -> {
                     // DEVO APRIRE IL FRAMMENTO CHE MOSTRA LO SHOW PROFILE FRAGMENT
-                    val navController = findNavController(R.id.myNavHostFragment)
-                    navController.navigate(R.id.showProfileFragment)
+                    this.supportFragmentManager.commit {
+                        addToBackStack(ShowProfileFragment::class.toString())
+                        setReorderingAllowed(true)
+                        replace(R.id.myNavHostFragment, ShowProfileFragment())
+                    }
+                 /*   val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.showProfileFragment)*/
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     //Toast.makeText(this,"APRI SHOW PROFILE",Toast.LENGTH_SHORT).show()
                     true
@@ -90,8 +102,13 @@ class MainActivity : AppCompatActivity(){
                     true
                 }*/
                 R.id.listTimeSlot -> {
-                    val navController = findNavController(R.id.myNavHostFragment)
-                    navController.navigate(R.id.containerFragment)
+                    this.supportFragmentManager.commit {
+                        addToBackStack(TimeSlotListFragment::class.toString())
+                        setReorderingAllowed(true)
+                        replace(R.id.myNavHostFragment, TimeSlotListFragment())
+                    }
+                   /* val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.containerFragment)*/
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     true
                 }

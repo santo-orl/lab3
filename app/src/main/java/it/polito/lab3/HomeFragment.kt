@@ -1,5 +1,6 @@
 package it.polito.lab3
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -33,13 +34,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         activity?.setTitle("Home")
         val welcome_text = view.findViewById<TextView>(R.id.welcome_text)
         welcome_text.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                   var a =  Intent(Intent.ACTION_MAIN);
+                    a.addCategory(Intent.CATEGORY_HOME);
+                    a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(a)
+
+            }
+        })
     }
     
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
     }
-
 
 
 }
