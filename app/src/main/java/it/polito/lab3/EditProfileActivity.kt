@@ -33,7 +33,7 @@ import java.util.*
 
 //Activity designed to let the user edit information
 class EditProfileActivity : AppCompatActivity() {
-/*
+
     //fields
     lateinit var nameToUpdate: String
     lateinit var nicknameToUpdate: String
@@ -310,5 +310,5 @@ class EditProfileActivity : AppCompatActivity() {
 
         }
 
-*/
+
 }

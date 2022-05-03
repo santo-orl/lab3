@@ -52,14 +52,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/editNick"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.092"
+            app:layout_constraintVertical_bias="0.047"
             app:layout_constraintVertical_weight="1"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/editNick"
             android:layout_width="339dp"
-            android:layout_height="41dp"
+            android:layout_height="48dp"
             android:background="@color/dirty_white"
             android:ems="10"
             android:fontFamily="sans-serif-condensed-light"
@@ -79,7 +79,7 @@
         <EditText
             android:id="@+id/editEmail"
             android:layout_width="440dp"
-            android:layout_height="42dp"
+            android:layout_height="48dp"
             android:background="@color/dirty_white"
             android:fontFamily="sans-serif-condensed-light"
             android:hint="email@address"
@@ -98,7 +98,7 @@
         <EditText
             android:id="@+id/editLocation"
             android:layout_width="336dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:background="@color/dirty_white"
             android:fontFamily="sans-serif-condensed-light"
             android:hint="Location"
@@ -117,7 +117,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
-            android:layout_width="297dp"
+            android:layout_width="200dp"
             android:layout_height="206dp"
             android:background="@color/dirty_white"
             android:scrollbarStyle="insideInset"
@@ -129,7 +129,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageButton"
-            app:layout_constraintVertical_bias="0.589"
+            app:layout_constraintVertical_bias="0.384"
             app:layout_constraintVertical_weight="5">
 
 
@@ -137,7 +137,7 @@
 
         <Button
             android:id="@+id/btn_add_skill"
-            android:layout_width="198dp"
+            android:layout_width="100dp"
             android:layout_height="64dp"
             android:layout_marginEnd="16dp"
             android:text="@string/add_todo_title"
@@ -154,18 +154,18 @@
 
         <Button
             android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_width="100dp"
+            android:layout_height="64dp"
+
             android:text="Save"
             android:textColor="#FFFF"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.863"
+            app:layout_constraintHorizontal_bias="0.726"
             app:layout_constraintStart_toEndOf="@+id/recycler"
             app:layout_constraintTop_toBottomOf="@+id/editLocation"
-            app:layout_constraintVertical_bias="0.111"
+            app:layout_constraintVertical_bias="0.662"
             app:layout_constraintVertical_weight="1"
 
 
