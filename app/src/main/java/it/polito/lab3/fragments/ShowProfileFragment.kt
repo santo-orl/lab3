@@ -173,7 +173,10 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     editor.putString("id_skills",ss)
 
                 editor.apply()
-                findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
+                this@ShowProfileFragment.activity?.supportFragmentManager?.popBackStack()
+                //findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
+
+
             }
         })
 

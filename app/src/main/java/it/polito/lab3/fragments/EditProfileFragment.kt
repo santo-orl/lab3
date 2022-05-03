@@ -88,7 +88,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -185,7 +184,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }else{
                     profViewModel.setSkills(arrayListOf())
                 }
-                findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
+                //findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
+                this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
+
             }
         })
         profViewModel.skills.observe(this.viewLifecycleOwner){
@@ -313,6 +314,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 saveImageToStream(this, context.contentResolver.openOutputStream(uri))
                 values.put(MediaStore.Images.Media.IS_PENDING, false)
                 context.contentResolver.update(uri, values, null, null)
+
+       // name_field.doAfterTextChanged { editable-> if(editable!=null)
+      //      profViewModel.setName(editable.toString()) }
+
 
 
                 return uri
