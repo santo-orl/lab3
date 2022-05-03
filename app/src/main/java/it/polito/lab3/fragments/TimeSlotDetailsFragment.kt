@@ -48,20 +48,30 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 var slotList = it
-                    //Log.i("test", slotList[0].toString())
-                    title_field.text = slotList[2].title
-                    description_field.text = slotList[2].description
-                    date_field.text = slotList[2].date
-                    duration_field.text = slotList[2].duration
-                    location_field.text = slotList[2].location
-                }
+                Log.i("test", slotList[0].toString())
+                title_field.text = slotList[position].title
+                description_field.text = slotList[position].description
+                date_field.text = slotList[position].date
+                duration_field.text = slotList[position].duration
+                location_field.text = slotList[position].location
             }
 
 
-            edit_button = view.findViewById(R.id.editButton)
-            edit_button.setOnClickListener {
-                findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
-            }
+
+            //edit_button = view.findViewById(R.id.editButton)
+            //edit_button.setOnClickListener {
+
+            //    findNavController().navigate(R.id.timeSlotEditFragment)
+            //}
+
+        edit_button = view.findViewById(R.id.editButton)
+        edit_button.setOnClickListener{
+            //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+            //findNavController().navigate(R.id.action_containerFragment_to_timeSlotEditFragment)
+            findNavController().navigateUp()
+        }
+
+        }
 
         }
     }
