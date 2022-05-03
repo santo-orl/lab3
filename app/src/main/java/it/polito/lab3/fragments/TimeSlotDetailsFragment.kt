@@ -33,12 +33,11 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState);
-
-
+        activity?.setTitle("Time slot details")
 
         edit_button = view.findViewById(R.id.editButton)
         edit_button.setOnClickListener{
-            findNavController().navigate(R.id.timeSlotEditFragment)}
+            findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)}
         }
 
     }

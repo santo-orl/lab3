@@ -37,6 +37,8 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.setTitle("List of advertisements")
+
         add_button = view.findViewById(R.id.add_FAB)
         add_button.setOnClickListener {
             findNavController().navigate(R.id.action_containerFragment_to_timeSlotEditFragment)

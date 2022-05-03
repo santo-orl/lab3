@@ -65,6 +65,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.setTitle("Profile")
         sharedPref =
             this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
 
