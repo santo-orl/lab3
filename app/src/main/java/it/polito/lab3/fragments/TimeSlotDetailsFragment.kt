@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.navigation.fragment.findNavController
 import it.polito.lab3.R
 import it.polito.lab3.TimeSlotViewModel
@@ -80,7 +82,12 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
             edit_button = view.findViewById(R.id.editButton)
             edit_button.setOnClickListener {
-                findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                activity?.supportFragmentManager?.commit {
+                    addToBackStack(TimeSlotEditFragment::class.toString())
+                    setReorderingAllowed(true)
+                    replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
+                    //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                }
             }
 
         }
