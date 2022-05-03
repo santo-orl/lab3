@@ -3,6 +3,7 @@ package it.polito.lab3.fragments
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -75,7 +76,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private var skillList: ArrayList<Skill> = arrayListOf()
     private lateinit var skillAdapter: Skill_Adapter
 
-
     lateinit var filePhoto: File
     lateinit var photo_button: ImageButton
 
@@ -138,12 +138,18 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 uriImageString = it
                 profileUri = Uri.parse(it)
                 photo_button.setImageURI(profileUri)
-
             }
         }
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+
+                //Log.i("test488", uriImageString)
+
+                /*var ss = skillList.joinToString("&&&")
+                editor.putString("id_skills",ss)
+
+                */
                 if(name_field.text.toString()==""){
                     profViewModel.setName(name)
                 }else {
@@ -153,22 +159,27 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     profViewModel.setNickname(nickname)
                 }else {
                     profViewModel.setNickname(nickname_field.text.toString())
+                    //editor.putString("id_nickname", nickname_field.text.toString())
                 }
                 if(email_field.text.toString()==""){
                     profViewModel.setEmail(email)
                 }else {
-                profViewModel.setEmail(email_field.text.toString())
+                    profViewModel.setEmail(email_field.text.toString())
+                    //editor.putString("id_email", email_field.text.toString())
                 }
                 if(location_field.text.toString()==""){
                     profViewModel.setLocation(location)
                 }else {
-                profViewModel.setLocation(location_field.text.toString())
+                    profViewModel.setLocation(location_field.text.toString())
+                    //editor.putString("id_location", location_field.text.toString())
                 }
                 if(uriImageString == ""){
                     profViewModel.setPhoto("")
                 }else{
                     profViewModel.setPhoto(profileUri.toString())
+                    //editor.putString("id_photo", uriImageString)
                 }
+
                 if(skillList.isNotEmpty()) {
                     var listNoEmpty: ArrayList<Skill> = arrayListOf()
                       for (s in skillList) {
@@ -186,8 +197,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }else{
                     profViewModel.setSkills(arrayListOf())
                 }
-                //findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
-                this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
+                findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
+                //this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
 
             }
         })

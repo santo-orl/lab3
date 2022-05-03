@@ -28,8 +28,6 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var duration_field: TextView
     lateinit var location_field: TextView
 
-    //val vm by viewModels<TimeSlotViewModel>()
-    //START FRAGMENT
     private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,25 +48,21 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 var slotList = it
-                Log.i("test", slotList[0].toString())
-                title_field.text = slotList[position].title
-                description_field.text = slotList[position].description
-                date_field.text = slotList[position].date
-                duration_field.text = slotList[position].duration
-                location_field.text = slotList[position].location
+                    //Log.i("test", slotList[0].toString())
+                    title_field.text = slotList[2].title
+                    description_field.text = slotList[2].description
+                    date_field.text = slotList[2].date
+                    duration_field.text = slotList[2].duration
+                    location_field.text = slotList[2].location
+                }
             }
-
 
 
             edit_button = view.findViewById(R.id.editButton)
             edit_button.setOnClickListener {
-                findNavController().navigate(R.id.timeSlotEditFragment)
+                findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
             }
 
-        edit_button = view.findViewById(R.id.editButton)
-        edit_button.setOnClickListener{
-            findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)}
         }
-
     }
-}
+

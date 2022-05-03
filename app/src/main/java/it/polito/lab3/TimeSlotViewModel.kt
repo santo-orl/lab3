@@ -17,4 +17,5 @@ class TimeSlotViewModel: ViewModel() {
         _slots.value?.add(desiredSlot)
     }
 
+
 }

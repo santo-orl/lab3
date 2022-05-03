@@ -112,13 +112,22 @@ class MainActivity : AppCompatActivity(){
             email  = sharedPref.getString("id_email","Your email").toString()
         }
         image_field = view.findViewById(R.id.image_nv)
-       var uriImageString = sharedPref.getString("id_photo", "").toString()
+
+        /*profViewModel.photoString.observe(this) {
+            if(it!=""){
+                var uriImage = Uri.parse(it)
+                image_field.setImageURI(uriImage)
+            }else {
+                image_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb)
+            }//default pic
+        }*/
+       /*var uriImageString = sharedPref.getString("id_photo", "").toString()
         if(uriImageString!= "") {
             var uriImage = Uri.parse(uriImageString)
             image_field.setImageURI(uriImage)
         }else{
             image_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
-        }
+        }*/
 
     }
 
