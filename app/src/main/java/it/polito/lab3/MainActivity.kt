@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(){
                     true
                 }
                 //mostro il time slot details fragment
-                R.id.details -> {
+               /* R.id.details -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.timeSlotDetailsFragment)
                     drawerLayout?.closeDrawer(GravityCompat.START)
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(){
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
                     true
-                }
+                }*/
                 R.id.listTimeSlot -> {
                     val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.containerFragment)

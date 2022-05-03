@@ -69,7 +69,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                         var slotItem = s.split("###")
                         //ho dovuto mettere "" perchè salva solo i primi due campi
                         //altrimenti quando recupera i dati va in IndexOutOfBoundsException
-                        slotList.add(Slot(slotItem[0],slotItem[1],"","",""))
+                        slotList.add(Slot(slotItem[0],slotItem[1],slotItem[2],slotItem[3],slotItem[4]))
                     }
                     timeSlotViewModel.setSlots(slotList)
                 }

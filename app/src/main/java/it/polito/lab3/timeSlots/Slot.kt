@@ -10,7 +10,7 @@ data class Slot(var title: String, var description: String, var date: String,
 ) : Parcelable {
 
     override fun toString(): String {
-        return "$title###$description###"
+        return "$title###$description###$date###$duration###$location"
     }
 
 }
