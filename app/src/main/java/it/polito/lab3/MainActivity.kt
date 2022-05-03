@@ -121,11 +121,13 @@ class MainActivity : AppCompatActivity(){
         }
 
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("Full name", name)
         outState.putString("Email", email)
         outState.putString("Picture", uriImageString)
         super.onSaveInstanceState(outState)
+
     }
 
     /* function used for restoring fields' state */

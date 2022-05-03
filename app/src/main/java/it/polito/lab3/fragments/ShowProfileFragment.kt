@@ -49,10 +49,11 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     private val profViewModel by activityViewModels<ProfileViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-    }
+    }*/
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,7 +65,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
         activity?.setTitle("Profile")
         sharedPref =
             this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
@@ -178,7 +179,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
             }
         })
-
+        super.onViewCreated(view, savedInstanceState)
         }
 
 
@@ -199,10 +200,10 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     /* function used for saving fields' state */
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString("Full name", name_field.text.toString())
-        outState.putString("Nickname", nickname_field.text.toString())
-        outState.putString("Email", email_field.text.toString())
-        outState.putString("Location", location_field.text.toString())
+        outState.putString("Full name", "nome")
+        outState.putString("Nickname", "nick")
+        outState.putString("Email","mail")
+        outState.putString("Location", "location")
         outState.putString("Picture", uriImageString)
         outState.putParcelableArrayList("Skills", skillList)
         super.onSaveInstanceState(outState)
