@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -15,10 +16,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import io.grpc.Codec
 import it.polito.lab3.fragments.ProfileViewModel
 import it.polito.lab3.fragments.ShowProfileFragment
 import it.polito.lab3.fragments.TimeSlotListFragment
+import java.lang.invoke.MethodHandles.identity
+import java.util.function.DoubleUnaryOperator.identity
 
 
 // Main activity, is the base for all the fragments
@@ -40,10 +51,40 @@ class MainActivity : AppCompatActivity(){
     private  var uriImageString: String = ""
 
 
+    private lateinit var oneTapClient: SignInClient
+    private lateinit var signInRequest: BeginSignInRequest
+    private lateinit var auth: FirebaseAuth
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        //updateUI(currentUser)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = Firebase.auth
+        setContentView(R.layout.activity_main)
+
+        oneTapClient = Identity.getSignInClient(this)
+        signInRequest = BeginSignInRequest.builder()
+            .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                .setSupported(true)
+                .build())
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    // Your server's client ID, not your Android client ID.
+                    .setServerClientId("509920197029-bei5glek4tfdpmf81ertqddtv7kbivka.apps.googleusercontent.com")
+                    // Only show accounts previously used to sign in.
+                    .setFilterByAuthorizedAccounts(true)
+                    .build())
+            // Automatically sign in when exactly one credential is retrieved.
+            .setAutoSelectEnabled(true)
+            .build()
+
         setContentView(R.layout.activity_main)
         sharedPref =
             this.getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
@@ -193,6 +234,39 @@ class MainActivity : AppCompatActivity(){
 
     }
 
+
+    //Firebase.auth.signOut()??????????'
+
+        // ...
+        private val REQ_ONE_TAP = 2  // Can be any integer unique to the Activity
+        private var showOneTapUI = true
+        // ...
+
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
+
+            when (requestCode) {
+                REQ_ONE_TAP -> {
+                    try {
+                        val credential = oneTapClient.getSignInCredentialFromIntent(data)
+                        val idToken = credential.googleIdToken
+                        when {
+                            idToken != null -> {
+                                // Got an ID token from Google. Use it to authenticate
+                                // with Firebase.
+                                Log.d("TEST", "Got ID token.")
+                            }
+                            else -> {
+                                // Shouldn't happen.
+                                Log.d("TEST", "No ID token!")
+                            }
+                        }
+                    } catch (e: ApiException) {
+                        // ...
+                    }
+                }
+            }
+        }
 
 }
 

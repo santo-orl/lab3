@@ -67,6 +67,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var nicknameToUpdate: String
     lateinit var emailToUpdate: String
     lateinit var locationToUpdate: String
+    lateinit var uriImageToUpdate: String
     private lateinit var profileUri: Uri
     private var uriImageString: String = ""
     private var def_uriImageString: String = ""
@@ -156,35 +157,40 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 if(name_field.text.toString()==""){
                     profViewModel.setName(name)
                 }else {
-                    profViewModel.setName(name_field.text.toString())
+                    nameToUpdate = name_field.text.toString()
+                    profViewModel.setName(nameToUpdate)
                 }
                 if(nickname_field.text.toString()==""){
                     profViewModel.setNickname(nickname)
                 }else {
-                    profViewModel.setNickname(nickname_field.text.toString())
+                    nicknameToUpdate = nickname_field.text.toString()
+                    profViewModel.setNickname(nicknameToUpdate)
                     //editor.putString("id_nickname", nickname_field.text.toString())
                 }
                 if(email_field.text.toString()==""){
                     profViewModel.setEmail(email)
                 }else {
-                    profViewModel.setEmail(email_field.text.toString())
+                    emailToUpdate = email_field.text.toString()
+                    profViewModel.setEmail(emailToUpdate)
                     //editor.putString("id_email", email_field.text.toString())
                 }
                 if(location_field.text.toString()==""){
                     profViewModel.setLocation(location)
                 }else {
-                    profViewModel.setLocation(location_field.text.toString())
+                    locationToUpdate = location_field.text.toString()
+                    profViewModel.setLocation(locationToUpdate)
                     //editor.putString("id_location", location_field.text.toString())
                 }
                 if(uriImageString == ""){
                     profViewModel.setPhoto("")
                 }else{
-                    profViewModel.setPhoto(profileUri.toString())
+                    uriImageToUpdate = profileUri.toString()
+                    profViewModel.setPhoto(uriImageToUpdate)
                     //editor.putString("id_photo", uriImageString)
                 }
-
+                var listNoEmpty: ArrayList<Skill> = arrayListOf()
                 if(skillList.isNotEmpty()) {
-                    var listNoEmpty: ArrayList<Skill> = arrayListOf()
+
                       for (s in skillList) {
                         if(s.title.length >= 5 && s.description.length >= 10){
                             Log.i("test", s.toString())
@@ -200,6 +206,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }else{
                     profViewModel.setSkills(arrayListOf())
                 }
+                profViewModel.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageToUpdate,listNoEmpty)
                 //findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
                 this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
 
