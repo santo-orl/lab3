@@ -3,16 +3,11 @@ package it.polito.lab3.fragments
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.Parcelable
-
-import android.provider.ContactsContract
-import android.text.Editable
-import android.text.TextWatcher
 
 import android.os.SystemClock
 import android.provider.MediaStore
@@ -25,26 +20,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import androidx.navigation.fragment.findNavController
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import it.polito.lab3.ProfileViewModel
 import it.polito.lab3.R
-import it.polito.lab3.TimeSlotViewModel
-import it.polito.lab3.skills.Adapter_Text
 import it.polito.lab3.skills.Skill
 import it.polito.lab3.skills.SkillUI
 import it.polito.lab3.skills.Skill_Adapter
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_edit_profile.btn_add_skill
 import kotlinx.android.synthetic.main.activity_edit_profile.recycler
 import kotlinx.android.synthetic.main.fragment_edit_profile.*

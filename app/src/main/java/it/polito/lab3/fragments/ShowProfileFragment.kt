@@ -2,24 +2,16 @@ package it.polito.lab3.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.fragment.app.*
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import it.polito.lab3.ProfileViewModel
 import it.polito.lab3.R
 import it.polito.lab3.skills.Adapter_Text
 import it.polito.lab3.skills.Skill

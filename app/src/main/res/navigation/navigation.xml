@@ -98,4 +98,9 @@
             android:id="@+id/action_homeFragment_to_datePickerFragment"
             app:destination="@id/datePickerFragment" />
     </fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="it.polito.lab3.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>
