@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lab3</string>
+    <string name="app_name">Lab4</string>
     <string name="add_todo_title">ADD SKILL</string>
     <string name="todo_number">Skill %1$s</string>
     <string name="todo_title">Title</string>

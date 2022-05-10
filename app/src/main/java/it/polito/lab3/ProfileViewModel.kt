@@ -1,4 +1,4 @@
-package it.polito.lab3.fragments
+package it.polito.lab3
 
 import android.net.Uri
 import android.provider.ContactsContract
