@@ -11,8 +11,10 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab3.ProfileViewModel
 import it.polito.lab3.R
+import it.polito.lab3.User
 import it.polito.lab3.skills.Adapter_Text
 import it.polito.lab3.skills.Skill
 import kotlinx.android.synthetic.main.activity_edit_profile.*
@@ -36,6 +38,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     private val sharedPrefFIle = "it.polito.lab3"
     lateinit var sharedPref: SharedPreferences;
+    val db = FirebaseFirestore.getInstance()
 
     private val profViewModel by activityViewModels<ProfileViewModel>()
 
@@ -57,6 +60,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         activity?.setTitle("Profile")
+        var u = User("Full name", "Nickname", "email@address", "Location","")
+
         sharedPref =
             this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
 
@@ -68,47 +73,40 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
 
         //Log.i("test1", sharedPref.getString("id_name","hoooooooooo").toString())
-        profViewModel.name.observe(this.viewLifecycleOwner) {
-            if (it != "") {
+        profViewModel.user.observe(this.viewLifecycleOwner) {
+            if (it.name != "") {
                 Log.i("test_nome", it.toString())
-                name_field.text = it
+                name_field.text = it.name
             }else{
                 //Log.i("test2", "if")
                 name_field.text = sharedPref.getString("id_name","Full name").toString()
                 profViewModel.setName(name_field.text.toString())
             }
-        }
-        profViewModel.nickname.observe(this.viewLifecycleOwner) {
-            if (it != "") {
-                nickname_field.text = it
+
+
+            if (it.nickname != "") {
+                nickname_field.text = it.nickname
             }else{
                 Log.i("test_nick", sharedPref.getString("id_nickname","Nickname").toString())
                 nickname_field.text = sharedPref.getString("id_nickname","Nickname").toString()
                 profViewModel.setNickname(nickname_field.text.toString())
             }
-        }
-        profViewModel.email.observe(this.viewLifecycleOwner) {
-            if (it != "") {
-                email_field.text = it
+            if (it.email != "") {
+                email_field.text = it.email
             }else{
                 email_field.text =  sharedPref.getString("id_email","email@address").toString()
                 profViewModel.setEmail(email_field.text.toString())
             }
-        }
 
-        profViewModel.location.observe(this.viewLifecycleOwner) {
-            if (it != "") {
-                location_field.text = it
+            if (it.location != "") {
+                location_field.text = it.location
             }else{
                 location_field.text =  sharedPref.getString("id_location","Location").toString()
                 profViewModel.setLocation(location_field.text.toString())
             }
-        }
-
-        profViewModel.photoString.observe(this.viewLifecycleOwner) {
-            if (it != "") {
-                uriImageString = it
-                uriImage = Uri.parse(it)
+            if (it.photoString != "") {
+                uriImageString = it.photoString
+                uriImage = Uri.parse(it.photoString)
        //         photo_field.setImageURI(uriImage)
             }else{
                 uriImageString = sharedPref.getString("id_photo", "").toString()
@@ -123,8 +121,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             }
         }
         profViewModel.skills.observe(this.viewLifecycleOwner){
-            Log.i("test1", "observe")
-            Log.i("test1", it.toString())
 
             if (it.isNotEmpty()){
                 skillList = it

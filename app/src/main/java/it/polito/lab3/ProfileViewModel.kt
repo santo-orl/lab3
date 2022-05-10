@@ -16,6 +16,8 @@ class ProfileViewModel: ViewModel() {
     init {
         db= FirebaseFirestore.getInstance()
     }
+    private val _user = MutableLiveData<User>(User("","","","","",))
+    val user: LiveData<User> = _user
     private val _name = MutableLiveData<String>("")
     val name: LiveData<String> = _name
 
@@ -37,9 +39,22 @@ class ProfileViewModel: ViewModel() {
     fun createUser(name:String, nickname: String, email: String,
                     location: String,
                      photoString: String,  skills: ArrayList<Skill> ){
-        val user = User(name, nickname, email, location, photoString,  skills)
-        db.collection("users").add(user).addOnSuccessListener { documentReference ->
-            Log.i("test","DocumentSnapshot added with ID:${documentReference.id}")
+
+        for (s in skills){
+            db.collection("skills").document(email).set(s).addOnSuccessListener { documentReference ->
+                Log.i("test","DocumentSnapshot added with ID:${documentReference}")
+            }
+                .addOnFailureListener{e ->
+                    Log.i("test","Error adding document",e)
+                }
+        }
+
+
+
+        val user = User(name, nickname, email, location, photoString)
+        _user.value = user
+        db.collection("users").document(email).set(user).addOnSuccessListener { documentReference ->
+            Log.i("test","DocumentSnapshot added with ID:${documentReference}")
         }
             .addOnFailureListener{e ->
                 Log.i("test","Error adding document",e)
