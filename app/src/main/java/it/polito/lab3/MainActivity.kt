@@ -45,8 +45,6 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
 /*        oneTapClient = Identity.getSignInClient(this)
         signInRequest = BeginSignInRequest.builder()
             .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
@@ -155,7 +153,7 @@ class MainActivity : AppCompatActivity(){
         profViewModel.photoString.observe(this) {
             if(it!=""){
                 var uriImage = Uri.parse(it)
-                image_field.setImageURI(uriImage)
+        //        image_field.setImageURI(uriImage)
             }else {
                 var uriImageString = sharedPref.getString("id_photo", "").toString()
                 if(uriImageString!= "") {

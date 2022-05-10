@@ -129,7 +129,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             if(it!= "") {
                 uriImageString = it
                 profileUri = Uri.parse(it)
-                photo_button.setImageURI(profileUri)
+//                photo_button.setImageURI(profileUri)
             }
         }
 
@@ -144,12 +144,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 */
                 if(name_field.text.toString()==""){
                     profViewModel.setName(name)
+                    nameToUpdate = name
                 }else {
                     nameToUpdate = name_field.text.toString()
                     profViewModel.setName(nameToUpdate)
                 }
                 if(nickname_field.text.toString()==""){
                     profViewModel.setNickname(nickname)
+                    nicknameToUpdate = nickname
                 }else {
                     nicknameToUpdate = nickname_field.text.toString()
                     profViewModel.setNickname(nicknameToUpdate)
@@ -157,6 +159,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }
                 if(email_field.text.toString()==""){
                     profViewModel.setEmail(email)
+                    emailToUpdate = email
                 }else {
                     emailToUpdate = email_field.text.toString()
                     profViewModel.setEmail(emailToUpdate)
@@ -164,6 +167,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }
                 if(location_field.text.toString()==""){
                     profViewModel.setLocation(location)
+                    locationToUpdate = location
                 }else {
                     locationToUpdate = location_field.text.toString()
                     profViewModel.setLocation(locationToUpdate)
@@ -171,6 +175,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }
                 if(uriImageString == ""){
                     profViewModel.setPhoto("")
+                    uriImageToUpdate = uriImageString
                 }else{
                     uriImageToUpdate = profileUri.toString()
                     profViewModel.setPhoto(uriImageToUpdate)
