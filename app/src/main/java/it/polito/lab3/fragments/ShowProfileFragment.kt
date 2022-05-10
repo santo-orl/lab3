@@ -109,12 +109,12 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             if (it != "") {
                 uriImageString = it
                 uriImage = Uri.parse(it)
-                photo_field.setImageURI(uriImage)
+       //         photo_field.setImageURI(uriImage)
             }else{
                 uriImageString = sharedPref.getString("id_photo", "").toString()
                 if(uriImageString!= "") {
                     uriImage = Uri.parse(uriImageString)
-                    photo_field.setImageURI(uriImage)
+                 //   photo_field.setImageURI(uriImage)
                     profViewModel.setPhoto(uriImageString)
                 }else{
                     photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
