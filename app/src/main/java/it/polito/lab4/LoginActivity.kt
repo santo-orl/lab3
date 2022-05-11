@@ -1,11 +1,10 @@
-package it.polito.lab3
+package it.polito.lab4
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -15,6 +14,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import it.polito.lab4.User
 import kotlinx.android.synthetic.main.activity_login.*
 
 //DA PASSARE A FRAMMENTO
@@ -30,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
     val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.i("TEST", "LOGIN ")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
@@ -39,13 +40,15 @@ class LoginActivity : AppCompatActivity() {
 
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client))
                 .requestEmail()
                 .build()
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
         btnSignIn.setOnClickListener {
             val signInIntent = googleSignInClient.signInIntent
-            startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN)
+            startActivityForResult(signInIntent,
+                 RC_GOOGLE_SIGN_IN
+            )
         }
     }
 
@@ -62,7 +65,15 @@ class LoginActivity : AppCompatActivity() {
                 db
                     .collection("users")
                     .document(account.email.toString())
-                    .set(User(account.displayName.toString(),"",account.email.toString(),"",""))
+                    .set(
+                        User(
+                            account.displayName.toString(),
+                            "",
+                            account.email.toString(),
+                            "",
+                            ""
+                        )
+                    )
                     .addOnSuccessListener {
                         Toast
                             .makeText(this,"user created",Toast.LENGTH_SHORT)

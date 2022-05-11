@@ -1,4 +1,4 @@
-package it.polito.lab3.fragments
+package it.polito.lab4.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.navigation.fragment.findNavController
-import it.polito.lab3.R
-import it.polito.lab3.TimeSlotViewModel
-import it.polito.lab3.timeSlots.Adapter_frgTime
+import it.polito.lab4.R
+import it.polito.lab4.TimeSlotViewModel
 
 
 class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {

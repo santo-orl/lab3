@@ -1,6 +1,5 @@
-package it.polito.lab3
+package it.polito.lab4
 import android.os.Parcelable
-import it.polito.lab3.skills.Skill
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

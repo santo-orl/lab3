@@ -1,17 +1,17 @@
-package it.polito.lab3.fragments
+package it.polito.lab4.fragments
 
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.navigation.fragment.findNavController
-import it.polito.lab3.R
-import it.polito.lab3.TimeSlotViewModel
-import it.polito.lab3.timeSlots.Slot
+import it.polito.lab4.R
+import it.polito.lab4.TimeSlotViewModel
+import it.polito.lab4.timeSlots.Slot
+import it.polito.lab4.fragments.DatePickerFragment
 import kotlinx.android.synthetic.main.activity_show_profile.*
 
 

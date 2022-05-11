@@ -1,12 +1,9 @@
-package it.polito.lab3
+package it.polito.lab4
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-import it.polito.lab3.skills.Skill
-import it.polito.lab3.timeSlots.Slot
+import it.polito.lab4.timeSlots.Slot
 
 class TimeSlotViewModel: ViewModel() {
     private val _slots = MutableLiveData<ArrayList<Slot>>(arrayListOf())

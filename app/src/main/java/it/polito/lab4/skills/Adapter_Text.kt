@@ -1,4 +1,4 @@
-package it.polito.lab3.skills
+package it.polito.lab4.skills
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import it.polito.lab3.R
+import it.polito.lab4.R
 import kotlinx.android.synthetic.main.skill_text_layout.view.*
 
 class Adapter_Text(private val dataSet: ArrayList<Skill>) :

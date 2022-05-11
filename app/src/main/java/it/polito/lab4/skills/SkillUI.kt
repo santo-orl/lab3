@@ -1,4 +1,4 @@
-package it.polito.lab3.skills
+package it.polito.lab4.skills
 
 interface SkillUI {
     interface SkillSaved {

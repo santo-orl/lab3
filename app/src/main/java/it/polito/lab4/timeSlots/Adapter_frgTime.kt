@@ -1,4 +1,4 @@
-package it.polito.lab3.timeSlots
+package it.polito.lab4.timeSlots
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,9 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
-import it.polito.lab3.R
-import it.polito.lab3.fragments.TimeSlotDetailsFragment
-import it.polito.lab3.skills.SkillUI
+import it.polito.lab4.R
+import it.polito.lab4.fragments.TimeSlotDetailsFragment
 
 import kotlinx.android.synthetic.main.fragment_item_list.view.*
 
