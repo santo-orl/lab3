@@ -1,9 +1,10 @@
-package it.polito.lab3
+package it.polito.lab4
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -15,8 +16,9 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
 import com.google.android.material.navigation.NavigationView
-import it.polito.lab3.fragments.ShowProfileFragment
-import it.polito.lab3.fragments.TimeSlotListFragment
+import it.polito.lab4.fragments.ShowProfileFragment
+import it.polito.lab4.ProfileViewModel
+import it.polito.lab4.fragments.TimeSlotListFragment
 
 
 // Main activity, is the base for all the fragments
@@ -42,9 +44,14 @@ class MainActivity : AppCompatActivity(){
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.i("TEST", "MAIN ")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        this.supportFragmentManager.commit {
+            addToBackStack(HomeFragment::class.toString())
+            setReorderingAllowed(true)
+            replace(R.id.myNavHostFragment, HomeFragment())
+        }
 /*        oneTapClient = Identity.getSignInClient(this)
         signInRequest = BeginSignInRequest.builder()
             .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
@@ -167,6 +174,8 @@ class MainActivity : AppCompatActivity(){
 
 
     }
+
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("Full name", name)

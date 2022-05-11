@@ -1,4 +1,4 @@
-package it.polito.lab3.timeSlots
+package it.polito.lab4.timeSlots
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

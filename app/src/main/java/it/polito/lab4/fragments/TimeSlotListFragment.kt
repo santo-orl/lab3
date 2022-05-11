@@ -1,4 +1,4 @@
-package it.polito.lab3.fragments
+package it.polito.lab4.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,25 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import android.widget.Button
-import android.widget.TextClock
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import it.polito.lab3.HomeFragment
-import it.polito.lab3.R
-import it.polito.lab3.TimeSlotViewModel
-import it.polito.lab3.skills.SkillUI
-import it.polito.lab3.timeSlots.Adapter_frgTime
-import it.polito.lab3.timeSlots.Slot
-import it.polito.lab3.timeSlots.SlotUI
+import it.polito.lab4.timeSlots.Slot
+import it.polito.lab4.R
+import it.polito.lab4.TimeSlotViewModel
+import it.polito.lab4.timeSlots.Adapter_frgTime
+import it.polito.lab4.timeSlots.SlotUI
+
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
 
@@ -118,9 +113,9 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 editor.putString("id_slots",ss)
                 editor.apply()
                 activity?.supportFragmentManager?.commit {
-                    addToBackStack(HomeFragment::class.toString())
+                    addToBackStack(it.polito.lab4.HomeFragment::class.toString())
                     setReorderingAllowed(true)
-                    replace<HomeFragment>(R.id.myNavHostFragment)
+                    replace<it.polito.lab4.HomeFragment>(R.id.myNavHostFragment)
                 }
 
             }

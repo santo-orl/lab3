@@ -19,17 +19,18 @@
 
 
         <androidx.fragment.app.FragmentContainerView
-
+            android:id="@+id/myNavHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/gray"
+            android:visibility="visible"
+            app:defaultNavHost="true"
             app:itemTextAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:id="@+id/myNavHostFragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:backgroundTint="@color/gray"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/navigation">
+            app:navGraph="@navigation/navigation">
 
-    </androidx.fragment.app.FragmentContainerView>
+        </androidx.fragment.app.FragmentContainerView>
+
 
         <com.google.android.material.navigation.NavigationView
 

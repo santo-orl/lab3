@@ -9,6 +9,7 @@
     <string name="location">Location</string>
     <string name="keyword">Title</string>
     <string name="short_description">Short description</string>
+    <string name="default_web_client" translatable="false">509920197029-bei5glek4tfdpmf81ertqddtv7kbivka.apps.googleusercontent.com</string>
 
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>

@@ -1,4 +1,4 @@
-package it.polito.lab3.fragments
+package it.polito.lab4.fragments
 
 import android.content.ContentValues
 import android.content.Context
@@ -28,11 +28,11 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 
 import androidx.recyclerview.widget.LinearLayoutManager
-import it.polito.lab3.ProfileViewModel
-import it.polito.lab3.R
-import it.polito.lab3.skills.Skill
-import it.polito.lab3.skills.SkillUI
-import it.polito.lab3.skills.Skill_Adapter
+import it.polito.lab4.ProfileViewModel
+import it.polito.lab4.R
+import it.polito.lab4.skills.Skill
+import it.polito.lab4.skills.SkillUI
+import it.polito.lab4.skills.Skill_Adapter
 import kotlinx.android.synthetic.main.activity_edit_profile.btn_add_skill
 import kotlinx.android.synthetic.main.activity_edit_profile.recycler
 import kotlinx.android.synthetic.main.fragment_edit_profile.*

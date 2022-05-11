@@ -1,4 +1,4 @@
-package it.polito.lab3.timeSlots
+package it.polito.lab4.timeSlots
 
 interface SlotUI {
     interface SlotSaved {

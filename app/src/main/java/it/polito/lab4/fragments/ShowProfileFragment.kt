@@ -1,4 +1,4 @@
-package it.polito.lab3.fragments
+package it.polito.lab4.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,11 +13,11 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
-import it.polito.lab3.ProfileViewModel
-import it.polito.lab3.R
-import it.polito.lab3.User
-import it.polito.lab3.skills.Adapter_Text
-import it.polito.lab3.skills.Skill
+import it.polito.lab4.ProfileViewModel
+import it.polito.lab4.R
+import it.polito.lab4.User
+import it.polito.lab4.skills.Adapter_Text
+import it.polito.lab4.skills.Skill
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 

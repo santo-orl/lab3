@@ -1,15 +1,11 @@
-package it.polito.lab3
+package it.polito.lab4
 
-import android.net.Uri
-import android.provider.ContactsContract
-import android.text.Editable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
-import it.polito.lab3.User
-import it.polito.lab3.skills.Skill
+import it.polito.lab4.skills.Skill
 
 class ProfileViewModel: ViewModel() {
     private val db: FirebaseFirestore
