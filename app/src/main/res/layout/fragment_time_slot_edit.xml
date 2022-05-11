@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_edit"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="150dp"
-    android:layout_marginTop="12dp"
     android:layout_marginLeft="16dp"
+    android:layout_marginTop="12dp"
     android:layout_marginRight="16dp"
-    android:id="@+id/card_edit"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
+    android:minHeight="150dp"
     card_view:cardBackgroundColor="#FFFF"
     card_view:cardCornerRadius="8dp"
-    card_view:contentPadding="10dp"
-    android:foreground="?selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
+    card_view:contentPadding="10dp">
 
     <FrameLayout
         android:id="@+id/fl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".fragments.TimeSlotEditFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +39,8 @@
                 android:textStyle="bold"
                 card_view:layout_constraintBottom_toTopOf="@+id/editDescription"
                 card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_weight="1" />
+                card_view:layout_constraintVertical_weight="1"
+                tools:layout_editor_absoluteX="137dp" />
 
             <EditText
                 android:id="@+id/editDescription"
@@ -119,7 +119,9 @@
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/to_edit"
                 card_view:layout_constraintVertical_weight="1" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>
+
 </androidx.cardview.widget.CardView>

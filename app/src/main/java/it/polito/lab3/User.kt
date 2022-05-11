@@ -14,4 +14,6 @@ data class User(var name: String, var nickname: String, var email: String,
         return ""
     }
 
+    constructor():this("","","","","")
+
 }

@@ -36,7 +36,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var add_button: FloatingActionButton
     private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
 
-    private val sharedPrefFIle = "it.polito.lab3.timeSlott"
+    private val sharedPrefFIle = "it.polito.lab3.timeSlottt"
     lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(
@@ -69,7 +69,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
             }
             else{
                 var slots = sharedPref.getString("id_slots","")
-                Log.i("elenco",slots.toString())
+                Log.i("elencoRetrieved",slots.toString())
                 if(slots != ""){
                     var ll = slots!!.split("&&&")
                     for(s in ll){
@@ -113,7 +113,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 val editor : SharedPreferences.Editor = sharedPref.edit()
-                Log.i("prova2",slotList.toString())
+                Log.i("salvataggio",slotList.toString())
                 var ss = slotList.joinToString("&&&")
                 editor.putString("id_slots",ss)
                 editor.apply()
@@ -122,6 +122,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                     setReorderingAllowed(true)
                     replace<HomeFragment>(R.id.myNavHostFragment)
                 }
+
             }
         })
     }

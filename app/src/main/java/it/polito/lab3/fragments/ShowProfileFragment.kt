@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -79,7 +80,21 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 name_field.text = it.name
             }else{
                 //Log.i("test2", "if")
-                name_field.text = sharedPref.getString("id_name","Full name").toString()
+                //name_field.text = sharedPref.getString("id_name","Full name").toString()
+                var tmp = db
+                    .collection("users")
+                    .document("orlandosantino11@gmail.com")
+                    .get()
+                    .addOnSuccessListener {
+                        res->
+                        val user = res.toObject(User::class.java)
+                        if(user!=null) name_field.text = user.name.toString()
+                    }
+                    .addOnFailureListener{
+                        Toast
+                            .makeText(this.context,"error",Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 profViewModel.setName(name_field.text.toString())
             }
 

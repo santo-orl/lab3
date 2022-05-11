@@ -60,6 +60,7 @@ class ProfileViewModel: ViewModel() {
                 Log.i("test","Error adding document",e)
             }
     }
+
     fun setName(desiredName: String){
         _name.value = desiredName
     }
