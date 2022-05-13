@@ -16,13 +16,16 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.fragments.ShowProfileFragment
-import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.fragments.TimeSlotListFragment
 
 
 // Main activity, is the base for all the fragments
 class MainActivity : AppCompatActivity(){
+
 
     //per gestire il menu che si apre a sinistra
     lateinit var nv : NavigationView
@@ -38,10 +41,7 @@ class MainActivity : AppCompatActivity(){
     private  var name= "Your name"
     private  var email= "Your email"
     private  var uriImageString: String = ""
-
-
-
-
+    private  var db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("TEST", "MAIN ")
@@ -52,24 +52,7 @@ class MainActivity : AppCompatActivity(){
             setReorderingAllowed(true)
             replace(R.id.myNavHostFragment, HomeFragment())
         }
-/*        oneTapClient = Identity.getSignInClient(this)
-        signInRequest = BeginSignInRequest.builder()
-            .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
-                .setSupported(true)
-                .build())
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    // Your server's client ID, not your Android client ID.
-                    .setServerClientId("509920197029-bei5glek4tfdpmf81ertqddtv7kbivka.apps.googleusercontent.com")
-                    // Only show accounts previously used to sign in.
-                    .setFilterByAuthorizedAccounts(true)
-                    .build())
-            // Automatically sign in when exactly one credential is retrieved.
-            .setAutoSelectEnabled(true)
-            .build()*/
 
-        setContentView(R.layout.activity_main)
         sharedPref =
             this.getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
         //per gestire la visibilità del menu a sinistra e agganciare i listener
@@ -79,8 +62,6 @@ class MainActivity : AppCompatActivity(){
         drawerLayout?.addDrawerListener(actionBarDrawerToggle!!)
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        //email_field = view.findViewById(R.id.email_nv)
-
 
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
@@ -92,8 +73,6 @@ class MainActivity : AppCompatActivity(){
                         setReorderingAllowed(true)
                         replace(R.id.myNavHostFragment, HomeFragment())
                     }
-              /*     val navController = findNavController(R.id.myNavHostFragment)
-                    navController.navigate(R.id.homeFragment)*/
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     true
                 }
@@ -105,27 +84,9 @@ class MainActivity : AppCompatActivity(){
                         setReorderingAllowed(true)
                         replace(R.id.myNavHostFragment, ShowProfileFragment())
                     }
-                 /*   val navController = findNavController(R.id.myNavHostFragment)
-                    navController.navigate(R.id.showProfileFragment)*/
                     drawerLayout?.closeDrawer(GravityCompat.START)
-                    //Toast.makeText(this,"APRI SHOW PROFILE",Toast.LENGTH_SHORT).show()
                     true
                 }
-                //mostro il time slot details fragment
-               /* R.id.details -> {
-                    val navController = findNavController(R.id.myNavHostFragment)
-                    navController.navigate(R.id.timeSlotDetailsFragment)
-                    drawerLayout?.closeDrawer(GravityCompat.START)
-                    //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.edit -> {
-                    val navController = findNavController(R.id.myNavHostFragment)
-                    navController.navigate(R.id.timeSlotEditFragment)
-                    drawerLayout?.closeDrawer(GravityCompat.START)
-                    //Toast.makeText(this,"APRI TIME SLOT DETAILS",Toast.LENGTH_SHORT).show()
-                    true
-                }*/
                 R.id.listTimeSlot -> {
                     this.supportFragmentManager.commit {
                         addToBackStack(TimeSlotListFragment::class.toString())
@@ -143,40 +104,50 @@ class MainActivity : AppCompatActivity(){
             }
         }
 
-       var view = nv.getHeaderView(0)
+        val view = nv.getHeaderView(0)
         email_field = view.findViewById(R.id.email_nv)
         name_field = view.findViewById(R.id.name_nv)
-        if(sharedPref.getString("id_name","Your name").toString() != "Full name"){
-            name_field.text = sharedPref.getString("id_name","Your name").toString()
-            name  = sharedPref.getString("id_name","Your name").toString()
-
-        }
-        if(sharedPref.getString("id_email","Your email").toString() != "email@address"){
-            email_field.text = sharedPref.getString("id_email","Your email").toString()
-            email  = sharedPref.getString("id_email","Your email").toString()
-        }
         image_field = view.findViewById(R.id.image_nv)
 
-        profViewModel.photoString.observe(this) {
+        profViewModel.email.observe(this) {
+            Log.i("test_menu",it)
             if(it!=""){
-                var uriImage = Uri.parse(it)
-        //        image_field.setImageURI(uriImage)
-            }else {
-                var uriImageString = sharedPref.getString("id_photo", "").toString()
-                if(uriImageString!= "") {
-                    var uriImage = Uri.parse(uriImageString)
-//                    image_field.setImageURI(uriImage)
-                }else{
-                    image_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
-                }
-            }//default pic
+                Log.i("test_menu","2")
+                readData(it)
+            }else{
+                val id = intent.getStringExtra("id").toString()
+                Log.i("test_menu",id)
+                profViewModel.setEmail(id)
+                readData(id)
+            }
+
         }
+
 
 
     }
+    private fun readData(id: String) {
+       db.collection("users").document(id).get().addOnSuccessListener {
+           Log.i("test_menu",it.data.toString())
+           if (it.get("name").toString() != "null") {
+               name_field.text = it.get("name").toString()
+           }
+                email_field.text = it.get("email").toString()
+                if (it.get("photoString").toString() != "") {
+                    uriImageString = it.get("photoString").toString()
+                    val uriImage = Uri.parse(uriImageString)
+                    image_field.setImageURI(uriImage)
+                } else {
+                    image_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
+                }
+
+        }.addOnFailureListener{e ->
+             Log.i("test_menu","Error adding document",e)
+        }
 
 
 
+    }
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("Full name", name)
         outState.putString("Email", email)

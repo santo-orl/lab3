@@ -28,8 +28,10 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.R
+import it.polito.lab4.skills.Adapter_Text
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
 import it.polito.lab4.skills.Skill_Adapter
@@ -75,6 +77,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private val REQUEST_CODE_CAMERA = 13
     private val REQUEST_CODE_GALLERY = 15
     private lateinit var state: Parcelable
+    private val db = FirebaseFirestore.getInstance()
 
     private val profViewModel by activityViewModels<ProfileViewModel>()
 
@@ -82,15 +85,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         super.onCreate(savedInstanceState)
     }*/
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -101,187 +95,113 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         location_field = view.findViewById(R.id.editLocation)
         photo_button = view.findViewById(R.id.imageButton)
 
-        profViewModel.name.observe(this.viewLifecycleOwner){
-            if(it != "" && it != name) {
-                name_field.setText(it.toString())
-            }
-        }
-
-        profViewModel.nickname.observe(this.viewLifecycleOwner){
-            if(it != ""  && it!= nickname) {
-                nickname_field.setText(it.toString())
-            }
-        }
-
-        profViewModel.email.observe(this.viewLifecycleOwner){
-            if(it != "" && it!= email) {
-                email_field.setText(it.toString())
-            }
-        }
-
-        profViewModel.location.observe(this.viewLifecycleOwner){
-            if(it != "" && it!= location) {
-                location_field.setText(it.toString())
-            }
-        }
-
-        profViewModel.photoString.observe(this.viewLifecycleOwner){
-            if(it!= "") {
-                uriImageString = it
-                profileUri = Uri.parse(it)
-//                photo_button.setImageURI(profileUri)
-            }
+        profViewModel.email.observe(this.viewLifecycleOwner) {
+            readData(it)
         }
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
 
-                //Log.i("test488", uriImageString)
-
-                /*var ss = skillList.joinToString("&&&")
-                editor.putString("id_skills",ss)
-
-                */
-                if(name_field.text.toString()==""){
-                    profViewModel.setName(name)
-                    nameToUpdate = name
-                }else {
-                    nameToUpdate = name_field.text.toString()
-                    profViewModel.setName(nameToUpdate)
-                }
-                if(nickname_field.text.toString()==""){
-                    profViewModel.setNickname(nickname)
-                    nicknameToUpdate = nickname
-                }else {
-                    nicknameToUpdate = nickname_field.text.toString()
-                    profViewModel.setNickname(nicknameToUpdate)
-                    //editor.putString("id_nickname", nickname_field.text.toString())
-                }
-                if(email_field.text.toString()==""){
-                    profViewModel.setEmail(email)
-                    emailToUpdate = email
-                }else {
-                    emailToUpdate = email_field.text.toString()
-                    profViewModel.setEmail(emailToUpdate)
-                    //editor.putString("id_email", email_field.text.toString())
-                }
-                if(location_field.text.toString()==""){
-                    profViewModel.setLocation(location)
-                    locationToUpdate = location
-                }else {
-                    locationToUpdate = location_field.text.toString()
-                    profViewModel.setLocation(locationToUpdate)
-                    //editor.putString("id_location", location_field.text.toString())
-                }
-                if(uriImageString == ""){
-                    profViewModel.setPhoto("")
-                    uriImageToUpdate = uriImageString
-                }else{
-                    uriImageToUpdate = profileUri.toString()
-                    profViewModel.setPhoto(uriImageToUpdate)
-                    //editor.putString("id_photo", uriImageString)
-                }
-                var listNoEmpty: ArrayList<Skill> = arrayListOf()
-                if(skillList.isNotEmpty()) {
-
-                      for (s in skillList) {
-                        if(s.title.length >= 5 && s.description.length >= 10){
-                            Log.i("test", s.toString())
-                             listNoEmpty.add(s)
-                         }else if(s.title.length < 5){
-                            Toast.makeText(activity,"Sorry, the title must be at least of 5 characters",Toast.LENGTH_SHORT).show()
-                        }else if(s.description.length < 10){
-                            Toast.makeText(activity,"Sorry, the description must be at least of 10 characters",Toast.LENGTH_SHORT).show()
-                        }
-
-                     }
-                    profViewModel.setSkills(listNoEmpty)
-                }else{
-                    profViewModel.setSkills(arrayListOf())
-                }
-                profViewModel.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageToUpdate,listNoEmpty)
+                saveInfo()
                 //findNavController().navigate(R.id.action_editProfileFragment_to_showProfileFragment)
                 this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
 
             }
         })
-        profViewModel.skills.observe(this.viewLifecycleOwner){
-            if (it.isNotEmpty()){
-                skillList = it
-                Log.i("test", skillList[0].toString())
-            }
-            setUpLayout()
-        }
-
         //photo_button = view.findViewById(R.id.imageButton)
         photo_button.setOnClickListener {
             showPopUp(photo_button)
         }
 
-
         btn_save.setOnClickListener {
-            if (name_field.text.toString() == "") {
-                profViewModel.setName(name)
-            } else {
-                profViewModel.setName(name_field.text.toString())
-            }
-            if (nickname_field.text.toString() == "") {
-                profViewModel.setNickname(nickname)
-            } else {
-                profViewModel.setNickname(nickname_field.text.toString())
-                //editor.putString("id_nickname", nickname_field.text.toString())
-            }
-            if (email_field.text.toString() == "") {
-                profViewModel.setEmail(email)
-            } else {
-                profViewModel.setEmail(email_field.text.toString())
-                //editor.putString("id_email", email_field.text.toString())
-            }
-            if (location_field.text.toString() == "") {
-                profViewModel.setLocation(location)
-            } else {
-                profViewModel.setLocation(location_field.text.toString())
-                //editor.putString("id_location", location_field.text.toString())
-            }
-            if (uriImageString == "") {
-                profViewModel.setPhoto("")
-            } else {
-                profViewModel.setPhoto(profileUri.toString())
-                //editor.putString("id_photo", uriImageString)
-            }
-
-            if (skillList.isNotEmpty()) {
-                var listNoEmpty: ArrayList<Skill> = arrayListOf()
-                for (s in skillList) {
-                    if (s.title.length >= 5 && s.description.length >= 10) {
-                        Log.i("test", s.toString())
-                        listNoEmpty.add(s)
-                    } else if (s.title.length < 5) {
-                        Toast.makeText(
-                            activity,
-                            "Sorry, the title must be at least of 5 characters",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (s.description.length < 10) {
-                        Toast.makeText(
-                            activity,
-                            "Sorry, the description must be at least of 10 characters",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                }
-                profViewModel.setSkills(listNoEmpty)
-            } else {
-                profViewModel.setSkills(arrayListOf())
-            }
+           saveInfo()
             this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
         }
-
-
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun saveInfo() {
+        if(name_field.text.toString()==""){
+            nameToUpdate = name
+        }else {
+            nameToUpdate = name_field.text.toString()
+        }
+        if(nickname_field.text.toString()==""){
+            nicknameToUpdate = nickname
+        }else {
+            nicknameToUpdate = nickname_field.text.toString()
+        }
+        if(email_field.text.toString()==""){
+            emailToUpdate = email
+        }else {
+            emailToUpdate = email_field.text.toString()
+        }
+        if(location_field.text.toString()==""){
+            locationToUpdate = location
+        }else {
+            locationToUpdate = location_field.text.toString()
+        }
+        if(uriImageString == ""){
+            Log.i("test_edit", uriImageString)
+            uriImageToUpdate = uriImageString
+        }else{
+            uriImageToUpdate = profileUri.toString()
+        }
+        val listNoEmpty: ArrayList<Skill> = arrayListOf()
+        if(skillList.isNotEmpty()) {
+            for (s in skillList) {
+                if(s.title.length >= 5 && s.description.length >= 10){
+                    Log.i("test", s.toString())
+                    listNoEmpty.add(s)
+                }else if(s.title.length < 5){
+                    Toast.makeText(activity,"Sorry, the title must be at least of 5 characters",Toast.LENGTH_SHORT).show()
+                }else if(s.description.length < 10){
+                    Toast.makeText(activity,"Sorry, the description must be at least of 10 characters",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        profViewModel.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageToUpdate,listNoEmpty)
+    }
+
+    private fun readData(id: String) {
+        db.collection("users").document(id).get().addOnSuccessListener {
+            if (it.get("name").toString() != "Full name") {
+                name_field.setText(it.get("name").toString())
+            }
+            email_field.setText(it.get("email").toString())
+            if (it.get("photoString").toString() != "") {
+                uriImageString = it.get("photoString").toString()
+                profileUri = Uri.parse(uriImageString)
+                imageButton.setImageURI(profileUri)
+            } else {
+                imageButton.setImageResource(R.drawable.camera_icon_21) //default pic
+            }
+            if (it.get("nickname").toString() != "Nickname") {
+                nickname_field.setText(it.get("nickname").toString())
+            }
+            if (it.get("location").toString() != "Location") {
+                location_field.setText(it.get("location").toString())
+            }
+
+        }.addOnFailureListener { e ->
+            Log.i("test_edit", "Error adding document", e)
+        }
+
+        db.collection("skills").document(id).get().addOnSuccessListener {
+            skillList = arrayListOf()
+            if (it.exists()) {
+                it.data!!.forEach { (c,s) ->
+                    s as HashMap<*,*>
+                    skillList.add(Skill(s["title"].toString(),s["description"].toString(),s["pos"].toString().toInt()))
+                }
+                Log.i("test10", skillList.toString())
+
+            }
+            setUpLayout()
+        }.addOnFailureListener { e ->
+            Log.i("test_edit", "Error adding document", e)
+        }
+    }
 
 
     private fun setUpLayout() {

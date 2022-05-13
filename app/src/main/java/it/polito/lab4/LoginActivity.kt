@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -23,9 +24,9 @@ class LoginActivity : AppCompatActivity() {
         private const val TAG = "LoginActivity"
         private const val RC_GOOGLE_SIGN_IN = 4926
     }
-
+    private var email = ""
+    private lateinit var name: String
     private lateinit var auth: FirebaseAuth
-    //private val profViewModel:ProfileViewModel by activityViewModels<ProfileViewModel>()
 
     val db = FirebaseFirestore.getInstance()
 
@@ -61,17 +62,21 @@ class LoginActivity : AppCompatActivity() {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
+                email = account.email.toString()
+                Log.i("test_login",email)
+                name = account.displayName.toString()
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                 db
                     .collection("users")
-                    .document(account.email.toString())
+                    .document(email)
                     .set(
                         User(
-                            account.displayName.toString(),
-                            "",
-                            account.email.toString(),
-                            "",
+                            name,
+                            "Nickname",
+                            email,
+                            "Location",
                             ""
+
                         )
                     )
                     .addOnSuccessListener {
@@ -84,17 +89,14 @@ class LoginActivity : AppCompatActivity() {
                             .makeText(this,"user not created",Toast.LENGTH_SHORT)
                             .show()
                     }
-                Log.d(TAG, "firebase_displayName:" + account.displayName)
-                Log.d(TAG, "firebase_familyName:" + account.familyName)
-                Log.d(TAG, "firebase_givenName:" + account.givenName)
-                Log.d(TAG, "firebase_email:" + account.email)
-                Log.d(TAG, "firebase_account:" + account.account)
+
 
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
             }
+
         }
     }
 
@@ -119,16 +121,22 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
-        if(currentUser!=null) println("utente già loggato "+currentUser.email.toString())
+        if(currentUser!=null){
+            println("utente già loggato "+currentUser.email.toString())
+            email = currentUser.email.toString()
+        }
         updateUI(currentUser)
     }
 
     private fun updateUI(user: FirebaseUser?) {
         if (user == null) {
             Log.w(TAG, "user not signed in..")
-            return
+           return
         }
-        startActivity(Intent(this, MainActivity::class.java))
+        val i = Intent(this, MainActivity::class.java)
+        Log.i("test_login",email)
+        i.putExtra("id",email)
+        startActivity(i)
         finish()
         // Navigate to MainActivity
     }
