@@ -35,15 +35,17 @@ class ProfileViewModel: ViewModel() {
     fun createUser(name:String, nickname: String, email: String,
                     location: String,
                      photoString: String,  skills: ArrayList<Skill> ){
-
-        for (s in skills){
-            db.collection("skills").document(email).set(s).addOnSuccessListener { documentReference ->
+            val map: MutableMap<String, Skill> = HashMap()
+            for(s in skills){
+                map[s.title] = s
+            }
+            db.collection("skills").document(email).set(map).addOnSuccessListener { documentReference ->
                 Log.i("test","DocumentSnapshot added with ID:${documentReference}")
             }
                 .addOnFailureListener{e ->
                     Log.i("test","Error adding document",e)
                 }
-        }
+
 
 
 

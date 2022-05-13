@@ -72,10 +72,11 @@ class LoginActivity : AppCompatActivity() {
                     .set(
                         User(
                             name,
-                            "",
+                            "Nickname",
                             email,
-                            "",
+                            "Location",
                             ""
+
                         )
                     )
                     .addOnSuccessListener {
@@ -120,7 +121,10 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
-        if(currentUser!=null) println("utente già loggato "+currentUser.email.toString())
+        if(currentUser!=null){
+            println("utente già loggato "+currentUser.email.toString())
+            email = currentUser.email.toString()
+        }
         updateUI(currentUser)
     }
 
