@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,7 +25,6 @@ import it.polito.lab4.fragments.HomeFragment
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 import it.polito.lab4.fragments.ShowProfileFragment
@@ -113,10 +114,12 @@ class MainActivity : AppCompatActivity(){
                         setReorderingAllowed(true)
                         replace(R.id.myNavHostFragment, TimeSlotListFragment())
                         } */
-                    FirebaseAuth.getInstance()
-                        .signOut()
-
-                  /*  val navController = findNavController(R.id.myNavHostFragment)
+                    FirebaseAuth.getInstance().signOut()
+                    GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client))
+                        .requestEmail()
+                        .build()).signOut()
+                    /*  val navController = findNavController(R.id.myNavHostFragment)
                      navController.navigate(R.id.loginActivity) */
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)

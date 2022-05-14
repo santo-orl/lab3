@@ -40,11 +40,10 @@
             android:layout_gravity="start"
             android:background="@color/gray"
             android:visibility="visible"
-            app:itemIconTint="@color/dark_blue"
-            app:itemTextColor="@color/dark_blue"
+            app:headerLayout="@layout/nav_header_main"
             app:itemTextAppearance="@style/NavigationViewStyle"
-            app:menu="@menu/navigation_menu"
-            app:headerLayout="@layout/nav_header_main"/>
+            app:itemTextColor="@color/dark_blue"
+            app:menu="@menu/navigation_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </FrameLayout>
