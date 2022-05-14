@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/itemListFragment"
-        android:name="it.polito.lab4.ItemListFragment"
+        android:name="it.polito.lab4.fragments.ItemListFragment"
         android:label="ItemListFragment" >
         <action
             android:id="@+id/action_itemListFragment_to_timeSlotDetailsFragment"
@@ -91,7 +91,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="it.polito.lab4.HomeFragment"
+        android:name="it.polito.lab4.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action

@@ -8,26 +8,15 @@ import android.widget.EditText
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.firestore.FirebaseFirestore
+import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.R
 import it.polito.lab4.TimeSlotViewModel
 import it.polito.lab4.timeSlots.Slot
-import it.polito.lab4.fragments.DatePickerFragment
-import kotlinx.android.synthetic.main.activity_show_profile.*
 
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
-    companion object {
-        private val ARG = "Posi"
-        fun newInstance(pos: Int): TimeSlotEditFragment {
-            val args: Bundle = Bundle()
-            Log.i("test", "AAAAAAAAAAAAA $pos")
-            args.putInt(ARG, pos)
-            val fragment = TimeSlotEditFragment()
-            fragment.arguments = args
-            Log.i("test??", fragment.requireArguments().getInt("Posi", -1).toString())
-            return fragment
-        }
-    }
+
     private  var date=  "Date"
     private  var from= "From"
     private  var to= "To"
@@ -41,25 +30,19 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private lateinit var title_field: EditText
     private lateinit var description_field: EditText
     private lateinit var location_field: EditText
-    private  var eliminare = Slot("","","","","")
+    private  var eliminare = Slot("", "", "", "", "", 0)
 
     //val vm by viewModels<TimeSlotViewModel>()
-    private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
+    private val vm: ProfileViewModel by activityViewModels()
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var id : String
+    private var titleSlot = ""
+    private lateinit var chosenSlot: Slot
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val args: Bundle = Bundle()
-        args.putInt("inutile", 5)
-        this.arguments = args
-        val pos = requireArguments().getInt("Position", 10000)
-        //Log.i("test!!!", "prima $pos")
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val posi = this.arguments?.getInt("Posi", 0)
-        Log.i("Test", "SUSA $posi")
         activity?.setTitle("Edit time slot")
-        Log.i("Test", "SUSA")
+
         title_field = view.findViewById(R.id.editTitle)
         description_field = view.findViewById(R.id.editDescription)
         date_field = view.findViewById(R.id.date_edit)
@@ -72,40 +55,32 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         to_field = view.findViewById(R.id.to_edit)
         to_field.showSoftInputOnFocus = false
 
-        timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
-            if( posi!= 0){
-                Log.i("test!!!", "Dentroo")
-                if (it.isNotEmpty()) {
-                    val slotList = it
-                    eliminare = slotList[posi!!]
-                    if(eliminare.title!= ""){
-                        title_field.setText(eliminare.title)
-                    }
-                    if(eliminare.description!=""){
-                        description_field.setText(eliminare.description)
-                    }
-                    if(eliminare.date!= ""){
-                        date_field.setText(eliminare.date)
-                    }
-                    if(eliminare.duration!= ""){
-                        from_field.setText(eliminare.duration.split("-")[0])
-                        to_field.setText(eliminare.duration.split("-")[1])
-                    }
-                    if(eliminare.location!= ""){
-                        location_field.setText(eliminare.location)
-                    }
-            }
-
-
-            }
-
+        vm.email.observe(this.viewLifecycleOwner) {
+            id = it
         }
+        vm.slot.observe(this.viewLifecycleOwner){
+             titleSlot = it
+            if(titleSlot!= ""){
+                readData(id)
+                Log.i("test_edit", "Entra")
+
+            }else{
+                title_field.setHint(title)
+                description_field.setHint(description)
+                from_field.setHint(from)
+                to_field.setHint(to)
+                location_field.setHint(location)
+                date_field.setHint(date)
+            }
+        }
+
+
+
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if(title_field.text.toString()!= "Title"){
                     title = title_field.text.toString()
                 }
-
                 if(description_field.text.toString()!= "Description"){
                     description = description_field.text.toString()
                 }
@@ -122,14 +97,13 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     location = location_field.text.toString()
                 }
 
-                if(eliminare.title!=""){
-                    timeSlotViewModel.remove(eliminare)
-                }
-                    var new = Slot(title,description, date, "$from-$to", location)
+           /*     if(eliminare.title!=""){
+                    vm.remove(eliminare)
+                }*/
+                    var new = Slot(title, description, date, "$from-$to", location, 0)
                     Log.i("test",new.toString())
                     if(title != "" && description != ""){
-                        timeSlotViewModel.setSlot(new)
-
+                        vm.addSlot(new)
                 }
 
 
@@ -182,6 +156,33 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
         }
     }
+
+    private fun readData(id: String) {
+        db.collection("slots").document(id).get().addOnSuccessListener {
+            if (it.exists()) {
+                it.data!!.forEach { (c, s) ->
+                    s as HashMap<*, *>
+                    if (s["title"].toString() == titleSlot) {
+                       chosenSlot = Slot(
+                            s["title"].toString(),
+                            s["description"].toString(),
+                            s["date"].toString(),
+                            s["duration"].toString(),
+                            s["location"].toString(),
+                            s["pos"].toString().toInt()
+                        )
+                        title_field.setText(chosenSlot.title)
+                        description_field.setText(chosenSlot.description)
+                        date_field.setText(chosenSlot.date)
+                        from_field.setText(chosenSlot.duration.split("-")[0])
+                        to_field.setText(chosenSlot.duration.split("-")[1])
+                        location_field.setText(chosenSlot.location)
+                    }
+                }
+            }
+        }
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         findNavController().navigate(R.id.timeSlotDetailsFragment)

@@ -1,7 +1,5 @@
 package it.polito.lab4.fragments
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,9 +14,10 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.FirebaseFirestore
+import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.timeSlots.Slot
 import it.polito.lab4.R
-import it.polito.lab4.TimeSlotViewModel
 import it.polito.lab4.timeSlots.Adapter_frgTime
 import it.polito.lab4.timeSlots.SlotUI
 
@@ -29,11 +28,9 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var adapterFrgTime: Adapter_frgTime
     private var slotList: ArrayList<Slot> = arrayListOf()
     private lateinit var add_button: FloatingActionButton
-    private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
-
-    private val sharedPrefFIle = "it.polito.lab3.timeSlottt"
-    lateinit var sharedPref: SharedPreferences
-
+    private val vm: ProfileViewModel by activityViewModels()
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var id : String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -46,7 +43,6 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("List of advertisements")
-        sharedPref = this.requireActivity().getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
 
         add_button = view.findViewById(R.id.add_FAB)
         add_button.setOnClickListener {
@@ -56,69 +52,78 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
             }
         }
-
-        timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                slotList = it
-                Log.i("test", slotList[0].toString())
-            }
-            else{
-                var slots = sharedPref.getString("id_slots","")
-                Log.i("elencoRetrieved",slots.toString())
-                if(slots != ""){
-                    var ll = slots!!.split("&&&")
-                    for(s in ll){
-                        var slotItem = s.split("###")
-                        //ho dovuto mettere "" perchè salva solo i primi due campi
-                        //altrimenti quando recupera i dati va in IndexOutOfBoundsException
-                        slotList.add(Slot(slotItem[0],slotItem[1],slotItem[2],slotItem[3],slotItem[4]))
-                    }
-                    timeSlotViewModel.setSlots(slotList)
-                }
-            }
-            if (slotList.isEmpty()) {
-                val prova = ArrayList<Slot>(arrayListOf())
-                prova.add(
-                    Slot(
-                        "No advertisement",
-                        "Click on the button below to add your first advertisement",
-                        "",
-                        "",
-                        ""
-                    )
-                )
-                recycler_view.layoutManager = LinearLayoutManager(view.context)
-                adapterFrgTime = Adapter_frgTime(prova)
-                recycler_view.adapter = adapterFrgTime
-            } else {
-                recycler_view.layoutManager = LinearLayoutManager(view.context)
-                adapterFrgTime = Adapter_frgTime(slotList)
-                recycler_view.adapter = adapterFrgTime
-            }
-            adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
-                override fun onSlotDeleted(position: Int) {
-                    slotList.removeAt(position)
-                    adapterFrgTime.notifyDataSetChanged()
-                }
-
-            })
-
+        vm.email.observe(this.viewLifecycleOwner) {
+            id = it
+            readData(id)
         }
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                val editor : SharedPreferences.Editor = sharedPref.edit()
-                Log.i("salvataggio",slotList.toString())
-                var ss = slotList.joinToString("&&&")
-                editor.putString("id_slots",ss)
-                editor.apply()
                 activity?.supportFragmentManager?.commit {
-                    addToBackStack(it.polito.lab4.HomeFragment::class.toString())
+                    addToBackStack(HomeFragment::class.toString())
                     setReorderingAllowed(true)
-                    replace<it.polito.lab4.HomeFragment>(R.id.myNavHostFragment)
+                    replace<HomeFragment>(R.id.myNavHostFragment)
                 }
 
             }
         })
     }
+
+    private fun readData(id: String) {
+        db.collection("slots").document(id).get().addOnSuccessListener {
+            slotList = arrayListOf()
+            if (it.exists()) {
+                it.data!!.forEach { (c, s) ->
+                    //Log.i("testList", s.toString())
+                    s as HashMap<*, *>
+                    slotList.add(
+                        Slot(
+                            s["title"].toString(),
+                            s["description"].toString(),
+                            s["date"].toString(),
+                            s["duration"].toString(),
+                            s["location"].toString(),
+                            slotList.size
+                        )
+                    )
+                }
+            }
+            if (slotList.isEmpty()) {
+                Log.i("testList", slotList.toString())
+                slotList.add(
+                    Slot(
+                        "No advertisement",
+                        "Click on the button below to add your first advertisement",
+                        "",
+                        "",
+                        "",
+                        0
+                    )
+                )
+            }
+            Log.i("testList2", slotList.toString())
+            recycler_view.layoutManager = LinearLayoutManager(requireView().context)
+            adapterFrgTime = Adapter_frgTime(slotList)
+            recycler_view.adapter = adapterFrgTime
+
+            adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
+                override fun onSlotDeleted(position: Int) {
+                    var query =
+                        db.collection("slots").whereEqualTo("title", slotList[position].title)
+                    Log.i("test_slot", query.toString())
+                    /*query.delete()
+                    .addOnSuccessListener { Log.d("test_slot", "DocumentSnapshot successfully deleted!") }
+                    .addOnFailureListener { e -> Log.w("test_slot", "Error deleting document", e) }*/
+                    slotList.removeAt(position)
+                    adapterFrgTime.notifyDataSetChanged()
+                }
+
+                override fun onSlotClick(position: Int) {
+                    Log.i("test on click", slotList.toString())
+                    vm.setSlot(slotList[position].title)
+                }
+            })
+        }
+    }
+
 }

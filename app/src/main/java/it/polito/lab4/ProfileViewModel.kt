@@ -6,16 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.skills.Skill
+import it.polito.lab4.timeSlots.Slot
 
 class ProfileViewModel: ViewModel() {
+    private lateinit var id : String
     private val db: FirebaseFirestore
     init {
         db= FirebaseFirestore.getInstance()
     }
     private val _user = MutableLiveData<User>(User("","","","","",))
     val user: LiveData<User> = _user
-    private val _name = MutableLiveData<String>("")
-    val name: LiveData<String> = _name
+    private val _slot = MutableLiveData<String>("")
+    val slot: LiveData<String> = _slot
 
     private val _nickname = MutableLiveData<String>("")
     val nickname: LiveData<String> = _nickname
@@ -23,14 +25,8 @@ class ProfileViewModel: ViewModel() {
     private val _email = MutableLiveData<String>("")
     val email: LiveData<String> = _email
 
-    private val _location = MutableLiveData<String>("")
-    val location: LiveData<String> = _location
-
     private val _photoString = MutableLiveData<String>("")
     var photoString: LiveData<String> = _photoString
-
-    private val _skills = MutableLiveData<ArrayList<Skill>>(arrayListOf())
-    var skills: LiveData<ArrayList<Skill>> =_skills
 
     fun createUser(name:String, nickname: String, email: String,
                     location: String,
@@ -45,12 +41,9 @@ class ProfileViewModel: ViewModel() {
                 .addOnFailureListener{e ->
                     Log.i("test","Error adding document",e)
                 }
-
-
-
-
         val user = User(name, nickname, email, location, photoString)
         _user.value = user
+        id = email
         db.collection("users").document(email).set(user).addOnSuccessListener { documentReference ->
             Log.i("test","DocumentSnapshot added with ID:${documentReference}")
         }
@@ -59,27 +52,32 @@ class ProfileViewModel: ViewModel() {
             }
     }
 
-    fun setName(desiredName: String){
-        _name.value = desiredName
+    fun setSlot(desiredName: String){
+        _slot.value = desiredName
     }
 
-    fun setNickname(desiredNickname: String){
-        _nickname.value = desiredNickname
+    fun setId(desiredId: String){
+        id = desiredId
     }
-
     fun setEmail(desiredEmail: String){
         _email.value = desiredEmail
-    }
-
-    fun setLocation(desiredLocation: String){
-        _location.value = desiredLocation
     }
 
     fun setPhoto(desiredUri: String){
         _photoString.value = desiredUri
     }
-    fun setSkills(desiredSkills:ArrayList<Skill>){
-        _skills.value = ArrayList(desiredSkills)
+
+
+    fun addSlot(s: Slot) {
+        val map: MutableMap<String, Slot> = HashMap()
+            map[s.title] = s
+
+        db.collection("slots").document(id).set(map).addOnSuccessListener { documentReference ->
+            Log.i("test","DocumentSnapshot added with ID:${documentReference}")
+        }
+            .addOnFailureListener{e ->
+                Log.i("test","Error adding document",e)
+            }
 
     }
 }

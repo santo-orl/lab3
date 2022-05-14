@@ -5,8 +5,10 @@ interface SlotUI {
         fun onSlotTitleUpdated(position: Int, title: String)
         fun onSlotDescUpdated(position: Int, description: String)
 
+
     }
     interface SlotListener {
         fun onSlotDeleted(position: Int)
+        fun onSlotClick(position: Int)
     }
 }

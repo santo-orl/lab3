@@ -10,7 +10,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:scrollbarSize="6dp"
-    tools:context="HomeFragment"
+    tools:context=".fragments.HomeFragment"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
