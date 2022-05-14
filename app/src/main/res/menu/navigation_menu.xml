@@ -5,11 +5,11 @@
 
     >
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/home"
 
             android:title="Home" />
-
         <item
             android:id="@+id/profile"
              android:title="Profile" />
@@ -18,5 +18,8 @@
             android:id="@+id/listTimeSlot"
 
             android:title="List of time slots" />
-      </group>
+        <item
+            android:id="@+id/logout"
+            android:title="Logout" />
+    </group>
 </menu>

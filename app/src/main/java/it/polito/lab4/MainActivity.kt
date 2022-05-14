@@ -15,10 +15,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
+import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.firestore.FirebaseFirestore
+
 import it.polito.lab4.fragments.ShowProfileFragment
 import it.polito.lab4.fragments.TimeSlotListFragment
 
@@ -98,6 +98,20 @@ class MainActivity : AppCompatActivity(){
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     true
                 }
+                R.id.logout -> {
+                   /* this.supportFragmentManager.commit {
+                        addToBackStack(LoginActivity::class.toString())
+                        setReorderingAllowed(true)
+                        replace(R.id.myNavHostFragment, TimeSlotListFragment())
+                        } */
+
+                    val navController = findNavController(R.id.myNavHostFragment)
+                     navController.navigate(R.id.loginActivity)
+                    drawerLayout?.closeDrawer(GravityCompat.START)
+                    true
+
+                }
+
                 else -> {
                     false
                 }
