@@ -1,6 +1,7 @@
 package it.polito.lab4
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
@@ -15,10 +16,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.commit
-import androidx.navigation.findNavController
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-
+import com.google.firebase.ktx.Firebase
 import it.polito.lab4.fragments.ShowProfileFragment
 import it.polito.lab4.fragments.TimeSlotListFragment
 
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity(){
     lateinit var nv : NavigationView
     var drawerLayout: DrawerLayout? = null
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
+    var auth: FirebaseAuth = Firebase.auth
 
     private val profViewModel by viewModels<ProfileViewModel>()
     private lateinit var name_field: TextView
@@ -42,6 +46,7 @@ class MainActivity : AppCompatActivity(){
     private  var email= "Your email"
     private  var uriImageString: String = ""
     private  var db = FirebaseFirestore.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("TEST", "MAIN ")
@@ -104,9 +109,13 @@ class MainActivity : AppCompatActivity(){
                         setReorderingAllowed(true)
                         replace(R.id.myNavHostFragment, TimeSlotListFragment())
                         } */
+                    FirebaseAuth.getInstance()
+                        .signOut()
 
-                    val navController = findNavController(R.id.myNavHostFragment)
-                     navController.navigate(R.id.loginActivity)
+                  /*  val navController = findNavController(R.id.myNavHostFragment)
+                     navController.navigate(R.id.loginActivity) */
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     true
 
