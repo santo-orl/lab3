@@ -1,4 +1,4 @@
-package it.polito.lab4
+package it.polito.lab4.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import kotlinx.android.synthetic.main.fragment_home.*
+import it.polito.lab4.R
 
 
 class HomeFragment : Fragment(R.layout.fragment_home) {

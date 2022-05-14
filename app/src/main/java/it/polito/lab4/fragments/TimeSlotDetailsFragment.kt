@@ -9,23 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
+import com.google.firebase.firestore.FirebaseFirestore
+import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.R
-import it.polito.lab4.TimeSlotViewModel
+import it.polito.lab4.timeSlots.Slot
 
 
 class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
-    companion object {
-        private val ARG = "Position"
-        fun newInstance(pos: Int): TimeSlotDetailsFragment {
-            val args: Bundle = Bundle()
-            Log.i("test", "EEEEEEEEEEEEEEEE $pos")
-            args.putInt(ARG, pos)
-            val fragment = TimeSlotDetailsFragment()
-            fragment.arguments = args
-            Log.i("test", fragment.requireArguments().getInt("Position", 10000).toString())
-            return fragment
-        }
-    }
     var title: String = "Title"
     var description: String = "Description"
     var date: String = "Date"
@@ -38,17 +29,14 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var date_field: TextView
     lateinit var duration_field: TextView
     lateinit var location_field: TextView
-
-    private val timeSlotViewModel: TimeSlotViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val pos = requireArguments().getInt("Position", 10000)
-        //Log.i("test!!!", "prima $pos")
-    }
+    private val vm: ProfileViewModel by activityViewModels()
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var id : String
+    private var titleSlot = ""
+    private var chosenSlot =  Slot("","","","","",-1)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val pos = requireArguments().getInt("Position", 0)
+        activity?.setTitle("Details advertisement")
         //Log.i("test!!!", "prima $pos")
         title_field = view.findViewById(R.id.title)
         description_field = view.findViewById(R.id.description)
@@ -63,36 +51,66 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         location = location_field.text.toString()
 
        // Log.i("test", "dopo iniz $pos")
+        vm.email.observe(this.viewLifecycleOwner) {
+            id = it
+        }
+        vm.slot.observe(this.viewLifecycleOwner) {
+            titleSlot = it
+            Log.i("test_edit", titleSlot)
 
-        timeSlotViewModel.slots.observe(this.viewLifecycleOwner) {
-           // Log.i("test", "observe $pos")
-            if (it.isNotEmpty()) {
-                //Log.i("test", "ENRA")
-                val slotList = it
-                    //Log.i("test3", "position $pos $")
-                    title_field.text = slotList[pos!!].title
-                    description_field.text = slotList[pos].description
-                    date_field.text = slotList[pos].date
-                    duration_field.text = slotList[pos].duration
-                    location_field.text = slotList[pos].location
+            if (titleSlot != "") {
+                readData(id)
+                Log.i("test_edit", "entra?" + chosenSlot)
+            }
 
-            }
-            }
+        }
+        Log.i("test_edit", "entra?" + chosenSlot)
 
             edit_button = view.findViewById(R.id.editButton)
             edit_button.isClickable = true
             edit_button.setOnClickListener {
-                val fragment = TimeSlotEditFragment.newInstance(pos)
                 val activity = it.context as? AppCompatActivity
                 activity?.supportFragmentManager?.commit {
-                    addToBackStack(fragment::class.toString())
+                    addToBackStack(TimeSlotEditFragment::class.toString())
                     setReorderingAllowed(true)
-                    replace(R.id.myNavHostFragment,fragment)
-                    Log.i("test", "apre detail?$pos" )
+                    replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
                     //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
                 }
             }
 
         }
+
+    private fun readData(id: String){
+        Log.i("test_edit", "db?" + id)
+        db.collection("slots").document(id).get().addOnSuccessListener {
+            Log.i("test_edit", "db?" + titleSlot)
+            if (it.exists()) {
+                it.data!!.forEach { (c, s) ->
+                    s as HashMap<*, *>
+
+                    if (s["title"].toString() == titleSlot) {
+
+                        chosenSlot = Slot(
+                            s["title"].toString(),
+                            s["description"].toString(),
+                            s["date"].toString(),
+                            s["duration"].toString(),
+                            s["location"].toString(),
+                            s["pos"].toString().toInt()
+                        )
+                        title_field.text = chosenSlot.title
+                        description_field.text = chosenSlot.description
+                        date_field.text = chosenSlot.date
+                        duration_field.text = chosenSlot.duration
+                        location_field.text = chosenSlot.location
+
+                    }
+
+                }
+            }
+            Log.i("test_edit", "prova?" + chosenSlot)
+        }
+
+    }
     }
 
