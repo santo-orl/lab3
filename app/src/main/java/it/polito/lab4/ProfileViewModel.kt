@@ -1,6 +1,7 @@
 package it.polito.lab4
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -68,16 +69,74 @@ class ProfileViewModel: ViewModel() {
     }
 
 
-    fun addSlot(s: Slot) {
+    fun addSlot(new: Slot) {
         val map: MutableMap<String, Slot> = HashMap()
-            map[s.title] = s
+        db.collection("slots").document(id).get().addOnSuccessListener {
+            var slotList = arrayListOf<Slot>()
+            if (it.exists()) {
+                it.data!!.forEach { (c, s) ->
+                    //Log.i("testList", s.toString())
+                    s as HashMap<*, *>
+                    slotList.add(
+                        Slot(
+                            s["title"].toString(),
+                            s["description"].toString(),
+                            s["date"].toString(),
+                            s["duration"].toString(),
+                            s["location"].toString(),
+                            slotList.size
+                        )
+                    )
+                }
+            }
+            Log.i("testVM", slotList.toString())
+            for (s in slotList) {
+                map[s.title] = s
+            }
+            map[new.title] = new
 
-        db.collection("slots").document(id).set(map).addOnSuccessListener { documentReference ->
-            Log.i("test","DocumentSnapshot added with ID:${documentReference}")
+            db.collection("slots").document(id).set(map).addOnSuccessListener { documentReference ->
+                Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
+            }
+                .addOnFailureListener { e ->
+                    Log.i("test", "Error adding document", e)
+                }
         }
-            .addOnFailureListener{e ->
-                Log.i("test","Error adding document",e)
+    }
+
+    fun deleteSlot(title: String) {
+        val map: MutableMap<String, Slot> = HashMap()
+        db.collection("slots").document(id).get().addOnSuccessListener {
+            var slotList = arrayListOf<Slot>()
+            if (it.exists()) {
+                it.data!!.forEach { (c, s) ->
+                    //Log.i("testList", s.toString())
+                    s as HashMap<*, *>
+                    if(s["title"]!= title) {
+                        slotList.add(
+                            Slot(
+                                s["title"].toString(),
+                                s["description"].toString(),
+                                s["date"].toString(),
+                                s["duration"].toString(),
+                                s["location"].toString(),
+                                slotList.size
+                            )
+                        )
+                    }
+                }
+            }
+            Log.i("testVM", slotList.toString())
+            for (s in slotList) {
+                map[s.title] = s
             }
 
+            db.collection("slots").document(id).set(map).addOnSuccessListener { documentReference ->
+                Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
+            }
+                .addOnFailureListener { e ->
+                    Log.i("test", "Error adding document", e)
+                }
+        }
     }
 }

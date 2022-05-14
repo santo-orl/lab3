@@ -105,17 +105,25 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
             recycler_view.layoutManager = LinearLayoutManager(requireView().context)
             adapterFrgTime = Adapter_frgTime(slotList)
             recycler_view.adapter = adapterFrgTime
+            vm.setSlot("")
 
             adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                 override fun onSlotDeleted(position: Int) {
-                    var query =
-                        db.collection("slots").whereEqualTo("title", slotList[position].title)
-                    Log.i("test_slot", query.toString())
-                    /*query.delete()
-                    .addOnSuccessListener { Log.d("test_slot", "DocumentSnapshot successfully deleted!") }
-                    .addOnFailureListener { e -> Log.w("test_slot", "Error deleting document", e) }*/
+                    vm.deleteSlot(slotList[position].title)
                     slotList.removeAt(position)
                     adapterFrgTime.notifyDataSetChanged()
+                    if(slotList.size==0){
+                        slotList.add(
+                            Slot(
+                                "No advertisement",
+                                "Click on the button below to add your first advertisement",
+                                "",
+                                "",
+                                "",
+                                0
+                            )
+                        )
+                    }
                 }
 
                 override fun onSlotClick(position: Int) {
