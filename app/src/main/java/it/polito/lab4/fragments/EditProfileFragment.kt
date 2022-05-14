@@ -219,6 +219,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 skillAdapter.notifyDataSetChanged()
             }
 
+            override fun onSkillClick(position: Int) {
+                TODO("Not yet implemented")
+            }
+
         })
 
         btn_add_skill.setOnClickListener {

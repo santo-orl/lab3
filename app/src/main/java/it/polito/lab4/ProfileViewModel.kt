@@ -19,6 +19,9 @@ class ProfileViewModel: ViewModel() {
     private val _slot = MutableLiveData<String>("")
     val slot: LiveData<String> = _slot
 
+    private val _skill = MutableLiveData<String>("")
+    val skill: LiveData<String> = _skill
+
     private val _nickname = MutableLiveData<String>("")
     val nickname: LiveData<String> = _nickname
 
@@ -79,5 +82,9 @@ class ProfileViewModel: ViewModel() {
                 Log.i("test","Error adding document",e)
             }
 
+    }
+
+    fun setSkill(desiredName: String) {
+        _skill.value = desiredName
     }
 }

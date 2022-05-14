@@ -31,6 +31,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private val vm: ProfileViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private lateinit var id : String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
