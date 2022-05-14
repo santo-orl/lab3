@@ -9,6 +9,8 @@ interface SkillUI {
 
     interface SkillListener {
         fun onSkillDeleted(position: Int)
+        fun onSkillClick(position: Int)
     }
+
 
 }

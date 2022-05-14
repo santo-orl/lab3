@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.R
-import it.polito.lab4.TimeSlotViewModel
 import it.polito.lab4.timeSlots.Slot
 
 
