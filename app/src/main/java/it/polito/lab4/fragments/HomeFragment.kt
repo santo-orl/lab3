@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
@@ -26,9 +28,10 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     private val vm: ProfileViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private var id = ""
+    private lateinit var search_view: SearchView
 
 
-  override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,13 +39,13 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_home_skilllist, container, false)
         vm.email.observe(this.viewLifecycleOwner) {
-          id = it
-            if(id!=""){
+            id = it
+            if (id != "") {
                 readData(id)
             }
-          Log.i("test_home", id)
-          //
-      }
+            Log.i("test_home", id)
+            //
+        }
         return view
     }
 
@@ -50,11 +53,26 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("Home")
 
+        search_view = view.findViewById(R.id.search_view)
+
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                //search_skills
+                Toast.makeText(context, search_view.query, Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                //Toast.makeText(context,search_view.query,Toast.LENGTH_SHORT).show()
+                return true
+            }
+
+
+        })
+
         /*val welcome_text = view.findViewById<TextView>(R.id.welcome_text)
-        welcome_text.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));*/
+            welcome_text.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));*/
         Log.i("test_home2", id)
-
-
 
         activity?.onBackPressedDispatcher?.addCallback(
             viewLifecycleOwner,
@@ -67,6 +85,8 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
                 }
             })
+
+
     }
 
     private fun readData(id: String) {
@@ -100,7 +120,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             adapterSkill = Adapter_editProfile(skillList)
             recycler_view.adapter = adapterSkill
 
-        adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
+            adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
                 override fun onSkillClick(position: Int) {
                     vm.setSkill(skillList[position].title)
                 }
@@ -138,4 +158,13 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
     }
+
+    private fun searchSkills(query: String, id: String) {
+        val query_db = db.collection("skills")
+    }
+
 }
+
+
+
+
