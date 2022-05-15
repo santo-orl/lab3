@@ -100,16 +100,16 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             adapterSkill = Adapter_editProfile(skillList)
             recycler_view.adapter = adapterSkill
 
-         /*   adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
+        adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
                 override fun onSkillClick(position: Int) {
                     vm.setSkill(skillList[position].title)
                 }
 
                 override fun onSkillDeleted(position: Int) {
-                    TODO("Not yet implemented")
+
                 }
 
-            })*/
+            })
 
 
             /*
