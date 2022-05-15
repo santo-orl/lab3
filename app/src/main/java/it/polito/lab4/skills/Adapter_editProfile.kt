@@ -29,14 +29,12 @@ class Adapter_editProfile(private val dataSet: ArrayList<Skill>) :
         skillListener = listener
     }
 
-
-
     class ViewHolder(view: View, skillListener: SkillUI.SkillListener,
                      skillSaved: SkillUI.SkillSaved) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.title_itemList
         val description: TextView = view.description_itemList
         //val iconDeleteSlot: ImageView = view.delete_card
-        val cardView: CardView = itemView.findViewById(R.id.card_list_home)
+        val cardView: CardView = itemView.findViewById(R.id.card_list)
 
         init {
             /*iconDeleteSlot.setOnClickListener {
@@ -70,7 +68,7 @@ class Adapter_editProfile(private val dataSet: ArrayList<Skill>) :
     ): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.fragment_home_skilllist, viewGroup, false)
+            .inflate(R.layout.fragment_item_list, viewGroup, false)
         return ViewHolder(view, skillListener,this)
     }
 
