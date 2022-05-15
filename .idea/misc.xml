@@ -32,17 +32,21 @@
         <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/menu/navigation_menu.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/menu/options_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Simona/AndroidStudioProjects/lab3/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout-land/activity_login.xml" value="0.1728395061728395" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout-land/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_edit_profile.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_home.xml" value="0.18854166666666666" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_home_skilllist.xml" value="0.1" />
         <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_item_list.xml" value="0.18854166666666666" />
         <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_list_skill_user.xml" value="0.18115942028985507" />
         <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_time_slot_list.xml" value="0.18854166666666666" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout/skill_list_layout.xml" value="0.1" />
-        <entry key="..\:/Users/Simona/AndroidStudioProjects/lab4/app/src/main/res/layout/skill_text_layout.xml" value="0.1" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_edit_profile.xml" value="0.1" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_home_skilllist.xml" value="0.22" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_item_list.xml" value="0.12228260869565218" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_show_profile.xml" value="0.1" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_time_slot_details.xml" value="0.1" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/fragment_time_slot_list.xml" value="0.1" />
+        <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/menu/navigation_menu.xml" value="0.1" />
       </map>
     </option>
   </component>
