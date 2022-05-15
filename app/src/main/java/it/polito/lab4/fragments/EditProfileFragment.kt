@@ -31,7 +31,7 @@ import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.R
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
-import it.polito.lab4.skills.Adapter_home
+import it.polito.lab4.skills.Adapter_editProfile
 import kotlinx.android.synthetic.main.activity_edit_profile.btn_add_skill
 import kotlinx.android.synthetic.main.activity_edit_profile.recycler
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
@@ -65,7 +65,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private val email: String = "email@address"
 
     private var skillList: ArrayList<Skill> = arrayListOf()
-    private lateinit var adapterHome: Adapter_home
+    private lateinit var adapterEditProfile: Adapter_editProfile
 
     lateinit var filePhoto: File
     lateinit var photo_button: ImageButton
@@ -207,13 +207,13 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             skillList.add(Skill("", "", -1))
         }
         recycler.layoutManager = LinearLayoutManager(this.activity)
-        adapterHome = Adapter_home(skillList)
-        recycler.adapter = adapterHome
+        adapterEditProfile = Adapter_editProfile(skillList)
+        recycler.adapter = adapterEditProfile
 
-        adapterHome.setOnTodoDeleteClick(object : SkillUI.SkillListener {
+        adapterEditProfile.setOnTodoDeleteClick(object : SkillUI.SkillListener {
             override fun onSkillDeleted(position: Int) {
                 skillList.removeAt(position)
-                adapterHome.notifyDataSetChanged()
+                adapterEditProfile.notifyDataSetChanged()
             }
 
             override fun onSkillClick(position: Int) {
@@ -225,8 +225,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         btn_add_skill.setOnClickListener {
             val position = if (skillList.isEmpty()) 0 else skillList.size - 1
             skillList.add(Skill("", "",-1))
-            adapterHome.notifyItemInserted(position)
-            adapterHome.notifyDataSetChanged()
+            adapterEditProfile.notifyItemInserted(position)
+            adapterEditProfile.notifyDataSetChanged()
         }
 
     }

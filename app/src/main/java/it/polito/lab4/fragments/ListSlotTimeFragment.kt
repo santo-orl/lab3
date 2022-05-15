@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import it.polito.lab4.R
 
 
-class ItemListFragment : Fragment() {
+class ListSlotTimeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
