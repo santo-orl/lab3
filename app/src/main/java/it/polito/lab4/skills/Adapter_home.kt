@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab4.R
 
-class Skill_Adapter(
+class Adapter_home(
     private val skillList: MutableList<Skill>
 ) : RecyclerView.Adapter<SkillViewHolder>(), SkillUI.SkillSaved {
 
