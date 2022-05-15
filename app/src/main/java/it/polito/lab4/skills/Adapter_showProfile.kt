@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab4.R
 import kotlinx.android.synthetic.main.skill_text_layout.view.*
 
-class Adapter_Text(private val dataSet: ArrayList<Skill>) :
-    RecyclerView.Adapter<Adapter_Text.ViewHolder>() {
+class Adapter_showProfile(private val dataSet: ArrayList<Skill>) :
+    RecyclerView.Adapter<Adapter_showProfile.ViewHolder>() {
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).

@@ -5,9 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -26,6 +28,7 @@ import it.polito.lab4.fragments.HomeFragment
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 import it.polito.lab4.fragments.ShowProfileFragment
@@ -41,7 +44,7 @@ class MainActivity : AppCompatActivity(){
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
     var auth: FirebaseAuth = Firebase.auth
 
-    private val profViewModel by viewModels<ProfileViewModel>()
+    private val vm by viewModels<ProfileViewModel>()
     private lateinit var name_field: TextView
     private lateinit var email_field: TextView
     private lateinit var image_field: ImageView
@@ -54,17 +57,10 @@ class MainActivity : AppCompatActivity(){
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.i("TEST", "MAIN ")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        this.supportFragmentManager.commit {
-            addToBackStack(HomeFragment::class.toString())
-            setReorderingAllowed(true)
-            replace(R.id.myNavHostFragment, HomeFragment())
-        }
 
-        sharedPref =
-            this.getSharedPreferences(sharedPrefFIle, Context.MODE_PRIVATE)
+        setContentView(R.layout.activity_main)
+
         //per gestire la visibilità del menu a sinistra e agganciare i listener
         drawerLayout = findViewById(R.id.my_drawer_layout)
         nv = findViewById(R.id.nav_view)
@@ -72,7 +68,6 @@ class MainActivity : AppCompatActivity(){
         drawerLayout?.addDrawerListener(actionBarDrawerToggle!!)
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -138,21 +133,16 @@ class MainActivity : AppCompatActivity(){
         email_field = view.findViewById(R.id.email_nv)
         name_field = view.findViewById(R.id.name_nv)
         image_field = view.findViewById(R.id.image_nv)
+        Log.i("test_menu","before")
+        readData("simonachiurato24@gmail.com")
 
-        profViewModel.email.observe(this) {
-            Log.i("test_menu",it)
-            if(it!=""){
-                Log.i("test_menu","2")
-                readData(it)
-            }else{
-                val id = intent.getStringExtra("id").toString()
-                Log.i("test_menu",id)
-                profViewModel.setEmail(id)
-                profViewModel.setId(id)
-                readData(id)
-            }
 
-        }
+           /* this.supportFragmentManager.commit {
+                addToBackStack(HomeFragment::class.toString())
+                setReorderingAllowed(true)
+                replace(R.id.myNavHostFragment, HomeFragment())
+            }*/
+
 
 
 
@@ -211,6 +201,23 @@ class MainActivity : AppCompatActivity(){
         return true
     }
 
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        vm.email.observe(this) {
+            Log.i("test_menu", it)
+            if (it != "") {
+                Log.i("test_menu", "2")
+                readData(it)
+            } else {
+                Log.i("TEST", "MAIN ")
+                val id = intent.getStringExtra("id").toString()
+                Log.i("test_menu", id)
+                vm.setEmail(id)
+                vm.setId(id)
+                readData(id)
+            }
+        }
+        return super.onCreateView(name, context, attrs)
+    }
     override fun onOptionsItemSelected(item: MenuItem):Boolean{
         //if drawerIcon clicked
         if(actionBarDrawerToggle!!.onOptionsItemSelected(item)){

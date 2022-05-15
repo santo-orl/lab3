@@ -2,24 +2,21 @@ package it.polito.lab4.fragments
 
 import android.content.SharedPreferences
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.R
 import it.polito.lab4.User
-import it.polito.lab4.skills.Adapter_Text
+import it.polito.lab4.skills.Adapter_showProfile
 import it.polito.lab4.skills.Skill
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlin.reflect.typeOf
 
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
@@ -36,7 +33,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var photo_field: ImageView
 
     //per differenziare i due recycler quando mostra le skills
-    private lateinit var adapterText: Adapter_Text
+    private lateinit var adapterShowProfile: Adapter_showProfile
 
     private val sharedPrefFIle = "it.polito.lab3"
     lateinit var sharedPref: SharedPreferences;
@@ -119,8 +116,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                    skillList.add(Skill(s["title"].toString(),s["description"].toString(),s["pos"].toString().toInt()))
                 }
                 recycler.layoutManager = LinearLayoutManager(this.activity)
-                adapterText = Adapter_Text(skillList)
-                recycler.adapter = adapterText
+                adapterShowProfile = Adapter_showProfile(skillList)
+                recycler.adapter = adapterShowProfile
 
             }
         }.addOnFailureListener { e ->
@@ -180,8 +177,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             skillList = savedInstanceState.getParcelableArrayList<Skill>("Skills") as ArrayList<Skill>
 
             recycler.layoutManager = LinearLayoutManager(this.activity)
-            adapterText = Adapter_Text(skillList)
-            recycler.adapter = adapterText
+            adapterShowProfile = Adapter_showProfile(skillList)
+            recycler.adapter = adapterShowProfile
         }
 
         super.onViewStateRestored(savedInstanceState)

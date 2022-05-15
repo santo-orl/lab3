@@ -33,7 +33,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i("TEST", "LOGIN ")
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         setContentView(R.layout.activity_login)
         // Initialize Firebase Auth
@@ -51,10 +50,11 @@ class LoginActivity : AppCompatActivity() {
                  RC_GOOGLE_SIGN_IN
             )
         }
+        super.onCreate(savedInstanceState)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_GOOGLE_SIGN_IN) {
@@ -98,6 +98,8 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
+        super.onActivityResult(requestCode, resultCode, data)
+
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
@@ -118,7 +120,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     public override fun onStart() {
-        super.onStart()
+
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if(currentUser!=null){
@@ -126,6 +128,7 @@ class LoginActivity : AppCompatActivity() {
             email = currentUser.email.toString()
         }
         updateUI(currentUser)
+        super.onStart()
     }
 
     private fun updateUI(user: FirebaseUser?) {

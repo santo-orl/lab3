@@ -15,9 +15,7 @@ import android.util.Log
 import android.view.Gravity
 
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 
 import androidx.fragment.app.activityViewModels
@@ -31,10 +29,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.R
-import it.polito.lab4.skills.Adapter_Text
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
-import it.polito.lab4.skills.Skill_Adapter
+import it.polito.lab4.skills.Adapter_home
 import kotlinx.android.synthetic.main.activity_edit_profile.btn_add_skill
 import kotlinx.android.synthetic.main.activity_edit_profile.recycler
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
@@ -68,7 +65,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private val email: String = "email@address"
 
     private var skillList: ArrayList<Skill> = arrayListOf()
-    private lateinit var skillAdapter: Skill_Adapter
+    private lateinit var adapterHome: Adapter_home
 
     lateinit var filePhoto: File
     lateinit var photo_button: ImageButton
@@ -210,13 +207,13 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             skillList.add(Skill("", "", -1))
         }
         recycler.layoutManager = LinearLayoutManager(this.activity)
-        skillAdapter = Skill_Adapter(skillList)
-        recycler.adapter = skillAdapter
+        adapterHome = Adapter_home(skillList)
+        recycler.adapter = adapterHome
 
-        skillAdapter.setOnTodoDeleteClick(object : SkillUI.SkillListener {
+        adapterHome.setOnTodoDeleteClick(object : SkillUI.SkillListener {
             override fun onSkillDeleted(position: Int) {
                 skillList.removeAt(position)
-                skillAdapter.notifyDataSetChanged()
+                adapterHome.notifyDataSetChanged()
             }
 
             override fun onSkillClick(position: Int) {
@@ -228,8 +225,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         btn_add_skill.setOnClickListener {
             val position = if (skillList.isEmpty()) 0 else skillList.size - 1
             skillList.add(Skill("", "",-1))
-            skillAdapter.notifyItemInserted(position)
-            skillAdapter.notifyDataSetChanged()
+            adapterHome.notifyItemInserted(position)
+            adapterHome.notifyDataSetChanged()
         }
 
     }

@@ -4,15 +4,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.RecyclerView
-import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.R
 import it.polito.lab4.fragments.TimeSlotDetailsFragment
 import it.polito.lab4.skills.Skill
@@ -22,8 +19,8 @@ import kotlinx.android.synthetic.main.fragment_item_list.view.*
 
 
 
-class Adapter_Skill(private val dataSet: ArrayList<Skill>) :
-    RecyclerView.Adapter<Adapter_Skill.ViewHolder>(),SkillUI.SkillSaved {
+class Adapter_editProfile(private val dataSet: ArrayList<Skill>) :
+    RecyclerView.Adapter<Adapter_editProfile.ViewHolder>(),SkillUI.SkillSaved {
     constructor(dataSet: ArrayList<Skill>, itemClick: (Int) -> Unit) : this(dataSet)
 
 
