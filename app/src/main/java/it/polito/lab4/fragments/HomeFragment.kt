@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,12 +15,12 @@ import it.polito.lab4.ProfileViewModel
 import it.polito.lab4.R
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
-import it.polito.lab4.timeSlots.Adapter_editProfile
+import it.polito.lab4.timeSlots.Adapter_homeFrg
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
 
 class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
-    private lateinit var adapterSkill: Adapter_editProfile
+    private lateinit var adapterSkill: Adapter_homeFrg
     private var skillList: ArrayList<Skill> = arrayListOf()
     private val vm: ProfileViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
@@ -40,7 +39,6 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             if(id!=""){
                 readData(id)
             }
-          Log.i("test_home", id)
           //
       }
         return view
@@ -48,7 +46,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle("Home")
+        activity?.setTitle("Home - list of advertisement")
 
         /*val welcome_text = view.findViewById<TextView>(R.id.welcome_text)
         welcome_text.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));*/
@@ -70,34 +68,39 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     }
 
     private fun readData(id: String) {
-        db.collection("skills").document(id).get().addOnSuccessListener {
-            skillList = arrayListOf()
-            if (it.exists()) {
-                it.data!!.forEach { (c, s) ->
-                    //Log.i("testList", s.toString())
-                    s as HashMap<*, *>
-                    skillList.add(
-                        Skill(
-                            s["title"].toString(),
-                            s["description"].toString(),
-                            s["pos"].toString().toInt()
-                        )
-                    )
+        skillList = arrayListOf()
+        db.collection("skills")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    if (document.id != id) {
+                        document.data.forEach { (c, s) ->
+                            Log.i("test_home", s.toString())
+                            s as HashMap<*, *>
+                           skillList.add(
+                                Skill(
+                                    s["title"].toString(),
+                                    s["description"].toString(),
+                                    s["pos"].toString().toInt()
+                                )
+                            )
+                        }
+
+                    }
                 }
-            }
             if (skillList.isEmpty()) {
                 Log.i("testList", skillList.toString())
                 skillList.add(
                     Skill(
                         "No skills available",
-                        "No one has published any skill",
+                        "Other users have not yet placed advertisements, be the first, add it in your profile!",
                         0
                     )
                 )
             }
             Log.i("testList2", skillList.toString())
             recycler_view.layoutManager = LinearLayoutManager(this.activity)
-            adapterSkill = Adapter_editProfile(skillList)
+            adapterSkill = Adapter_homeFrg(skillList)
             recycler_view.adapter = adapterSkill
 
         adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
@@ -111,7 +114,10 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
             })
 
-
+            }
+            .addOnFailureListener { exception ->
+                Log.i("test_home", "Error getting documents: ", exception)
+            }
             /*
             adapterSkill.setOnTodoDeleteClick(object : SkillUI.SkillListener {
                 override fun onSlotDeleted(position: Int) {
@@ -131,7 +137,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                 }
             })
         }*/
-        }
+
 
     }
 

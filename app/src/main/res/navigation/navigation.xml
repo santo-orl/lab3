@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/itemListFragment"
-        android:name="it.polito.lab4.fragments.ItemListFragment"
+        android:name="it.polito.lab4.fragments.ListSlotTimeFragment"
         android:label="ItemListFragment" >
         <action
             android:id="@+id/action_itemListFragment_to_timeSlotDetailsFragment"
@@ -97,10 +97,22 @@
         <action
             android:id="@+id/action_homeFragment_to_datePickerFragment"
             app:destination="@id/datePickerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
     </fragment>
     <activity
         android:id="@+id/loginActivity"
         android:name="it.polito.lab4.LoginActivity"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/listSkillUserFragment"
+        android:name="it.polito.lab4.fragments.ListSkillUserFragment"
+        android:label="fragment_list_skill_user"
+        tools:layout="@layout/fragment_list_skill_user" >
+        <action
+            android:id="@+id/action_listSkillUserFragment_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
+    </fragment>
 </navigation>
