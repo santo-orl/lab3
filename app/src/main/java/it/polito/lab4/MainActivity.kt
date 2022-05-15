@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import it.polito.lab4.fragments.ListSkillUserFragment
 
 import it.polito.lab4.fragments.ShowProfileFragment
 import it.polito.lab4.fragments.TimeSlotListFragment
@@ -94,9 +95,9 @@ class MainActivity : AppCompatActivity(){
                 }
                 R.id.listTimeSlot -> {
                     this.supportFragmentManager.commit {
-                        addToBackStack(TimeSlotListFragment::class.toString())
+                        addToBackStack(ListSkillUserFragment::class.toString())
                         setReorderingAllowed(true)
-                        replace(R.id.myNavHostFragment, TimeSlotListFragment())
+                        replace(R.id.myNavHostFragment, ListSkillUserFragment())
                     }
                    /* val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.containerFragment)*/
