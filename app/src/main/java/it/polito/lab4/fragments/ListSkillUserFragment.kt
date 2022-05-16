@@ -49,7 +49,7 @@ class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle("List your skills")
+        activity?.setTitle("List of your skills")
         search_view = view.findViewById(R.id.search_view)
         search_view.visibility = View.GONE
 
