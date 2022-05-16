@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -46,19 +48,17 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         return view
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.search_menu, menu)
         Log.i("test","menu")
-        var menuItem = menu.findItem(R.id.search_view)
+        var menuItem = menu.findItem(R.id.action_search)
         var searchView =  MenuItemCompat.getActionView(menuItem) as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                searchData(p0)
-                return false
+                searchSkills(p0?.lowercase(),id)
+                return true
             }
-
             override fun onQueryTextChange(p0: String?): Boolean {
 
                 return false
@@ -72,34 +72,10 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle("Home - list of advertisement")
+        activity?.setTitle("Home")
 
-    /*    search_view = view.findViewById(R.id.search_view)
-
-        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                Log.i("QUERY1", search_view.query.toString())
-                searchSkills(search_view.query.toString(), id)
-               // Toast.makeText(context, search_view.query, Toast.LENGTH_SHORT).show()
-
-                return true
-            }
-
-            override fun onQueryTextChange(p0: String?): Boolean {
-
-                    this.onQueryTextSubmit("")
-
-                //searchSkills(search_view.query.toString(), id)
-                //Toast.makeText(context,search_view.query,Toast.LENGTH_SHORT).show()
-                return true
-            }
-
-
-        })*/
-
-        /*val welcome_text = view.findViewById<TextView>(R.id.welcome_text)
-            welcome_text.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));*/
         Log.i("test_home2", id)
 
         activity?.onBackPressedDispatcher?.addCallback(
@@ -127,7 +103,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                 for (document in result) {
                     if (document.id != id) {
                         document.data.forEach { (c, s) ->
-                            Log.i("test_home", s.toString())
+                            Log.i("test_home!!!!", s.toString())
                             s as HashMap<*, *>
                             skillList.add(
                                 Skill(
@@ -173,39 +149,13 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             .addOnFailureListener { exception ->
                 Log.i("test_home", "Error getting documents: ", exception)
             }
-        /*
-        adapterSkill.setOnTodoDeleteClick(object : SkillUI.SkillListener {
-            override fun onSlotDeleted(position: Int) {
-                var query =
-                    db.collection("skills").whereEqualTo("title", skillList[position].title)
-                Log.i("test_slot", query.toString())
-                /*query.delete()
-                .addOnSuccessListener { Log.d("test_slot", "DocumentSnapshot successfully deleted!") }
-                .addOnFailureListener { e -> Log.w("test_slot", "Error deleting document", e) }*/
-                skillList.removeAt(position)
-                adapterSkill.notifyDataSetChanged()
-            }
-
-            override fun onSkillClick(position: Int) {
-                Log.i("test on click", skillList.toString())
-                vm.setSlot(skillList[position].title)
-            }
-        })
-    }*/
-
-
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
     }
 
 
-    private fun searchSkills(query: String, id: String) {
+    private fun searchSkills(query: String?, id: String) {
         skillList = arrayListOf()
-        Log.i("QUERY", query)
-        if(query!="") {
-            db.collection("skills").whereEqualTo("$query" + ".title", query).get()
+        Log.i("QUERY", query.toString())
+            db.collection("skills").whereEqualTo("search", query).get()
                 .addOnSuccessListener {
                     //db.collection("skills").orderBy(query).get().addOnSuccessListener {
                         result ->
@@ -217,6 +167,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                                 Log.i("test_home", s.toString())
                                 s as HashMap<*, *>
                                 if (s["title"] == query) {
+                                    Log.i("test_home", "entra")
                                     skillList.add(
                                         Skill(
                                             s["title"].toString(),
@@ -238,61 +189,28 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                             )
                         )
                     }
+                    Log.i("testList2", skillList.toString())
+                    recycler_view.layoutManager = LinearLayoutManager(this.activity)
+                    adapterSkill = Adapter_homeFrg(skillList)
+                    recycler_view.adapter = adapterSkill
+
+                    adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
+                        override fun onSkillClick(position: Int) {
+                            vm.setSkill(skillList[position].title)
+                            vm.setdesc(skillList[position].description)
+                        }
+
+                        override fun onSkillDeleted(position: Int) {
+                        }
+
+                    })
+
                 }
                 .addOnFailureListener { exception ->
                     Log.i("test_SKILLS", "Error getting SKILLS: ", exception)
                 }
-        }
-        if(query=="") {
-            //prende tutte le skills
-            db.collection("skills")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        if (document.id != id) {
-                            document.data.forEach { (c, s) ->
-                                Log.i("test_home", s.toString())
-                                s as HashMap<*, *>
-                                skillList.add(
-                                    Skill(
-                                        s["title"].toString(),
-                                        s["description"].toString(),
-                                        s["pos"].toString().toInt()
-                                    )
-                                )
-                            }
-
-                        }
-                    }
-                    if (skillList.isEmpty()) {
-                        Log.i("testList", skillList.toString())
-                        skillList.add(
-                            Skill(
-                                "No advertisements yet!",
-                                "No one has posted a skill, be the first to add one!",
-                                0
-                            )
-                        )
-                    }
-                }
-        }
 
 
-            Log.i("testList2", skillList.toString())
-            recycler_view.layoutManager = LinearLayoutManager(this.activity)
-            adapterSkill = Adapter_homeFrg(skillList)
-            recycler_view.adapter = adapterSkill
-
-            adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
-                override fun onSkillClick(position: Int) {
-                    vm.setSkill(skillList[position].title)
-                    vm.setdesc(skillList[position].description)
-                }
-
-                override fun onSkillDeleted(position: Int) {
-                }
-
-            })
 
         }
 

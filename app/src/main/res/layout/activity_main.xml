@@ -17,8 +17,6 @@
         tools:context=".MainActivity"
         tools:ignore="HardcodedText,SpeakableTextPresentCheck">
 
-
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/myNavHostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
