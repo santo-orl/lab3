@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:backgroundTint="@color/quasiRed"
+                android:drawableLeft="@android:drawable/ic_partial_secure"
                 android:text="Logout" />
         </com.google.android.material.navigation.NavigationView>
 
