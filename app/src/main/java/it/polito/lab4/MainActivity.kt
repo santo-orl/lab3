@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -32,6 +33,7 @@ import com.google.firebase.ktx.Firebase
 import it.polito.lab4.fragments.ListSkillUserFragment
 
 import it.polito.lab4.fragments.ShowProfileFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 // Main activity, is the base for all the fragments
@@ -42,9 +44,12 @@ class MainActivity : AppCompatActivity(){
     lateinit var nv : NavigationView
     var drawerLayout: DrawerLayout? = null
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
-    var auth: FirebaseAuth = Firebase.auth
 
+    //per gestire l'auth
+    var auth: FirebaseAuth = Firebase.auth
+    //per gestire il viewModel
     private val vm by viewModels<ProfileViewModel>()
+    //campi
     private lateinit var name_field: TextView
     private lateinit var email_field: TextView
     private lateinit var image_field: ImageView
@@ -101,30 +106,24 @@ class MainActivity : AppCompatActivity(){
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     true
                 }
-                R.id.logout -> {
-                   /* this.supportFragmentManager.commit {
-                        addToBackStack(LoginActivity::class.toString())
-                        setReorderingAllowed(true)
-                        replace(R.id.myNavHostFragment, TimeSlotListFragment())
-                        } */
-                    FirebaseAuth.getInstance().signOut()
-                    GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(getString(R.string.default_web_client))
-                        .requestEmail()
-                        .build()).signOut()
-                    /*  val navController = findNavController(R.id.myNavHostFragment)
-                     navController.navigate(R.id.loginActivity) */
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
-                    drawerLayout?.closeDrawer(GravityCompat.START)
-                    true
-
-                }
 
                 else -> {
                     false
                 }
             }
+        }
+
+        logoutBtn.setOnClickListener{
+            FirebaseAuth.getInstance().signOut()
+            GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client))
+                .requestEmail()
+                .build()).signOut()
+            /*  val navController = findNavController(R.id.myNavHostFragment)
+             navController.navigate(R.id.loginActivity) */
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            drawerLayout?.closeDrawer(GravityCompat.START)
         }
 
         val view = nv.getHeaderView(0)

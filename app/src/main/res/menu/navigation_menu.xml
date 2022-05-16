@@ -8,7 +8,6 @@
 
         <item
             android:id="@+id/home"
-
             android:title="Home" />
         <item
             android:id="@+id/profile"
@@ -18,9 +17,6 @@
             android:id="@+id/listTimeSlot"
 
             android:title="List of time slots" />
-        <item
-            android:id="@+id/logout"
-            android:title="Logout" />
     </group>
 
 
