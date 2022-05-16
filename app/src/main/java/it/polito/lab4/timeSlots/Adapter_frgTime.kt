@@ -90,7 +90,7 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.iconDeleteSlot.visibility = View.GONE
 
        }else if  (dataSet[position].title == "" && dataSet[position].description == "" ) {
-           viewHolder.title.text = "No skill"
+           viewHolder.title.text = "No advertisement"
            viewHolder.description.text = "Click on the button below to add your first advertisement"
            viewHolder.cardView.isClickable = false
            viewHolder.iconDeleteSlot.isClickable = false
