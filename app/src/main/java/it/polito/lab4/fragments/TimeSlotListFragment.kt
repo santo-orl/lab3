@@ -46,13 +46,14 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
         activity?.setTitle("List of advertisements")
 
         add_button = view.findViewById(R.id.add_FAB)
-        add_button.setOnClickListener {
+        add_button.visibility = View.GONE
+        /*add_button.setOnClickListener {
             activity?.supportFragmentManager?.commit {
                 addToBackStack(TimeSlotEditFragment::class.toString())
                 setReorderingAllowed(true)
                 replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
             }
-        }
+        }*/
         vm.email.observe(this.viewLifecycleOwner) {
             id = it.toString()
 
@@ -62,7 +63,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
             readData(id,title)
 
         }
-        Log.i("test!!!!!!", title)
+        Log.i("title!!!!!!", title)
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 activity?.supportFragmentManager?.commit {
@@ -83,6 +84,15 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 for (document in result) {
                     val s = document.data as HashMap<*, *>
                     Log.i("TEST", "${document.id} + ${document.data}  ")
+
+                }
+
+
+            /*if (it.exists()) {
+                it.data!!.forEach { (c, s) ->
+                    //Log.i("testList", s.toString())
+                    s as HashMap<*, *>
+
                     slotList.add(
                         Slot(
                             s["title"].toString(),
@@ -108,8 +118,13 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                         0
                     )
                 )
+
             }
              Log.i("testList2", slotList.toString())
+
+            }*/
+            Log.i("testList2", slotList.toString())
+
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
                 adapterFrgTime = Adapter_frgTime(slotList)
                 recycler_view.adapter = adapterFrgTime

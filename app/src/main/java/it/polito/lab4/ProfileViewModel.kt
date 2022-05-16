@@ -33,6 +33,8 @@ class ProfileViewModel: ViewModel() {
     private val _photoString = MutableLiveData<String>("")
     var photoString: LiveData<String> = _photoString
 
+
+
     fun createUser(name:String, nickname: String, email: String,
                     location: String,
                      photoString: String,  skills: ArrayList<Skill> ){

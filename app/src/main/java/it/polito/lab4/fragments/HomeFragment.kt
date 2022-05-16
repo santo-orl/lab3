@@ -58,6 +58,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                 Log.i("QUERY1", search_view.query.toString())
                 searchSkills(search_view.query.toString(), id)
                // Toast.makeText(context, search_view.query, Toast.LENGTH_SHORT).show()
+
                 return true
             }
 
@@ -134,6 +135,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                         vm.setSkill(skillList[position].title)
                         vm.setdesc(skillList[position].description)
 
+
                     }
 
                     override fun onSkillDeleted(position: Int) {
@@ -173,9 +175,6 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         super.onViewStateRestored(savedInstanceState)
     }
 
-    private fun visualizeSkills(result: QueryDocumentSnapshot){
-
-    }
 
     private fun searchSkills(query: String, id: String) {
         skillList = arrayListOf()
