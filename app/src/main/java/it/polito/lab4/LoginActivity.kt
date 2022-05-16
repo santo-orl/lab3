@@ -66,29 +66,7 @@ class LoginActivity : AppCompatActivity() {
                 Log.i("test_login",email)
                 name = account.displayName.toString()
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                db
-                    .collection("users")
-                    .document(email)
-                    .set(
-                        User(
-                            name,
-                            "Nickname",
-                            email,
-                            "Location",
-                            ""
 
-                        )
-                    )
-                    .addOnSuccessListener {
-                        Toast
-                            .makeText(this,"user created",Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    .addOnFailureListener{
-                        Toast
-                            .makeText(this,"user not created",Toast.LENGTH_SHORT)
-                            .show()
-                    }
 
 
                 firebaseAuthWithGoogle(account.idToken!!)
