@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ProfileViewModel
@@ -42,7 +44,6 @@ class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
             if (id != "") {
                 readData(id)
             }
-            //
         }
         return view
     }
@@ -61,9 +62,11 @@ class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                this@ListSkillUserFragment.activity?.supportFragmentManager?.popBackStack()
-                //findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
-
+                activity?.supportFragmentManager?.commit {
+                    addToBackStack(HomeFragment::class.toString())
+                    setReorderingAllowed(true)
+                    replace<HomeFragment>(R.id.myNavHostFragment)
+                }
 
             }
         })

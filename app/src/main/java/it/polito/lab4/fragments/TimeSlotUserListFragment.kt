@@ -124,7 +124,7 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 recycler_view.adapter = adapterFrgTime
                 vm.setSlot(Slot("","","","","",-1,""))
 
-                  adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
+                adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                 override fun onSlotDeleted(position: Int) {
                     vm.setSlot(slotList[position])
                     vm.deleteSlot()
