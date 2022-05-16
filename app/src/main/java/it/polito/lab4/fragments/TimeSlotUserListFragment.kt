@@ -78,16 +78,14 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
     }
 
     private fun readData(id: String, title : String) {
-        db.collection("slots")
+        db.collection("skills").document(id).collection("slots")
             .whereEqualTo("title", title).get().addOnSuccessListener {  result ->
                 Log.i("TEST", "boh")
                 slotList = arrayListOf()
                 for (document in result) {
-                        val s = document.data as HashMap<*, *>
-                    if(s["user"]==id) {
-                        Log.i("TEST", "${document.id} + ${document.data}  ")
-                    }
-                    Log.i("TITLE", s["title"].toString())
+                    val s = document.data as HashMap<*, *>
+                    Log.i("TEST", "${document.id} + ${document.data}  ")
+
                     slotList.add(
                         Slot(
                             s["title"].toString(),
@@ -119,7 +117,7 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
             }
              Log.i("testList2", slotList.toString())
 
-
+            }
             Log.i("testList2", slotList.toString())
 
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
@@ -155,5 +153,5 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
             })
         }
             }
-    }
+
 

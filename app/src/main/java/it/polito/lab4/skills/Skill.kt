@@ -9,6 +9,9 @@ data class Skill(
     var description: String,
     var pos: Int
     ) : Parcelable {
+
+    var search = title.lowercase()
+
     override fun toString(): String {
         return "$title###$description###$pos"
     }

@@ -50,8 +50,8 @@ class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("List of your skills")
-        search_view = view.findViewById(R.id.search_view)
-        search_view.visibility = View.GONE
+      /*  search_view = view.findViewById(R.id.search_view)
+        search_view.visibility = View.GONE*/
 
         /*val welcome_text = view.findViewById<TextView>(R.id.welcome_text)
         welcome_text.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));*/
