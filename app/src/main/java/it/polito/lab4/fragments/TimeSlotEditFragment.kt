@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.navigation.fragment.findNavController
@@ -35,8 +36,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private val vm: ProfileViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private lateinit var id : String
-    private var titleSlot = ""
-    private lateinit var chosenSlot: Slot
+    private lateinit var slot: Slot
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,26 +58,33 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             id = it
         }
         vm.slot.observe(this.viewLifecycleOwner){
-             titleSlot = it
-            if(titleSlot!= ""){
+             slot = it
+            if(slot.title!= ""){
                 readData(id)
                 Log.i("test_edit", "Entra")
 
             }else{
-                title_field.setHint(title)
-                description_field.setHint(description)
+                vm.skill.observe(this.viewLifecycleOwner){ tit->
+                    if(tit!= ""){
+                        title_field.setText(tit)
+                        title_field.isClickable = false
+
+                    }
+                }
+                vm.description.observe(this.viewLifecycleOwner){ desc ->
+                    if(desc!= ""){
+                        description_field.setText(desc)
+                        description_field.isClickable = false
+
+                    }
+                }
                 from_field.setHint(from)
                 to_field.setHint(to)
                 location_field.setHint(location)
                 date_field.setHint(date)
             }
         }
-            vm.skill.observe(this.viewLifecycleOwner){
-                if(it!= ""){
-                    title_field.setText(it)
-                    title_field.isClickable = false
-                }
-            }
+
 
 
 
@@ -92,15 +99,27 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 }
                 if(date_field.text.toString()!= ""){
                     date = date_field.text.toString()
+                }else{
+                    Toast.makeText(context, "All the fields must be completed", Toast.LENGTH_SHORT).show()
+                    return
                 }
                 if(from_field.text.toString()!= ""){
                     from = from_field.text.toString()
+                }else{
+                    Toast.makeText(context, "All the fields must be completed", Toast.LENGTH_SHORT).show()
+                    return
                 }
                 if(to_field.text.toString()!= ""){
                     to = to_field.text.toString()
+                }else{
+                    Toast.makeText(context, "All the fields must be completed", Toast.LENGTH_SHORT).show()
+                    return
                 }
                 if(location_field.text.toString()!= ""){
                     location = location_field.text.toString()
+                }else{
+                    Toast.makeText(context, "All the fields must be completed", Toast.LENGTH_SHORT).show()
+                    return
                 }
 
            /*     if(eliminare.title!=""){
@@ -168,8 +187,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             if (it.exists()) {
                 it.data!!.forEach { (c, s) ->
                     s as HashMap<*, *>
-                    if (s["title"].toString() == titleSlot) {
-                       chosenSlot = Slot(
+                    if (s["title"].toString() == slot.title) {
+                      var chosenSlot = Slot(
                             s["title"].toString(),
                             s["description"].toString(),
                             s["date"].toString(),

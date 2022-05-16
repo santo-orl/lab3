@@ -99,10 +99,12 @@ class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
             adapterSkill = Adapter_SkillUserFrg(skillList)
             recycler_view.adapter = adapterSkill
             vm.setSkill("")
+            vm.setdesc("")
 
             adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
                 override fun onSkillClick(position: Int) {
                     vm.setSkill(skillList[position].title)
+                    vm.setdesc(skillList[position].description)
                 }
 
                 override fun onSkillDeleted(position: Int) {

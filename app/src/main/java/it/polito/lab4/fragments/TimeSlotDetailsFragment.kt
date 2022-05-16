@@ -32,8 +32,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     private val vm: ProfileViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private lateinit var id : String
-    private var titleSlot = ""
-    private var chosenSlot =  Slot("","","","","",-1)
+    private lateinit var slot: Slot
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("Details advertisement")
@@ -55,16 +54,21 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             id = it
         }
         vm.slot.observe(this.viewLifecycleOwner) {
-            titleSlot = it
-            Log.i("test_edit", titleSlot)
+            slot = it
+           // Log.i("test_edit", slot.toString())
 
-            if (titleSlot != "") {
-                readData(id)
-                Log.i("test_edit", "entra?" + chosenSlot)
+            if (slot.title != "") {
+                title_field.text = slot.title
+                description_field.text = slot.description
+                date_field.text = slot.date
+                duration_field.text = slot.duration
+                location_field.text = slot.location
+               // readData(id)
+               // Log.i("test_edit", "entra?" +)
             }
 
         }
-        Log.i("test_edit", "entra?" + chosenSlot)
+      //  Log.i("test_edit", "entra?" + chosenSlot)
 
             edit_button = view.findViewById(R.id.editButton)
             edit_button.isClickable = true
@@ -83,14 +87,14 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     private fun readData(id: String){
         Log.i("test_edit", "db?" + id)
         db.collection("slots").document(id).get().addOnSuccessListener {
-            Log.i("test_edit", "db?" + titleSlot)
+           // Log.i("test_edit", "db?" + titleSlot)
             if (it.exists()) {
                 it.data!!.forEach { (c, s) ->
                     s as HashMap<*, *>
 
-                    if (s["title"].toString() == titleSlot) {
+                    if (s["title"].toString() == slot.title) {
 
-                        chosenSlot = Slot(
+                      val  chosenSlot = Slot(
                             s["title"].toString(),
                             s["description"].toString(),
                             s["date"].toString(),
@@ -108,7 +112,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
                 }
             }
-            Log.i("test_edit", "prova?" + chosenSlot)
+            //Log.i("test_edit", "prova?" + chosenSlot)
         }
 
     }

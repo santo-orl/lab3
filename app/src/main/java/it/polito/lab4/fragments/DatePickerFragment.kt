@@ -19,8 +19,10 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
 
+        val c = DatePickerDialog(requireActivity(), this, year, month, day)
+        c.datePicker.minDate
         // return new DatePickerDialog instance
-        return DatePickerDialog(requireActivity(), this, year, month, day)
+        return c
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
