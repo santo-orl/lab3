@@ -16,13 +16,14 @@ class ProfileViewModel: ViewModel() {
         db= FirebaseFirestore.getInstance()
     }
     private val _user = MutableLiveData<User>(User("","","","","",))
-    val user: LiveData<User> = _user
-    private val _slot = MutableLiveData<String>("")
-    val slot: LiveData<String> = _slot
+    private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1))
+    val slot: LiveData<Slot> = _slot
 
     private val _skill = MutableLiveData<String>("")
     val skill: LiveData<String> = _skill
 
+    private val _description = MutableLiveData<String>("")
+    val description : LiveData<String> = _description
     private val _nickname = MutableLiveData<String>("")
     val nickname: LiveData<String> = _nickname
 
@@ -58,8 +59,8 @@ class ProfileViewModel: ViewModel() {
             }
     }
 
-    fun setSlot(desiredName: String){
-        _slot.value = desiredName
+    fun setSlot(new: Slot){
+        _slot.value = new
     }
 
     fun setId(desiredId: String){
@@ -116,9 +117,20 @@ class ProfileViewModel: ViewModel() {
             }
     }
 
-    fun deleteSlot(title: String) {
+    fun deleteSlot() {
         val map: MutableMap<String, Slot> = HashMap()
-        db.collection("slots").document(id).get().addOnSuccessListener {
+
+        db.collection("skills").document(id).collection("slots").whereEqualTo("title",
+            slot.value?.title
+        ).whereEqualTo("description",slot.value?.description)
+            .whereEqualTo("location",slot.value?.location)
+            .whereEqualTo("date",slot.value?.date)
+            .whereEqualTo("duration",slot.value?.duration).get().addOnSuccessListener {
+                result ->
+                for (document in result)
+                    document.reference.delete()
+            }
+     /*   db.collection("slots").document(id).get().addOnSuccessListener {
             var slotList = arrayListOf<Slot>()
             if (it.exists()) {
                 it.data!!.forEach { (c, s) ->
@@ -149,10 +161,13 @@ class ProfileViewModel: ViewModel() {
                 .addOnFailureListener { e ->
                     Log.i("test", "Error adding document", e)
                 }
-        }
+        }*/
     }
 
     fun setSkill(desiredName: String) {
         _skill.value = desiredName
+    }
+    fun setdesc(desiredName: String) {
+        _description.value = desiredName
     }
 }

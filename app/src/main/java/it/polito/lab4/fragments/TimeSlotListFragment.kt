@@ -67,9 +67,9 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 activity?.supportFragmentManager?.commit {
-                    addToBackStack(HomeFragment::class.toString())
+                    addToBackStack(ListSkillUserFragment::class.toString())
                     setReorderingAllowed(true)
-                    replace<HomeFragment>(R.id.myNavHostFragment)
+                    replace<ListSkillUserFragment>(R.id.myNavHostFragment)
                 }
 
             }
@@ -82,8 +82,9 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 Log.i("TEST", "boh")
                 slotList = arrayListOf()
                 for (document in result) {
-                    Log.i("TEST", "boh2")
+                    val s = document.data as HashMap<*, *>
                     Log.i("TEST", "${document.id} + ${document.data}  ")
+
                 }
 
 
@@ -91,6 +92,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 it.data!!.forEach { (c, s) ->
                     //Log.i("testList", s.toString())
                     s as HashMap<*, *>
+
                     slotList.add(
                         Slot(
                             s["title"].toString(),
@@ -101,8 +103,9 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                             slotList.size
                         )
                     )
+
                 }
-            }
+
             if (slotList.isEmpty()) {
                 Log.i("testList", slotList.toString())
                 slotList.add(
@@ -115,16 +118,22 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                         0
                     )
                 )
+
+            }
+             Log.i("testList2", slotList.toString())
+
             }*/
             Log.i("testList2", slotList.toString())
+
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
                 adapterFrgTime = Adapter_frgTime(slotList)
                 recycler_view.adapter = adapterFrgTime
-                vm.setSlot("")
+                vm.setSlot(Slot("","","","","",-1))
 
                   adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                 override fun onSlotDeleted(position: Int) {
-                    vm.deleteSlot(slotList[position].title)
+                    vm.setSlot(slotList[position])
+                    vm.deleteSlot()
                     slotList.removeAt(position)
                     adapterFrgTime.notifyDataSetChanged()
                     if(slotList.size==0){
@@ -143,7 +152,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
 
                 override fun onSlotClick(position: Int) {
                     Log.i("test on click", slotList.toString())
-                    vm.setSlot(slotList[position].title)
+                    vm.setSlot(slotList[position])
                 }
             })
         }
