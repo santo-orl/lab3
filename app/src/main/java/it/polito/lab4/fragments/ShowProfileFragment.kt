@@ -16,6 +16,7 @@ import it.polito.lab4.R
 import it.polito.lab4.User
 import it.polito.lab4.skills.Adapter_showProfile
 import it.polito.lab4.skills.Skill
+import it.polito.lab4.timeSlots.Slot
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 
@@ -34,13 +35,10 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterShowProfile: Adapter_showProfile
-
-    private val sharedPrefFIle = "it.polito.lab3"
-    lateinit var sharedPref: SharedPreferences;
+    private val vm: ProfileViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
-
-    private val profViewModel by activityViewModels<ProfileViewModel>()
-
+    private var id = ""
+    private lateinit var slot: Slot
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -57,9 +55,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
+
         activity?.setTitle("Profile")
-        var u = User("Full name", "Nickname", "email@address", "Location","")
 
         name_field = view.findViewById(R.id.name)
         nickname_field = view.findViewById(R.id.nickname)
@@ -67,8 +64,20 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         location_field = view.findViewById(R.id.location)
         photo_field = view.findViewById(R.id.imageView)
 
-        profViewModel.email.observe(this.viewLifecycleOwner) {
-                readData(it)
+        vm.email.observe(this.viewLifecycleOwner) {
+              id = it
+        }
+        vm.slot.observe(this.viewLifecycleOwner) {
+            slot = it
+            // Log.i("test_edit", slot.toString())
+            if (slot.user!= ""){
+               readData(slot.user)
+            }else{
+                readData(id)
+                setHasOptionsMenu(true)
+            }
+
+
         }
         //Log.i("test1", sharedPref.getString("id_name","hoooooooooo").toString())
 

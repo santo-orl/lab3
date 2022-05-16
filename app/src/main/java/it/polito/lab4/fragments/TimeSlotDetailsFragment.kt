@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -70,13 +71,14 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 show_prof_button.isClickable = true
             }
             if (slot.title != "") {
+                Log.i("test_edit", "entra? ${slot.title}" )
                 title_field.text = slot.title
                 description_field.text = slot.description
                 date_field.text = slot.date
                 duration_field.text = slot.duration
                 location_field.text = slot.location
                // readData(id)
-               // Log.i("test_edit", "entra?" +)
+               //
             }
 
         }
@@ -94,16 +96,24 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 }
             }
 
-            /*show_prof_button.setOnClickListener {
+            show_prof_button.setOnClickListener {
                 val activity = it.context as? AppCompatActivity
                 activity?.supportFragmentManager?.commit {
-                    addToBackStack(TimeSlotEditFragment::class.toString())
+                    addToBackStack(ShowProfileFragment::class.toString())
                     setReorderingAllowed(true)
-                    replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
+                    replace<ShowProfileFragment>(R.id.myNavHostFragment)
                     //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
                 }
-            }*/
+            }
 
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                this@TimeSlotDetailsFragment.activity?.supportFragmentManager?.popBackStack()
+                //findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
+
+
+            }
+        })
         }
 
     /*private fun readData(id: String){

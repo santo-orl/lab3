@@ -52,9 +52,8 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.search_menu, menu)
         Log.i("test","menu")
-        var menuItem = menu.findItem(R.id.action_search)
-        var searchView =  MenuItemCompat.getActionView(menuItem) as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        var menuItem = view?.findViewById<SearchView>(R.id.action_search)
+        menuItem?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 searchSkills(p0?.lowercase(),id)
                 return true
@@ -65,10 +64,6 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             }
 
         })
-    }
-
-    private fun searchData(s: String?) {
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

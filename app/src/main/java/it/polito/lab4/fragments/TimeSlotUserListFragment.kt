@@ -67,11 +67,12 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
         Log.i("title!!!!!!", title)
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                activity?.supportFragmentManager?.commit {
+                this@TimeSlotUserListFragment.activity?.supportFragmentManager?.popBackStack()
+             /*   activity?.supportFragmentManager?.commit {
                     addToBackStack(ListSkillUserFragment::class.toString())
                     setReorderingAllowed(true)
                     replace<ListSkillUserFragment>(R.id.myNavHostFragment)
-                }
+                }*/
 
             }
         })
@@ -117,8 +118,7 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
             }
              Log.i("testList2", slotList.toString())
 
-            }
-            Log.i("testList2", slotList.toString())
+
 
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
                 adapterFrgTime = Adapter_frgTime(slotList)
@@ -152,6 +152,8 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 }
             })
         }
-            }
+    }
+
+}
 
 
