@@ -85,14 +85,6 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                     val s = document.data as HashMap<*, *>
                     Log.i("TEST", "${document.id} + ${document.data}  ")
 
-                }
-
-
-            /*if (it.exists()) {
-                it.data!!.forEach { (c, s) ->
-                    //Log.i("testList", s.toString())
-                    s as HashMap<*, *>
-
                     slotList.add(
                         Slot(
                             s["title"].toString(),
@@ -122,7 +114,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
             }
              Log.i("testList2", slotList.toString())
 
-            }*/
+            }
             Log.i("testList2", slotList.toString())
 
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
@@ -157,5 +149,5 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
             })
         }
             }
-    }
+
 

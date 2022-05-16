@@ -3,13 +3,12 @@ package it.polito.lab4.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -47,11 +46,36 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         return view
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.search_menu, menu)
+        Log.i("test","menu")
+        var menuItem = menu.findItem(R.id.search_view)
+        var searchView =  MenuItemCompat.getActionView(menuItem) as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                searchData(p0)
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+
+                return false
+            }
+
+        })
+    }
+
+    private fun searchData(s: String?) {
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("Home - list of advertisement")
 
-        search_view = view.findViewById(R.id.search_view)
+    /*    search_view = view.findViewById(R.id.search_view)
 
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -72,7 +96,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             }
 
 
-        })
+        })*/
 
         /*val welcome_text = view.findViewById<TextView>(R.id.welcome_text)
             welcome_text.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));*/
@@ -92,6 +116,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
 
     }
+
 
     private fun readData(id: String) {
         skillList = arrayListOf()
