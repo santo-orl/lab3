@@ -121,10 +121,21 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
            /*     if(eliminare.title!=""){
                     vm.remove(eliminare)
                 }*/
-                    var new = Slot(title, description, date, "$from-$to", location, 0,id)
+
+                vm.slot.observe(viewLifecycleOwner){
+                    if (title != slot.title || description != slot.description || date != slot.date ||
+                            "$from-$to" != slot.duration || location != slot.location){
+                        var new = Slot(title, description, date, "$from-$to", location, 0,id)
+                        Log.i("test",new.toString())
+                        if(title != "" && description != ""){
+                            vm.addSlot(new)
+                    }
+                }
+
+                    /*var new = Slot(title, description, date, "$from-$to", location, 0,id)
                     Log.i("test",new.toString())
                     if(title != "" && description != ""){
-                        vm.addSlot(new)
+                        vm.addSlot(new)*/
                 }
 
 
