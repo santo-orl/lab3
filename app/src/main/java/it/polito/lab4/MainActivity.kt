@@ -2,7 +2,6 @@ package it.polito.lab4
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
@@ -54,9 +53,6 @@ class MainActivity : AppCompatActivity(){
     private lateinit var name_field: TextView
     private lateinit var email_field: TextView
     private lateinit var image_field: ImageView
-    //private lateinit var logoutBtn : Button
-    private val sharedPrefFIle = "it.polito.lab3"
-    lateinit var sharedPref: SharedPreferences;
     private  var name= "Your name"
     private  var email= "Your email"
     private  var uriImageString: String = ""

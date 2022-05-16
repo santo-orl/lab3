@@ -1,6 +1,5 @@
 package it.polito.lab4.fragments
 
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -79,7 +78,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
 
         }
-        //Log.i("test1", sharedPref.getString("id_name","hoooooooooo").toString())
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

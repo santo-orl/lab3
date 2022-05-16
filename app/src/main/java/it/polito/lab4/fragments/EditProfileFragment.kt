@@ -76,7 +76,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private lateinit var state: Parcelable
     private val db = FirebaseFirestore.getInstance()
 
-    private val profViewModel by activityViewModels<ProfileViewModel>()
+    private val vm by activityViewModels<ProfileViewModel>()
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +92,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         location_field = view.findViewById(R.id.editLocation)
         photo_button = view.findViewById(R.id.imageButton)
 
-        profViewModel.email.observe(this.viewLifecycleOwner) {
+        vm.email.observe(this.viewLifecycleOwner) {
             readData(it)
         }
 
@@ -157,7 +157,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }
             }
         }
-        profViewModel.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageToUpdate,listNoEmpty)
+
+        vm.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageToUpdate,listNoEmpty)
+        vm.uploadImage(uriImageToUpdate)
     }
 
     private fun readData(id: String) {
@@ -297,7 +299,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
 
-        profViewModel.setPhoto(uriImageString)
+        //vm.setPhoto(uriImageString)
     }
 
     private fun Bitmap.saveImage(context: Context): Uri? {

@@ -1,21 +1,28 @@
 package it.polito.lab4
 
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
+import java.util.*
+
 
 class ProfileViewModel: ViewModel() {
     private lateinit var id : String
+    private var storage = FirebaseStorage.getInstance().reference
     private val db: FirebaseFirestore
     init {
         db= FirebaseFirestore.getInstance()
     }
-    private val _user = MutableLiveData<User>(User("","","","","",))
+    private val _user = MutableLiveData<User>(User("", "", "", "", ""))
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,""))
     val slot: LiveData<Slot> = _slot
 
@@ -33,7 +40,27 @@ class ProfileViewModel: ViewModel() {
     private val _photoString = MutableLiveData<String>("")
     var photoString: LiveData<String> = _photoString
 
+    fun uploadImage(photoString: String) {
+        if (photoString != "") {
 
+
+            // Defining the child of storageReference
+            val ref: StorageReference = storage.child(
+                    "images/"
+                            + UUID.randomUUID().toString()
+                )
+
+            // adding listeners on upload
+            // or failure of image
+            ref.putFile(Uri.parse(photoString))
+                .addOnSuccessListener { // Image uploaded successfully
+                    // Dismiss dialog
+                }
+                .addOnFailureListener { e -> // Error, Image not uploaded
+
+                }
+        }
+    }
 
     fun createUser(name:String, nickname: String, email: String,
                     location: String,
@@ -70,44 +97,9 @@ class ProfileViewModel: ViewModel() {
         _email.value = desiredEmail
     }
 
-    fun setPhoto(desiredUri: String){
-        _photoString.value = desiredUri
-    }
 
 
     fun addSlot(new: Slot) {
-      /*  val map: MutableMap<String, Slot> = HashMap()
-        db.collection("slots").document(id).get().addOnSuccessListener {
-            var slotList = arrayListOf<Slot>()
-            if (it.exists()) {
-                it.data!!.forEach { (c, s) ->
-                    //Log.i("testList", s.toString())
-                    s as HashMap<*, *>
-                    slotList.add(
-                        Slot(
-                            s["title"].toString(),
-                            s["description"].toString(),
-                            s["date"].toString(),
-                            s["duration"].toString(),
-                            s["location"].toString(),
-                            slotList.size
-                        )
-                    )
-                }
-            }
-            Log.i("testVM", slotList.toString())
-            for (s in slotList) {
-                map[s.title] = s
-            }
-            map[new.title] = new
-
-            db.collection("slots").document(id).set(map).addOnSuccessListener { documentReference ->
-                Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
-            }
-                .addOnFailureListener { e ->
-                    Log.i("test", "Error adding document", e)
-                }
-        }*/
         db.collection("skills").document(id).collection("slots")
             .add(new).addOnSuccessListener { documentReference ->
             Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
@@ -124,7 +116,16 @@ class ProfileViewModel: ViewModel() {
     }
 
     fun deleteSlot() {
-        val map: MutableMap<String, Slot> = HashMap()
+        db.collection("slots").whereEqualTo("title",
+            slot.value?.title
+        ).whereEqualTo("description",slot.value?.description)
+            .whereEqualTo("location",slot.value?.location)
+            .whereEqualTo("date",slot.value?.date)
+            .whereEqualTo("duration",slot.value?.duration).get().addOnSuccessListener {
+                    result ->
+                for (document in result)
+                    document.reference.delete()
+            }
 
         db.collection("skills").document(id).collection("slots").whereEqualTo("title",
             slot.value?.title
@@ -136,44 +137,12 @@ class ProfileViewModel: ViewModel() {
                 for (document in result)
                     document.reference.delete()
             }
-     /*   db.collection("slots").document(id).get().addOnSuccessListener {
-            var slotList = arrayListOf<Slot>()
-            if (it.exists()) {
-                it.data!!.forEach { (c, s) ->
-                    //Log.i("testList", s.toString())
-                    s as HashMap<*, *>
-                    if(s["title"]!= title) {
-                        slotList.add(
-                            Slot(
-                                s["title"].toString(),
-                                s["description"].toString(),
-                                s["date"].toString(),
-                                s["duration"].toString(),
-                                s["location"].toString(),
-                                slotList.size
-                            )
-                        )
-                    }
-                }
-            }
-            Log.i("testVM", slotList.toString())
-            for (s in slotList) {
-                map[s.title] = s
-            }
-
-            db.collection("slots").document(id).set(map).addOnSuccessListener { documentReference ->
-                Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
-            }
-                .addOnFailureListener { e ->
-                    Log.i("test", "Error adding document", e)
-                }
-        }*/
     }
 
     fun setSkill(desiredName: String) {
         _skill.value = desiredName
     }
-    fun setdesc(desiredName: String) {
+    fun setDesc(desiredName: String) {
         _description.value = desiredName
     }
 }
