@@ -17,7 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 import it.polito.lab4.User
+import it.polito.lab4.skills.Skill
 import kotlinx.android.synthetic.main.activity_login.*
+import java.util.HashMap
 
 //DA PASSARE A FRAMMENTO
 class LoginActivity : AppCompatActivity() {
@@ -55,7 +57,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -66,6 +67,29 @@ class LoginActivity : AppCompatActivity() {
                 Log.i("test_login",email)
                 name = account.displayName.toString()
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                db
+                    .collection("users")
+                    .document(email)
+                    .set(
+                        User(
+                            name,
+                            "Nickname",
+                            email,
+                            "Location",
+                            ""
+
+                        )
+                    )
+                    .addOnSuccessListener {
+                        Toast
+                            .makeText(this,"user created",Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    .addOnFailureListener{
+                        Toast
+                            .makeText(this,"user not created",Toast.LENGTH_SHORT)
+                            .show()
+                    }
 
 
 
@@ -104,6 +128,11 @@ class LoginActivity : AppCompatActivity() {
         if(currentUser!=null){
             println("utente già loggato "+currentUser.email.toString())
             email = currentUser.email.toString()
+            name = currentUser.displayName.toString()
+            val map: MutableMap<String, String> = HashMap()
+                map["email"] = email
+            map["name"] = name
+            db.collection("users").document(email).update(map as Map<String, Any>)
         }
         updateUI(currentUser)
         super.onStart()
@@ -117,6 +146,7 @@ class LoginActivity : AppCompatActivity() {
         val i = Intent(this, MainActivity::class.java)
         Log.i("test_login",email)
         i.putExtra("id",email)
+        i.putExtra("name",name)
         startActivity(i)
         finish()
         // Navigate to MainActivity

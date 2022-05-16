@@ -10,9 +10,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
-import it.polito.lab4.ProfileViewModel
+import it.polito.lab4.ViewModel
 import it.polito.lab4.R
-import it.polito.lab4.User
 import it.polito.lab4.skills.Adapter_showProfile
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
@@ -34,7 +33,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterShowProfile: Adapter_showProfile
-    private val vm: ProfileViewModel by activityViewModels()
+    private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private var id = ""
     private lateinit var slot: Slot
@@ -66,6 +65,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         vm.email.observe(this.viewLifecycleOwner) {
               id = it
         }
+
         vm.slot.observe(this.viewLifecycleOwner) {
             slot = it
             // Log.i("test_edit", slot.toString())
@@ -92,25 +92,30 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     private fun readData(id: String) {
         db.collection("users").document(id).get().addOnSuccessListener {
-            if (it.get("name").toString() != "Full name") {
-                name_field.text = it.get("name").toString()
-            }
-            email_field.text = it.get("email").toString()
+            if(it.exists()) {
+                if (it.get("name").toString() != "Full name") {
+                    name_field.text = it.get("name").toString()
+                }
+                email_field.text = it.get("email").toString()
 
-            if (it.get("photoString").toString() != "") {
-                uriImageString = it.get("photoString").toString()
-                val uriImage = Uri.parse(uriImageString)
-                photo_field.setImageURI(uriImage)
-            } else {
-                photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
+                if (it.get("photoString").toString() != "") {
+                    uriImageString = it.get("photoString").toString()
+                    val uriImage = Uri.parse(uriImageString)
+                    photo_field.setImageURI(uriImage)
+                } else {
+                    photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
+                }
+                if (it.get("nickname").toString() != "Nickname") {
+                    nickname_field.text = it.get("nickname").toString()
+                }
+                if (it.get("location").toString() != "Location") {
+                    location_field.text = it.get("location").toString()
+                }
+            }else{
+                /*vm.name.observe(this.viewLifecycleOwner) {
+                    id = it
+                }*/
             }
-            if (it.get("nickname").toString() != "Nickname") {
-                nickname_field.text = it.get("nickname").toString()
-            }
-            if (it.get("location").toString() != "Location") {
-                location_field.text = it.get("location").toString()
-            }
-
         }.addOnFailureListener { e ->
             Log.i("test_show", "Error adding document", e)
         }

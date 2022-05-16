@@ -15,7 +15,7 @@ import it.polito.lab4.timeSlots.Slot
 import java.util.*
 
 
-class ProfileViewModel: ViewModel() {
+class ViewModel: ViewModel() {
     private lateinit var id : String
     private var storage = FirebaseStorage.getInstance().reference
     private val db: FirebaseFirestore
@@ -42,8 +42,6 @@ class ProfileViewModel: ViewModel() {
 
     fun uploadImage(photoString: String) {
         if (photoString != "") {
-
-
             // Defining the child of storageReference
             val ref: StorageReference = storage.child(
                     "images/"
@@ -96,9 +94,6 @@ class ProfileViewModel: ViewModel() {
     fun setEmail(desiredEmail: String){
         _email.value = desiredEmail
     }
-
-
-
     fun addSlot(new: Slot) {
         db.collection("skills").document(id).collection("slots")
             .add(new).addOnSuccessListener { documentReference ->

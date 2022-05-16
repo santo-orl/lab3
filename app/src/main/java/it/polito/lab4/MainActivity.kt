@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -21,7 +20,6 @@ import androidx.fragment.app.commit
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.tasks.OnCompleteListener
 
 import com.google.android.material.navigation.NavigationView
 import it.polito.lab4.fragments.HomeFragment
@@ -48,7 +46,7 @@ class MainActivity : AppCompatActivity(){
     //per gestire l'auth
     var auth: FirebaseAuth = Firebase.auth
     //per gestire il viewModel
-    private val vm by viewModels<ProfileViewModel>()
+    private val vm by viewModels<ViewModel>()
     //campi
     private lateinit var name_field: TextView
     private lateinit var email_field: TextView
@@ -142,9 +140,10 @@ class MainActivity : AppCompatActivity(){
             } else {
                 val id = intent.getStringExtra("id").toString()
                 Log.i("test_menu", id)
+                name_field.text = intent.getStringExtra("name").toString()
+                email_field.text = id
                 vm.setEmail(id)
                 vm.setId(id)
-                readData(id)
             }
 
 
@@ -158,12 +157,14 @@ class MainActivity : AppCompatActivity(){
     }
 
      fun readData(id: String) {
+         Log.i("test_menu", "SUBITO?")
        db.collection("users").document(id).get().addOnSuccessListener {
          //  Log.i("test_menu",it.data.toString())
            if (it.get("name").toString() != "null") {
                name_field.text = it.get("name").toString()
            }
                 email_field.text = it.get("email").toString()
+
                 if (it.get("photoString").toString() != "") {
                     uriImageString = it.get("photoString").toString()
                     val uriImage = Uri.parse(uriImageString)
