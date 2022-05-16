@@ -67,12 +67,11 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
         Log.i("title!!!!!!", title)
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                this@TimeSlotUserListFragment.activity?.supportFragmentManager?.popBackStack()
-             /*   activity?.supportFragmentManager?.commit {
+              activity?.supportFragmentManager?.commit {
                     addToBackStack(ListSkillUserFragment::class.toString())
                     setReorderingAllowed(true)
                     replace<ListSkillUserFragment>(R.id.myNavHostFragment)
-                }*/
+                }
 
             }
         })
