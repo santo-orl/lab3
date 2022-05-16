@@ -65,13 +65,11 @@ class TimeSlotOthersListFragment : Fragment() {
 
         }
         Log.i("title!!!!!!", title)
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                activity?.supportFragmentManager?.commit {
-                    addToBackStack(HomeFragment::class.toString())
-                    setReorderingAllowed(true)
-                    replace<HomeFragment>(R.id.myNavHostFragment)
-                }
+                this@TimeSlotOthersListFragment.activity?.supportFragmentManager?.popBackStack()
+                //findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
+
 
             }
         })
