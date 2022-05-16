@@ -5,6 +5,7 @@ package it.polito.lab4.skills
     import android.view.View
     import android.view.ViewGroup
     import android.widget.ImageView
+    import android.widget.SearchView
     import android.widget.TextView
     import androidx.appcompat.app.AppCompatActivity
     import androidx.cardview.widget.CardView
@@ -14,6 +15,7 @@ package it.polito.lab4.skills
     import it.polito.lab4.R
     import it.polito.lab4.fragments.TimeSlotDetailsFragment
     import it.polito.lab4.fragments.TimeSlotListFragment
+    import kotlinx.android.synthetic.main.fragment_home_skilllist.view.*
 
 
     import kotlinx.android.synthetic.main.fragment_item_list.view.*
@@ -30,6 +32,7 @@ package it.polito.lab4.skills
 
         class ViewHolder(view: View, skillListener: SkillUI.SkillListener,
                          skillSaved: SkillUI.SkillSaved) : RecyclerView.ViewHolder(view) {
+
             val title: TextView = view.title_itemList
             val description: TextView = view.description_itemList
             val iconDeleteSlot: ImageView = view.delete_card
@@ -77,30 +80,26 @@ package it.polito.lab4.skills
             //private val timeSlotViewModel: TimeSlotViewModel by iewModels()
             // Get element from your dataset at this position and replace the
             // contents of the view with that element
+            viewHolder.cardView.isClickable = false
+            viewHolder.iconDeleteSlot.isClickable = false
+            viewHolder.iconDeleteSlot.visibility = View.GONE
 
             if(dataSet[0].title == "No skills available!" && dataSet[0].description == "Add new skills in your profile!") {
                 viewHolder.title.text = dataSet[position].title
                 viewHolder.description.text = dataSet[position].description
-                viewHolder.cardView.isClickable = false
-                viewHolder.iconDeleteSlot.isClickable = false
-                viewHolder.iconDeleteSlot.visibility = View.GONE
+
 
             }else if  (dataSet[position].title == "" && dataSet[position].description == "" ) {
                 viewHolder.title.text = "No skills available"
                 viewHolder.description.text = "Add new skills in your profile!"
-                viewHolder.cardView.isClickable = false
-                viewHolder.iconDeleteSlot.isClickable = false
-                viewHolder.iconDeleteSlot.visibility = View.GONE
+
             }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
                 viewHolder.cardView.isClickable = true
-                viewHolder.iconDeleteSlot.isClickable = false
-                viewHolder.iconDeleteSlot.visibility = View.GONE
                 viewHolder.cardView.setOnClickListener {
                     if (position != RecyclerView.NO_POSITION) {
                         skillListener.onSkillClick(position)
                         Log.i("test ","Vede il click???!!")
                     }
-
                     val activity = it.context as? AppCompatActivity
                     activity?.supportFragmentManager?.commit {
                         addToBackStack(TimeSlotListFragment::class.toString())

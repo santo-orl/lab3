@@ -72,6 +72,13 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 date_field.setHint(date)
             }
         }
+            vm.skill.observe(this.viewLifecycleOwner){
+                if(it!= ""){
+                    title_field.setText(it)
+                    title_field.isClickable = false
+                }
+            }
+
 
 
 

@@ -90,7 +90,8 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         skillList = arrayListOf()
         db.collection("skills")
             .get()
-            .addOnSuccessListener { result ->
+            .addOnSuccessListener {
+                    result ->
                 for (document in result) {
                     if (document.id != id) {
                         document.data.forEach { (c, s) ->
