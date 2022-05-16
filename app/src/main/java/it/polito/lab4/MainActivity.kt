@@ -67,7 +67,8 @@ class MainActivity : AppCompatActivity(){
         //per gestire la visibilità del menu a sinistra e agganciare i listener
         drawerLayout = findViewById(R.id.my_drawer_layout)
         nv = findViewById(R.id.nav_view)
-        actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
+        actionBarDrawerToggle =
+            ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
         drawerLayout?.addDrawerListener(actionBarDrawerToggle!!)
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -101,7 +102,7 @@ class MainActivity : AppCompatActivity(){
                         setReorderingAllowed(true)
                         replace(R.id.myNavHostFragment, ListSkillUserFragment())
                     }
-                   /* val navController = findNavController(R.id.myNavHostFragment)
+                    /* val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.containerFragment)*/
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     true
@@ -113,12 +114,14 @@ class MainActivity : AppCompatActivity(){
             }
         }
 
-        logoutBtn.setOnClickListener{
+        logoutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-            GoogleSignIn.getClient(this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client))
-                .requestEmail()
-                .build()).signOut()
+            GoogleSignIn.getClient(
+                this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client))
+                    .requestEmail()
+                    .build()
+            ).signOut()
             /*  val navController = findNavController(R.id.myNavHostFragment)
              navController.navigate(R.id.loginActivity) */
             val intent = Intent(this, LoginActivity::class.java)
@@ -130,21 +133,31 @@ class MainActivity : AppCompatActivity(){
         email_field = view.findViewById(R.id.email_nv)
         name_field = view.findViewById(R.id.name_nv)
         image_field = view.findViewById(R.id.image_nv)
-      //  Log.i("test_menu","before")
-        readData("simonachiurato24@gmail.com")
+        //  Log.i("test_menu","before")
+        vm.email.observe(this) {
+            Log.i("test_menu", it)
+            if (it != "") {
+                Log.i("test_menu", "2")
+                readData(it)
+            } else {
+                val id = intent.getStringExtra("id").toString()
+                Log.i("test_menu", id)
+                vm.setEmail(id)
+                vm.setId(id)
+                readData(id)
+            }
 
 
-           /* this.supportFragmentManager.commit {
+            /* this.supportFragmentManager.commit {
                 addToBackStack(HomeFragment::class.toString())
                 setReorderingAllowed(true)
                 replace(R.id.myNavHostFragment, HomeFragment())
             }*/
 
-
-
-
+        }
     }
-    private fun readData(id: String) {
+
+     fun readData(id: String) {
        db.collection("users").document(id).get().addOnSuccessListener {
          //  Log.i("test_menu",it.data.toString())
            if (it.get("name").toString() != "null") {
