@@ -42,7 +42,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             if (id != "") {
                 readData(id)
             }
-
+        }
         return view
     }
 
@@ -54,7 +54,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                //search_skills
+                searchSkills(search_view.query.toString(),id)
                 Toast.makeText(context, search_view.query, Toast.LENGTH_SHORT).show()
                 return true
             }
@@ -96,7 +96,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                         document.data.forEach { (c, s) ->
                             Log.i("test_home", s.toString())
                             s as HashMap<*, *>
-                           skillList.add(
+                            skillList.add(
                                 Skill(
                                     s["title"].toString(),
                                     s["description"].toString(),
@@ -107,6 +107,85 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
                     }
                 }
+                if (skillList.isEmpty()) {
+                    Log.i("testList", skillList.toString())
+                    skillList.add(
+                        Skill(
+                            "No skills available",
+                            "Other users have not yet placed advertisements, be the first, add it in your profile!",
+                            0
+                        )
+                    )
+                }
+                Log.i("testList2", skillList.toString())
+                recycler_view.layoutManager = LinearLayoutManager(this.activity)
+                adapterSkill = Adapter_homeFrg(skillList)
+                recycler_view.adapter = adapterSkill
+
+                adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
+                    override fun onSkillClick(position: Int) {
+                        vm.setSkill(skillList[position].title)
+                    }
+
+                    override fun onSkillDeleted(position: Int) {
+
+                    }
+
+                })
+
+            }
+            .addOnFailureListener { exception ->
+                Log.i("test_home", "Error getting documents: ", exception)
+            }
+        /*
+        adapterSkill.setOnTodoDeleteClick(object : SkillUI.SkillListener {
+            override fun onSlotDeleted(position: Int) {
+                var query =
+                    db.collection("skills").whereEqualTo("title", skillList[position].title)
+                Log.i("test_slot", query.toString())
+                /*query.delete()
+                .addOnSuccessListener { Log.d("test_slot", "DocumentSnapshot successfully deleted!") }
+                .addOnFailureListener { e -> Log.w("test_slot", "Error deleting document", e) }*/
+                skillList.removeAt(position)
+                adapterSkill.notifyDataSetChanged()
+            }
+
+            override fun onSkillClick(position: Int) {
+                Log.i("test on click", skillList.toString())
+                vm.setSlot(skillList[position].title)
+            }
+        })
+    }*/
+
+
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+    }
+
+    private fun searchSkills(query: String, id: String) {
+        skillList = arrayListOf()
+
+        db.collection("skills").whereEqualTo("title",query).get().addOnSuccessListener {
+            //Log.i("test_SKILLS", "STO CERCANDO NEL DATABASE ")
+            result->
+            for (document in result) {
+
+                document.data.forEach { (c, s) ->
+                    Log.i("test_home", s.toString())
+                    s as HashMap<*, *>
+                    skillList.add(
+                        Skill(
+                            s["title"].toString(),
+                            s["description"].toString(),
+                            s["pos"].toString().toInt()
+                        )
+                    )
+                }
+
+
+        }
             if (skillList.isEmpty()) {
                 Log.i("testList", skillList.toString())
                 skillList.add(
@@ -133,39 +212,10 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
             })
 
-            }
-            .addOnFailureListener { exception ->
-                Log.i("test_home", "Error getting documents: ", exception)
-            }
-            /*
-            adapterSkill.setOnTodoDeleteClick(object : SkillUI.SkillListener {
-                override fun onSlotDeleted(position: Int) {
-                    var query =
-                        db.collection("skills").whereEqualTo("title", skillList[position].title)
-                    Log.i("test_slot", query.toString())
-                    /*query.delete()
-                    .addOnSuccessListener { Log.d("test_slot", "DocumentSnapshot successfully deleted!") }
-                    .addOnFailureListener { e -> Log.w("test_slot", "Error deleting document", e) }*/
-                    skillList.removeAt(position)
-                    adapterSkill.notifyDataSetChanged()
-                }
-
-                override fun onSkillClick(position: Int) {
-                    Log.i("test on click", skillList.toString())
-                    vm.setSlot(skillList[position].title)
-                }
-            })
-        }*/
-
-
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-    }
-
-    private fun searchSkills(query: String, id: String) {
-        val query_db = db.collection("skills")
+        }
+        .addOnFailureListener { exception ->
+            Log.i("test_SKILLS", "Error getting SKILLS: ", exception)
+        }
     }
 
 }
