@@ -117,7 +117,7 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
             }
              Log.i("testList2", slotList.toString())
 
-            }*/
+            }
             Log.i("testList2", slotList.toString())
 
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
