@@ -23,8 +23,8 @@ import it.polito.lab4.timeSlots.SlotUI
 
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
-
-class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
+//Lista degli slot dell'UTENTE
+class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var adapterFrgTime: Adapter_frgTime
     private var slotList: ArrayList<Slot> = arrayListOf()
     private lateinit var add_button: FloatingActionButton
@@ -32,6 +32,7 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private val db = FirebaseFirestore.getInstance()
     private  var id = ""
     private  var title = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -43,17 +44,17 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle("List of advertisements")
+        activity?.setTitle("TimeSlotUserList")
 
         add_button = view.findViewById(R.id.add_FAB)
-        add_button.visibility = View.GONE
-        /*add_button.setOnClickListener {
+        //add_button.visibility = View.GONE
+        add_button.setOnClickListener {
             activity?.supportFragmentManager?.commit {
                 addToBackStack(TimeSlotEditFragment::class.toString())
                 setReorderingAllowed(true)
                 replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
             }
-        }*/
+        }
         vm.email.observe(this.viewLifecycleOwner) {
             id = it.toString()
 
@@ -77,22 +78,16 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     }
 
     private fun readData(id: String, title : String) {
-        db.collection("skills").document(id).collection("slots")
+        db.collection("slots")
             .whereEqualTo("title", title).get().addOnSuccessListener {  result ->
                 Log.i("TEST", "boh")
                 slotList = arrayListOf()
                 for (document in result) {
-                    val s = document.data as HashMap<*, *>
-                    Log.i("TEST", "${document.id} + ${document.data}  ")
-
-                }
-
-
-            /*if (it.exists()) {
-                it.data!!.forEach { (c, s) ->
-                    //Log.i("testList", s.toString())
-                    s as HashMap<*, *>
-
+                        val s = document.data as HashMap<*, *>
+                    if(s["user"]==id) {
+                        Log.i("TEST", "${document.id} + ${document.data}  ")
+                    }
+                    Log.i("TITLE", s["title"].toString())
                     slotList.add(
                         Slot(
                             s["title"].toString(),
@@ -100,12 +95,13 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                             s["date"].toString(),
                             s["duration"].toString(),
                             s["location"].toString(),
-                            slotList.size
+                            slotList.size,
+                            s["user"].toString()
                         )
                     )
 
                 }
-
+                Log.i("Slot List User", slotList.toString())
             if (slotList.isEmpty()) {
                 Log.i("testList", slotList.toString())
                 slotList.add(
@@ -115,20 +111,21 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                         "",
                         "",
                         "",
-                        0
+                        0,
+                        ""
                     )
                 )
 
             }
              Log.i("testList2", slotList.toString())
 
-            }*/
+
             Log.i("testList2", slotList.toString())
 
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
                 adapterFrgTime = Adapter_frgTime(slotList)
                 recycler_view.adapter = adapterFrgTime
-                vm.setSlot(Slot("","","","","",-1))
+                vm.setSlot(Slot("","","","","",-1,""))
 
                   adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                 override fun onSlotDeleted(position: Int) {
@@ -144,7 +141,8 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                                 "",
                                 "",
                                 "",
-                                0
+                                0,
+                                ""
                             )
                         )
                     }

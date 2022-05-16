@@ -23,6 +23,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     var duration: String = "Duration"
     var location: String = "Location"
     lateinit var edit_button: Button
+    lateinit var show_prof_button: Button
 
     lateinit var title_field: TextView
     lateinit var description_field: TextView
@@ -49,6 +50,9 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         duration = duration_field.text.toString()
         location = location_field.text.toString()
 
+        show_prof_button = view.findViewById(R.id.show_prof_button)
+        edit_button = view.findViewById(R.id.editButton)
+
        // Log.i("test", "dopo iniz $pos")
         vm.email.observe(this.viewLifecycleOwner) {
             id = it
@@ -56,7 +60,15 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         vm.slot.observe(this.viewLifecycleOwner) {
             slot = it
            // Log.i("test_edit", slot.toString())
-
+            if (slot.user == id){
+                show_prof_button.visibility = View.GONE
+                show_prof_button.isClickable = false
+                edit_button.isClickable = true
+            }else{
+                edit_button.visibility = View.GONE
+                edit_button.isClickable = false
+                show_prof_button.isClickable = true
+            }
             if (slot.title != "") {
                 title_field.text = slot.title
                 description_field.text = slot.description
@@ -70,8 +82,8 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         }
       //  Log.i("test_edit", "entra?" + chosenSlot)
 
-            edit_button = view.findViewById(R.id.editButton)
-            edit_button.isClickable = true
+            //edit_button = view.findViewById(R.id.editButton)
+
             edit_button.setOnClickListener {
                 val activity = it.context as? AppCompatActivity
                 activity?.supportFragmentManager?.commit {
@@ -82,9 +94,19 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 }
             }
 
+            /*show_prof_button.setOnClickListener {
+                val activity = it.context as? AppCompatActivity
+                activity?.supportFragmentManager?.commit {
+                    addToBackStack(TimeSlotEditFragment::class.toString())
+                    setReorderingAllowed(true)
+                    replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
+                    //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+                }
+            }*/
+
         }
 
-    private fun readData(id: String){
+    /*private fun readData(id: String){
         Log.i("test_edit", "db?" + id)
         db.collection("slots").document(id).get().addOnSuccessListener {
            // Log.i("test_edit", "db?" + titleSlot)
@@ -115,6 +137,6 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             //Log.i("test_edit", "prova?" + chosenSlot)
         }
 
-    }
+    }*/
     }
 

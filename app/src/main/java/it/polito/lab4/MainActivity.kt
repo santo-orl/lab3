@@ -33,7 +33,7 @@ import com.google.firebase.ktx.Firebase
 import it.polito.lab4.fragments.ListSkillUserFragment
 
 import it.polito.lab4.fragments.ShowProfileFragment
-import it.polito.lab4.fragments.TimeSlotListFragment
+
 
 // Main activity, is the base for all the fragments
 class MainActivity : AppCompatActivity(){
