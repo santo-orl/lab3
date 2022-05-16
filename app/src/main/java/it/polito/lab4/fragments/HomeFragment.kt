@@ -57,7 +57,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 Log.i("QUERY1", search_view.query.toString())
                 searchSkills(search_view.query.toString(), id)
-                Toast.makeText(context, search_view.query, Toast.LENGTH_SHORT).show()
+
                 return true
             }
 
@@ -132,6 +132,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                 adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
                     override fun onSkillClick(position: Int) {
                         vm.setSkill(skillList[position].title)
+
                     }
 
                     override fun onSkillDeleted(position: Int) {
@@ -171,9 +172,6 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         super.onViewStateRestored(savedInstanceState)
     }
 
-    private fun visualizeSkills(result: QueryDocumentSnapshot){
-
-    }
 
     private fun searchSkills(query: String, id: String) {
         skillList = arrayListOf()
