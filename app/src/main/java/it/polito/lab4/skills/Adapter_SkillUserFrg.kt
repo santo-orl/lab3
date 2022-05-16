@@ -14,7 +14,7 @@ package it.polito.lab4.skills
     import androidx.recyclerview.widget.RecyclerView
     import it.polito.lab4.R
     import it.polito.lab4.fragments.TimeSlotDetailsFragment
-    import it.polito.lab4.fragments.TimeSlotListFragment
+    import it.polito.lab4.fragments.TimeSlotUserListFragment
     import kotlinx.android.synthetic.main.fragment_home_skilllist.view.*
 
 
@@ -102,9 +102,9 @@ package it.polito.lab4.skills
                     }
                     val activity = it.context as? AppCompatActivity
                     activity?.supportFragmentManager?.commit {
-                        addToBackStack(TimeSlotListFragment::class.toString())
+                        addToBackStack(TimeSlotUserListFragment::class.toString())
                         setReorderingAllowed(true)
-                        replace<TimeSlotListFragment>(R.id.myNavHostFragment)
+                        replace<TimeSlotUserListFragment>(R.id.myNavHostFragment)
                         // Log.i("test2", "Vede il click")
                         //viewHolder.cardView.findNavController().navigate(R.id.action_itemListFragment_to_timeSlotDetailsFragment)
                     }

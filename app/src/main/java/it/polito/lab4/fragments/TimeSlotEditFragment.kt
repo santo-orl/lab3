@@ -30,7 +30,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private lateinit var title_field: EditText
     private lateinit var description_field: EditText
     private lateinit var location_field: EditText
-    private  var eliminare = Slot("", "", "", "", "", 0)
+    private  var eliminare = Slot("", "", "", "", "", 0,"")
 
     //val vm by viewModels<TimeSlotViewModel>()
     private val vm: ProfileViewModel by activityViewModels()
@@ -125,7 +125,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
            /*     if(eliminare.title!=""){
                     vm.remove(eliminare)
                 }*/
-                    var new = Slot(title, description, date, "$from-$to", location, 0)
+                    var new = Slot(title, description, date, "$from-$to", location, 0,id)
                     Log.i("test",new.toString())
                     if(title != "" && description != ""){
                         vm.addSlot(new)
@@ -134,10 +134,9 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
                // this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
                 activity?.supportFragmentManager?.commit {
-                    var fragment = TimeSlotListFragment()
-                    addToBackStack(fragment::class.toString())
+                    addToBackStack(TimeSlotUserListFragment::class.toString())
                     setReorderingAllowed(true)
-                    replace(R.id.myNavHostFragment, fragment)
+                    replace<TimeSlotUserListFragment>(R.id.myNavHostFragment)
                 }
                //findNavController().navigate(R.id.action_timeSlotEditFragment_to_containerFragment)
                 //this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
@@ -194,7 +193,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                             s["date"].toString(),
                             s["duration"].toString(),
                             s["location"].toString(),
-                            s["pos"].toString().toInt()
+                            s["pos"].toString().toInt(),
+                            s["user"].toString()
                         )
                         title_field.setText(chosenSlot.title)
                         description_field.setText(chosenSlot.description)
