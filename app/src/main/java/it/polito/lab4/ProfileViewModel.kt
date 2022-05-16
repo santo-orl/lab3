@@ -16,7 +16,7 @@ class ProfileViewModel: ViewModel() {
         db= FirebaseFirestore.getInstance()
     }
     private val _user = MutableLiveData<User>(User("","","","","",))
-    private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1))
+    private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,""))
     val slot: LiveData<Slot> = _slot
 
     private val _skill = MutableLiveData<String>("")
@@ -110,6 +110,12 @@ class ProfileViewModel: ViewModel() {
         }*/
         db.collection("skills").document(id).collection("slots")
             .add(new).addOnSuccessListener { documentReference ->
+            Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
+        }
+            .addOnFailureListener { e ->
+                Log.i("test", "Error adding document", e)
+            }
+        db.collection("slots").add(new).addOnSuccessListener { documentReference ->
             Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
         }
             .addOnFailureListener { e ->
