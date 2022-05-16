@@ -64,7 +64,9 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             if (slot.user == id){
                 show_prof_button.visibility = View.GONE
                 show_prof_button.isClickable = false
+                edit_button.visibility = View.VISIBLE
                 edit_button.isClickable = true
+
             }else{
                 edit_button.visibility = View.GONE
                 edit_button.isClickable = false

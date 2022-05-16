@@ -51,15 +51,23 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.search_menu, menu)
-        Log.i("test","menu")
-        var menuItem = view?.findViewById<SearchView>(R.id.action_search)
-        menuItem?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+        val menuItem = menu.findItem(R.id.action_search)
+        val p = menuItem.actionView as SearchView
+        Log.i("test",menuItem.toString())
+        p.isIconifiedByDefault = false
+        p.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                searchSkills(p0?.lowercase(),id)
+
+                if(p0==""){
+                    Log.i("Test_home", p0.toString())
+                    readData(id)
+                }else {
+                    searchSkills(p0?.lowercase(), id)
+                }
                 return true
             }
             override fun onQueryTextChange(p0: String?): Boolean {
-
                 return false
             }
 
@@ -69,7 +77,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle("Home")
+        activity?.title = "Home"
 
         Log.i("test_home2", id)
 
@@ -130,8 +138,6 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                     override fun onSkillClick(position: Int) {
                         vm.setSkill(skillList[position].title)
                         vm.setDesc(skillList[position].description)
-
-
                     }
 
                     override fun onSkillDeleted(position: Int) {
@@ -149,14 +155,13 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
     private fun searchSkills(query: String?, id: String) {
         skillList = arrayListOf()
-        Log.i("QUERY", query.toString())
-            db.collection("skills").whereEqualTo("search", query).get()
+        db.collection("skills")
+            .whereEqualTo("search", query.toString()).get()
                 .addOnSuccessListener {
-                    //db.collection("skills").orderBy(query).get().addOnSuccessListener {
                         result ->
+                    Log.i("QUERY", query.toString())
                     for (document in result) {
                         Log.i("TEST_DOCUMENT", "$document")
-
                         if (document.id != id) {
                             document.data.forEach { (c, s) ->
                                 Log.i("test_home", s.toString())
