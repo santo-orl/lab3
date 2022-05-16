@@ -13,12 +13,11 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
-import it.polito.lab4.ProfileViewModel
+import it.polito.lab4.ViewModel
 import it.polito.lab4.R
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
 import it.polito.lab4.skills.Adapter_SkillUserFrg
-import kotlinx.android.synthetic.main.fragment_home_skilllist.view.*
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
 
@@ -27,7 +26,7 @@ class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
 
     private lateinit var adapterSkill: Adapter_SkillUserFrg
     private var skillList: ArrayList<Skill> = arrayListOf()
-    private val vm: ProfileViewModel by activityViewModels()
+    private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private var id = ""
 

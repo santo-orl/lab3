@@ -15,7 +15,7 @@ import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
-import it.polito.lab4.ProfileViewModel
+import it.polito.lab4.ViewModel
 import it.polito.lab4.timeSlots.Slot
 import it.polito.lab4.R
 import it.polito.lab4.timeSlots.Adapter_frgTime
@@ -28,7 +28,7 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var adapterFrgTime: Adapter_frgTime
     private var slotList: ArrayList<Slot> = arrayListOf()
     private lateinit var add_button: FloatingActionButton
-    private val vm: ProfileViewModel by activityViewModels()
+    private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private  var id = ""
     private  var title = ""

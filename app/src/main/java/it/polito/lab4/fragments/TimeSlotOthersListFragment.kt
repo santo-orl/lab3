@@ -6,16 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
-import it.polito.lab4.ProfileViewModel
+import it.polito.lab4.ViewModel
 import it.polito.lab4.R
 import it.polito.lab4.timeSlots.Adapter_frgTime
 import it.polito.lab4.timeSlots.Slot
@@ -27,7 +23,7 @@ class TimeSlotOthersListFragment : Fragment() {
     private lateinit var adapterFrgTime: Adapter_frgTime
     private var slotList: ArrayList<Slot> = arrayListOf()
     private lateinit var add_button: FloatingActionButton
-    private val vm: ProfileViewModel by activityViewModels()
+    private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private  var id = ""
     private  var title = ""

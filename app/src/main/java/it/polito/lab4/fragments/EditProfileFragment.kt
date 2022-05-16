@@ -27,7 +27,7 @@ import androidx.core.net.toUri
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
-import it.polito.lab4.ProfileViewModel
+import it.polito.lab4.ViewModel
 import it.polito.lab4.R
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
@@ -76,7 +76,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private lateinit var state: Parcelable
     private val db = FirebaseFirestore.getInstance()
 
-    private val vm by activityViewModels<ProfileViewModel>()
+    private val vm by activityViewModels<ViewModel>()
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

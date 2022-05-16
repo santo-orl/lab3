@@ -10,7 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.FirebaseFirestore
-import it.polito.lab4.ProfileViewModel
+import it.polito.lab4.ViewModel
 import it.polito.lab4.R
 import it.polito.lab4.timeSlots.Slot
 
@@ -33,7 +33,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private  var eliminare = Slot("", "", "", "", "", 0,"")
 
     //val vm by viewModels<TimeSlotViewModel>()
-    private val vm: ProfileViewModel by activityViewModels()
+    private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private lateinit var id : String
     private lateinit var slot: Slot
