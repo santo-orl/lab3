@@ -129,7 +129,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                 adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
                     override fun onSkillClick(position: Int) {
                         vm.setSkill(skillList[position].title)
-                        vm.setdesc(skillList[position].description)
+                        vm.setDesc(skillList[position].description)
 
 
                     }
@@ -192,7 +192,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                     adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
                         override fun onSkillClick(position: Int) {
                             vm.setSkill(skillList[position].title)
-                            vm.setdesc(skillList[position].description)
+                            vm.setDesc(skillList[position].description)
                         }
 
                         override fun onSkillDeleted(position: Int) {
