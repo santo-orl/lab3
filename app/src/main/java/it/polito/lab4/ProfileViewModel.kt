@@ -73,7 +73,7 @@ class ProfileViewModel: ViewModel() {
 
 
     fun addSlot(new: Slot) {
-        val map: MutableMap<String, Slot> = HashMap()
+      /*  val map: MutableMap<String, Slot> = HashMap()
         db.collection("slots").document(id).get().addOnSuccessListener {
             var slotList = arrayListOf<Slot>()
             if (it.exists()) {
@@ -104,7 +104,14 @@ class ProfileViewModel: ViewModel() {
                 .addOnFailureListener { e ->
                     Log.i("test", "Error adding document", e)
                 }
+        }*/
+        db.collection("skills").document(id).collection("slots")
+            .add(new).addOnSuccessListener { documentReference ->
+            Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
         }
+            .addOnFailureListener { e ->
+                Log.i("test", "Error adding document", e)
+            }
     }
 
     fun deleteSlot(title: String) {

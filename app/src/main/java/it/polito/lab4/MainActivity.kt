@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity(){
         email_field = view.findViewById(R.id.email_nv)
         name_field = view.findViewById(R.id.name_nv)
         image_field = view.findViewById(R.id.image_nv)
-        Log.i("test_menu","before")
+      //  Log.i("test_menu","before")
         readData("simonachiurato24@gmail.com")
 
 
@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity(){
     }
     private fun readData(id: String) {
        db.collection("users").document(id).get().addOnSuccessListener {
-           Log.i("test_menu",it.data.toString())
+         //  Log.i("test_menu",it.data.toString())
            if (it.get("name").toString() != "null") {
                name_field.text = it.get("name").toString()
            }
@@ -204,12 +204,12 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
         vm.email.observe(this) {
-            Log.i("test_menu", it)
+           // Log.i("test_menu", it)
             if (it != "") {
-                Log.i("test_menu", "2")
+               // Log.i("test_menu", "2")
                 readData(it)
             } else {
-                Log.i("TEST", "MAIN ")
+              //  Log.i("TEST", "MAIN ")
                 val id = intent.getStringExtra("id").toString()
                 Log.i("test_menu", id)
                 vm.setEmail(id)

@@ -93,7 +93,7 @@
         android:id="@+id/homeFragment"
         android:name="it.polito.lab4.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home_skilllist" >
         <action
             android:id="@+id/action_homeFragment_to_datePickerFragment"
             app:destination="@id/datePickerFragment" />
@@ -110,7 +110,7 @@
         android:id="@+id/listSkillUserFragment"
         android:name="it.polito.lab4.fragments.ListSkillUserFragment"
         android:label="fragment_list_skill_user"
-        tools:layout="@layout/fragment_list_skill_user" >
+        tools:layout="@layout/fragment_home_skilllist" >
         <action
             android:id="@+id/action_listSkillUserFragment_to_itemListFragment"
             app:destination="@id/itemListFragment" />

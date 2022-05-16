@@ -30,8 +30,8 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
     private lateinit var add_button: FloatingActionButton
     private val vm: ProfileViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
-    private lateinit var id : String
-
+    private  var id = ""
+    private  var title = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -54,10 +54,15 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
             }
         }
         vm.email.observe(this.viewLifecycleOwner) {
-            id = it
-            readData(id)
-        }
+            id = it.toString()
 
+        }
+        vm.skill.observe(this.viewLifecycleOwner) {
+            title = it.toString()
+            readData(id,title)
+
+        }
+        Log.i("test!!!!!!", title)
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 activity?.supportFragmentManager?.commit {
@@ -70,9 +75,20 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
         })
     }
 
-    private fun readData(id: String) {
-        db.collection("slots").document(id).get().addOnSuccessListener {
-            slotList = arrayListOf()
+    private fun readData(id: String, title : String) {
+        db.collection("skills").document(id).collection("slots")
+            .whereEqualTo("title", title).get().addOnSuccessListener {  result ->
+                Log.i("TEST", "boh")
+                slotList = arrayListOf()
+                for (document in result) {
+                    Log.i("TEST", "boh2")
+                    Log.i("TEST", "${document.id} + ${document.data}  ")
+                }
+
+
+
+                /*
+
             if (it.exists()) {
                 it.data!!.forEach { (c, s) ->
                     //Log.i("testList", s.toString())
@@ -102,13 +118,13 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                     )
                 )
             }
-            Log.i("testList2", slotList.toString())
-            recycler_view.layoutManager = LinearLayoutManager(requireView().context)
-            adapterFrgTime = Adapter_frgTime(slotList)
-            recycler_view.adapter = adapterFrgTime
-            vm.setSlot("")
+         */   Log.i("testList2", slotList.toString())
+                recycler_view.layoutManager = LinearLayoutManager(requireView().context)
+                adapterFrgTime = Adapter_frgTime(slotList)
+                recycler_view.adapter = adapterFrgTime
+                vm.setSlot("")
 
-            adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
+                  adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                 override fun onSlotDeleted(position: Int) {
                     vm.deleteSlot(slotList[position].title)
                     slotList.removeAt(position)
@@ -133,6 +149,6 @@ class TimeSlotListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 }
             })
         }
+            }
     }
 
-}

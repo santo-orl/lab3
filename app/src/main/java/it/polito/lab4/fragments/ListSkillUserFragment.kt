@@ -1,12 +1,12 @@
 package it.polito.lab4.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,10 +16,13 @@ import it.polito.lab4.R
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
 import it.polito.lab4.skills.Adapter_SkillUserFrg
+import kotlinx.android.synthetic.main.fragment_home_skilllist.view.*
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
 
 class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
+    private lateinit var search_view: SearchView
+
     private lateinit var adapterSkill: Adapter_SkillUserFrg
     private var skillList: ArrayList<Skill> = arrayListOf()
     private val vm: ProfileViewModel by activityViewModels()
@@ -47,6 +50,8 @@ class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("List your skills")
+        search_view = view.findViewById(R.id.search_view)
+        search_view.visibility = View.GONE
 
         /*val welcome_text = view.findViewById<TextView>(R.id.welcome_text)
         welcome_text.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));*/
@@ -93,6 +98,7 @@ class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
             recycler_view.layoutManager = LinearLayoutManager(this.activity)
             adapterSkill = Adapter_SkillUserFrg(skillList)
             recycler_view.adapter = adapterSkill
+            vm.setSkill("")
 
             adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
                 override fun onSkillClick(position: Int) {
