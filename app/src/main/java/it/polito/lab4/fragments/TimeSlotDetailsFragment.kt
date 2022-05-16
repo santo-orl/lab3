@@ -71,6 +71,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 edit_button.visibility = View.GONE
                 edit_button.isClickable = false
                 show_prof_button.isClickable = true
+                show_prof_button.visibility = View.VISIBLE
             }
             if (slot.title != "") {
                 Log.i("test_edit", "entra? ${slot.title}" )

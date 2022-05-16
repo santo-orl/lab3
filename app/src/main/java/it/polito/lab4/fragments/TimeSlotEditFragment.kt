@@ -60,7 +60,12 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         vm.slot.observe(this.viewLifecycleOwner){
              slot = it
             if(slot.title!= ""){
-                readData(id)
+                title_field.setText(slot.title)
+                description_field.setText(slot.description)
+                date_field.setText(slot.date)
+                from_field.setText(slot.duration.split("-")[0])
+                to_field.setText(slot.duration.split("-")[1])
+                location_field.setText(slot.location)
                 Log.i("test_edit", "Entra")
 
             }else{
@@ -68,14 +73,12 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     if(tit!= ""){
                         title_field.setText(tit)
                         title_field.isClickable = false
-
                     }
                 }
                 vm.description.observe(this.viewLifecycleOwner){ desc ->
                     if(desc!= ""){
                         description_field.setText(desc)
                         description_field.isClickable = false
-
                     }
                 }
                 from_field.setHint(from)
@@ -85,18 +88,11 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         }
 
-
-
-
-
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(title_field.text.toString()!= "Title"){
-                    title = title_field.text.toString()
-                }
-                if(description_field.text.toString()!= "Description"){
-                    description = description_field.text.toString()
-                }
+                title = title_field.text.toString()
+                description = description_field.text.toString()
+
                 if(date_field.text.toString()!= ""){
                     date = date_field.text.toString()
                 }else{
@@ -181,21 +177,29 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         }
     }
 
-    private fun readData(id: String) {
-        db.collection("slots").document(id).get().addOnSuccessListener {
-            if (it.exists()) {
-                it.data!!.forEach { (c, s) ->
-                    s as HashMap<*, *>
-                    if (s["title"].toString() == slot.title) {
-                      var chosenSlot = Slot(
+  /*  private fun readData(id: String) {
+        db.collection("skills").document(id).collection("slots")
+            .whereEqualTo("title", slot.value?.title)
+            .whereEqualTo("description",slot.value?.description)
+            .whereEqualTo("location",slot.value?.location)
+            .whereEqualTo("date",slot.value?.date)
+            .whereEqualTo("duration",slot.value?.duration).get().addOnSuccessListener {
+                    result ->
+                for (document in result) {
+                    val s = document.data as HashMap<*, *>
+                    Log.i("TEST", "${document.id} + ${document.data}  ")
+
+                    slotList.add(
+                        Slot(
                             s["title"].toString(),
                             s["description"].toString(),
                             s["date"].toString(),
                             s["duration"].toString(),
                             s["location"].toString(),
-                            s["pos"].toString().toInt(),
+                            slotList.size,
                             s["user"].toString()
                         )
+                    )
                         title_field.setText(chosenSlot.title)
                         description_field.setText(chosenSlot.description)
                         date_field.setText(chosenSlot.date)
@@ -207,7 +211,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         }
     }
-
+*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         findNavController().navigate(R.id.timeSlotDetailsFragment)

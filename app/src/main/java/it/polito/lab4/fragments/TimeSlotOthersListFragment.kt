@@ -90,19 +90,19 @@ class TimeSlotOthersListFragment : Fragment() {
                         val s = document.data as HashMap<*, *>
                         if (s["user"] != id) {
                             Log.i("TEST", "${document.id} + ${document.data}  ")
-                        }
 
-                    slotList.add(
-                        Slot(
-                            s["title"].toString(),
-                            s["description"].toString(),
-                            s["date"].toString(),
-                            s["duration"].toString(),
-                            s["location"].toString(),
-                            slotList.size,
-                            s["user"].toString()
-                        )
-                    )
+                            slotList.add(
+                                Slot(
+                                    s["title"].toString(),
+                                    s["description"].toString(),
+                                    s["date"].toString(),
+                                    s["duration"].toString(),
+                                    s["location"].toString(),
+                                    slotList.size,
+                                    s["user"].toString()
+                                )
+                            )
+                        }
                 }
                 if (slotList.isEmpty()) {
                     Log.i("testList", slotList.toString())
