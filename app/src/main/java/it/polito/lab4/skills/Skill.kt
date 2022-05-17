@@ -10,13 +10,16 @@ data class Skill(
     var pos: Int,
     var user: String,
     //var search: String = title.lowercase()
-var search: String = title.trim().lowercase()
+    var search: String = title.lowercase()
     ) : Parcelable {
-
-
+    var id = ""
 
     override fun toString(): String {
         return "$title###$description###$pos###$search"
+    }
+
+    fun reference(reference: String) {
+        id = reference
     }
 }
 

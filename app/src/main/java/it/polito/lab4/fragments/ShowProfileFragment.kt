@@ -20,6 +20,7 @@ import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
 import kotlinx.android.synthetic.main.fragment_show_profile.*
 import java.io.File
+import java.util.HashMap
 
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
@@ -79,6 +80,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                readData(slot.user)
             }else{
                 readData(id)
+                Log.i("test_show", id)
                 setHasOptionsMenu(true)
             }
 
@@ -141,19 +143,32 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             Log.i("test_show", "Error adding document", e)
         }
 
-        db.collection("skills").document(id).get().addOnSuccessListener {
+        db.collection("skills").whereEqualTo("user", id).get().addOnSuccessListener { result ->
             skillList = arrayListOf()
-            if (it.exists()) {
+           /* if (it.exists()) {
                it.data!!.forEach { (c,s) ->
                    s as HashMap<*,*>
                    skillList.add(Skill(s["title"].toString(),s["description"].toString(),s["pos"].toString().toInt(), id,s["title"].toString().lowercase()))
-                }
+                }*/
+                for (document in result) {
+                    val s = document.data as HashMap<*, *>
+                    Log.i("test_home!!!!", s.toString())
+                    var p = Skill(
+                        s["title"].toString(),
+                        s["description"].toString(),
+                        s["pos"].toString().toInt(),
+                        s["user"].toString()
+                    )
+                    p.reference(s["id"].toString())
+                    skillList.add(p)
+
+                    }
+
                 recycler.layoutManager = LinearLayoutManager(this.activity)
                 adapterShowProfile = Adapter_showProfile(skillList)
                 recycler.adapter = adapterShowProfile
 
-            }
-        }.addOnFailureListener { e ->
+            }.addOnFailureListener { e ->
             Log.i("test_show", "Error adding document", e)
         }
     }

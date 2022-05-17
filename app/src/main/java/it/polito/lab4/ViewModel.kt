@@ -79,18 +79,35 @@ class ViewModel: ViewModel() {
     fun createUser(name:String, nickname: String, email: String,
                     location: String,
                      photoString: String,  skills: ArrayList<Skill> ){
-            val map: MutableMap<String, Skill> = HashMap()
             for(s in skills){
-                map[s.title] = s
+                if(s.id!=""){
+                    Log.i("test_nonSsegnata", s.toString())
+                    db.collection("skills").document(s.id)
+                        .set(s, SetOptions.merge()).addOnSuccessListener{ documentReference ->
+                        Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
+                    }
+                        .addOnFailureListener { e ->
+                            Log.i("test", "Error adding document", e)
+                        }
+                }else {
+                    var slotRef = db.collection("skills").document()
+                    s.reference(slotRef.id)
+                    Log.i("test_Segnata", s.toString())
+                    slotRef.set(s, SetOptions.merge()).addOnSuccessListener { documentReference ->
+                        Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
+                    }
+                        .addOnFailureListener { e ->
+                            Log.i("test", "Error adding document", e)
+                        }
+                }
             }
-            db.collection("skills").document(email).set(map).addOnSuccessListener { documentReference ->
+          /*  db.collection("skills").document(email).set(map).addOnSuccessListener { documentReference ->
                 Log.i("test","DocumentSnapshot added with ID:${documentReference}")
             }
                 .addOnFailureListener{e ->
                     Log.i("test","Error adding document",e)
-                }
+                }*/
         val user = User(name, nickname, email, location, photoString)
-
         _user.value = user
         id = email
         db.collection("users").document(email).set(user, SetOptions.merge()).addOnSuccessListener { documentReference ->
@@ -112,14 +129,6 @@ class ViewModel: ViewModel() {
         _email.value = desiredEmail
     }
     fun addSlot(new: Slot) {
-      /* var slotRef = db.collection("skills").document(id).collection("slots").document()
-        new.id(slotRef.id)
-        slotRef.set(new, SetOptions.merge()).addOnSuccessListener { documentReference ->
-            Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
-        }
-            .addOnFailureListener { e ->
-                Log.i("test", "Error adding document", e)
-            }*/
         if(new.id!=""){
             db.collection("slots").document(new.id).set(new, SetOptions.merge()).addOnSuccessListener { documentReference ->
                 Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
@@ -167,6 +176,10 @@ class ViewModel: ViewModel() {
     }
 
     fun removeSkill(skill: Skill) {
+        db.collection("skills").whereEqualTo("id",skill.id).get().addOnSuccessListener { result ->
+            for (document in result)
+                document.reference.delete()
+        }
 
         db.collection("slots").whereEqualTo("user", skill.user).whereEqualTo("title", skill.title)
             .whereEqualTo("description", skill.description).get().addOnSuccessListener { result ->

@@ -23,12 +23,8 @@ class Adapter_showProfile(private val dataSet: ArrayList<Skill>) :
         private lateinit var listener: AdapterView.OnItemClickListener
 
         init {
-
                 view.setOnClickListener{
-
                 }
-
-
         }
     }
 

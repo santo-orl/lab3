@@ -59,7 +59,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var uriImageToUpdate: String
     private lateinit var profileUri: Uri
     private var uriImageString: String = ""
-    private var def_uriImageString: String = ""
+    private var oldPhoto: String = ""
 
     val name: String = "Full name"
     private val nickname: String = "Nickname"
@@ -143,19 +143,13 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }else {
             locationToUpdate = location_field.text.toString()
         }
-      /*  if(uriImageString == ""){
-            Log.i("test_edit", uriImageString)
-            uriImageToUpdate = uriImageString
-        }else{
-            uriImageToUpdate = profileUri.toString()
-        }*/
         val listNoEmpty: ArrayList<Skill> = arrayListOf()
         if(skillList.isNotEmpty()) {
             for (s in skillList) {
                 if(s.title.length >= 5 && s.description.length >= 10){
                     Log.i("test", s.toString())
                     s.search = s.title.lowercase()
-
+                    s.user = emailToUpdate
                     listNoEmpty.add(s)
                 }else if(s.title.length < 5){
                     Toast.makeText(activity,"Sorry, the title must be at least of 5 characters",Toast.LENGTH_SHORT).show()
@@ -164,8 +158,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }
             }
         }
-        val uri = vm.uploadImage(uriImageString).toString()
-        Log.i("test_edit","after uri ${uri.toString()}")
+        if(uriImageString != oldPhoto) {
+            val uri = vm.uploadImage(uriImageString).toString()
+            Log.i("test_PHOTO","after uri ${uri.toString()}")
+        }
         vm.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageString,listNoEmpty)
 
     }
@@ -178,7 +174,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             email_field.setText(it.get("email").toString())
 
             if (it.get("photoString").toString() != "") {
-                uriImageString = it.get("photoString").toString()
+                oldPhoto = it.get("photoString").toString()
+                uriImageString = oldPhoto
                 val pathReference = storageRef.child("images/" + email_field.text.toString())
                 val localFile = File.createTempFile("images", "jpg")
 
@@ -210,22 +207,30 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             Log.i("test_edit", "Error adding document", e)
         }
 
-        db.collection("skills").document(id).get().addOnSuccessListener {
+        db.collection("skills").whereEqualTo("user", id).get().addOnSuccessListener { result ->
             skillList = arrayListOf()
-            if (it.exists()) {
-                it.data!!.forEach { (c,s) ->
-                    s as HashMap<*,*>
-                    skillList.add(Skill(s["title"].toString(),s["description"].toString(),s["pos"].toString().toInt(), id))
-                }
-                Log.i("test10", skillList.toString())
+            for (document in result){
+                Log.i("Test_DOCUMENT", "$document")
+                Log.i("Test_document_data", "${document.data}")
+                    val s = document.data as HashMap<*, *>
+                    Log.i("test_home!!!!", s.toString())
+                var p = Skill(
+                    s["title"].toString(),
+                    s["description"].toString(),
+                    s["pos"].toString().toInt(),
+                    s["user"].toString()
+                )
+                p.reference(s["id"].toString())
+                skillList.add(p)
 
-            }
+                }
+
+            Log.i("test10", skillList.toString())
             setUpLayout()
         }.addOnFailureListener { e ->
             Log.i("test_edit", "Error adding document", e)
         }
     }
-
 
     private fun setUpLayout() {
         if(skillList.size == 0){

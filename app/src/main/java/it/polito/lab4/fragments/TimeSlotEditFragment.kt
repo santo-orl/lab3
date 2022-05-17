@@ -204,7 +204,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     //se data scelta prima di oggi errore
                     if(cal.before(Calendar.getInstance())){
                         println("ENTRO NEL CASO DATA SCELTA PRIMA DI OGGI")
-                        Toast.makeText(this.context,"wrong date",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context,"You cannot chose a date before now",Toast.LENGTH_LONG).show()
                     }//if
                     //altrimenti va bene
                     else{
