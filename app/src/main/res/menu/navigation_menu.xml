@@ -4,7 +4,8 @@
     android:id="@+id/nav_menu"
 
     >
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/group1">
 
         <item
             android:id="@+id/home"
@@ -25,5 +26,15 @@
             android:visible="true" />
     </group>
 
+    <group android:checkableBehavior="single"
+        android:id="@+id/group2">
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@android:drawable/ic_partial_secure"
+            android:title="LOGOUT"
+            android:visible="true" />
+
+    </group>
 
 </menu>

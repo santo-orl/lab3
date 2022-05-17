@@ -112,6 +112,21 @@ class MainActivity : AppCompatActivity(){
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     true
                 }
+                R.id.logout -> {
+                    FirebaseAuth.getInstance().signOut()
+                    GoogleSignIn.getClient(
+                        this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestIdToken(getString(R.string.default_web_client))
+                            .requestEmail()
+                            .build()
+                    ).signOut()
+                    /*  val navController = findNavController(R.id.myNavHostFragment)
+                     navController.navigate(R.id.loginActivity) */
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                    drawerLayout?.closeDrawer(GravityCompat.START)
+                    true
+                }
 
                 else -> {
                     false
@@ -119,7 +134,7 @@ class MainActivity : AppCompatActivity(){
             }
         }
 
-        logoutBtn.setOnClickListener {
+        /*logoutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             GoogleSignIn.getClient(
                 this, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -132,7 +147,7 @@ class MainActivity : AppCompatActivity(){
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             drawerLayout?.closeDrawer(GravityCompat.START)
-        }
+        }*/
 
         val view = nv.getHeaderView(0)
         email_field = view.findViewById(R.id.email_nv)
