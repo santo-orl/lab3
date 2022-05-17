@@ -169,6 +169,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                     p.reference(s["id"].toString())
                     skillList.add(p)
                     Log.i("testList", p.toString())
+
                 }
 
                 //}
