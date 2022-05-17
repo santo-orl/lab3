@@ -48,27 +48,42 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         inflater.inflate(R.menu.search_menu, menu)
 
         val menuItem = menu.findItem(R.id.action_search)
-        val p = menuItem.actionView as SearchView
-        Log.i("test",menuItem.toString())
-        p.isIconifiedByDefault = false
-        p.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
+        menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener{
+            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                val p = menuItem.actionView as SearchView
+                Log.i("test",menuItem.toString())
+                p.isIconifiedByDefault = false
+                p.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(p0: String?): Boolean {
 
-                if(p0==""){
-                    Log.i("Test_home", p0.toString())
-                    readData(id)
-                }else {
-                    Log.i("Test on text submit",p0.toString())
-                    searchSkills(p0?.lowercase(), id)
-                }
-                return false
+                        if(p0==""){
+                            Log.i("Test_home", p0.toString())
+                            readData(id)
+                        }else {
+                            Log.i("Test on text submit",p0.toString())
+                            searchSkills(p0?.lowercase(), id)
+                        }
+                        return false
+                    }
+                    override fun onQueryTextChange(p0: String?): Boolean {
+                        return false
+                    }
+
+                })
+                return true
             }
-            override fun onQueryTextChange(p0: String?): Boolean {
-                return false
+
+            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean{
+                readData(id)
+                return true
             }
 
         })
+
+
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
