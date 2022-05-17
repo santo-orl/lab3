@@ -107,13 +107,16 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 email_field.text = it.get("email").toString()
 
                 if (it.get("photoString").toString() != "") {
-                    uriImageString = it.get("photoString").toString()
+
                     val pathReference = storageRef.child("images/"+email_field.text.toString())
+                    Log.i("TEST", pathReference.toString())
+                    uriImageString = pathReference.toString()
                     val localFile = File.createTempFile("images", "jpg")
 
                     pathReference.getFile(localFile).addOnSuccessListener {
                         // Local temp file has been created
                         val uriImage = Uri.parse(localFile.path)
+                        Log.i("TEST", uriImage.toString())
                        // Log.i("test_show", localFile.path.toString())
                         photo_field.setImageURI(uriImage)
                     }.addOnFailureListener {
@@ -195,7 +198,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
 
     /* function used for saving fields' state */
-    override fun onSaveInstanceState(outState: Bundle) {
+  /*  override fun onSaveInstanceState(outState: Bundle) {
         outState.putString("Full name", "nome")
         outState.putString("Nickname", "nick")
         outState.putString("Email","mail")
@@ -230,7 +233,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
 
         super.onViewStateRestored(savedInstanceState)
-    }
+    }*/
 
 
 }

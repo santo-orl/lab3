@@ -52,9 +52,11 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
         from_field = view.findViewById(R.id.from_edit)
         from_field.showSoftInputOnFocus = false
+            from_field.isEnabled = false
 
         to_field = view.findViewById(R.id.to_edit)
         to_field.showSoftInputOnFocus = false
+            to_field.isEnabled = false
 
         vm.email.observe(this.viewLifecycleOwner) {
             id = it
@@ -151,6 +153,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         var dataTmp: String = ""
             //DATA
         date_field.setOnClickListener {
+            from_field.isEnabled = true
+
             val datePickerFragment = DatePickerFragment()
             val supportFragmentManager = requireActivity().supportFragmentManager
 
@@ -168,6 +172,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         var fromTmp:String = ""
 
         from_field.setOnClickListener {
+            to_field.isEnabled = true
             val timePickerFragment = TimePickerFragment()
             val supportFragmentManager = requireActivity().supportFragmentManager
             /*setFragmentResultListener("KeyTime") { _, bundle ->
