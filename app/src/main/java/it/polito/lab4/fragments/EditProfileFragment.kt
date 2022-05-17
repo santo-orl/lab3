@@ -174,9 +174,11 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             email_field.setText(it.get("email").toString())
 
             if (it.get("photoString").toString() != "") {
-                oldPhoto = it.get("photoString").toString()
-                uriImageString = oldPhoto
+
+
                 val pathReference = storageRef.child("images/" + email_field.text.toString())
+                oldPhoto = pathReference.toString()
+                uriImageString = oldPhoto
                 val localFile = File.createTempFile("images", "jpg")
 
                 pathReference.getFile(localFile).addOnSuccessListener {
