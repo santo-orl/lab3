@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
@@ -166,14 +168,15 @@ class ViewModel: ViewModel() {
     }
 
     fun removeSkill(skill: Skill) {
+
         db.collection("slots").whereEqualTo("user", skill.user).whereEqualTo("title", skill.title)
-            .whereEqualTo("description", skill.description).get().addOnSuccessListener {
-                    result ->
+            .whereEqualTo("description", skill.description).get().addOnSuccessListener { result ->
                 for (document in result)
                     document.reference.delete()
             }
 
+
+        }
+
+
     }
-
-
-}
