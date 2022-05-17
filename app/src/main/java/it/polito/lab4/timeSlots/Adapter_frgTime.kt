@@ -80,7 +80,8 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>(),SlotUI.SlotSaved {
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
 
-       if(dataSet[0].title == "No advertisement" && dataSet[0].description == "Click on the button below to add your first advertisement") {
+       if((dataSet[0].title == "No advertisement" && dataSet[0].description == "Click on the button below to add your first advertisement")
+           || (dataSet[0].title == "No advertisement" && dataSet[0].description == "No advertisements for this skill")) {
            viewHolder.title.text = dataSet[position].title
            viewHolder.description.text = dataSet[position].description
            viewHolder.cardView.isClickable = false

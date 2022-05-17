@@ -105,7 +105,7 @@ class TimeSlotOthersListFragment : Fragment() {
                     slotList.add(
                         Slot(
                             "No advertisement",
-                            "Click on the button below to add your first advertisement",
+                            "No advertisements for this skill",
                             "",
                             "",
                             "",

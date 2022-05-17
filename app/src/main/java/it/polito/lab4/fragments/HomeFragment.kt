@@ -58,9 +58,10 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                     Log.i("Test_home", p0.toString())
                     readData(id)
                 }else {
+                    Log.i("Test on text submit",p0.toString())
                     searchSkills(p0?.lowercase(), id)
                 }
-                return true
+                return false
             }
             override fun onQueryTextChange(p0: String?): Boolean {
                 return false
@@ -150,18 +151,18 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
     private fun searchSkills(query: String?, id: String) {
         skillList = arrayListOf()
-        db.collection("skills")
-            .whereEqualTo("search", query.toString()).get()
-                .addOnSuccessListener {
-                        result ->
-                    Log.i("QUERY", query.toString())
-                    for (document in result) {
-                        Log.i("TEST_DOCUMENT", "$document")
+        //value=ObjectValue{internalValue={Leggere:{description:so leggere da 10 anni,pos:1,search:leggere,title:Leggere}}
+        db.collection("skills").get()
+            .addOnSuccessListener {
+                result ->
+                for (document in result){
+                    Log.i("Test_DOCUMENT", "$document")
+                    Log.i("Test_document_data", "${document.data}")
                         if (document.id != id) {
                             document.data.forEach { (c, s) ->
                                 Log.i("test_home", s.toString())
                                 s as HashMap<*, *>
-                                if (s["title"] == query) {
+                                if (s["search"] == query) {
                                     Log.i("test_home", "entra")
                                     skillList.add(
                                         Skill(
