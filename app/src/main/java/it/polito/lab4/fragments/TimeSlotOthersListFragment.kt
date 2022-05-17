@@ -78,23 +78,25 @@ class TimeSlotOthersListFragment : Fragment() {
 
     private fun readData(id: String, title : String) {
         db.collection("slots")
-            .whereEqualTo("title", title).get().addOnSuccessListener { result ->
+            .whereEqualTo("title", title).whereNotEqualTo("user", id).get().addOnSuccessListener { result ->
                 Log.i("TEST", "boh")
                 slotList = arrayListOf()
                 for (document in result) {
                         val s = document.data as HashMap<*, *>
                         if (s["user"] == id) {
                             Log.i("TEST", "${document.id} + ${document.data}  ")
+                            var add = Slot(
+                                s["title"].toString(),
+                                s["description"].toString(),
+                                s["date"].toString(),
+                                s["duration"].toString(),
+                                s["location"].toString(),
+                                slotList.size,
+                                s["user"].toString()
+                            )
+                                add.id(document.id)
                             slotList.add(
-                                Slot(
-                                    s["title"].toString(),
-                                    s["description"].toString(),
-                                    s["date"].toString(),
-                                    s["duration"].toString(),
-                                    s["location"].toString(),
-                                    slotList.size,
-                                    s["user"].toString()
-                                )
+                                add
                             )
                         }
                 }

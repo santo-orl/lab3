@@ -78,25 +78,26 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
     }
 
     private fun readData(id: String, title : String) {
-        db.collection("skills").document(id).collection("slots")
-            .whereEqualTo("title", title).get().addOnSuccessListener {  result ->
+        db.collection("slots")
+            .whereEqualTo("title", title).whereEqualTo("user", id).get().addOnSuccessListener {  result ->
                 Log.i("TEST", "boh")
                 slotList = arrayListOf()
                 for (document in result) {
                     val s = document.data as HashMap<*, *>
                     Log.i("TEST", "${document.id} + ${document.data}  ")
-
-                    slotList.add(
-                        Slot(
-                            s["title"].toString(),
-                            s["description"].toString(),
-                            s["date"].toString(),
-                            s["duration"].toString(),
-                            s["location"].toString(),
-                            slotList.size,
-                            s["user"].toString()
-                        )
+                    var add = Slot(
+                        s["title"].toString(),
+                        s["description"].toString(),
+                        s["date"].toString(),
+                        s["duration"].toString(),
+                        s["location"].toString(),
+                        slotList.size,
+                        s["user"].toString()
                     )
+                    slotList.add(
+                        add
+                    )
+
 
                 }
                 Log.i("Slot List User", slotList.toString())

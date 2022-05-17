@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(){
     private  var email= "Your email"
     private  var uriImageString: String = ""
     private  var db = FirebaseFirestore.getInstance()
-    private var storage = Firebase.storage
+    private var storage = Firebase.storage("gs://timebankingapplication")
     var storageRef = storage.reference
 
 
@@ -177,13 +177,13 @@ class MainActivity : AppCompatActivity(){
                     pathReference.getFile(localFile).addOnSuccessListener {
                         // Local temp file has been created
                         val uriImage = Uri.parse(localFile.path)
-                        Log.i("test_show", localFile.path.toString())
+                      //  Log.i("test_show", localFile.path.toString())
                         image_field.setImageURI(uriImage)
                     }.addOnFailureListener {
                         // Handle any errors
                     }
 
-                    Log.i("test_show", pathReference.toString())
+                   // Log.i("test_show", pathReference.toString())
 
 
                 } else {

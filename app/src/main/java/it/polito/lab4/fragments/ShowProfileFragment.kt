@@ -39,7 +39,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var adapterShowProfile: Adapter_showProfile
     private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
-    private var storage = Firebase.storage
+    private var storage = Firebase.storage("gs://timebankingapplication")
     var storageRef = storage.reference
     private var id = ""
     private lateinit var slot: Slot
@@ -112,23 +112,25 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     pathReference.getFile(localFile).addOnSuccessListener {
                         // Local temp file has been created
                         val uriImage = Uri.parse(localFile.path)
-                        Log.i("test_show", localFile.path.toString())
+                       // Log.i("test_show", localFile.path.toString())
                         photo_field.setImageURI(uriImage)
                     }.addOnFailureListener {
                         // Handle any errors
                     }
 
-                    Log.i("test_show", pathReference.toString())
-
-
+                  Log.i("test_show", pathReference.toString())
                 } else {
                     photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
                 }
-                if (it.get("nickname").toString() != "Nickname") {
+                if (it.get("nickname").toString() != "null") {
                     nickname_field.text = it.get("nickname").toString()
+                }else{
+                    nickname_field.text = "Nickname"
                 }
-                if (it.get("location").toString() != "Location") {
+                if (it.get("location").toString() != "null") {
                     location_field.text = it.get("location").toString()
+                }else{
+                    location_field.text = "Location"
                 }
             }else{
                 /*vm.name.observe(this.viewLifecycleOwner) {

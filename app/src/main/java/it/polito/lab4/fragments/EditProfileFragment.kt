@@ -72,7 +72,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     lateinit var filePhoto: File
     lateinit var photo_button: ImageButton
 
-    private var storage = Firebase.storage
+    private var storage = Firebase.storage("gs://timebankingapplication")
     var storageRef = storage.reference
 
     private val FILE_NAME = "photo.jpg"
@@ -143,12 +143,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         }else {
             locationToUpdate = location_field.text.toString()
         }
-        if(uriImageString == ""){
+      /*  if(uriImageString == ""){
             Log.i("test_edit", uriImageString)
             uriImageToUpdate = uriImageString
         }else{
             uriImageToUpdate = profileUri.toString()
-        }
+        }*/
         val listNoEmpty: ArrayList<Skill> = arrayListOf()
         if(skillList.isNotEmpty()) {
             for (s in skillList) {
@@ -162,9 +162,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }
             }
         }
-        val uri = vm.uploadImage(uriImageToUpdate).toString()
+        val uri = vm.uploadImage(uriImageString).toString()
         Log.i("test_edit","after uri ${uri.toString()}")
-        vm.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageToUpdate,listNoEmpty)
+        vm.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageString,listNoEmpty)
 
     }
 
@@ -182,22 +182,26 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
                 pathReference.getFile(localFile).addOnSuccessListener {
                     // Local temp file has been created
-                    profileUri = Uri.parse(localFile.path)
-                    val uriImage = profileUri
-                    Log.i("test_show", localFile.path.toString())
+                    val uriImage = Uri.parse(localFile.path)
+                   // Log.i("test_show", localFile.path.toString())
                     imageButton.setImageURI(uriImage)
                 }.addOnFailureListener {
                     // Handle any errors
                 }
 
-                Log.i("test_show", pathReference.toString())
+              //  Log.i("test_show", pathReference.toString())
 
             }
-            if (it.get("nickname").toString() != "Nickname") {
+            if (it.get("nickname").toString() != "null") {
                 nickname_field.setText(it.get("nickname").toString())
+            }else{
+                nickname_field.hint = "Nickname"
             }
-            if (it.get("location").toString() != "Location") {
+
+            if (it.get("location").toString() != "null") {
                 location_field.setText(it.get("location").toString())
+            }else{
+                location_field.hint = "Location"
             }
 
         }.addOnFailureListener { e ->
@@ -231,9 +235,11 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         recycler.adapter = adapterEditProfile
 
         adapterEditProfile.setOnTodoDeleteClick(object : SkillUI.SkillListener {
-            override fun onSkillDeleted(position: Int) {
+            override fun onSkillDeleted(position: Int)   {
+                vm.removeSkill(skillList[position])
                 skillList.removeAt(position)
                 adapterEditProfile.notifyDataSetChanged()
+
             }
 
             override fun onSkillClick(position: Int) {
