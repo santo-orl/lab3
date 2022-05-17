@@ -76,7 +76,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         vm.slot.observe(this.viewLifecycleOwner) {
             slot = it
             // Log.i("test_edit", slot.toString())
-            if (slot.user!= ""){
+            if (slot.user!= "" &&slot.user != id){
                readData(slot.user)
             }else{
                 readData(id)
