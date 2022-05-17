@@ -8,15 +8,21 @@
 
         <item
             android:id="@+id/home"
-            android:title="Home" />
+            android:icon="@drawable/index"
+            android:title="Home"
+            android:visible="true" />
         <item
             android:id="@+id/profile"
-             android:title="Profile" />
+            android:icon="@drawable/profileicon"
+            android:title="Profile"
+            android:visible="true" />
 
         <item
             android:id="@+id/listTimeSlot"
 
-            android:title="List of time slots" />
+            android:icon="@drawable/listaindex"
+            android:title="List of time slots"
+            android:visible="true" />
     </group>
 
 

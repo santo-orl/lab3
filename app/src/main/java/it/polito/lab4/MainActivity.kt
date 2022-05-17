@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(){
         //per gestire la visibilità del menu a sinistra e agganciare i listener
         drawerLayout = findViewById(R.id.my_drawer_layout)
         nv = findViewById(R.id.nav_view)
+        nv.setItemIconTintList(null);
         actionBarDrawerToggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
         drawerLayout?.addDrawerListener(actionBarDrawerToggle!!)
@@ -225,7 +226,7 @@ class MainActivity : AppCompatActivity(){
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         //menuInflater.inflate(R.menu.main_menu, menu)
         //menuInflater.inflate(R.menu.options_menu,menu)
-        //menuInflater.inflate(R.menu.navigation_menu, menu)
+        menuInflater.inflate(R.menu.navigation_menu, menu)
         return true
     }
 
