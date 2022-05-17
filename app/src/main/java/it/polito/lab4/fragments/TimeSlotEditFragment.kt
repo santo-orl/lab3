@@ -165,6 +165,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         }
 
             var c = Calendar.getInstance()
+        var fromTmp:String = ""
 
         from_field.setOnClickListener {
             val timePickerFragment = TimePickerFragment()
@@ -189,6 +190,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 //formato HH:mm
                 var ora = result1.toString().substring(0,2).toInt()
                 var minuto = result1.toString().substring(3).toInt()
+                fromTmp = result1.toString()
                 //se oggi
                 if(cal.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)
                     && cal.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
@@ -229,8 +231,16 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             val supportFragmentManager = requireActivity().supportFragmentManager
             setFragmentResultListener("KeyTime") { _, bundle ->
                 val result1 = bundle.getString("TIME")
-                to_field.setText(result1)
-
+                var fromOra = fromTmp.substring(0,2).toInt()
+                var fromMin = fromTmp.substring(3).toInt()
+                var toOra = result1.toString().substring(0,2).toInt()
+                var toMin = result1.toString().substring(3).toInt()
+                if(fromOra>toOra || fromOra==toOra && fromMin>toMin){
+                    Toast.makeText(this.context,"wrong date",Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    to_field.setText(result1)
+                }
             }
             timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
         }
