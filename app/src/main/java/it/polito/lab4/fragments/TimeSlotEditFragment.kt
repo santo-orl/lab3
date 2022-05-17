@@ -13,6 +13,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ViewModel
 import it.polito.lab4.R
 import it.polito.lab4.timeSlots.Slot
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
@@ -146,6 +148,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
         })
 
+            //DATA
         date_field.setOnClickListener {
             val datePickerFragment = DatePickerFragment()
             val supportFragmentManager = requireActivity().supportFragmentManager
@@ -160,14 +163,65 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
 
         }
+
+
+            var c = Calendar.getInstance()
+
         from_field.setOnClickListener {
             val timePickerFragment = TimePickerFragment()
             val supportFragmentManager = requireActivity().supportFragmentManager
-
-            setFragmentResultListener("KeyTime") { _, bundle ->
+            /*setFragmentResultListener("KeyTime") { _, bundle ->
                 val result1 = bundle.getString("TIME")
                 from_field.setText(result1)
+                timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
+
+            }*/
+            //mi prendo la data
+            setFragmentResultListener("KeyDate") { _, bundle ->
+                //date in stringa
+                val date = bundle.getString("SELECTED_DATE")
+                val selDate = SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH)
+
+                c.time = selDate.parse(selDate.format(c.time))
+
             }
+
+            setFragmentResultListener("KeyTime") { _, bundle ->
+                var result1 = bundle.getString("TIME")
+                //formato HH:mm
+                var ora = result1.toString().substring(0,2).toInt()
+                var minuto = result1.toString().substring(3).toInt()
+                //se oggi
+                if(c.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)
+                    && c.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
+                    && c.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
+                        //aggiungo ora e minuto
+                    c.set(Calendar.HOUR,ora)
+                    c.set(Calendar.MINUTE,minuto)
+
+                    println("ENTRO NEL CASO DELLA STESSA DATA")
+                    println(c)
+                    //se data scelta prima di oggi errore
+                    if(c.before(Calendar.getInstance())){
+                        println("ENTRO NEL CASO DATA SCELTA PRIMA DI OGGI")
+                        Toast.makeText(this.context,"wrong date",Toast.LENGTH_SHORT).show()
+                    }//if
+                    //altrimenti va bene
+                    else{
+                        println("ENTRO NEL CASO DATA VA BENE")
+                        result1 = bundle.getString("TIME")
+                        println(result1)
+                        from_field.setText(result1)
+                    }//else
+                }//if
+                else{
+                    println("MIAO")
+                    result1 = bundle.getString("TIME")
+                    from_field.setText(result1)
+                }//else
+
+            }
+
             timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
         }
 
@@ -182,6 +236,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             }
             timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
         }
+
     }
 
   /*  private fun readData(id: String) {
