@@ -82,9 +82,12 @@ class Adapter_homeFrg(private val dataSet: ArrayList<Skill>) :
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
 
-        if((dataSet[0].title == "No skills available" && dataSet[0].description == "Other users have not yet placed advertisements, be the first, add it in your profile!")
-                    || (dataSet[0].title == "No skills found" && dataSet[0].description != "No one has the skill you are searching for!")) {
+        if(dataSet[0].title == "No skills available" || dataSet[0].description == "Other users have not yet placed advertisements, be the first, add it in your profile!"
+                    || dataSet[0].title == "No skills found" || dataSet[0].description != "No one has the skill you are searching for!") {
+            //viewHolder.title.text = dataSet[position].title
+                Log.i("no skills", "ENTRAAA")
             viewHolder.title.text = dataSet[position].title
+            //viewHolder.description.text = dataSet[position].description
             viewHolder.description.text = dataSet[position].description
             viewHolder.cardView.isClickable = false
             viewHolder.iconDeleteSlot.isClickable = false
