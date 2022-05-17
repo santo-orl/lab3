@@ -44,7 +44,7 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle("TimeSlotUserList")
+        activity?.setTitle("Advertisement")
 
         add_button = view.findViewById(R.id.add_FAB)
         //add_button.visibility = View.GONE

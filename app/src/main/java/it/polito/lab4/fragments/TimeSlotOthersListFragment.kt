@@ -39,7 +39,7 @@ class TimeSlotOthersListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle("TimeSlotOthersList")
+        activity?.setTitle("Advertisement")
 
         /*add_button = view.findViewById(R.id.add_FAB)
 

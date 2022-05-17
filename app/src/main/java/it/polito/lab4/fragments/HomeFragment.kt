@@ -25,7 +25,6 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private var id = ""
-    private lateinit var search_view: SearchView
 
 
     override fun onCreateView(
