@@ -148,7 +148,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 //this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
             }
         })
-
+        var dataTmp: String = ""
             //DATA
         date_field.setOnClickListener {
             val datePickerFragment = DatePickerFragment()
@@ -157,14 +157,12 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             // we have to implement setFragmentResultListener
             setFragmentResultListener("KeyDate") { _, bundle ->
                 val result = bundle.getString("SELECTED_DATE")
+                dataTmp = result.toString()
                 date_field.setText(result)
             }
             // show
             datePickerFragment.show(supportFragmentManager, "DatePickerFragment")
-
-
         }
-
 
             var c = Calendar.getInstance()
 
@@ -177,15 +175,14 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 timePickerFragment.show(supportFragmentManager, "TimePickerFragment")
 
             }*/
-            //mi prendo la data
-            setFragmentResultListener("KeyDate") { _, bundle ->
-                //date in stringa
-                val date = bundle.getString("SELECTED_DATE")
-                val selDate = SimpleDateFormat("dd-MM-yyyy",Locale.ENGLISH)
+           var tmp = dataTmp
 
-                c.time = selDate.parse(selDate.format(c.time))
+            var selectedDate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+            val date2 = selectedDate.format(c.time)
 
-            }
+            var d2 = selectedDate.parse(tmp)
+            val cal = Calendar.getInstance()
+            cal.time = d2
 
             setFragmentResultListener("KeyTime") { _, bundle ->
                 var result1 = bundle.getString("TIME")
@@ -193,17 +190,17 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 var ora = result1.toString().substring(0,2).toInt()
                 var minuto = result1.toString().substring(3).toInt()
                 //se oggi
-                if(c.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)
-                    && c.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
-                    && c.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
+                if(cal.get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)
+                    && cal.get(Calendar.MONTH) == Calendar.getInstance().get(Calendar.MONTH)
+                    && cal.get(Calendar.DAY_OF_MONTH) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)){
                         //aggiungo ora e minuto
-                    c.set(Calendar.HOUR,ora)
-                    c.set(Calendar.MINUTE,minuto)
+                    cal.set(Calendar.HOUR,ora)
+                    cal.set(Calendar.MINUTE,minuto)
 
                     println("ENTRO NEL CASO DELLA STESSA DATA")
-                    println(c)
+                    println(cal)
                     //se data scelta prima di oggi errore
-                    if(c.before(Calendar.getInstance())){
+                    if(cal.before(Calendar.getInstance())){
                         println("ENTRO NEL CASO DATA SCELTA PRIMA DI OGGI")
                         Toast.makeText(this.context,"wrong date",Toast.LENGTH_SHORT).show()
                     }//if
