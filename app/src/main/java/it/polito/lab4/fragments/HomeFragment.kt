@@ -4,14 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.SearchView
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
-import it.polito.lab4.ViewModel
 import it.polito.lab4.R
+import it.polito.lab4.ViewModel
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
 import it.polito.lab4.timeSlots.Adapter_homeFrg
@@ -54,24 +54,31 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         p.isIconifiedByDefault = false
         p.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                if (p0 == "") {
-                    Log.i("Test_home", p0.toString())
-                    readData(id)
-                } else {
+                if(p0.toString().isNotEmpty()) {
                     Log.i("Test on text submit", p0.toString())
                     searchSkill(p0?.lowercase(), id)
                 }
                 return false
             }
-
             override fun onQueryTextChange(p0: String?): Boolean {
+                if(p0.toString().isEmpty()) {
+                    Log.i("TEST", "mSearchView on close ")
+                    readData(id)
+                }
                 return false
             }
 
         })
+        p.setOnCloseListener {
+            Log.i("TEST", "mSearchView on close ")
+            readData(id)
+            false
+        }
+
     }
 
     private fun searchSkill(query: String?, id: String) {
+        Log.i("test_home!!!!", "query $query")
         skillList = arrayListOf()
         db.collection("skills").whereNotEqualTo("user", id).whereEqualTo("search", query)
             .get()

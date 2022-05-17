@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_menu"
-
     >
     <group android:checkableBehavior="single">
 
@@ -19,7 +18,6 @@
 
         <item
             android:id="@+id/listTimeSlot"
-
             android:icon="@drawable/listaindex"
             android:title="List of time slots"
             android:visible="true" />
