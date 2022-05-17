@@ -67,19 +67,10 @@ class LoginActivity : AppCompatActivity() {
                 Log.i("test_login",email)
                 name = account.displayName.toString()
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                db
-                    .collection("users")
-                    .document(email)
-                    .set(
-                        User(
-                            name,
-                            "Nickname",
-                            email,
-                            "Location",
-                            ""
-
-                        )
-                    )
+                val map: MutableMap<String, String> = HashMap()
+                map["email"] = email
+                map["name"] = name
+                db.collection("users").document(email).update(map as Map<String, Any>)
                     .addOnSuccessListener {
                         Toast
                             .makeText(this,"user created",Toast.LENGTH_SHORT)

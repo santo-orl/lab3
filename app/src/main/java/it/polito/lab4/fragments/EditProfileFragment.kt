@@ -157,9 +157,10 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 }
             }
         }
-
+        val uri = vm.uploadImage(uriImageToUpdate).toString()
+        Log.i("test_edit","after uri ${uri.toString()}")
         vm.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageToUpdate,listNoEmpty)
-        vm.uploadImage(uriImageToUpdate)
+
     }
 
     private fun readData(id: String) {
