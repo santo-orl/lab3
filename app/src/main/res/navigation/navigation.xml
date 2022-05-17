@@ -55,10 +55,13 @@
             android:id="@+id/action_showProfileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment"
             app:enterAnim="@anim/slide_in"
-            app:exitAnim="@anim/fade_out" />
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/slide_in" />
         <action
             android:id="@+id/action_showProfileFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@android:anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -72,17 +75,16 @@
     </fragment>
     <fragment
         android:id="@+id/itemListFragment"
-        android:name="it.polito.lab4.fragments.ListSlotTimeFragment"
-        android:label="ItemListFragment" >
+        android:name="it.polito.lab4.fragments.TimeSlotUserListFragment"
+        android:label="ItemListFragment">
         <action
             android:id="@+id/action_itemListFragment_to_timeSlotDetailsFragment"
             app:destination="@id/timeSlotDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/containerFragment"
-        android:name="it.polito.lab4.fragments.TimeSlotListFragment"
-        android:label="fragment_container"
-        tools:layout="@layout/fragment_time_slot_list" >
+        android:name="it.polito.lab4.fragments.TimeSlotUserListFragment"
+        android:label="fragment_container">
         <action
             android:id="@+id/action_containerFragment_to_timeSlotEditFragment"
             app:destination="@id/timeSlotEditFragment"
