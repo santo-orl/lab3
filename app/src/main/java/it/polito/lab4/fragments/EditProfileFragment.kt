@@ -34,8 +34,8 @@ import it.polito.lab4.R
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
 import it.polito.lab4.skills.Adapter_editProfile
-import kotlinx.android.synthetic.main.activity_edit_profile.btn_add_skill
-import kotlinx.android.synthetic.main.activity_edit_profile.recycler
+import kotlinx.android.synthetic.main.fragment_edit_profile.btn_add_skill
+import kotlinx.android.synthetic.main.fragment_edit_profile.recycler
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 import java.io.File
 import java.io.FileOutputStream

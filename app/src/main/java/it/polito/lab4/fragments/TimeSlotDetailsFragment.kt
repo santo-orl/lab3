@@ -24,6 +24,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     var duration: String = "Duration"
     var location: String = "Location"
     lateinit var edit_button: Button
+    lateinit var copied_button: Button
     lateinit var show_prof_button: Button
 
     lateinit var title_field: TextView
@@ -53,6 +54,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
         show_prof_button = view.findViewById(R.id.show_prof_button)
         edit_button = view.findViewById(R.id.editButton)
+        copied_button = view.findViewById(R.id.editButtonCopied)
 
        // Log.i("test", "dopo iniz $pos")
         vm.email.observe(this.viewLifecycleOwner) {
@@ -66,10 +68,14 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 show_prof_button.isClickable = false
                 edit_button.visibility = View.VISIBLE
                 edit_button.isClickable = true
+                copied_button.visibility = View.VISIBLE
+                copied_button.isClickable = true
 
             }else{
                 edit_button.visibility = View.GONE
                 edit_button.isClickable = false
+                copied_button.visibility = View.GONE
+                copied_button.isClickable = false
                 show_prof_button.isClickable = true
                 show_prof_button.visibility = View.VISIBLE
             }
@@ -98,6 +104,20 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                     //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
                 }
             }
+
+        copied_button.setOnClickListener {
+            slot.id = ""
+            vm.setSlot(slot)
+            Log.i("testDetails", slot.toString())
+            val activity = it.context as? AppCompatActivity
+            activity?.supportFragmentManager?.commit {
+                addToBackStack(TimeSlotEditFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
+                //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
+            }
+
+        }
 
             show_prof_button.setOnClickListener {
                 val activity = it.context as? AppCompatActivity

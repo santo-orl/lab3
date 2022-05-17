@@ -18,7 +18,7 @@ import it.polito.lab4.R
 import it.polito.lab4.skills.Adapter_showProfile
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
-import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.fragment_show_profile.*
 import java.io.File
 
 
