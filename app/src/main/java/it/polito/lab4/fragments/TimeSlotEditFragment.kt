@@ -121,7 +121,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 vm.slot.observe(viewLifecycleOwner){
                     if (title != slot.title || description != slot.description || date != slot.date ||
                             "$from-$to" != slot.duration || location != slot.location){
-                        var new = Slot(title, description, date, "$from-$to", location, 0,id)
+                        var new = Slot(title, description, date, "$from-$to", location, 0, id)
+                        new.reference(slot.id)
                         Log.i("test",new.toString())
                         if(title != "" && description != ""){
                             vm.addSlot(new)

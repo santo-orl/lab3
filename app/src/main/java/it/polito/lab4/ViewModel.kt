@@ -81,7 +81,8 @@ class ViewModel: ViewModel() {
             for(s in skills){
                 map[s.title] = s
             }
-            db.collection("skills").document(email).set(map).addOnSuccessListener { documentReference ->
+            db.collection("skills").document(email).set(map,
+                SetOptions.merge()).addOnSuccessListener { documentReference ->
                 Log.i("test","DocumentSnapshot added with ID:${documentReference}")
             }
                 .addOnFailureListener{e ->
@@ -91,7 +92,7 @@ class ViewModel: ViewModel() {
 
         _user.value = user
         id = email
-        db.collection("users").document(email).set(user).addOnSuccessListener { documentReference ->
+        db.collection("users").document(email).set(user, SetOptions.merge()).addOnSuccessListener { documentReference ->
             Log.i("test","DocumentSnapshot added with ID:${documentReference}")
         }
             .addOnFailureListener{e ->
@@ -118,24 +119,31 @@ class ViewModel: ViewModel() {
             .addOnFailureListener { e ->
                 Log.i("test", "Error adding document", e)
             }*/
-
-        var slotRef = db.collection("slots").document()
-        new.id(slotRef.id)
-        slotRef.set(new, SetOptions.merge()).addOnSuccessListener { documentReference ->
-            Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
-        }
-            .addOnFailureListener { e ->
-                Log.i("test", "Error adding document", e)
+        if(new.id!=""){
+            db.collection("slots").document(new.id).set(new, SetOptions.merge()).addOnSuccessListener { documentReference ->
+                Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
             }
+                .addOnFailureListener { e ->
+                    Log.i("test", "Error adding document", e)
+                }
+        }else {
+            var slotRef = db.collection("slots").document()
+            new.reference(slotRef.id)
+            slotRef.set(new, SetOptions.merge()).addOnSuccessListener { documentReference ->
+                Log.i("test", "DocumentSnapshot added with ID:${documentReference}")
+            }
+                .addOnFailureListener { e ->
+                    Log.i("test", "Error adding document", e)
+                }
+        }
     }
 
-    fun deleteSlot() {
-        db.collection("slots").whereEqualTo("id",
-            slot.value?.id
-        ).get().addOnSuccessListener {
-                    result ->
-                for (document in result)
-                    document.reference.delete()
+    fun deleteSlot(slot: Slot) {
+        Log.i("TESTVM", slot.id)
+        db.collection("slots").document(slot.id).get().addOnSuccessListener {
+            Log.i("TESTVM", it.data.toString())
+            it.reference.delete()
+
             }
 
     /*    db.collection("skills").document(id).collection("slots").whereEqualTo("title",

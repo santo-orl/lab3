@@ -16,7 +16,7 @@ data class Slot(
     override fun toString(): String {
         return "$title###$description###$date###$duration###$pos###$location###$user"
     }
-    fun id(documentReference: String) {
+    fun reference(documentReference: String) {
         id = documentReference
     }
 

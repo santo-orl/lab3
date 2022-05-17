@@ -92,8 +92,10 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
                         s["duration"].toString(),
                         s["location"].toString(),
                         slotList.size,
-                        s["user"].toString()
+                        s["user"].toString(),
+
                     )
+                    add.id = s["id"].toString()
                     slotList.add(
                         add
                     )
@@ -117,9 +119,6 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
 
             }
              Log.i("testList2", slotList.toString())
-
-
-
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
                 adapterUserList = Adapter_UserList(slotList)
                 recycler_view.adapter = adapterUserList
@@ -127,8 +126,7 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
 
                 adapterUserList.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                 override fun onSlotDeleted(position: Int) {
-                    vm.setSlot(slotList[position])
-                    vm.deleteSlot()
+                    vm.deleteSlot(slotList[position])
                     slotList.removeAt(position)
                     adapterUserList.notifyDataSetChanged()
                     if(slotList.size==0){

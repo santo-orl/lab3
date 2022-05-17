@@ -94,7 +94,7 @@ class TimeSlotOthersListFragment : Fragment() {
                                 slotList.size,
                                 s["user"].toString()
                             )
-                                add.id(document.id)
+                                add.reference(document.id)
                             slotList.add(
                                 add
                             )
@@ -124,8 +124,7 @@ class TimeSlotOthersListFragment : Fragment() {
 
                 adapterOthersList.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                     override fun onSlotDeleted(position: Int) {
-                        vm.setSlot(slotList[position])
-                        vm.deleteSlot()
+                        vm.deleteSlot(slotList[position])
                         slotList.removeAt(position)
                         adapterOthersList.notifyDataSetChanged()
                         if(slotList.size==0){

@@ -100,7 +100,12 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
                    slotListener.onSlotClick(position)
                    //Log.i("test ","Vede il click???!!")
                }
-
+               viewHolder.iconDeleteSlot.setOnClickListener {
+                   if (position != RecyclerView.NO_POSITION) {
+                       slotListener.onSlotDeleted(position)
+                       //Log.i("test ","Vede il click???!!")
+                   }
+               }
                val activity = it.context as? AppCompatActivity
                activity?.supportFragmentManager?.commit {
                    addToBackStack(TimeSlotDetailsFragment::class.toString())
