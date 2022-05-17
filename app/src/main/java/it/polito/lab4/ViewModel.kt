@@ -6,10 +6,14 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.auth.api.signin.internal.Storage
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.ktx.storage
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
 import java.util.*
@@ -17,11 +21,11 @@ import java.util.*
 
 class ViewModel: ViewModel() {
     private lateinit var id : String
-    private var storage = FirebaseStorage.getInstance().reference
-    private val db: FirebaseFirestore
-    init {
-        db= FirebaseFirestore.getInstance()
-    }
+    private var storage = Firebase.storage
+    var storageRef = storage.reference
+
+    // var s = Storage.getInstance()
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val _user = MutableLiveData<User>(User("", "", "", "", ""))
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,""))
     val slot: LiveData<Slot> = _slot
@@ -40,24 +44,39 @@ class ViewModel: ViewModel() {
     private val _photoString = MutableLiveData<String>("")
     var photoString: LiveData<String> = _photoString
 
-    fun uploadImage(photoString: String) {
+    fun uploadImage(photoString: String): Uri {
+        // Defining the child of storageReference
+        val ref = storageRef.child(
+            "images/"
+                    + id.toString()
+        )
+        Log.i("test_vm","after ref ${ref.toString()}")
+        var downloadUri: Uri = Uri.EMPTY
         if (photoString != "") {
-            // Defining the child of storageReference
-            val ref: StorageReference = storage.child(
-                    "images/"
-                            + UUID.randomUUID().toString()
-                )
-
             // adding listeners on upload
             // or failure of image
-            ref.putFile(Uri.parse(photoString))
-                .addOnSuccessListener { // Image uploaded successfully
-                    // Dismiss dialog
+            var uploadTask = ref.putFile(Uri.parse(photoString))
+            val urlTask = uploadTask.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
                 }
-                .addOnFailureListener { e -> // Error, Image not uploaded
-
+                Log.i("test_vm","after ref ${ref.downloadUrl.toString()}")
+                ref.downloadUrl
+            }.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.i("test_vm", "salvata immagine " + ref + " " + Uri.parse(photoString))
+                    downloadUri = task.result
+                } else {
+                    Log.i("test_vm","Errore")
                 }
+            }.addOnFailureListener{e ->
+                Log.i("test","Error adding document",e)
+            }
         }
+        Log.i("test_vm","after ref ${ref.downloadUrl.toString()}")
+        return downloadUri
     }
 
     fun createUser(name:String, nickname: String, email: String,

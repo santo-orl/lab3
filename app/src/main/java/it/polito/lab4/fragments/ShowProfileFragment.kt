@@ -10,12 +10,16 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import it.polito.lab4.ViewModel
 import it.polito.lab4.R
 import it.polito.lab4.skills.Adapter_showProfile
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import java.io.File
 
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
@@ -35,6 +39,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var adapterShowProfile: Adapter_showProfile
     private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
+    private var storage = Firebase.storage
+    var storageRef = storage.reference
     private var id = ""
     private lateinit var slot: Slot
     /*override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,8 +106,21 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
                 if (it.get("photoString").toString() != "") {
                     uriImageString = it.get("photoString").toString()
-                    val uriImage = Uri.parse(uriImageString)
-                    photo_field.setImageURI(uriImage)
+                    val pathReference = storageRef.child("images/"+email_field.text.toString())
+                    val localFile = File.createTempFile("images", "jpg")
+
+                    pathReference.getFile(localFile).addOnSuccessListener {
+                        // Local temp file has been created
+                        val uriImage = Uri.parse(localFile.path)
+                        Log.i("test_show", localFile.path.toString())
+                        photo_field.setImageURI(uriImage)
+                    }.addOnFailureListener {
+                        // Handle any errors
+                    }
+
+                    Log.i("test_show", pathReference.toString())
+
+
                 } else {
                     photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
                 }

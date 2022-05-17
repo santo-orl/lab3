@@ -157,7 +157,7 @@ class MainActivity : AppCompatActivity(){
     }
 
      fun readData(id: String) {
-         Log.i("test_menu", "SUBITO?")
+       //  Log.i("test_menu", "SUBITO?")
        db.collection("users").document(id).get().addOnSuccessListener {
          //  Log.i("test_menu",it.data.toString())
            if (it.get("name").toString() != "null") {

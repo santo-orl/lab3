@@ -118,10 +118,6 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     return
                 }
 
-           /*     if(eliminare.title!=""){
-                    vm.remove(eliminare)
-                }*/
-
                 vm.slot.observe(viewLifecycleOwner){
                     if (title != slot.title || description != slot.description || date != slot.date ||
                             "$from-$to" != slot.duration || location != slot.location){
