@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 
 import it.polito.lab4.User
@@ -70,7 +71,8 @@ class LoginActivity : AppCompatActivity() {
                 val map: MutableMap<String, String> = HashMap()
                 map["email"] = email
                 map["name"] = name
-                db.collection("users").document(email).update(map as Map<String, Any>)
+
+                db.collection("users").document(email).set(map as Map<String, Any>, SetOptions.merge())
                     .addOnSuccessListener {
                         Toast
                             .makeText(this,"user created",Toast.LENGTH_SHORT)

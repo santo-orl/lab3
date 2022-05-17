@@ -78,23 +78,25 @@ class TimeSlotOthersListFragment : Fragment() {
 
     private fun readData(id: String, title : String) {
         db.collection("slots")
-            .whereEqualTo("title", title).get().addOnSuccessListener { result ->
+            .whereEqualTo("title", title).whereNotEqualTo("user", id).get().addOnSuccessListener { result ->
                 Log.i("TEST", "boh")
                 slotList = arrayListOf()
                 for (document in result) {
                         val s = document.data as HashMap<*, *>
                         if (s["user"] == id) {
                             Log.i("TEST", "${document.id} + ${document.data}  ")
+                            var add = Slot(
+                                s["title"].toString(),
+                                s["description"].toString(),
+                                s["date"].toString(),
+                                s["duration"].toString(),
+                                s["location"].toString(),
+                                slotList.size,
+                                s["user"].toString()
+                            )
+                                add.reference(document.id)
                             slotList.add(
-                                Slot(
-                                    s["title"].toString(),
-                                    s["description"].toString(),
-                                    s["date"].toString(),
-                                    s["duration"].toString(),
-                                    s["location"].toString(),
-                                    slotList.size,
-                                    s["user"].toString()
-                                )
+                                add
                             )
                         }
                 }
@@ -122,8 +124,7 @@ class TimeSlotOthersListFragment : Fragment() {
 
                 adapterOthersList.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                     override fun onSlotDeleted(position: Int) {
-                        vm.setSlot(slotList[position])
-                        vm.deleteSlot()
+                        vm.deleteSlot(slotList[position])
                         slotList.removeAt(position)
                         adapterOthersList.notifyDataSetChanged()
                         if(slotList.size==0){

@@ -102,7 +102,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                 for (document in result) {
                     if (document.id != id) {
                         document.data.forEach { (c, s) ->
-                            Log.i("test_home!!!!", s.toString())
+                            //Log.i("test_home!!!!", s.toString())
                             s as HashMap<*, *>
                             skillList.add(
                                 Skill(
