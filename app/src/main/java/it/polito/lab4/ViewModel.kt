@@ -81,8 +81,7 @@ class ViewModel: ViewModel() {
             for(s in skills){
                 map[s.title] = s
             }
-            db.collection("skills").document(email).set(map,
-                SetOptions.merge()).addOnSuccessListener { documentReference ->
+            db.collection("skills").document(email).set(map).addOnSuccessListener { documentReference ->
                 Log.i("test","DocumentSnapshot added with ID:${documentReference}")
             }
                 .addOnFailureListener{e ->
