@@ -18,14 +18,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ViewModel
 import it.polito.lab4.timeSlots.Slot
 import it.polito.lab4.R
-import it.polito.lab4.timeSlots.Adapter_frgTime
+import it.polito.lab4.timeSlots.Adapter_UserList
 import it.polito.lab4.timeSlots.SlotUI
 
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
 //Lista degli slot dell'UTENTE
 class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
-    private lateinit var adapterFrgTime: Adapter_frgTime
+    private lateinit var adapterUserList: Adapter_UserList
     private var slotList: ArrayList<Slot> = arrayListOf()
     private lateinit var add_button: FloatingActionButton
     private val vm: ViewModel by activityViewModels()
@@ -120,16 +120,16 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
 
 
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
-                adapterFrgTime = Adapter_frgTime(slotList)
-                recycler_view.adapter = adapterFrgTime
+                adapterUserList = Adapter_UserList(slotList)
+                recycler_view.adapter = adapterUserList
                 vm.setSlot(Slot("","","","","",-1,""))
 
-                adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
+                adapterUserList.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                 override fun onSlotDeleted(position: Int) {
                     vm.setSlot(slotList[position])
                     vm.deleteSlot()
                     slotList.removeAt(position)
-                    adapterFrgTime.notifyDataSetChanged()
+                    adapterUserList.notifyDataSetChanged()
                     if(slotList.size==0){
                         slotList.add(
                             Slot(

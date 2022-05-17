@@ -209,7 +209,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             if (it.exists()) {
                 it.data!!.forEach { (c,s) ->
                     s as HashMap<*,*>
-                    skillList.add(Skill(s["title"].toString(),s["description"].toString(),s["pos"].toString().toInt()))
+                    skillList.add(Skill(s["title"].toString(),s["description"].toString(),s["pos"].toString().toInt(), id))
                 }
                 Log.i("test10", skillList.toString())
 
@@ -224,7 +224,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     private fun setUpLayout() {
         if(skillList.size == 0){
             Log.i("test", "Entra?")
-            skillList.add(Skill("", "", -1))
+            skillList.add(Skill("", "", -1, ""))
         }
         recycler.layoutManager = LinearLayoutManager(this.activity)
         adapterEditProfile = Adapter_editProfile(skillList)
@@ -244,7 +244,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
         btn_add_skill.setOnClickListener {
             val position = if (skillList.isEmpty()) 0 else skillList.size - 1
-            skillList.add(Skill("", "",-1))
+            skillList.add(Skill("", "",-1, ""))
             adapterEditProfile.notifyItemInserted(position)
             adapterEditProfile.notifyDataSetChanged()
         }

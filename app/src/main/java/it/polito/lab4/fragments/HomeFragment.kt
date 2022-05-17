@@ -108,7 +108,8 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                                 Skill(
                                     s["title"].toString(),
                                     s["description"].toString(),
-                                    s["pos"].toString().toInt()
+                                    s["pos"].toString().toInt(),
+                                    s["user"].toString()
                                 )
                             )
                         }
@@ -121,7 +122,8 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                         Skill(
                             "No skills available",
                             "Other users have not yet placed advertisements, be the first, add it in your profile!",
-                            0
+                            0,
+                            ""
                         )
                     )
                 }
@@ -168,7 +170,8 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                                         Skill(
                                             s["title"].toString(),
                                             s["description"].toString(),
-                                            s["pos"].toString().toInt()
+                                            s["pos"].toString().toInt(),
+                                            s["user"].toString()
                                         )
                                     )
                                 }
@@ -181,7 +184,8 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                             Skill(
                                 "No skills found",
                                 "No one has the skill you are searching for!",
-                                0
+                                0,
+                                ""
                             )
                         )
                     }

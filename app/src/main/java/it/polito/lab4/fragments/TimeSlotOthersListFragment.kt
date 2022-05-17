@@ -13,14 +13,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ViewModel
 import it.polito.lab4.R
-import it.polito.lab4.timeSlots.Adapter_frgTime
+import it.polito.lab4.timeSlots.Adapter_OthersList
 import it.polito.lab4.timeSlots.Slot
 import it.polito.lab4.timeSlots.SlotUI
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
 //Lista degli slot degli ALTRI UTENTI
 class TimeSlotOthersListFragment : Fragment() {
-    private lateinit var adapterFrgTime: Adapter_frgTime
+    private lateinit var adapterOthersList: Adapter_OthersList
     private var slotList: ArrayList<Slot> = arrayListOf()
     private lateinit var add_button: FloatingActionButton
     private val vm: ViewModel by activityViewModels()
@@ -82,11 +82,9 @@ class TimeSlotOthersListFragment : Fragment() {
                 Log.i("TEST", "boh")
                 slotList = arrayListOf()
                 for (document in result) {
-
                         val s = document.data as HashMap<*, *>
-                        if (s["user"] != id) {
+                        if (s["user"] == id) {
                             Log.i("TEST", "${document.id} + ${document.data}  ")
-
                             slotList.add(
                                 Slot(
                                     s["title"].toString(),
@@ -118,16 +116,16 @@ class TimeSlotOthersListFragment : Fragment() {
                 Log.i("testList2", slotList.toString())
 
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
-                adapterFrgTime = Adapter_frgTime(slotList)
-                recycler_view.adapter = adapterFrgTime
+                adapterOthersList = Adapter_OthersList(slotList)
+                recycler_view.adapter = adapterOthersList
                 vm.setSlot(Slot("","","","","",-1,""))
 
-                adapterFrgTime.setOnTodoDeleteClick(object : SlotUI.SlotListener {
+                adapterOthersList.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                     override fun onSlotDeleted(position: Int) {
                         vm.setSlot(slotList[position])
                         vm.deleteSlot()
                         slotList.removeAt(position)
-                        adapterFrgTime.notifyDataSetChanged()
+                        adapterOthersList.notifyDataSetChanged()
                         if(slotList.size==0){
                             slotList.add(
                                 Slot(

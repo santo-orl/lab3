@@ -144,7 +144,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             if (it.exists()) {
                it.data!!.forEach { (c,s) ->
                    s as HashMap<*,*>
-                   skillList.add(Skill(s["title"].toString(),s["description"].toString(),s["pos"].toString().toInt()))
+                   skillList.add(Skill(s["title"].toString(),s["description"].toString(),s["pos"].toString().toInt(), id))
                 }
                 recycler.layoutManager = LinearLayoutManager(this.activity)
                 adapterShowProfile = Adapter_showProfile(skillList)
