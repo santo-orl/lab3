@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import java.text.SimpleDateFormat
@@ -30,11 +31,20 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-        val selectedDate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH).format(calendar.time)
+        //converto il simpleDateFormat in Calendar
+        //confronto se la data scelta è antecedente/conseguente oggi
+        var selectedDate = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
+        val date2 = selectedDate.format(calendar.time)
+        val cal = Calendar.getInstance()
+        cal.time = selectedDate.parse(selectedDate.format(cal.time))
+        if (!cal.before(calendar)) {
+            Toast.makeText(this.context, "You cannot create slot in the past", Toast.LENGTH_SHORT)
+                .show()
+        } else {
+            val selectedDateBundle = Bundle()
+            selectedDateBundle.putString("SELECTED_DATE", date2)
 
-        val selectedDateBundle = Bundle()
-        selectedDateBundle.putString("SELECTED_DATE", selectedDate)
-
-        setFragmentResult("KeyDate", selectedDateBundle)
+            setFragmentResult("KeyDate", selectedDateBundle)
+        }
     }
 }
