@@ -154,6 +154,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             for (s in skillList) {
                 if(s.title.length >= 5 && s.description.length >= 10){
                     Log.i("test", s.toString())
+                    s.search = s.title.lowercase()
+
                     listNoEmpty.add(s)
                 }else if(s.title.length < 5){
                     Toast.makeText(activity,"Sorry, the title must be at least of 5 characters",Toast.LENGTH_SHORT).show()
