@@ -11,22 +11,19 @@ import androidx.fragment.app.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import it.polito.lab4.ViewModel
 import it.polito.lab4.R
+import it.polito.lab4.ViewModel
 import it.polito.lab4.skills.Adapter_showProfile
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
 import kotlinx.android.synthetic.main.fragment_show_profile.*
 import java.io.File
-import java.util.HashMap
 
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     private var skillList: ArrayList<Skill> = arrayListOf()
-    private lateinit var uriImage: Uri
     private var uriImageString: String = ""
 
     //associated fields to layout
@@ -58,7 +55,20 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         //inflate
         return inflater.inflate(R.layout.fragment_show_profile, container, false)
     }*/
-
+    override fun onResume() {
+        super.onResume()
+        if (!this.isAdded) {
+            Log.i("Test", "oooo")
+            val trans: FragmentTransaction? = activity?.supportFragmentManager?.beginTransaction()
+            if (trans != null) {
+                trans.replace(R.id.myNavHostFragment, ShowProfileFragment())
+                trans.commit()
+            }else{
+                vm.setSlot(Slot("","","","","",-1,""))
+            }
+            //getSupportFragmentManager().executePendingTransactions();   //unnecessary
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         activity?.setTitle("Profile")
@@ -75,12 +85,12 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
         vm.slot.observe(this.viewLifecycleOwner) {
             slot = it
-            // Log.i("test_edit", slot.toString())
+            Log.i("ALLORA", slot.toString())
             if (slot.user!= ""){
                readData(slot.user)
             }else{
                 readData(id)
-                Log.i("test_show", id)
+                Log.i("test_show", "id utente"+id)
                 setHasOptionsMenu(true)
             }
 
@@ -91,8 +101,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             override fun handleOnBackPressed() {
                 this@ShowProfileFragment.activity?.supportFragmentManager?.popBackStack()
                 //findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
-
-
             }
         })
         super.onViewCreated(view, savedInstanceState)
@@ -109,14 +117,14 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 if (it.get("photoString").toString() != "") {
 
                     val pathReference = storageRef.child("images/"+email_field.text.toString())
-                    Log.i("TEST", pathReference.toString())
+                    //Log.i("TEST", pathReference.toString())
                     uriImageString = pathReference.toString()
                     val localFile = File.createTempFile("images", "jpg")
 
                     pathReference.getFile(localFile).addOnSuccessListener {
                         // Local temp file has been created
                         val uriImage = Uri.parse(localFile.path)
-                        Log.i("TEST", uriImage.toString())
+                      //  Log.i("TEST", uriImage.toString())
                        // Log.i("test_show", localFile.path.toString())
                         photo_field.setImageURI(uriImage)
                     }.addOnFailureListener {
@@ -164,8 +172,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     )
                     p.reference(s["id"].toString())
                     skillList.add(p)
-
                     }
+
 
                 recycler.layoutManager = LinearLayoutManager(this.activity)
                 adapterShowProfile = Adapter_showProfile(skillList)
