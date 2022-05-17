@@ -28,10 +28,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import it.polito.lab4.fragments.ListSkillUserFragment
 
 import it.polito.lab4.fragments.ShowProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.File
 
 
 // Main activity, is the base for all the fragments
@@ -55,6 +57,8 @@ class MainActivity : AppCompatActivity(){
     private  var email= "Your email"
     private  var uriImageString: String = ""
     private  var db = FirebaseFirestore.getInstance()
+    private var storage = Firebase.storage
+    var storageRef = storage.reference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -167,8 +171,21 @@ class MainActivity : AppCompatActivity(){
 
                 if (it.get("photoString").toString() != "") {
                     uriImageString = it.get("photoString").toString()
-                    val uriImage = Uri.parse(uriImageString)
-                    image_field.setImageURI(uriImage)
+                    val pathReference = storageRef.child("images/"+email_field.text.toString())
+                    val localFile = File.createTempFile("images", "jpg")
+
+                    pathReference.getFile(localFile).addOnSuccessListener {
+                        // Local temp file has been created
+                        val uriImage = Uri.parse(localFile.path)
+                        Log.i("test_show", localFile.path.toString())
+                        image_field.setImageURI(uriImage)
+                    }.addOnFailureListener {
+                        // Handle any errors
+                    }
+
+                    Log.i("test_show", pathReference.toString())
+
+
                 } else {
                     image_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
                 }
