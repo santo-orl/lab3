@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.fragment_item_list.view.*
 
 
 
-class Adapter_frgTime (private val dataSet: ArrayList<Slot>) :
-RecyclerView.Adapter<Adapter_frgTime.ViewHolder>(),SlotUI.SlotSaved {
+class Adapter_UserList (private val dataSet: ArrayList<Slot>) :
+RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
     constructor(dataSet: ArrayList<Slot>, itemClick: (Int) -> Unit) : this(dataSet)
 
 
@@ -75,7 +75,6 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>(),SlotUI.SlotSaved {
 
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
         //private val timeSlotViewModel: TimeSlotViewModel by iewModels()
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
@@ -99,7 +98,7 @@ RecyclerView.Adapter<Adapter_frgTime.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.cardView.setOnClickListener {
                if (position != RecyclerView.NO_POSITION) {
                    slotListener.onSlotClick(position)
-                   Log.i("test ","Vede il click???!!")
+                   //Log.i("test ","Vede il click???!!")
                }
 
                val activity = it.context as? AppCompatActivity

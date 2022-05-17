@@ -93,6 +93,7 @@ class ViewModel: ViewModel() {
                     Log.i("test","Error adding document",e)
                 }
         val user = User(name, nickname, email, location, photoString)
+
         _user.value = user
         id = email
         db.collection("users").document(email).set(user).addOnSuccessListener { documentReference ->

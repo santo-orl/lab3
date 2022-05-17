@@ -7,10 +7,12 @@ import kotlinx.android.parcel.Parcelize
 data class Skill(
     var title: String,
     var description: String,
-    var pos: Int
+    var pos: Int,
+    var user: String,
+    var search: String = title.lowercase()
     ) : Parcelable {
 
-    var search = title.lowercase()
+
 
     override fun toString(): String {
         return "$title###$description###$pos"
