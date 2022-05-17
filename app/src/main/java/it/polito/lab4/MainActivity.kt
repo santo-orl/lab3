@@ -1,5 +1,6 @@
 package it.polito.lab4
 
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -76,6 +77,8 @@ class MainActivity : AppCompatActivity(){
         drawerLayout?.addDrawerListener(actionBarDrawerToggle!!)
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        vm.setSlot(Slot("","","","","",-1,""))
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -90,8 +93,10 @@ class MainActivity : AppCompatActivity(){
                     true
                 }
                 //mostro lo show profile fragment
+
+
                 R.id.profile -> {
-                    vm.setSlot(Slot("","","","","",-1,""))
+
                     // DEVO APRIRE IL FRAMMENTO CHE MOSTRA LO SHOW PROFILE FRAGMENT
                     this.supportFragmentManager.commit {
                         addToBackStack(ShowProfileFragment::class.toString())

@@ -54,10 +54,8 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         p.isIconifiedByDefault = false
         p.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                if(p0.toString().isNotEmpty()) {
                     Log.i("Test on text submit", p0.toString())
                     searchSkill(p0?.lowercase(), id)
-                }
                 return false
             }
             override fun onQueryTextChange(p0: String?): Boolean {
@@ -65,15 +63,12 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
                     Log.i("TEST", "mSearchView on close ")
                     readData(id)
                 }
-                return false
+                return true
             }
 
         })
-        p.setOnCloseListener {
-            Log.i("TEST", "mSearchView on close ")
-            readData(id)
-            false
-        }
+
+
 
     }
 
