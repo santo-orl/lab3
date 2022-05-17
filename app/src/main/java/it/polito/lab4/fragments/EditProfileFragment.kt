@@ -27,6 +27,8 @@ import androidx.core.net.toUri
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import it.polito.lab4.ViewModel
 import it.polito.lab4.R
 import it.polito.lab4.skills.Skill
@@ -69,6 +71,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
     lateinit var filePhoto: File
     lateinit var photo_button: ImageButton
+
+    private var storage = Firebase.storage
+    var storageRef = storage.reference
 
     private val FILE_NAME = "photo.jpg"
     private val REQUEST_CODE_CAMERA = 13
@@ -169,12 +174,24 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 name_field.setText(it.get("name").toString())
             }
             email_field.setText(it.get("email").toString())
+
             if (it.get("photoString").toString() != "") {
                 uriImageString = it.get("photoString").toString()
-                profileUri = Uri.parse(uriImageString)
-                imageButton.setImageURI(profileUri)
-            } else {
-                imageButton.setImageResource(R.drawable.camera_icon_21) //default pic
+                val pathReference = storageRef.child("images/" + email_field.text.toString())
+                val localFile = File.createTempFile("images", "jpg")
+
+                pathReference.getFile(localFile).addOnSuccessListener {
+                    // Local temp file has been created
+                    profileUri = Uri.parse(localFile.path)
+                    val uriImage = profileUri
+                    Log.i("test_show", localFile.path.toString())
+                    imageButton.setImageURI(uriImage)
+                }.addOnFailureListener {
+                    // Handle any errors
+                }
+
+                Log.i("test_show", pathReference.toString())
+
             }
             if (it.get("nickname").toString() != "Nickname") {
                 nickname_field.setText(it.get("nickname").toString())
