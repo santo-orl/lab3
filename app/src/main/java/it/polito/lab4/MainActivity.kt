@@ -32,6 +32,7 @@ import com.google.firebase.storage.ktx.storage
 import it.polito.lab4.fragments.ListSkillUserFragment
 
 import it.polito.lab4.fragments.ShowProfileFragment
+import it.polito.lab4.timeSlots.Slot
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
@@ -90,6 +91,7 @@ class MainActivity : AppCompatActivity(){
                 }
                 //mostro lo show profile fragment
                 R.id.profile -> {
+                    vm.setSlot(Slot("","","","","",-1,""))
                     // DEVO APRIRE IL FRAMMENTO CHE MOSTRA LO SHOW PROFILE FRAGMENT
                     this.supportFragmentManager.commit {
                         addToBackStack(ShowProfileFragment::class.toString())
