@@ -83,7 +83,7 @@ class Adapter_homeFrg(private val dataSet: ArrayList<Skill>) :
         // contents of the view with that element
 
         if(dataSet[0].title == "No skills available" || dataSet[0].description == "Other users have not yet placed advertisements, be the first, add it in your profile!"
-                    || dataSet[0].title == "No skills found" || dataSet[0].description != "No one has the skill you are searching for!") {
+                    || dataSet[0].title == "No skills found" || dataSet[0].description == "No one has the skill you are searching for!") {
             //viewHolder.title.text = dataSet[position].title
                 Log.i("no skills", "ENTRAAA")
             viewHolder.title.text = dataSet[position].title
