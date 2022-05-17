@@ -11,36 +11,42 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/advertisement"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="250dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp">
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="center"
             android:text="@string/todo_title"
             android:textColor="#000000"
             android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/editDescription"
+            app:layout_constraintBottom_toTopOf="@+id/description"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/editButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1" />
 
         <TextView
             android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:gravity="center"
             android:inputType="textMultiLine"
             android:text="Description"
+
+            android:textAllCaps="false"
             android:textColor="#000000"
             android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@+id/date"
-            app:layout_constraintTop_toBottomOf="@+id/editButton"
+            app:layout_constraintHorizontal_bias="0.842"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintVertical_weight="1"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -48,7 +54,8 @@
             android:id="@+id/date"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="sans-serif-condensed-light"
+            android:gravity="center"
             android:inputType="date"
             android:text="Date"
             android:textColor="#000000"
@@ -56,7 +63,7 @@
             app:layout_constraintBottom_toTopOf="@+id/location"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/duration"
-            app:layout_constraintTop_toBottomOf="@+id/editDescription"
+            app:layout_constraintTop_toBottomOf="@+id/description"
             app:layout_constraintVertical_weight="1"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -64,7 +71,8 @@
             android:id="@+id/duration"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="sans-serif-condensed-light"
+            android:gravity="center"
             android:inputType="number"
             android:text="Duration"
             android:textColor="#000000"
@@ -72,32 +80,59 @@
             app:layout_constraintBottom_toTopOf="@+id/location"
             app:layout_constraintLeft_toRightOf="@id/date"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editDescription"
+            app:layout_constraintTop_toBottomOf="@+id/description"
             app:layout_constraintVertical_weight="1"
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/location"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="sans-serif-condensed-light"
+            android:gravity="center"
             android:text="Location"
             android:textColor="#000000"
             android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/editButton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/duration"
-            app:layout_constraintVertical_weight="1"
-            tools:layout_editor_absoluteX="1dp" />
+            app:layout_constraintVertical_weight="1" />
 
         <Button
             android:id="@+id/editButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit"
-            app:layout_constraintBottom_toTopOf="@id/editDescription"
-            app:layout_constraintLeft_toRightOf="@id/editTitle"
+            android:layout_width="276dp"
+            android:layout_height="67dp"
+            android:text="Edit this advertisment"
+            app:layout_constraintBottom_toTopOf="@id/editButtonCopied"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location"
+            app:layout_constraintVertical_weight="1" />
+
+        <Button
+            android:id="@+id/editButtonCopied"
+            android:layout_width="276dp"
+            android:layout_height="67dp"
+            android:text="Create a new advertisement"
+            app:layout_constraintBottom_toTopOf="@id/show_prof_button"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editButton"
+            app:layout_constraintVertical_weight="1" />
+
+        <Button
+            android:id="@+id/show_prof_button"
+            android:layout_width="276dp"
+            android:layout_height="67dp"
+            android:text="Show Profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editButtonCopied"
+            app:layout_constraintVertical_weight="1" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
