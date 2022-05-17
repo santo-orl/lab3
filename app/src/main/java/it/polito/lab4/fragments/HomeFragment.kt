@@ -15,6 +15,7 @@ import it.polito.lab4.R
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
 import it.polito.lab4.timeSlots.Adapter_homeFrg
+import kotlinx.android.synthetic.main.fragment_show_profile.*
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
 
 
@@ -49,25 +50,80 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
         val menuItem = menu.findItem(R.id.action_search)
         val p = menuItem.actionView as SearchView
-        Log.i("test",menuItem.toString())
+        Log.i("test", menuItem.toString())
         p.isIconifiedByDefault = false
         p.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
-
-                if(p0==""){
+                if (p0 == "") {
                     Log.i("Test_home", p0.toString())
                     readData(id)
-                }else {
-                    Log.i("Test on text submit",p0.toString())
-                    searchSkills(p0?.lowercase(), id)
+                } else {
+                    Log.i("Test on text submit", p0.toString())
+                    searchSkill(p0?.lowercase(), id)
                 }
                 return false
             }
+
             override fun onQueryTextChange(p0: String?): Boolean {
                 return false
             }
 
         })
+    }
+
+    private fun searchSkill(query: String?, id: String) {
+        skillList = arrayListOf()
+        db.collection("skills").whereNotEqualTo("user", id).whereEqualTo("search", query)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    // if (document.id != id) {
+                    val s = document.data as HashMap<*, *>
+                    Log.i("test_home!!!!", s.toString())
+                    var p = Skill(
+                        s["title"].toString(),
+                        s["description"].toString(),
+                        s["pos"].toString().toInt(),
+                        s["user"].toString(),
+                        s["search"].toString(),
+                    )
+                    p.reference(s["id"].toString())
+                    skillList.add(p)
+                    Log.i("testList", p.toString())
+                }
+                if (skillList.isEmpty()) {
+                    Log.i("testList", skillList.toString())
+                    skillList.add(
+                        Skill(
+                            "No skills found",
+                            "No one has the skill you are searching for!",
+                            0,
+                            ""
+                        )
+                    )
+                }
+                Log.i("testList2", skillList.toString())
+                recycler_view.layoutManager = LinearLayoutManager(this.activity)
+                adapterSkill = Adapter_homeFrg(skillList)
+                recycler_view.adapter = adapterSkill
+
+                adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
+                    override fun onSkillClick(position: Int) {
+                        vm.setSkill(skillList[position].title)
+                        vm.setDesc(skillList[position].description)
+                    }
+
+                    override fun onSkillDeleted(position: Int) {
+                    }
+
+                })
+
+            }
+            .addOnFailureListener { exception ->
+                Log.i("test_SKILLS", "Error getting SKILLS: ", exception)
+            }
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -93,29 +149,29 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     }
 
 
-    private fun readData(id: String) {
+    fun readData(id: String) {
         skillList = arrayListOf()
-        db.collection("skills")
+        db.collection("skills").whereNotEqualTo("user", id)
             .get()
-            .addOnSuccessListener {
-                    result ->
+            .addOnSuccessListener { result ->
                 for (document in result) {
-                    if (document.id != id) {
-                        document.data.forEach { (c, s) ->
-                            //Log.i("test_home!!!!", s.toString())
-                            s as HashMap<*, *>
-                            skillList.add(
-                                Skill(
-                                    s["title"].toString(),
-                                    s["description"].toString(),
-                                    s["pos"].toString().toInt(),
-                                    s["user"].toString()
-                                )
-                            )
-                        }
-
-                    }
+                    // if (document.id != id) {
+                    val s = document.data as HashMap<*, *>
+                    Log.i("test_home!!!!", s.toString())
+                    s as HashMap<*, *>
+                    var p = Skill(
+                        s["title"].toString(),
+                        s["description"].toString(),
+                        s["pos"].toString().toInt(),
+                        s["user"].toString(),
+                        s["search"].toString(),
+                    )
+                    p.reference(s["id"].toString())
+                    skillList.add(p)
+                    Log.i("testList", p.toString())
                 }
+
+                //}
                 if (skillList.isEmpty()) {
                     Log.i("testList", skillList.toString())
                     skillList.add(
@@ -152,70 +208,72 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
 
 
     private fun searchSkills(query: String?, id: String) {
+
         skillList = arrayListOf()
+
         //value=ObjectValue{internalValue={Leggere:{description:so leggere da 10 anni,pos:1,search:leggere,title:Leggere}}
         db.collection("skills").get()
-            .addOnSuccessListener {
-                result ->
-                for (document in result){
+            .addOnSuccessListener { result ->
+                for (document in result) {
                     Log.i("Test_DOCUMENT", "$document")
                     Log.i("Test_document_data", "${document.data}")
-                        if (document.id != id) {
-                            document.data.forEach { (c, s) ->
-                                Log.i("test_home", s.toString())
-                                s as HashMap<*, *>
-                                if (s["search"] == query) {
-                                    Log.i("test_home", "entra")
-                                    skillList.add(
-                                        Skill(
-                                            s["title"].toString(),
-                                            s["description"].toString(),
-                                            s["pos"].toString().toInt(),
-                                            s["user"].toString()
-                                        )
+                    if (document.id != id) {
+                        document.data.forEach { (c, s) ->
+                            Log.i("test_home", s.toString())
+                            s as HashMap<*, *>
+                            if (s["search"].toString().contains(query as CharSequence)) {
+                                Log.i("test_home", "entra")
+                                skillList.add(
+                                    Skill(
+                                        s["title"].toString(),
+                                        s["description"].toString(),
+                                        s["pos"].toString().toInt(),
+                                        s["user"].toString()
                                     )
-                                }
+                                )
                             }
                         }
                     }
-                    if (skillList.isEmpty()) {
-                        Log.i("testList", skillList.toString())
-                        skillList.add(
-                            Skill(
-                                "No skills found",
-                                "No one has the skill you are searching for!",
-                                0,
-                                ""
-                            )
+                }
+                if (skillList.isEmpty()) {
+                    Log.i("testList", skillList.toString())
+                    skillList.add(
+                        Skill(
+                            "No skills found",
+                            "No one has the skill you are searching for!",
+                            0,
+                            ""
                         )
+                    )
+                }
+                Log.i("testList2", skillList.toString())
+                recycler_view.layoutManager = LinearLayoutManager(this.activity)
+                adapterSkill = Adapter_homeFrg(skillList)
+                recycler_view.adapter = adapterSkill
+
+                adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
+                    override fun onSkillClick(position: Int) {
+                        vm.setSkill(skillList[position].title)
+                        vm.setDesc(skillList[position].description)
                     }
-                    Log.i("testList2", skillList.toString())
-                    recycler_view.layoutManager = LinearLayoutManager(this.activity)
-                    adapterSkill = Adapter_homeFrg(skillList)
-                    recycler_view.adapter = adapterSkill
 
-                    adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
-                        override fun onSkillClick(position: Int) {
-                            vm.setSkill(skillList[position].title)
-                            vm.setDesc(skillList[position].description)
-                        }
+                    override fun onSkillDeleted(position: Int) {
+                    }
 
-                        override fun onSkillDeleted(position: Int) {
-                        }
+                })
 
-                    })
-
-                }
-                .addOnFailureListener { exception ->
-                    Log.i("test_SKILLS", "Error getting SKILLS: ", exception)
-                }
+            }
+            .addOnFailureListener { exception ->
+                Log.i("test_SKILLS", "Error getting SKILLS: ", exception)
+            }
 
 
-
-        }
-
-
+    }
 }
+
+
+
+
 
 
 

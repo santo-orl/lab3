@@ -72,22 +72,28 @@ class ListSkillUserFragment : Fragment(R.layout.fragment_home_skilllist) {
     }
 
     private fun readData(id: String) {
-        db.collection("skills").document(id).get().addOnSuccessListener {
-            skillList = arrayListOf()
-            if (it.exists()) {
-                it.data!!.forEach { (c, s) ->
+        skillList = arrayListOf()
+        db.collection("skills").whereEqualTo("user", id)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    // if (document.id != id) {
+                    val s = document.data as HashMap<*, *>
+                    Log.i("test_home!!!!", s.toString())
                     s as HashMap<*, *>
-                    skillList.add(
-                        Skill(
-                            s["title"].toString(),
-                            s["description"].toString(),
-                            s["pos"].toString().toInt(),
-                            s["user"].toString()
-                        )
+                    var p = Skill(
+                        s["title"].toString(),
+                        s["description"].toString(),
+                        s["pos"].toString().toInt(),
+                        s["user"].toString(),
+                        s["search"].toString(),
                     )
+                    p.reference(s["id"].toString())
+                    skillList.add(p)
+                    Log.i("testList", p.toString())
                 }
-            }
-            if (skillList.isEmpty()) {
+
+                if (skillList.isEmpty()) {
                 Log.i("testList", skillList.toString())
                 skillList.add(
                     Skill(
