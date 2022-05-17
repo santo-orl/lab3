@@ -148,7 +148,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             for (s in skillList) {
                 if(s.title.length >= 5 && s.description.length >= 10){
                     Log.i("test", s.toString())
-                    s.search = s.title.lowercase()
+                    s.search = s.title.lowercase().trim()
                     s.user = emailToUpdate
                     listNoEmpty.add(s)
                 }else if(s.title.length < 5){
@@ -217,7 +217,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     val s = document.data as HashMap<*, *>
                     Log.i("test_home!!!!", s.toString())
                 var p = Skill(
-                    s["title"].toString(),
+                    s["title"].toString().trim(),
                     s["description"].toString(),
                     s["pos"].toString().toInt(),
                     s["user"].toString()
