@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
@@ -33,6 +34,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var email_field: TextView
     private lateinit var photo_field: ImageView
     private lateinit var hour_field: TextView
+    private lateinit var ratingBar : RatingBar
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterShowProfile: Adapter_showProfile
@@ -80,6 +82,11 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         location_field = view.findViewById(R.id.location)
         photo_field = view.findViewById(R.id.imageView)
         hour_field = view.findViewById(R.id.hour)
+        ratingBar = view.findViewById(R.id.simpleRatingBar)
+        ratingBar.setIsIndicator(true)
+        ratingBar.numStars = 5
+        ratingBar.rating = 1F
+        ratingBar.stepSize = 1F
 
         vm.email.observe(this.viewLifecycleOwner) {
               id = it
