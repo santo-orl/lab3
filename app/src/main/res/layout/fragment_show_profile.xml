@@ -112,6 +112,7 @@
             android:layout_height="0dp"
             android:clickable="false"
             android:ems="7"
+            android:fontFamily="sans-serif-condensed-light"
             android:text="Time-credit:"
             android:textColor="@color/dark_blue"
             android:textSize="24sp"
