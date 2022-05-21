@@ -32,6 +32,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var location_field: TextView
     private lateinit var email_field: TextView
     private lateinit var photo_field: ImageView
+    private lateinit var hour_field: TextView
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterShowProfile: Adapter_showProfile
@@ -78,6 +79,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         email_field = view.findViewById(R.id.email)
         location_field = view.findViewById(R.id.location)
         photo_field = view.findViewById(R.id.imageView)
+        hour_field = view.findViewById(R.id.hour)
 
         vm.email.observe(this.viewLifecycleOwner) {
               id = it
@@ -144,6 +146,12 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     location_field.text = it.get("location").toString()
                 }else{
                     location_field.text = "Location"
+                }
+                if(it.get("hour").toString() != "null") {
+                    hour_field.text = it.get("hour").toString()
+                }
+                else{
+                    hour_field.text = "2"
                 }
             }else{
                 /*vm.name.observe(this.viewLifecycleOwner) {

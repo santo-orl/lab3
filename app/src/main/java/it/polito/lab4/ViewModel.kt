@@ -23,7 +23,7 @@ class ViewModel: ViewModel() {
 
     // var s = Storage.getInstance()
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val _user = MutableLiveData<User>(User("", "", "", "", ""))
+    private val _user = MutableLiveData<User>(User("", "", "", "", "",2))
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,""))
     val slot: LiveData<Slot> = _slot
 
@@ -32,6 +32,11 @@ class ViewModel: ViewModel() {
 
     private val _description = MutableLiveData<String>("")
     val description : LiveData<String> = _description
+
+    //hour used as credit
+    private val _hour = MutableLiveData<Int>(2)
+    val hour : LiveData<Int> = _hour
+
     private val _nickname = MutableLiveData<String>("")
     val nickname: LiveData<String> = _nickname
 
@@ -107,7 +112,7 @@ class ViewModel: ViewModel() {
                 .addOnFailureListener{e ->
                     Log.i("test","Error adding document",e)
                 }*/
-        val user = User(name, nickname, email, location, photoString)
+        val user = User(name, nickname, email, location, photoString,2)
         _user.value = user
         id = email
         db.collection("users").document(email).set(user, SetOptions.merge()).addOnSuccessListener { documentReference ->
@@ -120,6 +125,10 @@ class ViewModel: ViewModel() {
 
     fun setSlot(new: Slot){
         _slot.value = new
+    }
+
+    fun setHour(hour: Int){
+        _hour.value= hour
     }
 
     fun setId(desiredId: String){
