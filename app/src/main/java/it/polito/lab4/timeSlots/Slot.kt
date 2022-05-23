@@ -10,11 +10,12 @@ data class Slot(
     var duration: String,
     var location: String,
     val pos: Int,
-    val user: String
+    val user: String,
+    val status: String
 ) : Parcelable {
  var id =""
     override fun toString(): String {
-        return "$title###$description###$date###$duration###$pos###$location###$user"
+        return "$title###$description###$date###$duration###$pos###$location###$user###$status"
     }
     fun reference(documentReference: String) {
         id = documentReference

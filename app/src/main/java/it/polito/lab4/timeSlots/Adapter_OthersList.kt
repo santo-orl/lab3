@@ -1,5 +1,6 @@
 package it.polito.lab4.timeSlots
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -82,11 +83,13 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.title.text = dataSet[position].title
            viewHolder.description.text = dataSet[position].description
            viewHolder.cardView.isClickable = false
+           //viewHolder.cardView.setCardBackgroundColor(Color.parseColor("#FF0800"))
 
        }else if  (dataSet[position].title == "" && dataSet[position].description == "" ) {
            viewHolder.title.text = "No advertisement"
            viewHolder.description.text = "Click on the button below to add your first advertisement"
            viewHolder.cardView.isClickable = false
+           //viewHolder.cardView.setCardBackgroundColor(Color.parseColor("#FF0800"))
        }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
            viewHolder.cardView.isClickable = true
            viewHolder.cardView.setOnClickListener {

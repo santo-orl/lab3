@@ -159,8 +159,8 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             }
         }
         if(uriImageString != oldPhoto) {
-            val uri = vm.uploadImage(uriImageString).toString()
-            Log.i("test_PHOTO","after uri ${uri.toString()}")
+            //val uri = vm.uploadImage(uriImageString).toString()
+            //Log.i("test_PHOTO","after uri ${uri.toString()}")
         }
         vm.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageString,listNoEmpty)
 
@@ -181,14 +181,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 uriImageString = oldPhoto
                 val localFile = File.createTempFile("images", "jpg")
 
-                pathReference.getFile(localFile).addOnSuccessListener {
+                /*pathReference.getFile(localFile).addOnSuccessListener {
                     // Local temp file has been created
                     val uriImage = Uri.parse(localFile.path)
                    // Log.i("test_show", localFile.path.toString())
                     imageButton.setImageURI(uriImage)
                 }.addOnFailureListener {
                     // Handle any errors
-                }
+                }*/
 
               //  Log.i("test_show", pathReference.toString())
 

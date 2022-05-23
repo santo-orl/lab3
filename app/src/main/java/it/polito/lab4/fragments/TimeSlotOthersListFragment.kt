@@ -93,7 +93,8 @@ class TimeSlotOthersListFragment : Fragment() {
                                 s["duration"].toString(),
                                 s["location"].toString(),
                                 slotList.size,
-                                s["user"].toString()
+                                s["user"].toString(),
+                                s["status"].toString()
                             )
                                 add.reference(document.id)
                             slotList.add(
@@ -111,6 +112,7 @@ class TimeSlotOthersListFragment : Fragment() {
                             "",
                             "",
                             0,
+                            "",
                             ""
                         )
                     )
@@ -121,7 +123,7 @@ class TimeSlotOthersListFragment : Fragment() {
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
                 adapterOthersList = Adapter_OthersList(slotList)
                 recycler_view.adapter = adapterOthersList
-                vm.setSlot(Slot("","","","","",-1,""))
+                vm.setSlot(Slot("","","","","",-1,"",""))
 
                 adapterOthersList.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                     override fun onSlotDeleted(position: Int) {
@@ -137,6 +139,7 @@ class TimeSlotOthersListFragment : Fragment() {
                                     "",
                                     "",
                                     0,
+                                    "",
                                     ""
                                 )
                             )

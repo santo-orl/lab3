@@ -24,7 +24,7 @@ class ViewModel: ViewModel() {
     // var s = Storage.getInstance()
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val _user = MutableLiveData<User>(User("", "", "", "", ""))
-    private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,""))
+    private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))
     val slot: LiveData<Slot> = _slot
 
     private val _skill = MutableLiveData<String>("")
@@ -41,7 +41,7 @@ class ViewModel: ViewModel() {
     private val _photoString = MutableLiveData<String>("")
     var photoString: LiveData<String> = _photoString
 
-    fun uploadImage(photoString: String): Uri {
+    /*fun uploadImage(photoString: String): Uri {
         // Defining the child of storageReference
         val ref = storageRef.child(
             "images/"
@@ -74,7 +74,7 @@ class ViewModel: ViewModel() {
         }
         Log.i("test_vm","after ref ${ref.downloadUrl.toString()}")
         return downloadUri
-    }
+    }*/
 
     fun createUser(name:String, nickname: String, email: String,
                     location: String,
