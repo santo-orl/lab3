@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
@@ -32,7 +33,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private lateinit var title_field: EditText
     private lateinit var description_field: EditText
     private lateinit var location_field: EditText
-    private  var eliminare = Slot("", "", "", "", "", 0,"")
+    private  var eliminare = Slot("", "", "", "", "", 0,"","")
 
     //val vm by viewModels<TimeSlotViewModel>()
     private val vm: ViewModel by activityViewModels()
@@ -47,7 +48,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
         title_field = view.findViewById(R.id.editTitle)
         description_field = view.findViewById(R.id.editDescription)
         date_field = view.findViewById(R.id.date_edit)
-        location_field = view.findViewById((R.id.location_edit))
+        location_field = view.findViewById(R.id.location_edit)
         date_field.showSoftInputOnFocus = false
 
         from_field = view.findViewById(R.id.from_edit)
@@ -125,7 +126,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 vm.slot.observe(viewLifecycleOwner){
                     if (title != slot.title || description != slot.description || date != slot.date ||
                             "$from-$to" != slot.duration || location != slot.location){
-                        var new = Slot(title, description, date, "$from-$to", location, 0, id)
+                        var new = Slot(title, description, date, "$from-$to", location, 0, id, "Available")
                         new.reference(slot.id)
                         Log.i("test",new.toString())
                         if(title != "" && description != ""){

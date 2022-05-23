@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(){
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        vm.setSlot(Slot("","","","","",-1,""))
+        vm.setSlot(Slot("","","","","",-1,"",""))
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {

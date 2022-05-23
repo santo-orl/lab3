@@ -64,7 +64,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 trans.replace(R.id.myNavHostFragment, ShowProfileFragment())
                 trans.commit()
             }else{
-                vm.setSlot(Slot("","","","","",-1,""))
+                vm.setSlot(Slot("","","","","",-1,"",""))
             }
             //getSupportFragmentManager().executePendingTransactions();   //unnecessary
         }

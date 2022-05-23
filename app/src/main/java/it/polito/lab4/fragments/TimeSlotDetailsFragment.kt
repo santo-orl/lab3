@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -23,18 +24,21 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     var date: String = "Date"
     var duration: String = "Duration"
     var location: String = "Location"
+    var status: String = "Availability"
     lateinit var edit_button: Button
     lateinit var copied_button: Button
     lateinit var show_prof_button: Button
+    lateinit var chat_button: Button
 
     lateinit var title_field: TextView
     lateinit var description_field: TextView
     lateinit var date_field: TextView
     lateinit var duration_field: TextView
     lateinit var location_field: TextView
+    lateinit var status_field: TextView
     private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
-    private lateinit var id : String
+    private lateinit var id: String
     private lateinit var slot: Slot
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,65 +49,75 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         duration_field = view.findViewById(R.id.duration)
         location_field = view.findViewById((R.id.location))
         date_field = view.findViewById(R.id.date)
+        status_field = view.findViewById(R.id.status)
 
         title = title_field.text.toString()
         description = description_field.text.toString()
         date = date_field.text.toString()
         duration = duration_field.text.toString()
         location = location_field.text.toString()
+        status = status_field.text.toString()
 
         show_prof_button = view.findViewById(R.id.show_prof_button)
         edit_button = view.findViewById(R.id.editButton)
         copied_button = view.findViewById(R.id.editButtonCopied)
+        chat_button = view.findViewById(R.id.openChatButton)
 
-       // Log.i("test", "dopo iniz $pos")
+        // Log.i("test", "dopo iniz $pos")
         vm.email.observe(this.viewLifecycleOwner) {
             id = it
         }
         vm.slot.observe(this.viewLifecycleOwner) {
             slot = it
-           // Log.i("test_edit", slot.toString())
-            if (slot.user == id){
+            // Log.i("test_edit", slot.toString())
+            if (slot.user == id) {
                 show_prof_button.visibility = View.GONE
                 show_prof_button.isClickable = false
                 edit_button.visibility = View.VISIBLE
                 edit_button.isClickable = true
                 copied_button.visibility = View.VISIBLE
                 copied_button.isClickable = true
+                chat_button.visibility = View.GONE
+                chat_button.isClickable = false
 
-            }else{
+            } else {
                 edit_button.visibility = View.GONE
                 edit_button.isClickable = false
                 copied_button.visibility = View.GONE
                 copied_button.isClickable = false
                 show_prof_button.isClickable = true
                 show_prof_button.visibility = View.VISIBLE
+                chat_button.visibility = View.VISIBLE
+                //user can open the chat only if the slot is available
+                //chat_button.isClickable = status == "Available"
+                chat_button.isClickable = true
             }
             if (slot.title != "") {
-                Log.i("test_edit", "entra? ${slot.title}" )
+                Log.i("test_edit", "entra? ${slot.title}")
                 title_field.text = slot.title
                 description_field.text = slot.description
                 date_field.text = slot.date
                 duration_field.text = slot.duration
                 location_field.text = slot.location
-               // readData(id)
-               //
+                status_field.text = slot.status
+                // readData(id)
+                //
             }
 
         }
-      //  Log.i("test_edit", "entra?" + chosenSlot)
+        //  Log.i("test_edit", "entra?" + chosenSlot)
 
-            //edit_button = view.findViewById(R.id.editButton)
+        //edit_button = view.findViewById(R.id.editButton)
 
-            edit_button.setOnClickListener {
-                val activity = it.context as? AppCompatActivity
-                activity?.supportFragmentManager?.commit {
-                    addToBackStack(TimeSlotEditFragment::class.toString())
-                    setReorderingAllowed(true)
-                    replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
-                    //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
-                }
+        edit_button.setOnClickListener {
+            val activity = it.context as? AppCompatActivity
+            activity?.supportFragmentManager?.commit {
+                addToBackStack(TimeSlotEditFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
+                //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
             }
+        }
 
         copied_button.setOnClickListener {
             slot.id = ""
@@ -119,27 +133,39 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
         }
 
-            show_prof_button.setOnClickListener {
-                val activity = it.context as? AppCompatActivity
-                activity?.supportFragmentManager?.commit {
-                    addToBackStack(ShowProfileFragment::class.toString())
-                    setReorderingAllowed(true)
-                    replace<ShowProfileFragment>(R.id.myNavHostFragment)
-                    //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
-                }
+        show_prof_button.setOnClickListener {
+            val activity = it.context as? AppCompatActivity
+            activity?.supportFragmentManager?.commit {
+                addToBackStack(ShowProfileFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<ShowProfileFragment>(R.id.myNavHostFragment)
+                //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
             }
-
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                this@TimeSlotDetailsFragment.activity?.supportFragmentManager?.popBackStack()
-                //findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
-
-
-            }
-        })
         }
 
-    /*private fun readData(id: String){
+        chat_button.setOnClickListener {
+            //Toast.makeText(this.context,"OPEN CHAT",Toast.LENGTH_LONG).show()
+            val activity = it.context as? AppCompatActivity
+            activity?.supportFragmentManager?.commit {
+                addToBackStack(ShowProfileFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<ChatFragment>(R.id.myNavHostFragment)
+            }
+
+
+            activity?.onBackPressedDispatcher?.addCallback(
+                viewLifecycleOwner,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        this@TimeSlotDetailsFragment.activity?.supportFragmentManager?.popBackStack()
+                        //findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
+
+
+                    }
+                })
+        }
+
+        /*private fun readData(id: String){
         Log.i("test_edit", "db?" + id)
         db.collection("slots").document(id).get().addOnSuccessListener {
            // Log.i("test_edit", "db?" + titleSlot)
@@ -172,4 +198,5 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
 
     }*/
     }
+}
 
