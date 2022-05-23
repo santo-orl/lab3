@@ -39,7 +39,7 @@ class TimeSlotOthersListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle("TimeSlotOthersList")
+        activity?.setTitle("Advertisement")
 
         /*add_button = view.findViewById(R.id.add_FAB)
 
@@ -80,12 +80,12 @@ class TimeSlotOthersListFragment : Fragment() {
         db.collection("slots")
             .whereEqualTo("title", title).get().addOnSuccessListener { result ->
             //.whereEqualTo("title", title).whereNotEqualTo("user", id).get().addOnSuccessListener { result ->
-                Log.i("TEST", "boh")
+             //   Log.i("TEST", "boh")
                 slotList = arrayListOf()
                 for (document in result) {
                         val s = document.data as HashMap<*, *>
                         if (s["user"] != id) {
-                            Log.i("TEST", "${document.id} + ${document.data}  ")
+                         //   Log.i("TEST", "${document.id} + ${document.data}  ")
                             var add = Slot(
                                 s["title"].toString(),
                                 s["description"].toString(),
