@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
@@ -32,6 +33,8 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var location_field: TextView
     private lateinit var email_field: TextView
     private lateinit var photo_field: ImageView
+    private lateinit var hour_field: TextView
+    private lateinit var ratingBar : RatingBar
 
     //per differenziare i due recycler quando mostra le skills
     private lateinit var adapterShowProfile: Adapter_showProfile
@@ -78,6 +81,13 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         email_field = view.findViewById(R.id.email)
         location_field = view.findViewById(R.id.location)
         photo_field = view.findViewById(R.id.imageView)
+        hour_field = view.findViewById(R.id.hour)
+
+        ratingBar = view.findViewById(R.id.simpleRatingBar)
+        ratingBar.setIsIndicator(true)
+        ratingBar.numStars = 5
+        ratingBar.rating = 1F
+        ratingBar.stepSize = 1F
 
         vm.email.observe(this.viewLifecycleOwner) {
               id = it
@@ -132,7 +142,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     }
 
                   Log.i("test_show", pathReference.toString())
-                } else {
+                }else {
                     photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic
                 }
                 if (it.get("nickname").toString() != "null") {
@@ -144,6 +154,11 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     location_field.text = it.get("location").toString()
                 }else{
                     location_field.text = "Location"
+                }
+                if(it.get("hours").toString() != "-1") {
+                    hour_field.text = it.get("hours").toString()
+                }else{
+                    hour_field.text = "-1"
                 }
             }else{
                 /*vm.name.observe(this.viewLifecycleOwner) {
