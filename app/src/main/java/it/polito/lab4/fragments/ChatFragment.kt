@@ -1,22 +1,44 @@
 package it.polito.lab4.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import it.polito.lab4.Message
+import it.polito.lab4.MessageAdapter
 import it.polito.lab4.R
 import it.polito.lab4.ViewModel
 import it.polito.lab4.timeSlots.Slot
 
 class ChatFragment: Fragment() {
     private val vm: ViewModel by activityViewModels()
-    private lateinit var id: String
+    private var senderUser: String = ""
+    private var receiverUser: String = ""
     private lateinit var accept_btn: Button
     private lateinit var reject_btn: Button
     private lateinit var slot: Slot
+
+    private lateinit var chatRecyclerView: RecyclerView
+    private lateinit var messageBox: EditText
+    private lateinit var sendButton: Button
+    private lateinit var messageAdapter: MessageAdapter
+    private lateinit var messageList: ArrayList<Message>
+    private lateinit var mDbRef: DatabaseReference
+
+    //to create a unique room of messages between the users of the chat
+    var receiverRoom: String? = null
+    var senderRoom: String? = null
+    private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,21 +48,98 @@ class ChatFragment: Fragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_chat, container, false)
         vm.email.observe(this.viewLifecycleOwner) {
-            id = it
-            /*if (id != "") {
-                //readData(id)
-            }*/
+            senderUser = it
+            Log.i("Sender user",senderUser)
         }
+
+        vm.slot.observe(this.viewLifecycleOwner){
+            slot = it
+            receiverUser = slot.user
+            activity?.title = receiverUser
+            Log.i("Receiver user",receiverUser)
+        }
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        mDbRef = FirebaseDatabase.getInstance().reference
+
+        val senderUid = FirebaseAuth.getInstance().currentUser?.uid
+        Log.i("Sender uid", senderUid.toString())
+
+        val randomString = (1..senderUid.toString().length)
+            .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+            .map(charPool::get)
+            .joinToString("");
+
+        //receiverRoom = senderUser.plus(receiverUser)
+        receiverRoom = senderUid.toString() + randomString
+        Log.i("Receiver Room", receiverRoom.toString())
+        //senderRoom = receiverUser.plus(senderUser)
+        senderRoom = randomString + senderUid.toString()
+        Log.i("Sender Room", senderRoom.toString())
+
+        chatRecyclerView = view.findViewById(R.id.chatRecyclerView)
+        messageBox = view.findViewById(R.id.messageBox)
+        sendButton = view.findViewById(R.id.sendButton)
+
+        messageList = ArrayList()
+        messageAdapter = MessageAdapter(this.requireContext(),messageList, senderUser)
+
+        chatRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        chatRecyclerView.adapter = messageAdapter
+
+
+        //logic for adding data to recycler view
+        mDbRef.child("chats").child(senderRoom!!).child("messages")
+            .addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) { //called when there is some change in the db
+
+                    //clear the previous values
+                    messageList.clear()
+
+                    for (postSnapshot in snapshot.children){
+                        val message = postSnapshot.getValue(Message::class.java)
+                        messageList.add(message!!)
+                    }
+                    messageAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
+
+
+
+        //adding the messsage to the db
+        sendButton.setOnClickListener {
+            //send the message to the db and from the db the message will be rx by the other user
+            val message = messageBox.text.toString()
+            val messageObject = Message(message,senderUser)
+
+            //create a unique door every time this push() is called
+            mDbRef.child("chats").child(senderRoom!!).child("messages").push()
+                .setValue(messageObject).addOnSuccessListener {
+                    mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
+                        .setValue(messageObject)
+                }
+
+            messageBox.setText("")
+
+        }
+
+
         accept_btn = view.findViewById(R.id.accept_btn)
         reject_btn = view.findViewById(R.id.reject_btn)
         vm.slot.observe(this.viewLifecycleOwner){
             slot = it
-            if (slot.user != id){
+            if (slot.user != senderUser){
                 //nascondi bottoni per accept e reject
                 accept_btn.visibility = View.GONE
                 accept_btn.isClickable = false
