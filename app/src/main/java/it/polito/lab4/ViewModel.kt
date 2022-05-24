@@ -25,7 +25,7 @@ class ViewModel: ViewModel() {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     /*private val _user = MutableLiveData<User>(User("", "", "", "", ""))
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))*/
-    private val _user = MutableLiveData<User>(User("", "", "", "", "",2))
+    private val _user = MutableLiveData<User>(User("", "", "", "", "",0))
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))
 
     val slot: LiveData<Slot> = _slot
@@ -37,8 +37,8 @@ class ViewModel: ViewModel() {
     val description : LiveData<String> = _description
 
     //hour used as credit
-    private val _hour = MutableLiveData<Int>(2)
-    val hour : LiveData<Int> = _hour
+    private val _hours = MutableLiveData<Int>(0)
+    val hour : LiveData<Int> = _hours
 
     private val _nickname = MutableLiveData<String>("")
     val nickname: LiveData<String> = _nickname
@@ -130,8 +130,8 @@ class ViewModel: ViewModel() {
         _slot.value = new
     }
 
-    fun setHour(hour: Int){
-        _hour.value= hour
+    fun setHours(hours: Int){
+        _hours.value= hours
     }
 
     fun setId(desiredId: String){
