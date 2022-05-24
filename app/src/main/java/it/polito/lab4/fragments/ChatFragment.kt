@@ -139,22 +139,30 @@ class ChatFragment: Fragment() {
         reject_btn = view.findViewById(R.id.reject_btn)
         vm.slot.observe(this.viewLifecycleOwner){
             slot = it
-            if (slot.user != senderUser){
-                //nascondi bottoni per accept e reject
-                accept_btn.visibility = View.GONE
-                accept_btn.isClickable = false
-                reject_btn.visibility = View.GONE
-                reject_btn.isClickable = false
-            }else{
+            Log.i("TESTSLOT",it.toString())
+            Log.i("TESTSLOT",id)
+            Log.i("TESTSLOT",slot.user)
+            if (slot.user == senderUser){
+                //otherUser sta richiedendo lo slot ad appUser
+                //appUser può accettare o rifiutare
                 //mostra i bottoni di accept e reject
                 accept_btn.visibility = View.VISIBLE
                 accept_btn.isClickable = true
                 reject_btn.visibility = View.VISIBLE
                 reject_btn.isClickable = true
+
+            }else{
+                //appUser sta richiedendo lo slot di otherUser
+                //nascondi bottoni per accept e reject
+                accept_btn.visibility = View.GONE
+                accept_btn.isClickable = false
+                reject_btn.visibility = View.GONE
+                reject_btn.isClickable = false
             }
         }
 
         accept_btn.setOnClickListener {
+            
             //rendi lo slot non available
             //sposta i soldi da un utente all'altro
         }
