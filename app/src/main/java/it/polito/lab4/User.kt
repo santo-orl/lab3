@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 data class User(var name: String, var nickname: String, var email: String,
                 var location: String,
                 var  photoString: String,
+                var hours: Int
                 //var skills: ArrayList<Skill>
 ) : Parcelable {
 
@@ -13,6 +14,6 @@ data class User(var name: String, var nickname: String, var email: String,
         return ""
     }
 
-    constructor():this("","","","","")
+    constructor():this("","","","","",-1)
 
 }
