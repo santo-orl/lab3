@@ -35,8 +35,10 @@ class ChatFragment: Fragment() {
     private lateinit var mDbRef: DatabaseReference
 
     //to create a unique room of messages between the users of the chat
-    var receiverRoom: String? = null
-    var senderRoom: String? = null
+    var splitSend = ""
+    var splitRec = ""
+    private lateinit var receiverRoom: String
+    private lateinit var senderRoom: String
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
 
@@ -47,17 +49,7 @@ class ChatFragment: Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_chat, container, false)
-        vm.email.observe(this.viewLifecycleOwner) {
-            senderUser = it
-            Log.i("Sender user",senderUser)
-        }
 
-        vm.slot.observe(this.viewLifecycleOwner){
-            slot = it
-            receiverUser = slot.user
-            activity?.title = receiverUser
-            Log.i("Receiver user",receiverUser)
-        }
 
         return view
     }
@@ -65,6 +57,31 @@ class ChatFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        vm.email.observe(this.viewLifecycleOwner) {
+            senderUser = it
+
+            val sx = senderUser.split("@",".")
+            for (s in sx){
+                splitSend += s
+            }
+            Log.i("Sender user",senderUser)
+            Log.i("Sender split", splitSend)
+        }
+
+        vm.slot.observe(this.viewLifecycleOwner){
+            slot = it
+            receiverUser = slot.user
+
+            val rx = receiverUser.split("@",".")
+            for (s in rx){
+                splitRec += s
+            }
+            Log.i("Receiver user",receiverUser)
+            Log.i("Receiver split", splitRec)
+            activity?.title = receiverUser
+        }
 
         mDbRef = FirebaseDatabase.getInstance().reference
 
@@ -76,11 +93,16 @@ class ChatFragment: Fragment() {
             .map(charPool::get)
             .joinToString("");
 
+        val rx = senderUser.split("@").joinToString()
+        Log.i("rx", rx)
+        Log.i("sent", senderUser)
         //receiverRoom = senderUser.plus(receiverUser)
         receiverRoom = senderUid.toString() + randomString
+        //receiverRoom = splitSend + splitRec
         Log.i("Receiver Room", receiverRoom.toString())
         //senderRoom = receiverUser.plus(senderUser)
         senderRoom = randomString + senderUid.toString()
+        //senderRoom = splitRec + splitSend
         Log.i("Sender Room", senderRoom.toString())
 
         chatRecyclerView = view.findViewById(R.id.chatRecyclerView)
@@ -140,7 +162,7 @@ class ChatFragment: Fragment() {
         vm.slot.observe(this.viewLifecycleOwner){
             slot = it
             Log.i("TESTSLOT",it.toString())
-            Log.i("TESTSLOT",id)
+            Log.i("TESTSLOT",senderUser)
             Log.i("TESTSLOT",slot.user)
             if (slot.user == senderUser){
                 //otherUser sta richiedendo lo slot ad appUser
