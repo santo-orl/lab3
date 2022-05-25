@@ -115,7 +115,7 @@ class ViewModel: ViewModel() {
                 .addOnFailureListener{e ->
                     Log.i("test","Error adding document",e)
                 }*/
-        val user = User(name, nickname, email, location, photoString,2)
+        val user = User(name, nickname, email, location, photoString,0)
         _user.value = user
         id = email
         db.collection("users").document(email).set(user, SetOptions.merge()).addOnSuccessListener { documentReference ->
