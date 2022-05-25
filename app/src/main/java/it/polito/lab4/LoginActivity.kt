@@ -68,10 +68,10 @@ class LoginActivity : AppCompatActivity() {
                 Log.i("test_login",email)
                 name = account.displayName.toString()
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                val map: MutableMap<String, String> = HashMap()
+                val map: MutableMap<String, Any> = HashMap()
                 map["email"] = email
                 map["name"] = name
-                map["hours"]= "2"
+                map["hours"]= 2
 
                 db.collection("users").document(email).set(map as Map<String, Any>, SetOptions.merge())
                     .addOnSuccessListener {
