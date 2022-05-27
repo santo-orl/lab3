@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.*
-import it.polito.lab4.skills.Skill
 
 class ChatListFragment: Fragment() {
 
@@ -21,9 +20,9 @@ class ChatListFragment: Fragment() {
 
     private lateinit var userListRecView: RecyclerView
     private lateinit var userList: ArrayList<User>
-    private lateinit var userAdapter: UserAdapter
+    private lateinit var userChatAdapter: UserChatAdapter
 
-    private lateinit var splitSend:String
+    private var splitSend:String = ""
 
 
     override fun onCreateView(
@@ -46,10 +45,10 @@ class ChatListFragment: Fragment() {
             id = it
 
             userList = ArrayList()
-            userAdapter = UserAdapter(this.requireContext(), userList)
+            userChatAdapter = UserChatAdapter(this.requireContext(), userList)
 
             userListRecView.layoutManager = LinearLayoutManager(this.requireContext())
-            userListRecView.adapter = userAdapter
+            userListRecView.adapter = userChatAdapter
 
             val senderUser = it
 
@@ -78,7 +77,7 @@ class ChatListFragment: Fragment() {
                             )
                             Log.i("chatuser",user.toString())
                             userList.add(user)
-                            userAdapter.notifyDataSetChanged()
+                            userChatAdapter.notifyDataSetChanged()
                         }
 
                     }
