@@ -35,14 +35,14 @@
                 android:textColor="#000000"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                card_view:layout_constraintBottom_toTopOf="@+id/description_itemList"
+                card_view:layout_constraintBottom_toTopOf="@+id/slotDesc"
                 card_view:layout_constraintLeft_toLeftOf="parent"
                 card_view:layout_constraintRight_toLeftOf="@id/delete_card"
                 card_view:layout_constraintTop_toTopOf="parent"
                 card_view:layout_constraintVertical_weight="1" />
 
             <TextView
-                android:id="@+id/description_itemList"
+                android:id="@+id/slotDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
@@ -61,7 +61,7 @@
                 android:id="@+id/delete_card"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                card_view:layout_constraintBottom_toTopOf="@+id/description_itemList"
+                card_view:layout_constraintBottom_toTopOf="@+id/slotDesc"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintLeft_toRightOf="@id/title_itemList"
                 card_view:layout_constraintTop_toTopOf="parent"

@@ -33,7 +33,7 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
     class ViewHolder(view: View, slotListener: SlotUI.SlotListener,
                      slotSaved: SlotUI.SlotSaved) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.title_itemList
-        val description: TextView = view.description_itemList
+        val description: TextView = view.slotDesc
         val iconDeleteSlot: ImageView = view.delete_card
         val cardView: CardView = itemView.findViewById(R.id.card_list)
 

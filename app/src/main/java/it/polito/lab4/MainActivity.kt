@@ -30,6 +30,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import it.polito.lab4.fragments.ChatListFragment
 import it.polito.lab4.fragments.ListSkillUserFragment
 
 import it.polito.lab4.fragments.ShowProfileFragment
@@ -129,6 +130,17 @@ class MainActivity : AppCompatActivity(){
                      navController.navigate(R.id.loginActivity) */
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
+                    drawerLayout?.closeDrawer(GravityCompat.START)
+                    true
+                }
+                R.id.chatList -> {
+                    this.supportFragmentManager.commit {
+                        addToBackStack(ChatListFragment::class.toString())
+                        setReorderingAllowed(true)
+                        replace(R.id.myNavHostFragment, ChatListFragment())
+                    }
+                    /* val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.containerFragment)*/
                     drawerLayout?.closeDrawer(GravityCompat.START)
                     true
                 }

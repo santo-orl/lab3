@@ -1,5 +1,6 @@
 package it.polito.lab4.fragments
 
+import android.Manifest.permission_group.CALENDAR
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +22,10 @@ import it.polito.lab4.R
 import it.polito.lab4.ViewModel
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ChatFragment: Fragment() {
     private val vm: ViewModel by activityViewModels()
@@ -53,16 +59,12 @@ class ChatFragment: Fragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_chat, container, false)
 
-
-
-
-
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         vm.email.observe(this.viewLifecycleOwner) {
             senderUser = it
@@ -72,8 +74,6 @@ class ChatFragment: Fragment() {
                 splitSend += s
             }
 
-            Log.i("Sender split", splitSend)
-
             vm.slot.observe(this.viewLifecycleOwner) {
                 slot = it
                 receiverUser = slot.user
@@ -82,9 +82,9 @@ class ChatFragment: Fragment() {
                 for (s in rx) {
                     splitRec += s
                 }
-                Log.i("Receiver user", receiverUser)
-                Log.i("Receiver split", splitRec)
+
                 activity?.title = receiverUser
+
             }
 
 
@@ -92,25 +92,15 @@ class ChatFragment: Fragment() {
 
             mDbRef = FirebaseDatabase.getInstance().reference
 
-            val senderUid = FirebaseAuth.getInstance().currentUser?.uid
-            Log.i("Sender uid", senderUid.toString())
 
-            val randomString = (1..senderUid.toString().length)
-                .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
-                .map(charPool::get)
-                .joinToString("");
-
-            val rx = senderUser.split("@").joinToString()
-            Log.i("rx", rx)
-            Log.i("sent", senderUser)
             //receiverRoom = senderUser.plus(receiverUser)
             //receiverRoom = senderUid.toString() + randomString
-            receiverRoom = splitSend + splitRec
-            Log.i("Receiver Room", receiverRoom.toString())
-            senderRoom = receiverUser.plus(senderUser)
+            receiverRoom = splitSend + splitRec + slot.id
+            Log.i("Receiver Room", receiverRoom)
+            //senderRoom = receiverUser.plus(senderUser)
             //senderRoom = randomString + senderUid.toString()
-            senderRoom = splitRec + splitSend
-            Log.i("Sender Room", senderRoom.toString())
+            senderRoom = splitRec + splitSend + slot.id
+            Log.i("Sender Room", senderRoom)
 
             chatRecyclerView = view.findViewById(R.id.chatRecyclerView)
             messageBox = view.findViewById(R.id.messageBox)
@@ -124,6 +114,7 @@ class ChatFragment: Fragment() {
 
 
             db.collection("chats").document(senderRoom).collection("messages")
+                .orderBy("sentTime")
                 .addSnapshotListener { snapshot, e ->
                     if(snapshot!= null) {
                         Log.i("snapshotsb", "Current data: ${snapshot.documents}$")
@@ -132,7 +123,8 @@ class ChatFragment: Fragment() {
                             val m = doc.data as HashMap<*, *>
                             var message = Message(
                                 m["message"].toString(),
-                                m["senderId"].toString()
+                                m["senderId"].toString(),
+                                m["sentTime"].toString()
                             )
                             Log.i("message", message.toString())
                             messageList.add(message)
@@ -168,7 +160,10 @@ class ChatFragment: Fragment() {
             sendButton.setOnClickListener {
                 //send the message to the db and from the db the message will be rx by the other user
                 val message = messageBox.text.toString()
-                val messageObject = Message(message, senderUser)
+                val date = Calendar.getInstance().time
+                val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
+                var sentTime = formatter.format(date)
+                val messageObject = Message(message, senderUser, sentTime)
 
                 db.collection("chats").document(senderRoom)
                     .collection("messages").document().set(messageObject)
@@ -221,10 +216,12 @@ class ChatFragment: Fragment() {
 
                 //rendi lo slot non available
                 //sposta i soldi da un utente all'altro
+                //cancella la chat relativa allo slot
             }
 
             reject_btn.setOnClickListener {
                 //torna indietro senza cambiare lo stato dello slot
+                //cancella la chat relativa allo slot
             }
 
         }

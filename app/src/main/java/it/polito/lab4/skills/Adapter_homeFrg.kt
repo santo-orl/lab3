@@ -12,9 +12,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab4.R
-import it.polito.lab4.fragments.TimeSlotDetailsFragment
 import it.polito.lab4.fragments.TimeSlotOthersListFragment
-import it.polito.lab4.fragments.TimeSlotUserListFragment
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
 
@@ -35,7 +33,7 @@ class Adapter_homeFrg(private val dataSet: ArrayList<Skill>) :
     class ViewHolder(view: View, skillListener: SkillUI.SkillListener,
                      skillSaved: SkillUI.SkillSaved) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.title_itemList
-        val description: TextView = view.description_itemList
+        val description: TextView = view.slotDesc
         val iconDeleteSlot: ImageView = view.delete_card
         val cardView: CardView = itemView.findViewById(R.id.card_list)
 

@@ -22,6 +22,12 @@
             android:icon="@drawable/listaindex"
             android:title="List of time slots"
             android:visible="true" />
+
+        <item
+            android:id="@+id/chatList"
+            android:icon="@android:drawable/stat_notify_chat"
+            android:title="Chats"
+            android:visible="true" />
     </group>
 
     <group android:checkableBehavior="single"
