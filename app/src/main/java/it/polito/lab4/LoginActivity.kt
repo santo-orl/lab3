@@ -122,6 +122,8 @@ class LoginActivity : AppCompatActivity() {
 
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        Log.i("uid", uid.toString())
         if(currentUser!=null){
             println("utente già loggato "+currentUser.email.toString())
             email = currentUser.email.toString()
