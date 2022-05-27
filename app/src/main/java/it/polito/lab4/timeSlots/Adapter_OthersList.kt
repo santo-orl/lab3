@@ -1,6 +1,5 @@
 package it.polito.lab4.timeSlots
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +33,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
     class ViewHolder(view: View, slotListener: SlotUI.SlotListener,
                      slotSaved: SlotUI.SlotSaved) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.title_itemList
-        val description: TextView = view.description_itemList
+        val description: TextView = view.slotDesc
         val iconDeleteSlot: ImageView = view.delete_card
         val cardView: CardView = itemView.findViewById(R.id.card_list)
 

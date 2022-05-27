@@ -19,7 +19,7 @@ class Adapter_showProfile(private val dataSet: ArrayList<Skill>) :
 
         val number: TextView = view.skill_number_label2
         val sTitle: TextView = view.Title
-        val sDesc: TextView = view.Description
+        val sDesc: TextView = view.slotDescription
         private lateinit var listener: AdapterView.OnItemClickListener
 
         init {

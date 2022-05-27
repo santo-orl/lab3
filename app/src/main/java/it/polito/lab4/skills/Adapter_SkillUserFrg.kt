@@ -5,7 +5,6 @@ package it.polito.lab4.skills
     import android.view.View
     import android.view.ViewGroup
     import android.widget.ImageView
-    import android.widget.SearchView
     import android.widget.TextView
     import androidx.appcompat.app.AppCompatActivity
     import androidx.cardview.widget.CardView
@@ -13,9 +12,7 @@ package it.polito.lab4.skills
     import androidx.fragment.app.replace
     import androidx.recyclerview.widget.RecyclerView
     import it.polito.lab4.R
-    import it.polito.lab4.fragments.TimeSlotDetailsFragment
     import it.polito.lab4.fragments.TimeSlotUserListFragment
-    import kotlinx.android.synthetic.main.fragment_home_skilllist.view.*
 
 
     import kotlinx.android.synthetic.main.fragment_item_list.view.*
@@ -34,7 +31,7 @@ package it.polito.lab4.skills
                          skillSaved: SkillUI.SkillSaved) : RecyclerView.ViewHolder(view) {
 
             val title: TextView = view.title_itemList
-            val description: TextView = view.description_itemList
+            val description: TextView = view.slotDesc
             val iconDeleteSlot: ImageView = view.delete_card
             val cardView: CardView = itemView.findViewById(R.id.card_list)
 
