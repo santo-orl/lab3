@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.Message
 import it.polito.lab4.MessageAdapter
 import it.polito.lab4.R
 import it.polito.lab4.ViewModel
+import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
 
 class ChatFragment: Fragment() {
@@ -33,13 +35,14 @@ class ChatFragment: Fragment() {
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var mDbRef: DatabaseReference
+    private val db = FirebaseFirestore.getInstance()
 
     //to create a unique room of messages between the users of the chat
     var splitSend = ""
     var splitRec = ""
     private lateinit var receiverRoom: String
     private lateinit var senderRoom: String
-    private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    private val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
 
     override fun onCreateView(
@@ -51,149 +54,180 @@ class ChatFragment: Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_chat, container, false)
 
 
+
+
+
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         vm.email.observe(this.viewLifecycleOwner) {
             senderUser = it
 
-            val sx = senderUser.split("@",".")
-            for (s in sx){
+            val sx = senderUser.split("@", ".")
+            for (s in sx) {
                 splitSend += s
             }
-            Log.i("Sender user",senderUser)
+
             Log.i("Sender split", splitSend)
-        }
 
-        vm.slot.observe(this.viewLifecycleOwner){
-            slot = it
-            receiverUser = slot.user
+            vm.slot.observe(this.viewLifecycleOwner) {
+                slot = it
+                receiverUser = slot.user
 
-            val rx = receiverUser.split("@",".")
-            for (s in rx){
-                splitRec += s
+                val rx = receiverUser.split("@", ".")
+                for (s in rx) {
+                    splitRec += s
+                }
+                Log.i("Receiver user", receiverUser)
+                Log.i("Receiver split", splitRec)
+                activity?.title = receiverUser
             }
-            Log.i("Receiver user",receiverUser)
-            Log.i("Receiver split", splitRec)
-            activity?.title = receiverUser
-        }
-
-        mDbRef = FirebaseDatabase.getInstance().reference
-
-        val senderUid = FirebaseAuth.getInstance().currentUser?.uid
-        Log.i("Sender uid", senderUid.toString())
-
-        val randomString = (1..senderUid.toString().length)
-            .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
-            .map(charPool::get)
-            .joinToString("");
-
-        val rx = senderUser.split("@").joinToString()
-        Log.i("rx", rx)
-        Log.i("sent", senderUser)
-        //receiverRoom = senderUser.plus(receiverUser)
-        receiverRoom = senderUid.toString() + randomString
-        //receiverRoom = splitSend + splitRec
-        Log.i("Receiver Room", receiverRoom.toString())
-        //senderRoom = receiverUser.plus(senderUser)
-        senderRoom = randomString + senderUid.toString()
-        //senderRoom = splitRec + splitSend
-        Log.i("Sender Room", senderRoom.toString())
-
-        chatRecyclerView = view.findViewById(R.id.chatRecyclerView)
-        messageBox = view.findViewById(R.id.messageBox)
-        sendButton = view.findViewById(R.id.sendButton)
-
-        messageList = ArrayList()
-        messageAdapter = MessageAdapter(this.requireContext(),messageList, senderUser)
-
-        chatRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        chatRecyclerView.adapter = messageAdapter
 
 
-        //logic for adding data to recycler view
-        mDbRef.child("chats").child(senderRoom!!).child("messages")
-            .addValueEventListener(object: ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) { //called when there is some change in the db
+            Log.i("Sender user", senderUser)
 
-                    //clear the previous values
-                    messageList.clear()
+            mDbRef = FirebaseDatabase.getInstance().reference
 
-                    for (postSnapshot in snapshot.children){
-                        val message = postSnapshot.getValue(Message::class.java)
-                        messageList.add(message!!)
+            val senderUid = FirebaseAuth.getInstance().currentUser?.uid
+            Log.i("Sender uid", senderUid.toString())
+
+            val randomString = (1..senderUid.toString().length)
+                .map { i -> kotlin.random.Random.nextInt(0, charPool.size) }
+                .map(charPool::get)
+                .joinToString("");
+
+            val rx = senderUser.split("@").joinToString()
+            Log.i("rx", rx)
+            Log.i("sent", senderUser)
+            //receiverRoom = senderUser.plus(receiverUser)
+            //receiverRoom = senderUid.toString() + randomString
+            receiverRoom = splitSend + splitRec
+            Log.i("Receiver Room", receiverRoom.toString())
+            senderRoom = receiverUser.plus(senderUser)
+            //senderRoom = randomString + senderUid.toString()
+            senderRoom = splitRec + splitSend
+            Log.i("Sender Room", senderRoom.toString())
+
+            chatRecyclerView = view.findViewById(R.id.chatRecyclerView)
+            messageBox = view.findViewById(R.id.messageBox)
+            sendButton = view.findViewById(R.id.sendButton)
+
+            messageList = ArrayList()
+            messageAdapter = MessageAdapter(this.requireContext(), messageList, senderUser)
+
+            chatRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+            chatRecyclerView.adapter = messageAdapter
+
+
+            db.collection("chats").document(senderRoom).collection("messages")
+                .addSnapshotListener { snapshot, e ->
+                    if(snapshot!= null) {
+                        Log.i("snapshotsb", "Current data: ${snapshot.documents}$")
+                        messageList.clear()
+                        for (doc in snapshot.documents) { // doc is a message
+                            val m = doc.data as HashMap<*, *>
+                            var message = Message(
+                                m["message"].toString(),
+                                m["senderId"].toString()
+                            )
+                            Log.i("message", message.toString())
+                            messageList.add(message)
+                        }
+                        messageAdapter.notifyDataSetChanged()
                     }
-                    messageAdapter.notifyDataSetChanged()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-
-            })
+             }
 
 
+            //logic for adding data to recycler view
+            /*mDbRef.child("chats").child(senderRoom!!).child("messages")
+                .addValueEventListener(object: ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) { //called when there is some change in the db
 
-        //adding the messsage to the db
-        sendButton.setOnClickListener {
-            //send the message to the db and from the db the message will be rx by the other user
-            val message = messageBox.text.toString()
-            val messageObject = Message(message,senderUser)
+                        //clear the previous values
+                        messageList.clear()
 
-            //create a unique door every time this push() is called
-            mDbRef.child("chats").child(senderRoom!!).child("messages").push()
-                .setValue(messageObject).addOnSuccessListener {
-                    mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
-                        .setValue(messageObject)
-                }
+                        for (postSnapshot in snapshot.children){
+                            val message = postSnapshot.getValue(Message::class.java)
+                            messageList.add(message!!)
+                        }
+                        messageAdapter.notifyDataSetChanged()
+                    }
 
-            messageBox.setText("")
+                    override fun onCancelled(error: DatabaseError) {
 
-        }
+                    }
+
+                })*/
 
 
-        accept_btn = view.findViewById(R.id.accept_btn)
-        reject_btn = view.findViewById(R.id.reject_btn)
-        vm.slot.observe(this.viewLifecycleOwner){
-            slot = it
-            Log.i("TESTSLOT",it.toString())
-            Log.i("TESTSLOT",senderUser)
-            Log.i("TESTSLOT",slot.user)
-            if (slot.user == senderUser){
-                //otherUser sta richiedendo lo slot ad appUser
-                //appUser può accettare o rifiutare
-                //mostra i bottoni di accept e reject
-                accept_btn.visibility = View.VISIBLE
-                accept_btn.isClickable = true
-                reject_btn.visibility = View.VISIBLE
-                reject_btn.isClickable = true
+            //adding the messsage to the db
+            sendButton.setOnClickListener {
+                //send the message to the db and from the db the message will be rx by the other user
+                val message = messageBox.text.toString()
+                val messageObject = Message(message, senderUser)
 
-            }else{
-                //appUser sta richiedendo lo slot di otherUser
-                //nascondi bottoni per accept e reject
-                accept_btn.visibility = View.GONE
-                accept_btn.isClickable = false
-                reject_btn.visibility = View.GONE
-                reject_btn.isClickable = false
+                db.collection("chats").document(senderRoom)
+                    .collection("messages").document().set(messageObject)
+                    .addOnSuccessListener {
+                        db.collection("chats").document(receiverRoom)
+                            .collection("messages").document().set(messageObject)
+                            .addOnSuccessListener {
+                                Log.i("MESS", "entraaaa")
+                            }
+                    }
+                //create a unique door every time this push() is called
+                /*mDbRef.child("chats").child(senderRoom!!).child("messages").push()
+                    .setValue(messageObject).addOnSuccessListener {
+                        mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
+                            .setValue(messageObject)
+                    }*/
+
+                messageBox.setText("")
+
             }
-        }
 
-        accept_btn.setOnClickListener {
-            
-            //rendi lo slot non available
-            //sposta i soldi da un utente all'altro
-        }
 
-        reject_btn.setOnClickListener {
-            //torna indietro senza cambiare lo stato dello slot
+            accept_btn = view.findViewById(R.id.accept_btn)
+            reject_btn = view.findViewById(R.id.reject_btn)
+            vm.slot.observe(this.viewLifecycleOwner) {
+                slot = it
+                Log.i("TESTSLOT", it.toString())
+                Log.i("TESTSLOT", senderUser)
+                Log.i("TESTSLOT", slot.user)
+                if (slot.user == senderUser) {
+                    //otherUser sta richiedendo lo slot ad appUser
+                    //appUser può accettare o rifiutare
+                    //mostra i bottoni di accept e reject
+                    accept_btn.visibility = View.VISIBLE
+                    accept_btn.isClickable = true
+                    reject_btn.visibility = View.VISIBLE
+                    reject_btn.isClickable = true
+
+                } else {
+                    //appUser sta richiedendo lo slot di otherUser
+                    //nascondi bottoni per accept e reject
+                    accept_btn.visibility = View.GONE
+                    accept_btn.isClickable = false
+                    reject_btn.visibility = View.GONE
+                    reject_btn.isClickable = false
+                }
+            }
+
+            accept_btn.setOnClickListener {
+
+                //rendi lo slot non available
+                //sposta i soldi da un utente all'altro
+            }
+
+            reject_btn.setOnClickListener {
+                //torna indietro senza cambiare lo stato dello slot
+            }
+
         }
 
     }
-
-
 }
