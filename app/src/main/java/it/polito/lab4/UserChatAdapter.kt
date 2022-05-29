@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab4.fragments.ChatFragment
 import it.polito.lab4.fragments.TimeSlotOthersListFragment
+import kotlinx.android.synthetic.main.fragment_item_list.view.*
 
 class UserChatAdapter(val context: Context, val userList: ArrayList<User>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -39,10 +41,12 @@ class UserChatAdapter(val context: Context, val userList: ArrayList<User>):
     }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val user = itemView.findViewById<TextView>(R.id.userChatList)
+        val card = itemView.findViewById<CardView>(R.id.card_chats)
+        val title: TextView = itemView.findViewById<TextView>(R.id.title_slot)
+        val user: TextView = itemView.findViewById<TextView>(R.id.slotUser)
 
         init {
-            user.setOnClickListener {
+            card.setOnClickListener {
                 Log.i("Click chat", "CLICCO SUL NOME")
                 }
             }

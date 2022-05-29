@@ -10,7 +10,6 @@ ext {
 }
 android {
     compileSdk 32
-    buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "it.polito.showprofileactivity"
         minSdk 21
