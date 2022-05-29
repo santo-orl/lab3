@@ -28,8 +28,6 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
         slotListener = listener
     }
 
-
-
     class ViewHolder(view: View, slotListener: SlotUI.SlotListener,
                      slotSaved: SlotUI.SlotSaved) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.title_itemList

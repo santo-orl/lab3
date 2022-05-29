@@ -11,7 +11,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.*
+import it.polito.lab4.timeSlots.Slot
 
+class Chat{
+    var title: String? = null
+    var user: String? = null
+    var slot_id: String? = null
+
+    constructor(){}
+
+    constructor(title:String?, user:String?,slot_id: String?){
+        this.title = title
+        this.user = user
+        this.slot_id = slot_id
+    }
+}
 class ChatListFragment: Fragment() {
 
     private val vm: ViewModel by activityViewModels()
@@ -19,7 +33,7 @@ class ChatListFragment: Fragment() {
     private var id = ""
 
     private lateinit var userListRecView: RecyclerView
-    private lateinit var userList: ArrayList<User>
+    private lateinit var userList: ArrayList<Chat>
     private lateinit var userChatAdapter: UserChatAdapter
 
     private var splitSend:String = ""
@@ -41,10 +55,9 @@ class ChatListFragment: Fragment() {
 
         userListRecView = view.findViewById(R.id.userRecView)
 
-        vm.email.observe(this.viewLifecycleOwner) {
+        vm.email.observe(this.viewLifecycleOwner) { it ->
             id = it
-
-            userList = ArrayList()
+            userList = arrayListOf()
             userChatAdapter = UserChatAdapter(this.requireContext(), userList)
 
             userListRecView.layoutManager = LinearLayoutManager(this.requireContext())
@@ -57,51 +70,40 @@ class ChatListFragment: Fragment() {
             for (s in sx) {
                 splitSend += s
             }
+            vm.setSlot(Slot("","","","","",-1,"",""))
+           var ref =  db.collection("chats").document(id)
+                ref.get().addOnSuccessListener{
 
+                if(!it.data.isNullOrEmpty()){
+                    Log.i("test chat list", it.data?.size.toString())
+                val getUser = it.data as HashMap<*, *>
+                for(i in 1..it.data?.size!!){
+                    ref.collection(getUser[i.toString()].toString()).get().addOnSuccessListener{ result ->
+                        for (document in result) {
 
-            //db.collection("chats").document().collection("messages")
-
-
-            db.collection("users").get()
-                .addOnSuccessListener { result ->
-                    for (document in result){
-                        if (document.id != id) {
-                            val u = document.data as HashMap<*, *>
-                            var user = User(
-                                u["name"].toString(),
-                                u["nickname"].toString(),
-                                u["email"].toString(),
-                                u["location"].toString(),
-                                "",
-                                0
-                            )
-                            Log.i("chatuser",user.toString())
-                            userList.add(user)
-                            userChatAdapter.notifyDataSetChanged()
+                            val getTitle = document.data as HashMap<*, *>
+                            Log.i("test chat list", getTitle.toString())
+                            userList.add(Chat(getTitle["title"].toString(),getUser[i.toString()].toString(),getTitle["id"].toString() ))
                         }
+                        userChatAdapter.notifyDataSetChanged()
 
                     }
                 }
 
-            /*db.collection("chats").document().collection("messages")
-                .addSnapshotListener { snapshot, result ->
-                    for (document in snapshot.documents) {
-                        if (document.id != id) {
-                            val u = document.data as HashMap<*, *>
-                            var user = User(
-                                u["name"].toString(),
-                                u["nickname"].toString(),
-                                u["email"].toString(),
-                                u["location"].toString(),
-                                "",
-                                0
-                            )
-
-                            userList.add(user)
+                }
+                    userChatAdapter.setOnClick(object : ChatUI.ChatListener{
+                        override fun onChatClick(position: Int) {
+                            vm.setChat(userList[position])
+                            Log.i("listChat", "click")
                         }
 
-                    }
-                }*/
+                    })
+            }.addOnFailureListener{e->
+                Log.i("test chat list failed", e.toString())
+            }
+
+
+
 
         }
 
