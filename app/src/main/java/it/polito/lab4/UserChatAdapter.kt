@@ -12,25 +12,36 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab4.fragments.*
-import it.polito.lab4.timeSlots.SlotUI
-import kotlinx.android.synthetic.main.fragment_item_list.view.*
 
-class UserChatAdapter(val context: Context, val userList: ArrayList<objList>):
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class UserChatAdapter(val context: Context, val userList: ArrayList<Chat>):
+    RecyclerView.Adapter<UserChatAdapter.UserViewHolder>() {
 
     private lateinit var chatListener: ChatUI.ChatListener
 
     fun setOnClick(listener: ChatUI.ChatListener) {
         chatListener = listener
     }
+    class UserViewHolder(itemView: View, chatListener: ChatUI.ChatListener)
+        : RecyclerView.ViewHolder(itemView) {
+        val card = itemView.findViewById<CardView>(R.id.card_chats)
+        val title: TextView = itemView.findViewById<TextView>(R.id.title_slot)
+        val user: TextView = itemView.findViewById<TextView>(R.id.slotUser)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        init {
+            card.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    chatListener.onChatClick(adapterPosition)
+                }
+            }
+        }
+    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view: View =
             LayoutInflater.from(context).inflate(R.layout.user_chat_list, parent, false)
         return UserViewHolder(view, chatListener)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val currentUser = userList[position]
         Log.i("testAdapter", currentUser.toString())
 
@@ -41,6 +52,18 @@ class UserChatAdapter(val context: Context, val userList: ArrayList<objList>):
             holder.title.text = currentUser.title
 
         }
+        holder.card.setOnClickListener{
+            Log.i("Click chat", "CLICCO SUL NOME")
+            if (position != RecyclerView.NO_POSITION) {
+                chatListener.onChatClick(position)
+            }
+            val activity = it.context as? AppCompatActivity
+            activity?.supportFragmentManager?.commit {
+                addToBackStack(ShowProfileFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<ChatFragment>(R.id.myNavHostFragment)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -49,26 +72,7 @@ class UserChatAdapter(val context: Context, val userList: ArrayList<objList>):
 
 
 
-    class UserViewHolder(itemView: View, chatListener: ChatUI.ChatListener) : RecyclerView.ViewHolder(itemView) {
-        val card = itemView.findViewById<CardView>(R.id.card_chats)
-        val title: TextView = itemView.findViewById<TextView>(R.id.title_slot)
-        val user: TextView = itemView.findViewById<TextView>(R.id.slotUser)
 
-        init {
-            card.setOnClickListener {
-                Log.i("Click chat", "CLICCO SUL NOME")
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    chatListener.onChatClick(adapterPosition)
-                }
-                val activity = it.context as? AppCompatActivity
-                activity?.supportFragmentManager?.commit {
-                    addToBackStack(ShowProfileFragment::class.toString())
-                    setReorderingAllowed(true)
-                    replace<ChatFragment>(R.id.myNavHostFragment)
-                }
-                }
-            }
-        }
 
     }
 

@@ -1,17 +1,14 @@
 package it.polito.lab4
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import it.polito.lab4.fragments.objList
+import it.polito.lab4.fragments.Chat
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
 import java.util.*
@@ -27,10 +24,12 @@ class ViewModel: ViewModel() {
     /*private val _user = MutableLiveData<User>(User("", "", "", "", ""))
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))*/
     private val _user = MutableLiveData<User>(User("", "", "", "", "",0))
-    private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))
-    private val _chat = MutableLiveData<objList>(objList("",""))
 
+    private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))
     val slot: LiveData<Slot> = _slot
+
+    private val _chat = MutableLiveData<Chat>(Chat("","",""))
+    val chat: LiveData<Chat> = _chat
 
     private val _skill = MutableLiveData<String>("")
     val skill: LiveData<String> = _skill
@@ -204,9 +203,9 @@ class ViewModel: ViewModel() {
 
         }
 
-    fun setChat(objList: objList) {
-        _chat.value = objList
-
+    fun setChat(chat: Chat) {
+        _chat.value = chat
+        Log.i("TESTVM", chat.toString())
     }
 
 

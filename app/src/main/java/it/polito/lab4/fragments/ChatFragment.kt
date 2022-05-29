@@ -35,6 +35,7 @@ class ChatFragment: Fragment() {
     private lateinit var accept_btn: Button
     private lateinit var reject_btn: Button
     private lateinit var slot: Slot
+    private var slot_id = ""
 
     private lateinit var chatRecyclerView: RecyclerView
     private lateinit var messageBox: EditText
@@ -67,7 +68,7 @@ class ChatFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        vm.email.observe(this.viewLifecycleOwner) {
+        vm.email.observe(this.viewLifecycleOwner) { it ->
             senderUser = it
 
             val sx = senderUser.split("@", ".")
@@ -75,167 +76,170 @@ class ChatFragment: Fragment() {
                 splitSend += s
             }
 
-            vm.slot.observe(this.viewLifecycleOwner) {
-                if (slot.title != "") {
+            vm.slot.observe(this.viewLifecycleOwner) { it ->
+                if (it.title != "") {
                     slot = it
+                    slot_id = slot.id
                     receiverUser = slot.user
 
                     val rx = receiverUser.split("@", ".")
                     for (s in rx) {
                         splitRec += s
                     }
-
+                    readData(receiverUser, slot_id)
                     activity?.title = receiverUser
+                } else {
+                    vm.chat.observe(this.viewLifecycleOwner) { ref ->
+                        slot_id = ref.slot_id.toString()
+                        receiverUser = ref.user.toString()
+                        readData(receiverUser, slot_id)
+                    }
                 }
-
             }
+                Log.i("Sender user", senderUser)
 
-
-            Log.i("Sender user", senderUser)
-
-            mDbRef = FirebaseDatabase.getInstance().reference
-
-
-            //receiverRoom = senderUser.plus(receiverUser)
-            //receiverRoom = senderUid.toString() + randomString
-            receiverRoom = splitSend + splitRec + slot.id
+                mDbRef = FirebaseDatabase.getInstance().reference
+                /*    receiverRoom = splitSend + splitRec + slot.id
             Log.i("Receiver Room", receiverRoom)
-            //senderRoom = receiverUser.plus(senderUser)
-            //senderRoom = randomString + senderUid.toString()
             senderRoom = splitRec + splitSend + slot.id
             Log.i("Sender Room", senderRoom)
-
-            chatRecyclerView = view.findViewById(R.id.chatRecyclerView)
-            messageBox = view.findViewById(R.id.messageBox)
-            sendButton = view.findViewById(R.id.sendButton)
-
-            messageList = ArrayList()
-            messageAdapter = MessageAdapter(this.requireContext(), messageList, senderUser)
-
-            chatRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-            chatRecyclerView.adapter = messageAdapter
+*/
+                chatRecyclerView = view.findViewById(R.id.chatRecyclerView)
+                messageBox = view.findViewById(R.id.messageBox)
+                sendButton = view.findViewById(R.id.sendButton)
 
 
-            db.collection("chats").document(senderUser).collection(receiverUser).document(slot.id)
-                .collection("messages")
-                .orderBy("sentTime")
-                .addSnapshotListener { snapshot, e ->
-                    if(snapshot!= null) {
-                        Log.i("snapshotsb", "Current data: ${snapshot.documents}$")
-                        messageList.clear()
-                        for (doc in snapshot.documents) { // doc is a message
-                            val m = doc.data as HashMap<*, *>
-                            var message = Message(
-                                m["message"].toString(),
-                                m["senderId"].toString(),
-                                m ["receiverId"].toString(),
-                                m["sentTime"].toString()
-                            )
-                            Log.i("message", message.toString())
-                            messageList.add(message)
-                        }
-                        messageAdapter.notifyDataSetChanged()
-                    }
-             }
 
+                //adding the messsage to the db
+                sendButton.setOnClickListener {
+                    //send the message to the db and from the db the message will be rx by the other user
+                    val message = messageBox.text.toString()
+                    val date = Calendar.getInstance().time
+                    val formatter =
+                        SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
+                    var sentTime = formatter.format(date)
+                    val messageObject = Message(message, senderUser, receiverUser, sentTime)
 
-            //logic for adding data to recycler view
-            /*mDbRef.child("chats").child(senderRoom!!).child("messages")
-                .addValueEventListener(object: ValueEventListener{
-                    override fun onDataChange(snapshot: DataSnapshot) { //called when there is some change in the db
-
-                        //clear the previous values
-                        messageList.clear()
-
-                        for (postSnapshot in snapshot.children){
-                            val message = postSnapshot.getValue(Message::class.java)
-                            messageList.add(message!!)
-                        }
-                        messageAdapter.notifyDataSetChanged()
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-
-                    }
-
-                })*/
-
-
-            //adding the messsage to the db
-            sendButton.setOnClickListener {
-                //send the message to the db and from the db the message will be rx by the other user
-                val message = messageBox.text.toString()
-                val date = Calendar.getInstance().time
-                val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
-                var sentTime = formatter.format(date)
-                val messageObject = Message(message, senderUser,receiverUser, sentTime)
-
-               var ref =  db.collection("chats").document(senderUser)
+                    var ref = db.collection("chats").document(senderUser)
                     ref.get().addOnSuccessListener {
                         var map = it.data.orEmpty().toMutableMap()
-                        if(!map.values.contains(receiverUser)) {
+                        if (!map.values.contains(receiverUser)) {
                             map[(map.size + 1).toString()] = receiverUser
                             Log.i("testChat", map.toString())
                             ref.set(map, SetOptions.merge())
                         }
-                        var ref2 = ref.collection(receiverUser).document(slot.id)
+                        var ref2 = ref.collection(receiverUser).document(slot_id)
                         ref2.set(slot)
                         ref2.collection("messages").document().set(messageObject)
                             .addOnSuccessListener {
                                 Log.i("testChat", "Entra")
                             }
                     }
-                //create a unique door every time this push() is called
-                /*mDbRef.child("chats").child(senderRoom!!).child("messages").push()
+                    //create a unique door every time this push() is called
+                    /*mDbRef.child("chats").child(senderRoom!!).child("messages").push()
                     .setValue(messageObject).addOnSuccessListener {
                         mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
                             .setValue(messageObject)
                     }*/
 
-                messageBox.setText("")
+                    messageBox.setText("")
 
-            }
-
-
-            accept_btn = view.findViewById(R.id.accept_btn)
-            reject_btn = view.findViewById(R.id.reject_btn)
-            vm.slot.observe(this.viewLifecycleOwner) {
-                slot = it
-                Log.i("TESTSLOT", it.toString())
-                Log.i("TESTSLOT", senderUser)
-                Log.i("TESTSLOT", slot.user)
-                if (slot.user == senderUser) {
-                    //otherUser sta richiedendo lo slot ad appUser
-                    //appUser può accettare o rifiutare
-                    //mostra i bottoni di accept e reject
-                    accept_btn.visibility = View.VISIBLE
-                    accept_btn.isClickable = true
-                    reject_btn.visibility = View.VISIBLE
-                    reject_btn.isClickable = true
-
-                } else {
-                    //appUser sta richiedendo lo slot di otherUser
-                    //nascondi bottoni per accept e reject
-                    accept_btn.visibility = View.GONE
-                    accept_btn.isClickable = false
-                    reject_btn.visibility = View.GONE
-                    reject_btn.isClickable = false
                 }
+
+
+                accept_btn = view.findViewById(R.id.accept_btn)
+                reject_btn = view.findViewById(R.id.reject_btn)
+                vm.slot.observe(this.viewLifecycleOwner) {
+                    slot = it
+                    Log.i("TESTSLOT", it.toString())
+                    Log.i("TESTSLOT", senderUser)
+                    Log.i("TESTSLOT", slot.user)
+                    if (slot.user == senderUser) {
+                        //otherUser sta richiedendo lo slot ad appUser
+                        //appUser può accettare o rifiutare
+                        //mostra i bottoni di accept e reject
+                        accept_btn.visibility = View.VISIBLE
+                        accept_btn.isClickable = true
+                        reject_btn.visibility = View.VISIBLE
+                        reject_btn.isClickable = true
+
+                    } else {
+                        //appUser sta richiedendo lo slot di otherUser
+                        //nascondi bottoni per accept e reject
+                        accept_btn.visibility = View.GONE
+                        accept_btn.isClickable = false
+                        reject_btn.visibility = View.GONE
+                        reject_btn.isClickable = false
+                    }
+                }
+
+                accept_btn.setOnClickListener {
+
+                    //rendi lo slot non available
+                    //sposta i soldi da un utente all'altro
+                    //cancella la chat relativa allo slot
+                }
+
+                reject_btn.setOnClickListener {
+                    //torna indietro senza cambiare lo stato dello slot
+                    //cancella la chat relativa allo slot
+                }
+
             }
-
-            accept_btn.setOnClickListener {
-
-                //rendi lo slot non available
-                //sposta i soldi da un utente all'altro
-                //cancella la chat relativa allo slot
-            }
-
-            reject_btn.setOnClickListener {
-                //torna indietro senza cambiare lo stato dello slot
-                //cancella la chat relativa allo slot
-            }
-
         }
 
+    private fun readData(receiverUser: String, slot_id : String) {
+        messageList = ArrayList()
+        messageAdapter = MessageAdapter(this.requireContext(), messageList, senderUser)
+
+        chatRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        chatRecyclerView.adapter = messageAdapter
+
+        Log.i("test chat", receiverUser +" "+ slot_id,)
+        db.collection("chats").document(senderUser).collection(receiverUser)
+            .document(slot_id)
+            .collection("messages")
+            .orderBy("sentTime").get().addOnSuccessListener{ snapshot->
+                if (snapshot != null) {
+                    Log.i("TEST", "Current data: ${snapshot.documents}$")
+                    messageList.clear()
+                    for (doc in snapshot.documents) { // doc is a message
+                        val m = doc.data as HashMap<*, *>
+                        var message = Message(
+                            m["message"].toString(),
+                            m["senderId"].toString(),
+                            m["receiverId"].toString(),
+                            m["sentTime"].toString()
+                        )
+                        Log.i("test message", message.toString())
+
+                        messageList.add(message)
+                    }
+                    messageAdapter.notifyDataSetChanged()
+                }
+            }
+      /* db.collection("chats").document(senderUser).collection(receiverUser)
+            .document(slot_id)
+            .collection("messages")
+            .orderBy("sentTime")
+            .addSnapshotListener { snapshot, e ->
+                if (snapshot != null) {
+                    Log.i("snapshotsb", "Current data: ${snapshot.documents}$")
+                    messageList.clear()
+                    for (doc in snapshot.documents) { // doc is a message
+                        val m = doc.data as HashMap<*, *>
+                        var message = Message(
+                            m["message"].toString(),
+                            m["senderId"].toString(),
+                            m["receiverId"].toString(),
+                            m["sentTime"].toString()
+                        )
+                        Log.i("message", message.toString())
+
+                        messageList.add(message)
+                    }
+                    messageAdapter.notifyDataSetChanged()
+                }
+            }*/
     }
 }

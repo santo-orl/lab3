@@ -13,16 +13,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.*
 import it.polito.lab4.timeSlots.Slot
 
-class objList{
+class Chat{
     var title: String? = null
     var user: String? = null
+    var slot_id: String? = null
 
     constructor(){}
 
-    constructor(title:String?, user:String?){
+    constructor(title:String?, user:String?,slot_id: String?){
         this.title = title
         this.user = user
-
+        this.slot_id = slot_id
     }
 }
 class ChatListFragment: Fragment() {
@@ -32,7 +33,7 @@ class ChatListFragment: Fragment() {
     private var id = ""
 
     private lateinit var userListRecView: RecyclerView
-    private lateinit var userList: ArrayList<objList>
+    private lateinit var userList: ArrayList<Chat>
     private lateinit var userChatAdapter: UserChatAdapter
 
     private var splitSend:String = ""
@@ -56,20 +57,12 @@ class ChatListFragment: Fragment() {
 
         vm.email.observe(this.viewLifecycleOwner) { it ->
             id = it
-
-            userList = ArrayList()
+            userList = arrayListOf()
             userChatAdapter = UserChatAdapter(this.requireContext(), userList)
 
             userListRecView.layoutManager = LinearLayoutManager(this.requireContext())
             userListRecView.adapter = userChatAdapter
 
-            userChatAdapter.setOnClick(object : ChatUI.ChatListener{
-                override fun onChatClick(position: Int) {
-                    vm.setChat(userList[position])
-
-                }
-
-            })
             val senderUser = it
 
 
@@ -90,14 +83,21 @@ class ChatListFragment: Fragment() {
 
                             val getTitle = document.data as HashMap<*, *>
                             Log.i("test chat list", getTitle.toString())
-                            userList.add(objList(getTitle["title"].toString(),getUser[i.toString()].toString()))
+                            userList.add(Chat(getTitle["title"].toString(),getUser[i.toString()].toString(),getTitle["id"].toString() ))
                         }
                         userChatAdapter.notifyDataSetChanged()
+
                     }
                 }
 
                 }
+                    userChatAdapter.setOnClick(object : ChatUI.ChatListener{
+                        override fun onChatClick(position: Int) {
+                            vm.setChat(userList[position])
+                            Log.i("listChat", "click")
+                        }
 
+                    })
             }.addOnFailureListener{e->
                 Log.i("test chat list failed", e.toString())
             }
