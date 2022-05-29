@@ -157,6 +157,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 }
                 if(it.get("hours").toString() != "-1") {
                     hour_field.text = it.get("hours").toString()
+                    vm.setHours(it.get("hours").toString().toInt())
                 }else{
                     hour_field.text = "-1"
                 }

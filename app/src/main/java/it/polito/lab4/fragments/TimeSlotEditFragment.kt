@@ -99,6 +99,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 }
 
                 btn_saveslot.setOnClickListener {
+                    var tmp : Boolean = true
                     title = title_field.text.toString()
                     description = description_field.text.toString()
 
@@ -110,6 +111,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                             "All the fields must be completed",
                             Toast.LENGTH_SHORT
                         ).show()
+                        tmp = false
 
                     }
                     if (from_field.text.toString() != "") {
@@ -120,6 +122,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                             "All the fields must be completed",
                             Toast.LENGTH_SHORT
                         ).show()
+                        tmp = false
 
                     }
                     if (to_field.text.toString() != "") {
@@ -130,6 +133,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                             "All the fields must be completed",
                             Toast.LENGTH_SHORT
                         ).show()
+                        tmp = false
 
                     }
                     if (location_field.text.toString() != "") {
@@ -140,30 +144,37 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                             "All the fields must be completed",
                             Toast.LENGTH_SHORT
                         ).show()
+                        tmp = false
 
                     }
-
-                    vm.slot.observe(viewLifecycleOwner) {
-                        if (title != slot.title || description != slot.description || date != slot.date ||
-                            "$from-$to" != slot.duration || location != slot.location
-                        ) {
-                            var new = Slot(
-                                title,
-                                description,
-                                date,
-                                "$from-$to",
-                                location,
-                                0,
-                                id,
-                                "Available"
-                            )
-                            new.reference(slot.id)
-                            Log.i("test", new.toString())
-                            if (title != "" && description != "") {
-                                vm.addSlot(new)
+                    if(tmp) {
+                        vm.slot.observe(viewLifecycleOwner) {
+                            if (title != slot.title || description != slot.description || date != slot.date ||
+                                "$from-$to" != slot.duration || location != slot.location
+                            ) {
+                                var new = Slot(
+                                    title,
+                                    description,
+                                    date,
+                                    "$from-$to",
+                                    location,
+                                    0,
+                                    id,
+                                    "Available"
+                                )
+                                new.reference(slot.id)
+                                Log.i("test", new.toString())
+                                if (title != "" && description != "") {
+                                    vm.addSlot(new)
+                                }
                             }
+                            Toast.makeText(
+                                context,
+                                "Time Slot successfully created !",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
                         }
-                        this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
                     }
 
                     super.onViewCreated(view, savedInstanceState)

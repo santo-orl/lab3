@@ -87,7 +87,7 @@ class ViewModel: ViewModel() {
 
     fun createUser(name:String, nickname: String, email: String,
                     location: String,
-                     photoString: String,  skills: ArrayList<Skill> ){
+                     photoString: String,  skills: ArrayList<Skill>, nOre: Int ){
             for(s in skills){
                 if(s.id!=""){
                     Log.i("test_nonSsegnata", s.toString())
@@ -116,7 +116,8 @@ class ViewModel: ViewModel() {
                 .addOnFailureListener{e ->
                     Log.i("test","Error adding document",e)
                 }*/
-        val user = User(name, nickname, email, location, photoString,0)
+
+        val user = User(name, nickname, email, location, photoString,nOre)
         _user.value = user
         id = email
         db.collection("users").document(email).set(user, SetOptions.merge()).addOnSuccessListener { documentReference ->

@@ -23,17 +23,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 import com.google.android.material.navigation.NavigationView
-import it.polito.lab4.fragments.HomeFragment
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import it.polito.lab4.fragments.ChatListFragment
-import it.polito.lab4.fragments.ListSkillUserFragment
+import it.polito.lab4.fragments.*
 
-import it.polito.lab4.fragments.ShowProfileFragment
 import it.polito.lab4.timeSlots.Slot
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
@@ -138,6 +135,18 @@ class MainActivity : AppCompatActivity(){
                         addToBackStack(ChatListFragment::class.toString())
                         setReorderingAllowed(true)
                         replace(R.id.myNavHostFragment, ChatListFragment())
+                    }
+                    /* val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.containerFragment)*/
+                    drawerLayout?.closeDrawer(GravityCompat.START)
+                    true
+                }
+
+                R.id.help -> {
+                    this.supportFragmentManager.commit {
+                        addToBackStack(HelpFragment::class.toString())
+                        setReorderingAllowed(true)
+                        replace(R.id.myNavHostFragment, HelpFragment())
                     }
                     /* val navController = findNavController(R.id.myNavHostFragment)
                     navController.navigate(R.id.containerFragment)*/

@@ -79,7 +79,7 @@
                 card_view:layout_constraintBottom_toTopOf="@+id/editDescription"
                 card_view:layout_constraintTop_toTopOf="parent"
                 card_view:layout_constraintVertical_weight="1"
-                tools:layout_editor_absoluteX="137dp" />
+                tools:layout_editor_absoluteX="16dp" />
 
             <EditText
                 android:id="@+id/editDescription"

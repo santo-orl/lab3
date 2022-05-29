@@ -31,6 +31,17 @@
     </group>
 
     <group android:checkableBehavior="single"
+        android:id="@+id/group3">
+
+        <item
+            android:id="@+id/help"
+            android:icon="@drawable/help_img"
+            android:title="Help"
+            android:visible="true" />
+
+    </group>
+
+    <group android:checkableBehavior="single"
         android:id="@+id/group2">
 
         <item
@@ -40,5 +51,8 @@
             android:visible="true" />
 
     </group>
+
+
+
 
 </menu>
