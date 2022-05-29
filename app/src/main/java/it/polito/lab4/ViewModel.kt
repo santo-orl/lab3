@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import it.polito.lab4.fragments.objList
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
 import java.util.*
@@ -27,6 +28,7 @@ class ViewModel: ViewModel() {
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))*/
     private val _user = MutableLiveData<User>(User("", "", "", "", "",0))
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))
+    private val _chat = MutableLiveData<objList>(objList("",""))
 
     val slot: LiveData<Slot> = _slot
 
@@ -202,5 +204,10 @@ class ViewModel: ViewModel() {
 
         }
 
+    fun setChat(objList: objList) {
+        _chat.value = objList
 
     }
+
+
+}

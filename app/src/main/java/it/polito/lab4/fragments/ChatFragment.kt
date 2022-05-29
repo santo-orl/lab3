@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import it.polito.lab4.Message
 import it.polito.lab4.MessageAdapter
 import it.polito.lab4.R
@@ -75,15 +76,17 @@ class ChatFragment: Fragment() {
             }
 
             vm.slot.observe(this.viewLifecycleOwner) {
-                slot = it
-                receiverUser = slot.user
+                if (slot.title != "") {
+                    slot = it
+                    receiverUser = slot.user
 
-                val rx = receiverUser.split("@", ".")
-                for (s in rx) {
-                    splitRec += s
+                    val rx = receiverUser.split("@", ".")
+                    for (s in rx) {
+                        splitRec += s
+                    }
+
+                    activity?.title = receiverUser
                 }
-
-                activity?.title = receiverUser
 
             }
 
@@ -113,7 +116,8 @@ class ChatFragment: Fragment() {
             chatRecyclerView.adapter = messageAdapter
 
 
-            db.collection("chats").document(senderRoom).collection("messages")
+            db.collection("chats").document(senderUser).collection(receiverUser).document(slot.id)
+                .collection("messages")
                 .orderBy("sentTime")
                 .addSnapshotListener { snapshot, e ->
                     if(snapshot!= null) {
@@ -124,6 +128,7 @@ class ChatFragment: Fragment() {
                             var message = Message(
                                 m["message"].toString(),
                                 m["senderId"].toString(),
+                                m ["receiverId"].toString(),
                                 m["sentTime"].toString()
                             )
                             Log.i("message", message.toString())
@@ -163,15 +168,21 @@ class ChatFragment: Fragment() {
                 val date = Calendar.getInstance().time
                 val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
                 var sentTime = formatter.format(date)
-                val messageObject = Message(message, senderUser, sentTime)
+                val messageObject = Message(message, senderUser,receiverUser, sentTime)
 
-                db.collection("chats").document(senderRoom)
-                    .collection("messages").document().set(messageObject)
-                    .addOnSuccessListener {
-                        db.collection("chats").document(receiverRoom)
-                            .collection("messages").document().set(messageObject)
+               var ref =  db.collection("chats").document(senderUser)
+                    ref.get().addOnSuccessListener {
+                        var map = it.data.orEmpty().toMutableMap()
+                        if(!map.values.contains(receiverUser)) {
+                            map[(map.size + 1).toString()] = receiverUser
+                            Log.i("testChat", map.toString())
+                            ref.set(map, SetOptions.merge())
+                        }
+                        var ref2 = ref.collection(receiverUser).document(slot.id)
+                        ref2.set(slot)
+                        ref2.collection("messages").document().set(messageObject)
                             .addOnSuccessListener {
-                                Log.i("MESS", "entraaaa")
+                                Log.i("testChat", "Entra")
                             }
                     }
                 //create a unique door every time this push() is called
