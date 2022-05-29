@@ -66,7 +66,9 @@ class ChatFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        chatRecyclerView = requireView().findViewById(R.id.chatRecyclerView)
+        messageBox = requireView().findViewById(R.id.messageBox)
+        sendButton = requireView().findViewById(R.id.sendButton)
 
         vm.email.observe(this.viewLifecycleOwner) { it ->
             senderUser = it
@@ -104,12 +106,6 @@ class ChatFragment: Fragment() {
             senderRoom = splitRec + splitSend + slot.id
             Log.i("Sender Room", senderRoom)
 */
-                chatRecyclerView = view.findViewById(R.id.chatRecyclerView)
-                messageBox = view.findViewById(R.id.messageBox)
-                sendButton = view.findViewById(R.id.sendButton)
-
-
-
                 //adding the messsage to the db
                 sendButton.setOnClickListener {
                     //send the message to the db and from the db the message will be rx by the other user
@@ -141,7 +137,29 @@ class ChatFragment: Fragment() {
                         mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
                             .setValue(messageObject)
                     }*/
+                    db.collection("chats").document(senderUser).collection(receiverUser)
+                        .document(slot_id)
+                        .collection("messages")
+                        .orderBy("sentTime")
+                        .addSnapshotListener { snapshot, e ->
+                            if (snapshot != null) {
+                                Log.i("snapshotsb", "Current data: ${snapshot.documents}$")
+                                messageList.clear()
+                                for (doc in snapshot.documents) { // doc is a message
+                                    val m = doc.data as HashMap<*, *>
+                                    var message = Message(
+                                        m["message"].toString(),
+                                        m["senderId"].toString(),
+                                        m["receiverId"].toString(),
+                                        m["sentTime"].toString()
+                                    )
+                                    Log.i("message", message.toString())
 
+                                    messageList.add(message)
+                                }
+                                messageAdapter.notifyDataSetChanged()
+                            }
+                        }
                     messageBox.setText("")
 
                 }
@@ -189,6 +207,7 @@ class ChatFragment: Fragment() {
         }
 
     private fun readData(receiverUser: String, slot_id : String) {
+
         messageList = ArrayList()
         messageAdapter = MessageAdapter(this.requireContext(), messageList, senderUser)
 
