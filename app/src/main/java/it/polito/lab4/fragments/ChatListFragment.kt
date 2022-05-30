@@ -57,6 +57,7 @@ class ChatListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = "Your messages"
 
         userListRecView = view.findViewById(R.id.userRecView)
 

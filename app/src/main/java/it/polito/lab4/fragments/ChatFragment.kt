@@ -7,7 +7,6 @@ import android.view.*
 import android.widget.*
 import android.widget.Button
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -74,8 +73,6 @@ class ChatFragment: Fragment() {
     @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        activity?.title = "Chats"
 
         setHasOptionsMenu(true)
         chatRecyclerView = requireView().findViewById(R.id.chatRecyclerView)
@@ -178,8 +175,7 @@ class ChatFragment: Fragment() {
                 //adding the messsage to the db
                 sendButton.setOnClickListener {
                     //send the message to the db and from the db the message will be rx by the other user
-                  sendMessage(true)
-
+                  sendMessage("NORMAL")
                 }
 
                 accept_btn.setOnClickListener {
@@ -204,44 +200,9 @@ class ChatFragment: Fragment() {
                                         map["hours"] = cost.toString()
                                         db.collection("users").document(receiverUser)
                                             .set(map, SetOptions.merge())
+                                        sendMessage("ACCEPTED")
 
-                                        //fai vedere barra di rating e editText per commento opzionale
-                                        accept_btn.visibility = View.GONE
-                                        accept_btn.isClickable = false
-                                        reject_btn.visibility = View.GONE
-                                        reject_btn.isClickable = false
-                                        chatRecyclerView.visibility = View.GONE
-                                        layout_messageArea.visibility = View.GONE
-                                        lineView.visibility = View.GONE
-                                        messageBox.visibility = View.GONE
-                                        messageBox.isClickable = false
-                                        sendButton.visibility = View.GONE
-                                        sendButton.isClickable = false
 
-                                        rateText.visibility = View.VISIBLE
-                                        ratingBar.visibility = View.VISIBLE
-                                        ratingBar.isClickable = true
-                                        optComment_field.visibility = View.VISIBLE
-                                        optComment_field.isClickable = true
-                                        saveRating_btn.visibility = View.VISIBLE
-                                        saveRating_btn.isClickable = true
-
-                                        saveRating_btn.setOnClickListener {
-                                            //salva rating e commento
-                                            var rating = ratingBar.rating //float
-                                            var optComment = optComment_field.text.toString()
-                                            var review =
-                                                Review(senderUser, receiverUser, rating, optComment)
-                                            db.collection("users").document(receiverUser)
-                                                .collection("reviews").document().set(review)
-
-                                            //ritorna alla lista delle chat
-                                            activity?.supportFragmentManager?.commit {
-                                                addToBackStack(ChatListFragment::class.toString())
-                                                setReorderingAllowed(true)
-                                                replace<ChatListFragment>(R.id.myNavHostFragment)
-                                            }
-                                        }
                                     } else {
                                         Toast.makeText(
                                             context,
@@ -249,7 +210,7 @@ class ChatFragment: Fragment() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         Log.i("Test pagamento", "NON ENTRA")
-                                        sendMessage(false)
+                                        sendMessage("ERROR")
                                     }
                                 }
 
@@ -267,12 +228,14 @@ class ChatFragment: Fragment() {
             }
 
 
-    private fun sendMessage(b: Boolean) {
+    private fun sendMessage(b: String) {
         var message = ""
-        if (b) {
+        if (b.equals("NORMAL")) {
             message = messageBox.text.toString()
-        }else{
+        }else if(b.equals("ERROR")){
             message = "YOUR REQUEST HAS BEEN REJECTED BECAUSE YOU DON'T HAVE ENOUGH TIME TO SPEND IN THIS SLOT"
+        }else{
+            message = "YOUR REQUEST HAS BEEN ACCEPTED"
         }
         val timeZone = TimeZone.getTimeZone("UTC")
         val date = Calendar.getInstance(timeZone).time
@@ -345,12 +308,67 @@ class ChatFragment: Fragment() {
                         // Log.i("message", message.toString())
 
                         messageList.add(message)
+                        ratingFun(message)
                     }
+
                     messageAdapter.notifyDataSetChanged()
                 }
             }
         messageBox.setText("")
     }
+
+    private fun ratingFun(message: Message) {
+        if (message.message.equals("YOUR REQUEST HAS BEEN ACCEPTED")) {
+            //fai vedere barra di rating e editText per commento opzionale
+            accept_btn.visibility = View.GONE
+            accept_btn.isClickable = false
+            reject_btn.visibility = View.GONE
+            reject_btn.isClickable = false
+            chatRecyclerView.visibility = View.GONE
+            layout_messageArea.visibility = View.GONE
+            lineView.visibility = View.GONE
+            messageBox.visibility = View.GONE
+            messageBox.isClickable = false
+            sendButton.visibility = View.GONE
+            sendButton.isClickable = false
+
+            rateText.visibility = View.VISIBLE
+            ratingBar.visibility = View.VISIBLE
+            ratingBar.isClickable = true
+            optComment_field.visibility = View.VISIBLE
+            optComment_field.isClickable = true
+            saveRating_btn.visibility = View.VISIBLE
+            saveRating_btn.isClickable = true
+
+            saveRating_btn.setOnClickListener {
+                //salva rating e commento
+                var rating = ratingBar.rating //float
+                if (rating != 0.0F) {
+                    var optComment = optComment_field.text.toString()
+                    var review =
+                        Review(senderUser, receiverUser, rating, optComment)
+                    db.collection("users").document(receiverUser)
+                        .collection("reviews").document().set(review)
+                    db.collection("chats").document(senderUser).collection(receiverUser)
+                        .document(slot_id).delete()
+
+                    //ritorna alla lista delle chat
+                    activity?.supportFragmentManager?.commit {
+                        addToBackStack(ChatListFragment::class.toString())
+                        setReorderingAllowed(true)
+                        replace<ChatListFragment>(R.id.myNavHostFragment)
+                    }
+                } else {
+                    Toast.makeText(
+                        this.context,
+                        "You have to add a review",
+                        Toast.LENGTH_LONG
+                    )
+                }
+            }
+        }
+    }
+
 
     private fun readData(receiverUser: String, slot_id : String) {
 
@@ -379,6 +397,7 @@ class ChatFragment: Fragment() {
                       //  Log.i("message", "${message.message.toString()}   ${message.sentTime.toString()}")
 
                         messageList.add(message)
+                        ratingFun(message)
                     }
                     //messageList.sortBy { it.sentTime }
                     messageAdapter.notifyDataSetChanged()

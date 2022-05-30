@@ -114,12 +114,12 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     object : OnBackPressedCallback(true) {
                         override fun handleOnBackPressed() {
                             saveInfo()
-
-                            activity?.supportFragmentManager?.commit {
+                            this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
+                          /*  activity?.supportFragmentManager?.commit {
                                 addToBackStack(TimeSlotUserListFragment::class.toString())
                                 setReorderingAllowed(true)
                                 replace<TimeSlotUserListFragment>(R.id.myNavHostFragment)
-                            }
+                            }*/
 
                         }
                     })
@@ -277,10 +277,9 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
         vm.slot.observe(viewLifecycleOwner) {
             if (title != slot.title || description != slot.description || date != slot.date ||
-                "$from-$to" != slot.duration || location != slot.location
-            ) {
+                "$from-$to" != slot.duration || location != slot.location) {
 
-                var hours = (to.split(":")[0].toInt() - from.split(":")[0].toInt())*-1
+                var hours = to.split(":")[0].toInt() - from.split(":")[0].toInt()
                 Log.i("Test hours", hours.toString())
                 if (hours == 0) {
                     hours = 1
@@ -301,6 +300,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 Log.i("test", new.toString())
                 if (title != "" && description != "") {
                     vm.addSlot(new)
+                    vm.setSlot(new)
                 }
             }
         }
