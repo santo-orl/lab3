@@ -11,7 +11,7 @@ data class Slot(
     var location: String,
     val pos: Int,
     val user: String,
-    val status: String
+    val status: String //Available or Not available
 ) : Parcelable {
  var id =""
     override fun toString(): String {

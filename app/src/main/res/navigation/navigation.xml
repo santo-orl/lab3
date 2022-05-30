@@ -15,6 +15,9 @@
             app:destination="@id/timeSlotEditFragment"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_timeSlotDetailsFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/timeSlotEditFragment"
@@ -117,4 +120,9 @@
             android:id="@+id/action_listSkillUserFragment_to_itemListFragment"
             app:destination="@id/itemListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="it.polito.lab4.fragments.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 </navigation>

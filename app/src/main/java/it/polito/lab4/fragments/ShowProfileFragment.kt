@@ -199,6 +199,16 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
             }.addOnFailureListener { e ->
             Log.i("test_show", "Error adding document", e)
+
+            //take the average rating
+        db.collection("users").document("simonachiurato24@gmail.com").collection("reviews").get()
+           .addOnSuccessListener{
+              result->
+              for (doc in result.documents){
+                 Log.i("rating all", doc.data.toString())
+                    }
+                }
+
         }
     }
 
