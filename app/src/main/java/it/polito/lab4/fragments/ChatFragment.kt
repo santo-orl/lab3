@@ -131,6 +131,23 @@ class ChatFragment: Fragment() {
                                 Log.i("testChat", "Entra")
                             }
                     }
+
+
+                    ref = db.collection("chats").document(receiverUser)
+                    ref.get().addOnSuccessListener {
+                        var map = it.data.orEmpty().toMutableMap()
+                        if (!map.values.contains(senderUser)) {
+                            map[(map.size + 1).toString()] = senderUser
+                            Log.i("testChat", map.toString())
+                            ref.set(map, SetOptions.merge())
+                        }
+                        var ref2 = ref.collection(senderUser).document(slot_id)
+                        ref2.set(slot)
+                        ref2.collection("messages").document().set(messageObject)
+                            .addOnSuccessListener {
+                                Log.i("testChat", "Entra")
+                            }
+                    }
                     //create a unique door every time this push() is called
                     /*mDbRef.child("chats").child(senderRoom!!).child("messages").push()
                     .setValue(messageObject).addOnSuccessListener {
