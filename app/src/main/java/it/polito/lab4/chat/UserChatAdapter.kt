@@ -1,4 +1,4 @@
-package it.polito.lab4
+package it.polito.lab4.chat
 
 import android.content.Context
 import android.util.Log
@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.RecyclerView
+import it.polito.lab4.R
 import it.polito.lab4.fragments.*
 
 class UserChatAdapter(val context: Context, val userList: ArrayList<Chat>):
@@ -45,9 +46,9 @@ class UserChatAdapter(val context: Context, val userList: ArrayList<Chat>):
         val currentUser = userList[position]
         Log.i("testAdapter", currentUser.toString())
 
-        if (holder.javaClass == UserChatAdapter.UserViewHolder::class.java) {
+        if (holder.javaClass == UserViewHolder::class.java) {
             //do the stuff for sent view holder
-            val viewHolder = holder as UserChatAdapter.UserViewHolder
+            val viewHolder = holder as UserViewHolder
             holder.user.text = currentUser.other
             holder.title.text = currentUser.title
 

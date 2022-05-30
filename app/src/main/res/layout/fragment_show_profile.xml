@@ -30,11 +30,12 @@
 
         <RatingBar
             android:id="@+id/simpleRatingBar"
-            android:numStars="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:numStars="5"
             app:layout_constraintBottom_toTopOf="@+id/name"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -149,6 +150,19 @@
             app:layout_constraintTop_toBottomOf="@+id/location"
             app:layout_constraintVertical_bias="0.48000002"
             app:layout_constraintVertical_weight="5" />
+
+        <TextView
+            android:id="@+id/reviews_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reviews"
+            android:textColor="@color/dark_blue"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@+id/name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/simpleRatingBar"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

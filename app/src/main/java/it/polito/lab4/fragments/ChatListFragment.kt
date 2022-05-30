@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.*
+import it.polito.lab4.chat.ChatUI
+import it.polito.lab4.chat.UserChatAdapter
 import it.polito.lab4.timeSlots.Slot
 
 class Chat{
