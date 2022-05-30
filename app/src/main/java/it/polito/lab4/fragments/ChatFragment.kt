@@ -140,8 +140,23 @@ class ChatFragment: Fragment() {
                 } else {
                     vm.chat.observe(this.viewLifecycleOwner) { ref ->
                         slot_id = ref.slot_id.toString()
-                        receiverUser = ref.user.toString()
+                        receiverUser = ref.userRec.toString()
+                        var sendUser = ref.userSend.toString()
                         readData(receiverUser, slot_id)
+
+                        if(sendUser == senderUser){
+                            accept_btn.visibility = View.VISIBLE
+                            accept_btn.isClickable = true
+                            reject_btn.visibility = View.VISIBLE
+                            reject_btn.isClickable = true
+                        }else {
+                            //appUser sta richiedendo lo slot di otherUser
+                            //nascondi bottoni per accept e reject
+                            accept_btn.visibility = View.GONE
+                            accept_btn.isClickable = false
+                            reject_btn.visibility = View.GONE
+                            reject_btn.isClickable = false
+                        }
 
                         activity?.title = receiverUser
                         Log.i("recuser",receiverUser)
