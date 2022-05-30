@@ -1,17 +1,13 @@
-package it.polito.lab4
+package it.polito.lab4.chat
 
-import android.app.Notification
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.activityViewModels
-import it.polito.lab4.Message
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.my_message.view.*
+import it.polito.lab4.R
 
 
 class MessageAdapter(val context: Context, val messageList: ArrayList<Message>, val appUser: String):
