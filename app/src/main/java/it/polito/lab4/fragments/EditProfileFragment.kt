@@ -123,7 +123,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
     }
 
     private fun saveInfo() {
-        var nOre = vm.hour.value
         if(name_field.text.toString()==""){
             nameToUpdate = name
         }else {
@@ -163,7 +162,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             //val uri = vm.uploadImage(uriImageString).toString()
             //Log.i("test_PHOTO","after uri ${uri.toString()}")
         }
-        vm.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageString,listNoEmpty,nOre!!)
+        vm.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageString,listNoEmpty)
 
     }
 

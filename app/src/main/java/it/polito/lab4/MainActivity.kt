@@ -1,6 +1,5 @@
 package it.polito.lab4
 
-import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -76,7 +75,7 @@ class MainActivity : AppCompatActivity(){
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        vm.setSlot(Slot("","","","","",-1,"",""))
+        vm.setSlot(Slot("", "", "", "", "", -1, "", "", -1))
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {
@@ -181,9 +180,7 @@ class MainActivity : AppCompatActivity(){
         image_field = view.findViewById(R.id.image_nv)
         //  Log.i("test_menu","before")
         vm.email.observe(this) {
-            Log.i("test_menu", it)
             if (it != "") {
-                Log.i("test_menu", "2")
                 readData(it)
             } else {
                 val id = intent.getStringExtra("id").toString()

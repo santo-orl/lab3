@@ -73,7 +73,7 @@ class ChatListFragment: Fragment() {
             for (s in sx) {
                 splitSend += s
             }
-            vm.setSlot(Slot("", "", "", "", "", -1, "", ""))
+            vm.setSlot(Slot("", "", "", "", "", -1, "", "", -1))
             var ref = db.collection("chats").document(id)
             ref.get().addOnSuccessListener {
 

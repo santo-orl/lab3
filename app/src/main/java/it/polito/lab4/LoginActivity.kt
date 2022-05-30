@@ -71,7 +71,6 @@ class LoginActivity : AppCompatActivity() {
                 val map: MutableMap<String, Any> = HashMap()
                 map["email"] = email
                 map["name"] = name
-                map["hours"]= 2
 
                 db.collection("users").document(email).set(map as Map<String, Any>, SetOptions.merge())
                     .addOnSuccessListener {
@@ -129,9 +128,10 @@ class LoginActivity : AppCompatActivity() {
             email = currentUser.email.toString()
             name = currentUser.displayName.toString()
             val map: MutableMap<String, String> = HashMap()
-                map["email"] = email
+            map["email"] = email
             map["name"] = name
             db.collection("users").document(email).update(map as Map<String, Any>)
+
         }
         updateUI(currentUser)
         super.onStart()

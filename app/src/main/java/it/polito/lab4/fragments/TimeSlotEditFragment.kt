@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
@@ -37,7 +36,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private lateinit var title_field: EditText
     private lateinit var description_field: EditText
     private lateinit var location_field: EditText
-    private  var eliminare = Slot("", "", "", "", "", 0,"","")
+    private  var eliminare = Slot("", "", "", "", "", 0, "", "", -1)
 
     //val vm by viewModels<TimeSlotViewModel>()
     private val vm: ViewModel by activityViewModels()
@@ -78,6 +77,8 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     to_field.setText(slot.duration.split("-")[1])
                     location_field.setText(slot.location)
                     Log.i("test_edit", "Entra")
+                    title_field.isClickable = false
+                    description_field.isClickable = false
 
                 } else {
                     vm.skill.observe(this.viewLifecycleOwner) { tit ->
@@ -97,88 +98,12 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     location_field.setHint(location)
                     date_field.setHint(date)
                 }
-
+            }
                 btn_saveslot.setOnClickListener {
-                    var tmp : Boolean = true
-                    title = title_field.text.toString()
-                    description = description_field.text.toString()
-
-                    if (date_field.text.toString() != "") {
-                        date = date_field.text.toString()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "All the fields must be completed",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        tmp = false
-
-                    }
-                    if (from_field.text.toString() != "") {
-                        from = from_field.text.toString()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "All the fields must be completed",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        tmp = false
-
-                    }
-                    if (to_field.text.toString() != "") {
-                        to = to_field.text.toString()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "All the fields must be completed",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        tmp = false
-
-                    }
-                    if (location_field.text.toString() != "") {
-                        location = location_field.text.toString()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "All the fields must be completed",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        tmp = false
-
-                    }
-                    if(tmp) {
-                        vm.slot.observe(viewLifecycleOwner) {
-                            if (title != slot.title || description != slot.description || date != slot.date ||
-                                "$from-$to" != slot.duration || location != slot.location
-                            ) {
-                                var new = Slot(
-                                    title,
-                                    description,
-                                    date,
-                                    "$from-$to",
-                                    location,
-                                    0,
-                                    id,
-                                    "Available"
-                                )
-                                new.reference(slot.id)
-                                Log.i("test", new.toString())
-                                if (title != "" && description != "") {
-                                    vm.addSlot(new)
-                                }
-                            }
-                            Toast.makeText(
-                                context,
-                                "Time Slot successfully created !",
-                                Toast.LENGTH_LONG
-                            ).show()
+                    saveInfo()
                             this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
                         }
-                    }
 
-                    super.onViewCreated(view, savedInstanceState)
-                }
 
                 btn_goback.setOnClickListener {
                     this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
@@ -188,86 +113,14 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                     viewLifecycleOwner,
                     object : OnBackPressedCallback(true) {
                         override fun handleOnBackPressed() {
-                            title = title_field.text.toString()
-                            description = description_field.text.toString()
+                            saveInfo()
 
-                            if (date_field.text.toString() != "") {
-                                date = date_field.text.toString()
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "All the fields must be completed",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                return
-                            }
-                            if (from_field.text.toString() != "") {
-                                from = from_field.text.toString()
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "All the fields must be completed",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                return
-                            }
-                            if (to_field.text.toString() != "") {
-                                to = to_field.text.toString()
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "All the fields must be completed",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                return
-                            }
-                            if (location_field.text.toString() != "") {
-                                location = location_field.text.toString()
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "All the fields must be completed",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                return
-                            }
-
-                            vm.slot.observe(viewLifecycleOwner) {
-                                if (title != slot.title || description != slot.description || date != slot.date ||
-                                    "$from-$to" != slot.duration || location != slot.location
-                                ) {
-                                    var new = Slot(
-                                        title,
-                                        description,
-                                        date,
-                                        "$from-$to",
-                                        location,
-                                        0,
-                                        id,
-                                        "Available"
-                                    )
-                                    new.reference(slot.id)
-                                    Log.i("test", new.toString())
-                                    if (title != "" && description != "") {
-                                        vm.addSlot(new)
-                                    }
-                                }
-
-                                /*var new = Slot(title, description, date, "$from-$to", location, 0,id)
-                    Log.i("test",new.toString())
-                    if(title != "" && description != ""){
-                        vm.addSlot(new)*/
-                            }
-
-
-                            // this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
                             activity?.supportFragmentManager?.commit {
                                 addToBackStack(TimeSlotUserListFragment::class.toString())
                                 setReorderingAllowed(true)
                                 replace<TimeSlotUserListFragment>(R.id.myNavHostFragment)
                             }
-                            //findNavController().navigate(R.id.action_timeSlotEditFragment_to_containerFragment)
-                            //this@TimeSlotEditFragment.activity?.supportFragmentManager?.popBackStack()
+
                         }
                     })
                 var dataTmp: String = ""
@@ -376,44 +229,82 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
                 }
 
             }
+
+    private fun saveInfo() {
+        title = title_field.text.toString()
+        description = description_field.text.toString()
+
+        if (date_field.text.toString() != "") {
+            date = date_field.text.toString()
+        } else {
+            Toast.makeText(
+                context,
+                "All the fields must be completed",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+        if (from_field.text.toString() != "") {
+            from = from_field.text.toString()
+        } else {
+            Toast.makeText(
+                context,
+                "All the fields must be completed",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+        if (to_field.text.toString() != "") {
+            to = to_field.text.toString()
+        } else {
+            Toast.makeText(
+                context,
+                "All the fields must be completed",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+        if (location_field.text.toString() != "") {
+            location = location_field.text.toString()
+        } else {
+            Toast.makeText(
+                context,
+                "All the fields must be completed",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
         }
 
-  /*  private fun readData(id: String) {
-        db.collection("skills").document(id).collection("slots")
-            .whereEqualTo("title", slot.value?.title)
-            .whereEqualTo("description",slot.value?.description)
-            .whereEqualTo("location",slot.value?.location)
-            .whereEqualTo("date",slot.value?.date)
-            .whereEqualTo("duration",slot.value?.duration).get().addOnSuccessListener {
-                    result ->
-                for (document in result) {
-                    val s = document.data as HashMap<*, *>
-                    Log.i("TEST", "${document.id} + ${document.data}  ")
+        vm.slot.observe(viewLifecycleOwner) {
+            if (title != slot.title || description != slot.description || date != slot.date ||
+                "$from-$to" != slot.duration || location != slot.location
+            ) {
 
-                    slotList.add(
-                        Slot(
-                            s["title"].toString(),
-                            s["description"].toString(),
-                            s["date"].toString(),
-                            s["duration"].toString(),
-                            s["location"].toString(),
-                            slotList.size,
-                            s["user"].toString()
-                        )
-                    )
-                        title_field.setText(chosenSlot.title)
-                        description_field.setText(chosenSlot.description)
-                        date_field.setText(chosenSlot.date)
-                        from_field.setText(chosenSlot.duration.split("-")[0])
-                        to_field.setText(chosenSlot.duration.split("-")[1])
-                        location_field.setText(chosenSlot.location)
-                    }
+                var hours = (to.split(":")[0].toInt() - from.split(":")[0].toInt())*-1
+                Log.i("Test hours", hours.toString())
+                if (hours == 0) {
+                    hours = 1
+                }
+                Log.i("Test hours", hours.toString())
+                var new = Slot(
+                    title,
+                    description,
+                    date,
+                    "$from-$to",
+                    location,
+                    0,
+                    id,
+                    "Available",
+                    hours
+                )
+                new.reference(slot.id)
+                Log.i("test", new.toString())
+                if (title != "" && description != "") {
+                    vm.addSlot(new)
                 }
             }
         }
     }
-*/
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         findNavController().navigate(R.id.timeSlotDetailsFragment)
         return true
@@ -421,25 +312,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
 
 }
 
-  /*  date_text.setOnClickListener{
-            // create new instance of DatePickerFragment
-            val datePickerFragment = DatePickerFragment()
-            val supportFragmentManager = requireActivity().supportFragmentManager
 
-            // we have to implement setFragmentResultListener
-            supportFragmentManager.setFragmentResultListener(
-                "REQUEST_KEY",
-                viewLifecycleOwner
-            ) { resultKey, bundle ->
-                if (resultKey == "REQUEST_KEY") {
-                    val date = bundle.getString("SELECTED_DATE")
-                    date_edit.setText(date)
-                }
-            }
-
-            // show
-            datePickerFragment.show(supportFragmentManager, "DatePickerFragment")
-        }*/
 
 
 
