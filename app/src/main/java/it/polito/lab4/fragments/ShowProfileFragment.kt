@@ -98,10 +98,12 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             Log.i("ALLORA", slot.toString())
             if (slot.user!= ""){
                readData(slot.user)
+                hour_field.visibility = View.GONE
             }else{
                 readData(id)
                 Log.i("test_show", "id utente"+id)
                 setHasOptionsMenu(true)
+
             }
 
 
