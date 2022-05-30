@@ -21,4 +21,9 @@
     <string name="description_help">
         testo da definire
     </string>
+    <string name="help">hh</string>
+    <string name="guideProfile">Welcome in our app! The first step is to fill in your profile, with your best picture and some other information about yourself. Make sure that you add some skills, these will represent the jobs that you are offering to the other users</string>
+    <string name="guideSlot">Now you have to create some temporal slot for your offers. Make sure to keep update your slots, in order to be always free when you make an offer.</string>
+    <string name="guideHome">In the home you can see the offers made from other users. Click on one of them for seeing in which slot time the owner of the slot is available. Also, from the description of the time slot you can see the profile of the owner, with his/her ranking and the review from other users.</string>
+    <string name="guideChat">In this page you can see all your messages, the ones that other users send to you, when they want to hire you, and the ones that you can send to them. If you want to hire someone you are oblide to write him/her a message. Then the other user can accept or denied your request.</string>
 </resources>
