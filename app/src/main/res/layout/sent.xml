@@ -5,20 +5,21 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:background="@drawable/my_message_bubble"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:layout_height="wrap_content">
+        android:layout_marginRight="5dp"
+        android:background="@drawable/my_message_bubble"
+        android:backgroundTint="#8594EA">
 
         <TextView
             android:id="@+id/txt_sent_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This is sent message"
-            android:textColor="@color/dirty_white"
             android:padding="18dp"
-            android:textSize="18sp"/>
+            android:text="This is sent message"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
     </RelativeLayout>
 </RelativeLayout>

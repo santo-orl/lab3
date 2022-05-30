@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab4.R
@@ -15,15 +16,19 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>, 
 
     val ITEM_RECEIVE = 1
     val ITEM_SENT = 2
+    val ITEM_ERROR = 3
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         if(viewType==ITEM_SENT){
             val view: View = LayoutInflater.from(context).inflate(R.layout.sent, parent, false)
             return SentViewHolder(view)
-        }else{
+        }else if(viewType==ITEM_RECEIVE){
             val view: View = LayoutInflater.from(context).inflate(R.layout.receive,parent,false)
             return ReceiveViewHolder(view)
+        }else{
+            val view: View = LayoutInflater.from(context).inflate(R.layout.error, parent, false)
+            return SentViewHolder(view)
         }
 
     }
@@ -49,11 +54,14 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>, 
         Log.i("Current sender Id", currentMessage.senderId.toString())
         Log.i("App user", appUser)
         //if(FirebaseAuth.getInstance().currentUser?.uid.equals(currentMessage.senderId)){
+        if (currentMessage.message.equals("YOUR REQUEST HAS BEEN REJECTED BECAUSE YOU DON'T HAVE ENOUGH TIME TO SPEND IN THIS SLOT")){
+            return ITEM_ERROR
+        }else{
         if(currentMessage.senderId.toString() == appUser){
             return ITEM_SENT
         }else{
             return ITEM_RECEIVE
-        }
+        }}
     }
 
     override fun getItemCount(): Int {

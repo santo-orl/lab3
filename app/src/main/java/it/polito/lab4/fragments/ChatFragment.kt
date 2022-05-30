@@ -18,16 +18,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import it.polito.lab4.AAslot
 import it.polito.lab4.R
 import it.polito.lab4.ViewModel
 import it.polito.lab4.chat.Message
 import it.polito.lab4.chat.MessageAdapter
 import it.polito.lab4.reviews.Review
 import it.polito.lab4.timeSlots.Slot
-import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.android.synthetic.main.fragment_time_slot_details.*
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -182,83 +178,7 @@ class ChatFragment: Fragment() {
                 //adding the messsage to the db
                 sendButton.setOnClickListener {
                     //send the message to the db and from the db the message will be rx by the other user
-                    val message = messageBox.text.toString()
-                    val timeZone = TimeZone.getTimeZone("UTC")
-                    val date = Calendar.getInstance(timeZone).time
-                    Log.i("message info", date.toString())
-                    //val date = Calendar.getInstance().time
-                     val  DATE_FORMAT =  SimpleDateFormat("dd/MM/yy HH:mm:ss");
-                    var sentTime = DATE_FORMAT.format(date)
-                    Log.i("message info", sentTime)
-                    val messageObject = Message(message, senderUser, receiverUser, sentTime)
-
-                    var ref = db.collection("chats").document(senderUser)
-                    ref.get().addOnSuccessListener {
-                        var map = it.data.orEmpty().toMutableMap()
-                        if (!map.values.contains(receiverUser)) {
-                            map[(map.size + 1).toString()] = receiverUser
-                            Log.i("testChat", map.toString())
-                            ref.set(map, SetOptions.merge())
-                        }
-                        var ref2 = ref.collection(receiverUser).document(slot_id)
-                        if(slot.id!=""){
-                            ref2.set(slot)
-                        }
-                        ref2.collection("messages").document().set(messageObject)
-                            .addOnSuccessListener {
-                                Log.i("testChat", "Entra")
-                            }
-                    }
-
-
-                   var ref3 = db.collection("chats").document(receiverUser)
-                    ref3.get().addOnSuccessListener {
-                        var map = it.data.orEmpty().toMutableMap()
-                        if (!map.values.contains(senderUser)) {
-                            map[(map.size + 1).toString()] = senderUser
-                            Log.i("testChat", map.toString())
-                            ref3.set(map, SetOptions.merge())
-                        }
-                        var ref4 = ref3.collection(senderUser).document(slot_id)
-                        if(slot.id!=""){
-                            ref4.set(slot)
-                        }
-
-                        ref4.collection("messages").document().set(messageObject)
-                            .addOnSuccessListener {
-                                Log.i("testChat", "Entra")
-                            }
-                    }
-                    //create a unique door every time this push() is called
-                    /*mDbRef.child("chats").child(senderRoom!!).child("messages").push()
-                    .setValue(messageObject).addOnSuccessListener {
-                        mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
-                            .setValue(messageObject)
-                    }*/
-                    db.collection("chats").document(senderUser).collection(receiverUser)
-                        .document(slot_id)
-                        .collection("messages")
-                        .orderBy("sentTime")
-                        .addSnapshotListener { snapshot, e ->
-                            if (snapshot != null) {
-                                Log.i("snapshotsb", "Current data: ${snapshot.documents}$")
-                                messageList.clear()
-                                for (doc in snapshot.documents) { // doc is a message
-                                    val m = doc.data as HashMap<*, *>
-                                    var message = Message(
-                                        m["message"].toString(),
-                                        m["senderId"].toString(),
-                                        m["receiverId"].toString(),
-                                        m["sentTime"].toString()
-                                    )
-                                   // Log.i("message", message.toString())
-
-                                    messageList.add(message)
-                                }
-                                messageAdapter.notifyDataSetChanged()
-                            }
-                        }
-                    messageBox.setText("")
+                  sendMessage(true)
 
                 }
 
@@ -266,52 +186,70 @@ class ChatFragment: Fragment() {
                     //rendi lo slot non available
                     db.collection("users").document(receiverUser).get().addOnSuccessListener { rec->
                         db.collection("slots").document(slot_id).get().addOnSuccessListener { slot->
-                            if(rec.get("hours").toString().toInt() > slot.get("hours").toString().toInt() ){
+                            if(rec.get("hours").toString().toInt() >= slot.get("hours").toString().toInt() ){
+                                Log.i("Test pagamento", "entra")
+                                val cost = rec.get("hours").toString().toInt() - slot.get("hours").toString().toInt()
+                                Log.i("Test pagamento", "costo: $cost")
+                                var map: MutableMap<String, String> = HashMap()
+                                map["status"] = "Sold"
+                                db.collection("slots").document(slot_id).set(map, SetOptions.merge())
+                                map = HashMap()
+                                map["hours"] = cost.toString()
+                                db.collection("users").document(receiverUser).set(map, SetOptions.merge())
 
+                                //fai vedere barra di rating e editText per commento opzionale
+                                accept_btn.visibility = View.GONE
+                                accept_btn.isClickable = false
+                                reject_btn.visibility = View.GONE
+                                reject_btn.isClickable = false
+                                chatRecyclerView.visibility = View.GONE
+                                layout_messageArea.visibility = View.GONE
+                                lineView.visibility = View.GONE
+                                messageBox.visibility = View.GONE
+                                messageBox.isClickable = false
+                                sendButton.visibility = View.GONE
+                                sendButton.isClickable = false
+
+                                rateText.visibility = View.VISIBLE
+                                ratingBar.visibility = View.VISIBLE
+                                ratingBar.isClickable = true
+                                optComment_field.visibility = View.VISIBLE
+                                optComment_field.isClickable = true
+                                saveRating_btn.visibility = View.VISIBLE
+                                saveRating_btn.isClickable = true
+
+                                saveRating_btn.setOnClickListener {
+                                    //salva rating e commento
+                                    var rating = ratingBar.rating //float
+                                    var optComment = optComment_field.text.toString()
+                                    var review = Review(senderUser,receiverUser,rating,optComment)
+                                    db.collection("users").document(receiverUser)
+                                        .collection("reviews").document().set(review)
+
+                                    //ritorna alla lista delle chat
+                                    activity?.supportFragmentManager?.commit {
+                                        addToBackStack(ChatListFragment::class.toString())
+                                        setReorderingAllowed(true)
+                                        replace<ChatListFragment>(R.id.myNavHostFragment)
+                                    }
+                                }
+                            }else{
+                                Toast.makeText(
+                                    context,
+                                    "The user does not have enough time to pay you",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Log.i("Test pagamento", "NON ENTRA")
+                                sendMessage(false)
                             }
                         }
 
                     }
 
-                    val map: MutableMap<String, String> = HashMap()
-                    map["status"] = "Sold"
-                    db.collection("slots").document(slot_id).set(map, SetOptions.merge())
+
 
                     //sposta i soldi da un utente all'altro
-
-
-                    //fai vedere barra di rating e editText per commento opzionale
-                    accept_btn.visibility = View.GONE
-                    accept_btn.isClickable = false
-                    reject_btn.visibility = View.GONE
-                    reject_btn.isClickable = false
-                    chatRecyclerView.visibility = View.GONE
-                    layout_messageArea.visibility = View.GONE
-                    lineView.visibility = View.GONE
-                    messageBox.visibility = View.GONE
-                    messageBox.isClickable = false
-                    sendButton.visibility = View.GONE
-                    sendButton.isClickable = false
-
-                    rateText.visibility = View.VISIBLE
-                    ratingBar.visibility = View.VISIBLE
-                    ratingBar.isClickable = true
-                    optComment_field.visibility = View.VISIBLE
-                    optComment_field.isClickable = true
-                    saveRating_btn.visibility = View.VISIBLE
-                    saveRating_btn.isClickable = true
-
-                    saveRating_btn.setOnClickListener {
-                        //salva rating e commento
-                        var rating = ratingBar.rating //float
-                        var optComment = optComment_field.text.toString()
-                        var review = Review(senderUser,receiverUser,rating,optComment)
-                        db.collection("users").document(receiverUser)
-                            .collection("reviews").document().set(review)
-
-                        //ritorna alla lista delle chat
-                        activity?.supportFragmentManager?.commit {
-                            addToBackStack(ChatListFragment::class.toString())
+                  addToBackStack(ChatListFragment::class.toString())
                             setReorderingAllowed(true)
                             replace<ChatListFragment>(R.id.myNavHostFragment)
 
@@ -320,6 +258,7 @@ class ChatFragment: Fragment() {
 
                         }
                     }
+
 
 
 
@@ -332,6 +271,91 @@ class ChatFragment: Fragment() {
 
             }
         }
+
+    private fun sendMessage(b: Boolean) {
+        var message = ""
+        if (b) {
+            message = messageBox.text.toString()
+        }else{
+            message = "YOUR REQUEST HAS BEEN REJECTED BECAUSE YOU DON'T HAVE ENOUGH TIME TO SPEND IN THIS SLOT"
+        }
+        val timeZone = TimeZone.getTimeZone("UTC")
+        val date = Calendar.getInstance(timeZone).time
+        Log.i("message info", date.toString())
+        //val date = Calendar.getInstance().time
+        val  DATE_FORMAT =  SimpleDateFormat("dd/MM/yy HH:mm:ss");
+        var sentTime = DATE_FORMAT.format(date)
+        Log.i("message info", sentTime)
+        val messageObject = Message(message, senderUser, receiverUser, sentTime)
+
+        var ref = db.collection("chats").document(senderUser)
+        ref.get().addOnSuccessListener {
+            var map = it.data.orEmpty().toMutableMap()
+            if (!map.values.contains(receiverUser)) {
+                map[(map.size + 1).toString()] = receiverUser
+                Log.i("testChat", map.toString())
+                ref.set(map, SetOptions.merge())
+            }
+            var ref2 = ref.collection(receiverUser).document(slot_id)
+            if(slot.id!=""){
+                ref2.set(slot)
+            }
+            ref2.collection("messages").document().set(messageObject)
+                .addOnSuccessListener {
+                    Log.i("testChat", "Entra")
+                }
+        }
+
+
+        var ref3 = db.collection("chats").document(receiverUser)
+        ref3.get().addOnSuccessListener {
+            var map = it.data.orEmpty().toMutableMap()
+            if (!map.values.contains(senderUser)) {
+                map[(map.size + 1).toString()] = senderUser
+                Log.i("testChat", map.toString())
+                ref3.set(map, SetOptions.merge())
+            }
+            var ref4 = ref3.collection(senderUser).document(slot_id)
+            if(slot.id!=""){
+                ref4.set(slot)
+            }
+
+            ref4.collection("messages").document().set(messageObject)
+                .addOnSuccessListener {
+                    Log.i("testChat", "Entra")
+                }
+        }
+        //create a unique door every time this push() is called
+        /*mDbRef.child("chats").child(senderRoom!!).child("messages").push()
+        .setValue(messageObject).addOnSuccessListener {
+            mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
+                .setValue(messageObject)
+        }*/
+        db.collection("chats").document(senderUser).collection(receiverUser)
+            .document(slot_id)
+            .collection("messages")
+            .orderBy("sentTime")
+            .addSnapshotListener { snapshot, e ->
+                if (snapshot != null) {
+                    Log.i("snapshotsb", "Current data: ${snapshot.documents}$")
+                    messageList.clear()
+                    for (doc in snapshot.documents) { // doc is a message
+                        val m = doc.data as HashMap<*, *>
+                        var message = Message(
+                            m["message"].toString(),
+                            m["senderId"].toString(),
+                            m["receiverId"].toString(),
+                            m["sentTime"].toString()
+                        )
+                        // Log.i("message", message.toString())
+
+                        messageList.add(message)
+                    }
+                    messageAdapter.notifyDataSetChanged()
+                }
+            }
+        messageBox.setText("")
+    }
 
     private fun readData(receiverUser: String, slot_id : String) {
 
