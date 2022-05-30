@@ -1,6 +1,6 @@
 package it.polito.lab4.fragments
 
-import android.Manifest.permission_group.CALENDAR
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,25 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import it.polito.lab4.Message
 import it.polito.lab4.MessageAdapter
 import it.polito.lab4.R
 import it.polito.lab4.ViewModel
-import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class ChatFragment: Fragment() {
     private val vm: ViewModel by activityViewModels()
@@ -64,6 +60,7 @@ class ChatFragment: Fragment() {
         return view
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         chatRecyclerView = requireView().findViewById(R.id.chatRecyclerView)
@@ -110,10 +107,13 @@ class ChatFragment: Fragment() {
                 sendButton.setOnClickListener {
                     //send the message to the db and from the db the message will be rx by the other user
                     val message = messageBox.text.toString()
-                    val date = Calendar.getInstance().time
-                    val formatter =
-                        SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
-                    var sentTime = formatter.format(date)
+                    val timeZone = TimeZone.getTimeZone("UTC")
+                    val date = Calendar.getInstance(timeZone).time
+                    Log.i("message info", date.toString())
+                    //val date = Calendar.getInstance().time
+                     val  DATE_FORMAT =  SimpleDateFormat("dd/MM/yy HH:mm:ss");
+                    var sentTime = DATE_FORMAT.format(date)
+                    Log.i("message info", sentTime)
                     val messageObject = Message(message, senderUser, receiverUser, sentTime)
 
                     var ref = db.collection("chats").document(senderUser)
@@ -125,7 +125,9 @@ class ChatFragment: Fragment() {
                             ref.set(map, SetOptions.merge())
                         }
                         var ref2 = ref.collection(receiverUser).document(slot_id)
-                        ref2.set(slot)
+                        if(slot.id!=""){
+                            ref2.set(slot)
+                        }
                         ref2.collection("messages").document().set(messageObject)
                             .addOnSuccessListener {
                                 Log.i("testChat", "Entra")
@@ -133,17 +135,20 @@ class ChatFragment: Fragment() {
                     }
 
 
-                    ref = db.collection("chats").document(receiverUser)
-                    ref.get().addOnSuccessListener {
+                   var ref3 = db.collection("chats").document(receiverUser)
+                    ref3.get().addOnSuccessListener {
                         var map = it.data.orEmpty().toMutableMap()
                         if (!map.values.contains(senderUser)) {
                             map[(map.size + 1).toString()] = senderUser
                             Log.i("testChat", map.toString())
-                            ref.set(map, SetOptions.merge())
+                            ref3.set(map, SetOptions.merge())
                         }
-                        var ref2 = ref.collection(senderUser).document(slot_id)
-                        ref2.set(slot)
-                        ref2.collection("messages").document().set(messageObject)
+                        var ref4 = ref3.collection(senderUser).document(slot_id)
+                        if(slot.id!=""){
+                            ref4.set(slot)
+                        }
+
+                        ref4.collection("messages").document().set(messageObject)
                             .addOnSuccessListener {
                                 Log.i("testChat", "Entra")
                             }
@@ -170,7 +175,7 @@ class ChatFragment: Fragment() {
                                         m["receiverId"].toString(),
                                         m["sentTime"].toString()
                                     )
-                                    Log.i("message", message.toString())
+                                   // Log.i("message", message.toString())
 
                                     messageList.add(message)
                                 }
@@ -231,30 +236,7 @@ class ChatFragment: Fragment() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         chatRecyclerView.adapter = messageAdapter
 
-        Log.i("test chat", receiverUser +" "+ slot_id,)
         db.collection("chats").document(senderUser).collection(receiverUser)
-            .document(slot_id)
-            .collection("messages")
-            .orderBy("sentTime").get().addOnSuccessListener{ snapshot->
-                if (snapshot != null) {
-                    Log.i("TEST", "Current data: ${snapshot.documents}$")
-                    messageList.clear()
-                    for (doc in snapshot.documents) { // doc is a message
-                        val m = doc.data as HashMap<*, *>
-                        var message = Message(
-                            m["message"].toString(),
-                            m["senderId"].toString(),
-                            m["receiverId"].toString(),
-                            m["sentTime"].toString()
-                        )
-                        Log.i("test message", message.toString())
-
-                        messageList.add(message)
-                    }
-                    messageAdapter.notifyDataSetChanged()
-                }
-            }
-      /* db.collection("chats").document(senderUser).collection(receiverUser)
             .document(slot_id)
             .collection("messages")
             .orderBy("sentTime")
@@ -270,12 +252,17 @@ class ChatFragment: Fragment() {
                             m["receiverId"].toString(),
                             m["sentTime"].toString()
                         )
-                        Log.i("message", message.toString())
+                      //  Log.i("message", "${message.message.toString()}   ${message.sentTime.toString()}")
 
                         messageList.add(message)
                     }
+                    //messageList.sortBy { it.sentTime }
                     messageAdapter.notifyDataSetChanged()
                 }
-            }*/
+            }
+        messageBox.setText("")
+
+
     }
+
 }
