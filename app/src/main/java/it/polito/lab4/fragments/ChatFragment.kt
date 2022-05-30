@@ -184,82 +184,77 @@ class ChatFragment: Fragment() {
 
                 accept_btn.setOnClickListener {
                     //rendi lo slot non available
-                    db.collection("users").document(receiverUser).get().addOnSuccessListener { rec->
-                        db.collection("slots").document(slot_id).get().addOnSuccessListener { slot->
-                            if(rec.get("hours").toString().toInt() >= slot.get("hours").toString().toInt() ){
-                                Log.i("Test pagamento", "entra")
-                                val cost = rec.get("hours").toString().toInt() - slot.get("hours").toString().toInt()
-                                Log.i("Test pagamento", "costo: $cost")
-                                var map: MutableMap<String, String> = HashMap()
-                                map["status"] = "Sold"
-                                db.collection("slots").document(slot_id).set(map, SetOptions.merge())
-                                map = HashMap()
-                                map["hours"] = cost.toString()
-                                db.collection("users").document(receiverUser).set(map, SetOptions.merge())
+                    db.collection("users").document(receiverUser).get()
+                        .addOnSuccessListener { rec ->
+                            db.collection("slots").document(slot_id).get()
+                                .addOnSuccessListener { slot ->
+                                    if (rec.get("hours").toString().toInt() >= slot.get("hours")
+                                            .toString().toInt()
+                                    ) {
+                                        Log.i("Test pagamento", "entra")
+                                        val cost =
+                                            rec.get("hours").toString().toInt() - slot.get("hours")
+                                                .toString().toInt()
+                                        Log.i("Test pagamento", "costo: $cost")
+                                        var map: MutableMap<String, String> = HashMap()
+                                        map["status"] = "Sold"
+                                        db.collection("slots").document(slot_id)
+                                            .set(map, SetOptions.merge())
+                                        map = HashMap()
+                                        map["hours"] = cost.toString()
+                                        db.collection("users").document(receiverUser)
+                                            .set(map, SetOptions.merge())
 
-                                //fai vedere barra di rating e editText per commento opzionale
-                                accept_btn.visibility = View.GONE
-                                accept_btn.isClickable = false
-                                reject_btn.visibility = View.GONE
-                                reject_btn.isClickable = false
-                                chatRecyclerView.visibility = View.GONE
-                                layout_messageArea.visibility = View.GONE
-                                lineView.visibility = View.GONE
-                                messageBox.visibility = View.GONE
-                                messageBox.isClickable = false
-                                sendButton.visibility = View.GONE
-                                sendButton.isClickable = false
+                                        //fai vedere barra di rating e editText per commento opzionale
+                                        accept_btn.visibility = View.GONE
+                                        accept_btn.isClickable = false
+                                        reject_btn.visibility = View.GONE
+                                        reject_btn.isClickable = false
+                                        chatRecyclerView.visibility = View.GONE
+                                        layout_messageArea.visibility = View.GONE
+                                        lineView.visibility = View.GONE
+                                        messageBox.visibility = View.GONE
+                                        messageBox.isClickable = false
+                                        sendButton.visibility = View.GONE
+                                        sendButton.isClickable = false
 
-                                rateText.visibility = View.VISIBLE
-                                ratingBar.visibility = View.VISIBLE
-                                ratingBar.isClickable = true
-                                optComment_field.visibility = View.VISIBLE
-                                optComment_field.isClickable = true
-                                saveRating_btn.visibility = View.VISIBLE
-                                saveRating_btn.isClickable = true
+                                        rateText.visibility = View.VISIBLE
+                                        ratingBar.visibility = View.VISIBLE
+                                        ratingBar.isClickable = true
+                                        optComment_field.visibility = View.VISIBLE
+                                        optComment_field.isClickable = true
+                                        saveRating_btn.visibility = View.VISIBLE
+                                        saveRating_btn.isClickable = true
 
-                                saveRating_btn.setOnClickListener {
-                                    //salva rating e commento
-                                    var rating = ratingBar.rating //float
-                                    var optComment = optComment_field.text.toString()
-                                    var review = Review(senderUser,receiverUser,rating,optComment)
-                                    db.collection("users").document(receiverUser)
-                                        .collection("reviews").document().set(review)
+                                        saveRating_btn.setOnClickListener {
+                                            //salva rating e commento
+                                            var rating = ratingBar.rating //float
+                                            var optComment = optComment_field.text.toString()
+                                            var review =
+                                                Review(senderUser, receiverUser, rating, optComment)
+                                            db.collection("users").document(receiverUser)
+                                                .collection("reviews").document().set(review)
 
-                                    //ritorna alla lista delle chat
-                                    activity?.supportFragmentManager?.commit {
-                                        addToBackStack(ChatListFragment::class.toString())
-                                        setReorderingAllowed(true)
-                                        replace<ChatListFragment>(R.id.myNavHostFragment)
+                                            //ritorna alla lista delle chat
+                                            activity?.supportFragmentManager?.commit {
+                                                addToBackStack(ChatListFragment::class.toString())
+                                                setReorderingAllowed(true)
+                                                replace<ChatListFragment>(R.id.myNavHostFragment)
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "The user does not have enough time to pay you",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        Log.i("Test pagamento", "NON ENTRA")
+                                        sendMessage(false)
                                     }
                                 }
-                            }else{
-                                Toast.makeText(
-                                    context,
-                                    "The user does not have enough time to pay you",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                Log.i("Test pagamento", "NON ENTRA")
-                                sendMessage(false)
-                            }
-                        }
-
-                    }
-
-
-
-                    //sposta i soldi da un utente all'altro
-                  addToBackStack(ChatListFragment::class.toString())
-                            setReorderingAllowed(true)
-                            replace<ChatListFragment>(R.id.myNavHostFragment)
-
-                        //cancella chat
-                            //db.collection("chats").document()
 
                         }
-                    }
-
-
+                }
 
 
                 }
@@ -270,7 +265,7 @@ class ChatFragment: Fragment() {
                 }
 
             }
-        }
+
 
     private fun sendMessage(b: Boolean) {
         var message = ""
