@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="10dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/layout_messageArea"
+        app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -105,33 +105,37 @@
         app:layout_constraintBottom_toTopOf="@+id/reject_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatRecyclerView"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.22" />
 
     <RatingBar
         android:id="@+id/chatRatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+
         android:numStars="5"
-        app:layout_constraintBottom_toTopOf="@+id/accept_btn"
+        app:layout_constraintBottom_toTopOf="@+id/optComment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rateText"
-        app:layout_constraintVertical_bias="0.104" />
+        app:layout_constraintTop_toBottomOf="@+id/rateText" />
 
     <EditText
         android:id="@+id/optComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:background="@android:color/white"
         android:ems="10"
         android:hint="Add a comment"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        android:minHeight="48dp"
+        android:singleLine="false"
+        app:layout_constraintBottom_toTopOf="@+id/saveRating_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatRatingBar"
-        app:layout_constraintVertical_bias="0.169" />
+        app:layout_constraintTop_toBottomOf="@+id/chatRatingBar" />
 
     <Button
         android:id="@+id/saveRating_btn"

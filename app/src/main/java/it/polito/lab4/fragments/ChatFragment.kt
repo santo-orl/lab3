@@ -140,8 +140,9 @@ class ChatFragment: Fragment() {
                 } else {
                     vm.chat.observe(this.viewLifecycleOwner) { ref ->
                         slot_id = ref.slot_id.toString()
-                        receiverUser = ref.userRec.toString()
-                        var sendUser = ref.userSend.toString()
+                        receiverUser = ref.other.toString()
+                        var sendUser = ref.owner.toString()
+                        Log.i("TEST CHAT","$receiverUser $sendUser    $senderUser")
                         readData(receiverUser, slot_id)
 
                         if(sendUser == senderUser){

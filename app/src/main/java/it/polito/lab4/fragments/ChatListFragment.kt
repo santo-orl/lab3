@@ -15,18 +15,18 @@ import it.polito.lab4.timeSlots.Slot
 
 class Chat{
     var title: String? = null
-    var userRec: String? = null
+    var other: String? = null
     var slot_id: String? = null
-    var userSend: String? = null
+    var owner: String? = null
 
 
     constructor(){}
 
-    constructor(title:String?, userRec:String?,slot_id: String?, userSend: String?){
+    constructor(title:String?, other:String?,slot_id: String?, owner: String?){
         this.title = title
-        this.userRec = userRec
+        this.other = other
         this.slot_id = slot_id
-        this.userSend = userSend
+        this.owner = owner
     }
 }
 class ChatListFragment: Fragment() {
@@ -66,42 +66,48 @@ class ChatListFragment: Fragment() {
             userListRecView.layoutManager = LinearLayoutManager(this.requireContext())
             userListRecView.adapter = userChatAdapter
 
-            val senderUser = it
 
-
-            val sx = senderUser.split("@", ".")
+            val sx = it.split("@", ".")
             for (s in sx) {
                 splitSend += s
             }
-            vm.setSlot(Slot("","","","","",-1,"",""))
-           var ref =  db.collection("chats").document(id)
-                ref.get().addOnSuccessListener{
+            vm.setSlot(Slot("", "", "", "", "", -1, "", ""))
+            var ref = db.collection("chats").document(id)
+            ref.get().addOnSuccessListener {
 
-                if(!it.data.isNullOrEmpty()){
+                if (!it.data.isNullOrEmpty()) {
                     Log.i("test chat list", it.data?.size.toString())
-                val getUser = it.data as HashMap<*, *>
-                for(i in 1..it.data?.size!!){
-                    ref.collection(getUser[i.toString()].toString()).get().addOnSuccessListener{ result ->
-                        for (document in result) {
+                    val getOther = it.data as HashMap<*, *>
+                    for (i in 1..it.data?.size!!) {
+                        ref.collection(getOther[i.toString()].toString()).get()
+                            .addOnSuccessListener { result ->
+                                for (document in result) {
 
-                            val getTitle = document.data as HashMap<*, *>
-                            Log.i("test chat list", getTitle.toString())
-                            userList.add(Chat(getTitle["title"].toString(),getUser[i.toString()].toString(),getTitle["id"].toString(), senderUser ))
-                        }
-                        userChatAdapter.notifyDataSetChanged()
+                                    val getSlot = document.data as HashMap<*, *>
+                                    Log.i("test chat list", getSlot.toString())
+                                    userList.add(
+                                        Chat(
+                                            getSlot["title"].toString(),
+                                            getOther[i.toString()].toString(),
+                                            getSlot["id"].toString(),
+                                            getSlot["user"].toString()
+                                        )
+                                    )
+                                }
+                                userChatAdapter.notifyDataSetChanged()
 
+                            }
                     }
-                }
 
                 }
-                    userChatAdapter.setOnClick(object : ChatUI.ChatListener{
-                        override fun onChatClick(position: Int) {
-                            vm.setChat(userList[position])
-                            Log.i("listChat", "click")
-                        }
+                userChatAdapter.setOnClick(object : ChatUI.ChatListener {
+                    override fun onChatClick(position: Int) {
+                        vm.setChat(userList[position])
+                        Log.i("listChat", "click")
+                    }
 
-                    })
-            }.addOnFailureListener{e->
+                })
+            }.addOnFailureListener { e ->
                 Log.i("test chat list failed", e.toString())
             }
 
