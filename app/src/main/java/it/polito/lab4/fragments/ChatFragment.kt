@@ -6,23 +6,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import it.polito.lab4.Message
-import it.polito.lab4.MessageAdapter
+import it.polito.lab4.*
 import it.polito.lab4.R
-import it.polito.lab4.ViewModel
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
+import kotlinx.android.synthetic.main.fragment_chat.*
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -38,10 +38,17 @@ class ChatFragment: Fragment() {
     private var slot_id = ""
 
     private lateinit var chatRecyclerView: RecyclerView
+    private lateinit var layout_messageArea: LinearLayout
     private lateinit var messageBox: EditText
     private lateinit var sendButton: Button
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
+
+    private lateinit var rateText: TextView
+    private lateinit var ratingBar: RatingBar
+    private lateinit var optComment_field: EditText
+    private lateinit var saveRating_btn: Button
+
     private lateinit var mDbRef: DatabaseReference
     private val db = FirebaseFirestore.getInstance()
 
@@ -69,6 +76,24 @@ class ChatFragment: Fragment() {
         chatRecyclerView = requireView().findViewById(R.id.chatRecyclerView)
         messageBox = requireView().findViewById(R.id.messageBox)
         sendButton = requireView().findViewById(R.id.sendButton)
+        layout_messageArea = requireView().findViewById(R.id.layout_messageArea)
+
+        accept_btn = view.findViewById(R.id.accept_btn)
+        reject_btn = view.findViewById(R.id.reject_btn)
+
+        rateText = requireView().findViewById(R.id.rateText)
+        ratingBar = requireView().findViewById(R.id.chatRatingBar)
+        optComment_field = requireView().findViewById(R.id.optComment)
+        saveRating_btn = requireView().findViewById(R.id.saveRating_btn)
+
+        rateText.visibility = View.GONE
+        ratingBar.visibility = View.GONE
+        ratingBar.isClickable = false
+        optComment_field.visibility = View.GONE
+        optComment_field.isClickable = false
+        saveRating_btn.visibility = View.GONE
+        saveRating_btn.isClickable = false
+
 
         vm.email.observe(this.viewLifecycleOwner) { it ->
             senderUser = it
@@ -78,27 +103,51 @@ class ChatFragment: Fragment() {
                 splitSend += s
             }
 
+
             vm.slot.observe(this.viewLifecycleOwner) { it ->
                 if (it.title != "") {
                     slot = it
                     slot_id = slot.id
                     receiverUser = slot.user
 
+                    activity?.title = receiverUser
+                    Log.i("recuser",receiverUser)
+
                     val rx = receiverUser.split("@", ".")
                     for (s in rx) {
                         splitRec += s
                     }
                     readData(receiverUser, slot_id)
-                    activity?.title = receiverUser
+
+                    if(slot.user == senderUser){
+                        accept_btn.visibility = View.VISIBLE
+                        accept_btn.isClickable = true
+                        reject_btn.visibility = View.VISIBLE
+                        reject_btn.isClickable = true
+                    }else {
+                        //appUser sta richiedendo lo slot di otherUser
+                        //nascondi bottoni per accept e reject
+                        accept_btn.visibility = View.GONE
+                        accept_btn.isClickable = false
+                        reject_btn.visibility = View.GONE
+                        reject_btn.isClickable = false
+                    }
+
+
                 } else {
                     vm.chat.observe(this.viewLifecycleOwner) { ref ->
                         slot_id = ref.slot_id.toString()
                         receiverUser = ref.user.toString()
                         readData(receiverUser, slot_id)
+
+                        activity?.title = receiverUser
+                        Log.i("recuser",receiverUser)
                     }
                 }
             }
                 Log.i("Sender user", senderUser)
+
+
 
                 mDbRef = FirebaseDatabase.getInstance().reference
                 /*    receiverRoom = splitSend + splitRec + slot.id
@@ -182,9 +231,8 @@ class ChatFragment: Fragment() {
                 }
 
 
-                accept_btn = view.findViewById(R.id.accept_btn)
-                reject_btn = view.findViewById(R.id.reject_btn)
-                vm.slot.observe(this.viewLifecycleOwner) {
+
+                /*vm.slot.observe(this.viewLifecycleOwner) {
                     slot = it
                     Log.i("TESTSLOT", it.toString())
                     Log.i("TESTSLOT", senderUser)
@@ -206,13 +254,50 @@ class ChatFragment: Fragment() {
                         reject_btn.visibility = View.GONE
                         reject_btn.isClickable = false
                     }
-                }
+                }*/
 
                 accept_btn.setOnClickListener {
-
                     //rendi lo slot non available
                     //sposta i soldi da un utente all'altro
-                    //cancella la chat relativa allo slot
+
+                    //fai vedere barra di rating e editText per commento opzionale
+                    accept_btn.visibility = View.GONE
+                    accept_btn.isClickable = false
+                    reject_btn.visibility = View.GONE
+                    reject_btn.isClickable = false
+                    chatRecyclerView.visibility = View.GONE
+                    layout_messageArea.visibility = View.GONE
+                    messageBox.visibility = View.GONE
+                    messageBox.isClickable = false
+                    sendButton.visibility = View.GONE
+                    sendButton.isClickable = false
+
+                    rateText.visibility = View.VISIBLE
+                    ratingBar.visibility = View.VISIBLE
+                    ratingBar.isClickable = true
+                    optComment_field.visibility = View.VISIBLE
+                    optComment_field.isClickable = true
+                    saveRating_btn.visibility = View.VISIBLE
+                    saveRating_btn.isClickable = true
+
+                    saveRating_btn.setOnClickListener {
+                        //salva rating e commento
+                        var rating = ratingBar.rating //float
+                        var optComment = optComment_field.text.toString()
+                        var review = Review(senderUser,receiverUser,rating,optComment)
+                        db.collection("users").document(receiverUser)
+                            .collection("reviews").document().set(review)
+
+                        //ritorna alla lista delle chat
+                        activity?.supportFragmentManager?.commit {
+                            addToBackStack(ChatListFragment::class.toString())
+                            setReorderingAllowed(true)
+                            replace<ChatListFragment>(R.id.myNavHostFragment)
+                        }
+                    }
+
+
+
                 }
 
                 reject_btn.setOnClickListener {
