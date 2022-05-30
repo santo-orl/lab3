@@ -19,12 +19,16 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import it.polito.lab4.AAslot
 import it.polito.lab4.R
 import it.polito.lab4.ViewModel
 import it.polito.lab4.chat.Message
 import it.polito.lab4.chat.MessageAdapter
 import it.polito.lab4.reviews.Review
 import it.polito.lab4.timeSlots.Slot
+import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.fragment_time_slot_details.*
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -282,6 +286,13 @@ class ChatFragment: Fragment() {
                 }*/
 
                 accept_btn.setOnClickListener {
+                    var tmp = ""
+                    var slotTitle = db.collection("slots").document(slot_id).get().addOnSuccessListener {
+                        tmp = it.get("title").toString()
+                    }
+
+                    var aaslot = AAslot(tmp,senderUser,receiverUser)
+                    db.collection("assigned_accepted_slot").document(slot_id).set(aaslot)
                     //rendi lo slot non available
                     //sposta i soldi da un utente all'altro
 
