@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import it.polito.lab4.R
+import it.polito.lab4.Review
 import it.polito.lab4.ViewModel
 import it.polito.lab4.skills.Adapter_showProfile
 import it.polito.lab4.skills.Skill
@@ -119,6 +120,33 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         }
 
     private fun readData(id: String) {
+        var sum_rating: Float = 0.0F
+        var reviewList = arrayListOf<Review>()
+        var rating_list = arrayListOf<Float>()
+
+        //take the average rating
+        db.collection("users").document("simonachiurato24@gmail.com").collection("reviews").get()
+            .addOnSuccessListener{
+                    result->
+                reviewList = arrayListOf<Review>()
+                for (doc in result.documents){
+                    Log.i("rating all", doc.data.toString())
+                    val s = doc.data as HashMap<*, *>
+                    val r = Review(
+                        s["reviewerUser"].toString(),
+                        s["reviewedUser"].toString(),
+                        s["rating"] as Float,
+                        s["comment"].toString()
+                    )
+                    sum_rating += s["rating"] as Float
+                    //rating_list.add(s["rating"] as Float)
+
+                    reviewList.add(r)
+
+                }
+            }
+        var avg_rating = sum_rating/reviewList.size
+        ratingBar.rating = avg_rating
         db.collection("users").document(id).get().addOnSuccessListener {
             if(it.exists()) {
                 if (it.get("name").toString() != "Full name") {
@@ -200,14 +228,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             }.addOnFailureListener { e ->
             Log.i("test_show", "Error adding document", e)
 
-            //take the average rating
-        db.collection("users").document("simonachiurato24@gmail.com").collection("reviews").get()
-           .addOnSuccessListener{
-              result->
-              for (doc in result.documents){
-                 Log.i("rating all", doc.data.toString())
-                    }
-                }
+
 
         }
     }
