@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import it.polito.lab4.AAslot
 import it.polito.lab4.R
 import it.polito.lab4.ViewModel
 import it.polito.lab4.chat.Message
@@ -179,6 +180,12 @@ class ChatFragment: Fragment() {
                 }
 
                 accept_btn.setOnClickListener {
+
+                    db.collection("slots").document(slot_id).get().addOnSuccessListener {
+                        var aaslot = AAslot(it.get("title").toString(),senderUser,receiverUser)
+                        db.collection("assigned_accepted_slot").document(slot_id).set(aaslot)
+                    }
+
                     //rendi lo slot non available
                     db.collection("users").document(receiverUser).get()
                         .addOnSuccessListener { rec ->
