@@ -26,11 +26,12 @@ RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             if(currentReview.reviewerUser == "No reviews" && currentReview.reviewedUser == ""
                 && currentReview.rating == 0.0F && currentReview.comment == "This user has no reviews yet"){
                 holder.rating.visibility = View.GONE
-                holder.rating.rating= currentReview.rating
+
                 holder.reviewer.textSize = 30F
                 holder.comment.textSize = 22F
             }else{
                 holder.rating.visibility = View.VISIBLE
+                holder.rating.rating= currentReview.rating
             }
             holder.reviewer.text = currentReview.reviewerUser
             holder.comment.text = currentReview.comment
