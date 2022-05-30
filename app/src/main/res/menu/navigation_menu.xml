@@ -23,10 +23,21 @@
             android:title="List of time slots"
             android:visible="true" />
 
+    </group>
+
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+
         <item
             android:id="@+id/chatList"
             android:icon="@android:drawable/stat_notify_chat"
             android:title="Chats"
+            android:visible="true" />
+        <item
+            android:id="@+id/managedSlot"
+            android:icon="@drawable/spuntat"
+            android:title="Slot in progress"
             android:visible="true" />
     </group>
 
@@ -42,7 +53,7 @@
     </group>
 
     <group android:checkableBehavior="single"
-        android:id="@+id/group2">
+        android:id="@+id/group4">
 
         <item
             android:id="@+id/logout"
