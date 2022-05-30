@@ -25,7 +25,7 @@ class ViewModel: ViewModel() {
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))*/
     private val _user = MutableLiveData<User>(User("", "", "", "", ""))
 
-    private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))
+    private val _slot = MutableLiveData<Slot>(Slot("", "", "", "", "", -1, "", "", -1))
     val slot: LiveData<Slot> = _slot
 
     private val _chat = MutableLiveData<Chat>(Chat("","","",""))

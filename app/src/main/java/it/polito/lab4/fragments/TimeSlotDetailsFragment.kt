@@ -1,5 +1,6 @@
 package it.polito.lab4.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -24,7 +25,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     var date: String = "Date"
     var duration: String = "Duration"
     var location: String = "Location"
-    var status: String = "Availability"
+    var hours: String = "Cost"
     lateinit var edit_button: Button
     lateinit var copied_button: Button
     lateinit var show_prof_button: Button
@@ -35,11 +36,12 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     lateinit var date_field: TextView
     lateinit var duration_field: TextView
     lateinit var location_field: TextView
-    lateinit var status_field: TextView
+    lateinit var hours_field: TextView
     private val vm: ViewModel by activityViewModels()
     private val db = FirebaseFirestore.getInstance()
     private lateinit var id: String
     private lateinit var slot: Slot
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("Details advertisement")
@@ -49,14 +51,14 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         duration_field = view.findViewById(R.id.duration)
         location_field = view.findViewById((R.id.location))
         date_field = view.findViewById(R.id.date)
-        status_field = view.findViewById(R.id.status)
+        hours_field = view.findViewById(R.id.hours)
 
         title = title_field.text.toString()
         description = description_field.text.toString()
         date = date_field.text.toString()
         duration = duration_field.text.toString()
         location = location_field.text.toString()
-        status = status_field.text.toString()
+        hours = hours_field.text.toString()
 
         show_prof_button = view.findViewById(R.id.show_prof_button)
         edit_button = view.findViewById(R.id.editButton)
@@ -99,7 +101,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 date_field.text = slot.date
                 duration_field.text = slot.duration
                 location_field.text = slot.location
-                status_field.text = slot.status
+                hours_field.text = "Cost: ${slot.hours}"
                 // readData(id)
                 //
             }

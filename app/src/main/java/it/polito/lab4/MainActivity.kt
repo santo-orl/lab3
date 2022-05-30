@@ -1,6 +1,5 @@
 package it.polito.lab4
 
-import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -76,7 +75,7 @@ class MainActivity : AppCompatActivity(){
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        vm.setSlot(Slot("","","","","",-1,"",""))
+        vm.setSlot(Slot("", "", "", "", "", -1, "", "", -1))
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {
