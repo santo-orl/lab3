@@ -45,6 +45,7 @@ class ChatFragment: Fragment() {
     private lateinit var sendButton: Button
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
+    private lateinit var lineView: View
 
     private lateinit var rateText: TextView
     private lateinit var ratingBar: RatingBar
@@ -80,6 +81,7 @@ class ChatFragment: Fragment() {
         messageBox = requireView().findViewById(R.id.messageBox)
         sendButton = requireView().findViewById(R.id.sendButton)
         layout_messageArea = requireView().findViewById(R.id.layout_messageArea)
+        lineView = requireView().findViewById(R.id.view)
 
         accept_btn = view.findViewById(R.id.accept_btn)
         reject_btn = view.findViewById(R.id.reject_btn)
@@ -291,6 +293,7 @@ class ChatFragment: Fragment() {
                     reject_btn.isClickable = false
                     chatRecyclerView.visibility = View.GONE
                     layout_messageArea.visibility = View.GONE
+                    lineView.visibility = View.GONE
                     messageBox.visibility = View.GONE
                     messageBox.isClickable = false
                     sendButton.visibility = View.GONE
