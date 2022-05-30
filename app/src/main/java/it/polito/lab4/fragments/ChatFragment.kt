@@ -36,7 +36,7 @@ class ChatFragment: Fragment() {
     private var receiverUser: String = ""
     private lateinit var accept_btn: Button
     private lateinit var reject_btn: Button
-    private lateinit var slot: Slot
+    private var slot= Slot("","","","","",-1,"","")
     private var slot_id = ""
 
     private lateinit var chatRecyclerView: RecyclerView
@@ -135,8 +135,6 @@ class ChatFragment: Fragment() {
                         reject_btn.visibility = View.GONE
                         reject_btn.isClickable = false
                     }
-
-
                 } else {
                     vm.chat.observe(this.viewLifecycleOwner) { ref ->
                         slot_id = ref.slot_id.toString()
