@@ -1,4 +1,4 @@
-package it.polito.lab4
+package it.polito.lab4.chat
 
 import java.text.SimpleDateFormat
 import java.util.*

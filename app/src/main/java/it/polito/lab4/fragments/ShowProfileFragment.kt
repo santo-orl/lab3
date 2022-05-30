@@ -10,21 +10,23 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import it.polito.lab4.R
-import it.polito.lab4.Review
+import it.polito.lab4.reviews.Review
 import it.polito.lab4.ViewModel
 import it.polito.lab4.skills.Adapter_showProfile
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
 import kotlinx.android.synthetic.main.fragment_show_profile.*
+import org.w3c.dom.Text
 import java.io.File
 
 
 class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
-
+    private lateinit var recycler: RecyclerView
     private var skillList: ArrayList<Skill> = arrayListOf()
     private var uriImageString: String = ""
 
@@ -84,11 +86,23 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         photo_field = view.findViewById(R.id.imageView)
         hour_field = view.findViewById(R.id.hour)
 
+        recycler = view.findViewById(R.id.recycler)
+
         ratingBar = view.findViewById(R.id.simpleRatingBar)
         ratingBar.setIsIndicator(true)
         ratingBar.numStars = 5
         ratingBar.rating = 1F
         ratingBar.stepSize = 0.5F
+
+        var reviews_btn = view.findViewById<TextView>(R.id.reviews_btn)
+
+        reviews_btn.setOnClickListener {
+            activity?.supportFragmentManager?.commit {
+                addToBackStack(ReviewsFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<ReviewsFragment>(R.id.myNavHostFragment)
+            }
+        }
 
         vm.email.observe(this.viewLifecycleOwner) {
               id = it

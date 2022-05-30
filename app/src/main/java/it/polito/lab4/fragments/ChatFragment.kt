@@ -1,6 +1,5 @@
 package it.polito.lab4.fragments
 
-import android.Manifest.permission_group.CALENDAR
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -20,10 +19,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import it.polito.lab4.*
+import it.polito.lab4.AAslot
 import it.polito.lab4.R
-import it.polito.lab4.skills.Skill
 import it.polito.lab4.ViewModel
+import it.polito.lab4.chat.Message
+import it.polito.lab4.chat.MessageAdapter
+import it.polito.lab4.reviews.Review
 import it.polito.lab4.timeSlots.Slot
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_time_slot_details.*
