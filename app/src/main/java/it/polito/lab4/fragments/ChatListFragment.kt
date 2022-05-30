@@ -15,15 +15,18 @@ import it.polito.lab4.timeSlots.Slot
 
 class Chat{
     var title: String? = null
-    var user: String? = null
+    var userRec: String? = null
     var slot_id: String? = null
+    var userSend: String? = null
+
 
     constructor(){}
 
-    constructor(title:String?, user:String?,slot_id: String?){
+    constructor(title:String?, userRec:String?,slot_id: String?, userSend: String?){
         this.title = title
-        this.user = user
+        this.userRec = userRec
         this.slot_id = slot_id
+        this.userSend = userSend
     }
 }
 class ChatListFragment: Fragment() {
@@ -83,7 +86,7 @@ class ChatListFragment: Fragment() {
 
                             val getTitle = document.data as HashMap<*, *>
                             Log.i("test chat list", getTitle.toString())
-                            userList.add(Chat(getTitle["title"].toString(),getUser[i.toString()].toString(),getTitle["id"].toString() ))
+                            userList.add(Chat(getTitle["title"].toString(),getUser[i.toString()].toString(),getTitle["id"].toString(), senderUser ))
                         }
                         userChatAdapter.notifyDataSetChanged()
 

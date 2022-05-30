@@ -48,7 +48,7 @@ class UserChatAdapter(val context: Context, val userList: ArrayList<Chat>):
         if (holder.javaClass == UserChatAdapter.UserViewHolder::class.java) {
             //do the stuff for sent view holder
             val viewHolder = holder as UserChatAdapter.UserViewHolder
-            holder.user.text = currentUser.user
+            holder.user.text = currentUser.userRec
             holder.title.text = currentUser.title
 
         }
