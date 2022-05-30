@@ -44,7 +44,7 @@ class AssignedAcceptedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle("Time slot in progress")
+        activity?.setTitle("Assigned / Accepted Slots")
 
 
         vm.email.observe(this.viewLifecycleOwner) {
