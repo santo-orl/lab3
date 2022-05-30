@@ -63,7 +63,7 @@ class AssignedAcceptedFragment : Fragment() {
             .whereEqualTo("accepterUser", id).get().addOnSuccessListener { result ->
                 //.whereEqualTo("title", title).whereNotEqualTo("user", id).get().addOnSuccessListener { result ->
                 //   Log.i("TEST", "boh")
-                slotList = arrayListOf()
+                //slotList = arrayListOf()
                 for (document in result) {
                     val s = document.data as HashMap<*, *>
                         //   Log.i("TEST", "${document.id} + ${document.data}  ")
@@ -143,7 +143,7 @@ class AssignedAcceptedFragment : Fragment() {
             .whereEqualTo("assignedUser", id).get().addOnSuccessListener { result ->
                 //.whereEqualTo("title", title).whereNotEqualTo("user", id).get().addOnSuccessListener { result ->
                 //   Log.i("TEST", "boh")
-                slotList = arrayListOf()
+                //slotList = arrayListOf()
                 for (document in result) {
                     val s = document.data as HashMap<*, *>
                     //   Log.i("TEST", "${document.id} + ${document.data}  ")

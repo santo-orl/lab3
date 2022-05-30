@@ -87,7 +87,17 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.description.text = "Click on the button below to add your first advertisement"
            viewHolder.cardView.isClickable = false
            //viewHolder.cardView.setCardBackgroundColor(Color.parseColor("#FF0800"))
-       }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
+       }
+       //caso che mostra gli slot assegnati o accettati
+       else if(dataSet[position].title != ""
+           && dataSet[position].description == "null"
+           && dataSet[position].location == "null"){
+           viewHolder.cardView.isClickable = false
+           val s2 = "Title: " + dataSet[position].title
+           viewHolder.title.text = s2
+           viewHolder.description.text = ""
+       }
+       else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
            viewHolder.cardView.isClickable = true
            viewHolder.cardView.setOnClickListener {
                if (position != RecyclerView.NO_POSITION) {
@@ -111,6 +121,8 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
             viewHolder.description.text = s3
 
         }
+
+
     }
     override fun getItemCount() = dataSet.size
     override fun onSlotTitleUpdated(position: Int, title: String) {
