@@ -88,7 +88,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         ratingBar.setIsIndicator(true)
         ratingBar.numStars = 5
         ratingBar.rating = 1F
-        ratingBar.stepSize = 1F
+        ratingBar.stepSize = 0.5F
 
         vm.email.observe(this.viewLifecycleOwner) {
               id = it
@@ -121,32 +121,38 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
     private fun readData(id: String) {
         var sum_rating: Float = 0.0F
+        var count: Float = 0.0F
         var reviewList = arrayListOf<Review>()
-        var rating_list = arrayListOf<Float>()
 
         //take the average rating
-        db.collection("users").document("simonachiurato24@gmail.com").collection("reviews").get()
+        db.collection("users").document(id).collection("reviews").get()
             .addOnSuccessListener{
                     result->
                 reviewList = arrayListOf<Review>()
                 for (doc in result.documents){
+
                     Log.i("rating all", doc.data.toString())
                     val s = doc.data as HashMap<*, *>
                     val r = Review(
                         s["reviewerUser"].toString(),
                         s["reviewedUser"].toString(),
-                        s["rating"] as Float,
+                        s["rating"].toString().toFloat(),
                         s["comment"].toString()
                     )
-                    sum_rating += s["rating"] as Float
-                    //rating_list.add(s["rating"] as Float)
+                    sum_rating += s["rating"].toString().toFloat()
+                    count += 1
 
                     reviewList.add(r)
 
                 }
+
+                var avg_rating = sum_rating/count
+                ratingBar.rating = avg_rating
+            }.addOnFailureListener { e->
+                Log.i("No reviews", e.toString())
+                ratingBar.rating = 0.0F
             }
-        var avg_rating = sum_rating/reviewList.size
-        ratingBar.rating = avg_rating
+
         db.collection("users").document(id).get().addOnSuccessListener {
             if(it.exists()) {
                 if (it.get("name").toString() != "Full name") {
