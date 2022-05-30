@@ -181,9 +181,7 @@ class MainActivity : AppCompatActivity(){
         image_field = view.findViewById(R.id.image_nv)
         //  Log.i("test_menu","before")
         vm.email.observe(this) {
-            Log.i("test_menu", it)
             if (it != "") {
-                Log.i("test_menu", "2")
                 readData(it)
             } else {
                 val id = intent.getStringExtra("id").toString()

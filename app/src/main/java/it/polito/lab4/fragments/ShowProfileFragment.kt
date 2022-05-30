@@ -191,11 +191,11 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 }else{
                     location_field.text = "Location"
                 }
-                if(it.get("hours").toString() != "-1") {
+                if(it.get("hours").toString() != "null") {
                     hour_field.text = it.get("hours").toString()
-                    vm.setHours(it.get("hours").toString().toInt())
                 }else{
-                    hour_field.text = "-1"
+                    hour_field.text = "2"
+                    vm.setHourUser(2,it.get("email").toString() )
                 }
             }else{
                 /*vm.name.observe(this.viewLifecycleOwner) {

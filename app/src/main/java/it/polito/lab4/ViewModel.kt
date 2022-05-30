@@ -23,7 +23,7 @@ class ViewModel: ViewModel() {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     /*private val _user = MutableLiveData<User>(User("", "", "", "", ""))
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))*/
-    private val _user = MutableLiveData<User>(User("", "", "", "", "",0))
+    private val _user = MutableLiveData<User>(User("", "", "", "", ""))
 
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))
     val slot: LiveData<Slot> = _slot
@@ -36,10 +36,6 @@ class ViewModel: ViewModel() {
 
     private val _description = MutableLiveData<String>("")
     val description : LiveData<String> = _description
-
-    //hour used as credit
-    private val _hours = MutableLiveData<Int>(0)
-    val hour : LiveData<Int> = _hours
 
     private val _nickname = MutableLiveData<String>("")
     val nickname: LiveData<String> = _nickname
@@ -85,9 +81,11 @@ class ViewModel: ViewModel() {
         return downloadUri
     }*/
 
-    fun createUser(name:String, nickname: String, email: String,
-                    location: String,
-                     photoString: String,  skills: ArrayList<Skill>, nOre: Int ){
+    fun createUser(
+        name: String, nickname: String, email: String,
+        location: String,
+        photoString: String, skills: ArrayList<Skill>
+    ){
             for(s in skills){
                 if(s.id!=""){
                     Log.i("test_nonSsegnata", s.toString())
@@ -117,7 +115,7 @@ class ViewModel: ViewModel() {
                     Log.i("test","Error adding document",e)
                 }*/
 
-        val user = User(name, nickname, email, location, photoString,nOre)
+        val user = User(name, nickname, email, location, photoString)
         _user.value = user
         id = email
         db.collection("users").document(email).set(user, SetOptions.merge()).addOnSuccessListener { documentReference ->
@@ -130,10 +128,6 @@ class ViewModel: ViewModel() {
 
     fun setSlot(new: Slot){
         _slot.value = new
-    }
-
-    fun setHours(hours: Int){
-        _hours.value= hours
     }
 
     fun setId(desiredId: String){
@@ -207,6 +201,16 @@ class ViewModel: ViewModel() {
     fun setChat(chat: Chat) {
         _chat.value = chat
         Log.i("TESTVM", chat.toString())
+    }
+    fun setHourUser(hours: Int, user: String){
+        val map: MutableMap<String, Int> = HashMap()
+        map["hours"] = hours
+        db.collection("users").document(user).set(map, SetOptions.merge()).addOnSuccessListener { documentReference ->
+            Log.i("test","DocumentSnapshot added with ID:${documentReference}")
+        }
+            .addOnFailureListener{e ->
+                Log.i("test","Error adding document",e)
+            }
     }
 
 
