@@ -54,7 +54,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
         p.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                     Log.i("Test on text submit", p0.toString())
-                    searchSkill(p0?.lowercase(), id)
+                      searchSkill(p0?.lowercase(), id)
                 return false
             }
             override fun onQueryTextChange(p0: String?): Boolean {
@@ -66,12 +66,24 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             }
 
         })
+        menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                // TODO: do something...
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                p.setQuery("", false)
+                p.clearFocus()
+                return true
+            }
+        })
 
 
 
     }
 
-    private fun searchSkill(query: String?, id: String) {
+    private fun searchSkill(query: String?, id: String): String {
         Log.i("test_home!!!!", "query $query")
         skillList = arrayListOf()
         db.collection("skills").whereNotEqualTo("user", id).whereEqualTo("search", query)
@@ -123,6 +135,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
             .addOnFailureListener { exception ->
                 Log.i("test_SKILLS", "Error getting SKILLS: ", exception)
             }
+        return "search"
 
 
     }
@@ -209,68 +222,6 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     }
 
 
-    private fun searchSkills(query: String?, id: String) {
-
-        skillList = arrayListOf()
-
-        //value=ObjectValue{internalValue={Leggere:{description:so leggere da 10 anni,pos:1,search:leggere,title:Leggere}}
-        db.collection("skills").get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.i("Test_DOCUMENT", "$document")
-                    Log.i("Test_document_data", "${document.data}")
-                    if (document.id != id) {
-                        document.data.forEach { (c, s) ->
-                            Log.i("test_home", s.toString())
-                            s as HashMap<*, *>
-                            if (s["search"].toString().contains(query as CharSequence)) {
-                                Log.i("test_home", "entra")
-                                skillList.add(
-                                    Skill(
-                                        s["title"].toString(),
-                                        s["description"].toString(),
-                                        s["pos"].toString().toInt(),
-                                        s["user"].toString()
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-                if (skillList.isEmpty()) {
-                    Log.i("testList", skillList.toString())
-                    skillList.add(
-                        Skill(
-                            "No skills found",
-                            "No one has the skill you are searching for!",
-                            0,
-                            ""
-                        )
-                    )
-                }
-                Log.i("testList2", skillList.toString())
-                recycler_view.layoutManager = LinearLayoutManager(this.activity)
-                adapterSkill = Adapter_homeFrg(skillList)
-                recycler_view.adapter = adapterSkill
-
-                adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
-                    override fun onSkillClick(position: Int) {
-                        vm.setSkill(skillList[position].title)
-                        vm.setDesc(skillList[position].description)
-                    }
-
-                    override fun onSkillDeleted(position: Int) {
-                    }
-
-                })
-
-            }
-            .addOnFailureListener { exception ->
-                Log.i("test_SKILLS", "Error getting SKILLS: ", exception)
-            }
-
-
-    }
 }
 
 
