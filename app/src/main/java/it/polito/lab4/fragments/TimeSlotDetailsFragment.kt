@@ -65,13 +65,14 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         copied_button = view.findViewById(R.id.editButtonCopied)
         chat_button = view.findViewById(R.id.openChatButton)
 
+        Log.i("test_details", "Time slot details")
         // Log.i("test", "dopo iniz $pos")
         vm.email.observe(this.viewLifecycleOwner) {
             id = it
         }
         vm.slot.observe(this.viewLifecycleOwner) {
             slot = it
-            // Log.i("test_edit", slot.toString())
+             Log.i("test_details", slot.toString())
             if (slot.user == id) {
                 show_prof_button.visibility = View.GONE
                 show_prof_button.isClickable = false
