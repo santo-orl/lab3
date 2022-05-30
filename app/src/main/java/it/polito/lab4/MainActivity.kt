@@ -141,6 +141,18 @@ class MainActivity : AppCompatActivity(){
                     true
                 }
 
+                R.id.managedSlot -> {
+                    this.supportFragmentManager.commit {
+                        addToBackStack(AssignedAcceptedFragment::class.toString())
+                        setReorderingAllowed(true)
+                        replace(R.id.myNavHostFragment, AssignedAcceptedFragment())
+                    }
+                    /* val navController = findNavController(R.id.myNavHostFragment)
+                    navController.navigate(R.id.containerFragment)*/
+                    drawerLayout?.closeDrawer(GravityCompat.START)
+                    true
+                }
+
                 R.id.help -> {
                     this.supportFragmentManager.commit {
                         addToBackStack(HelpFragment::class.toString())

@@ -3,12 +3,11 @@ package it.polito.lab4.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -75,6 +74,10 @@ class ChatFragment: Fragment() {
     @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.title = "Chats"
+
+        setHasOptionsMenu(true)
         chatRecyclerView = requireView().findViewById(R.id.chatRecyclerView)
         messageBox = requireView().findViewById(R.id.messageBox)
         sendButton = requireView().findViewById(R.id.sendButton)
@@ -246,8 +249,15 @@ class ChatFragment: Fragment() {
 
 
                     //sposta i soldi da un utente all'altro
+                  addToBackStack(ChatListFragment::class.toString())
+                            setReorderingAllowed(true)
+                            replace<ChatListFragment>(R.id.myNavHostFragment)
 
+                        //cancella chat
+                            //db.collection("chats").document()
 
+                        }
+                    }
 
 
 
@@ -382,6 +392,27 @@ class ChatFragment: Fragment() {
         messageBox.setText("")
 
 
+    }
+
+    //creo la pencil icon in alto a dx
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        inflater.inflate(R.menu.options_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId.equals(R.id.slotDetails)) {
+            Log.i("ENTRAMENU", "on create options menu")
+            activity?.supportFragmentManager?.commit {
+                addToBackStack(TimeSlotDetailsFragment::class.toString())
+                setReorderingAllowed(true)
+                replace<TimeSlotDetailsFragment>(R.id.myNavHostFragment)
+            }
+            // findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
+            return true
+        }
+        return false
     }
 
 }

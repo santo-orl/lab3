@@ -55,6 +55,7 @@ class ReviewsFragment : Fragment() {
             Log.i("ALLORA", slot.toString())
             if (slot.user!= ""){
                 readReviews(slot.user)
+
             }else{
                 readReviews(id)
 
