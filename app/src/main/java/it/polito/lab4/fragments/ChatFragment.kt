@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.*
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -109,18 +110,15 @@ class ChatFragment: Fragment() {
 
 
             vm.slot.observe(this.viewLifecycleOwner) { it ->
+
                 if (it.title != "") {
+                    Log.i("Test_chat", "entra con slot")
                     slot = it
                     slot_id = slot.id
                     receiverUser = slot.user
 
-                    activity?.title = receiverUser
+                    activity?.title = it.title
                     Log.i("recuser",receiverUser)
-
-                    val rx = receiverUser.split("@", ".")
-                    for (s in rx) {
-                        splitRec += s
-                    }
                     readData(receiverUser, slot_id)
 
                     if(slot.user == senderUser){
@@ -137,6 +135,7 @@ class ChatFragment: Fragment() {
                         reject_btn.isClickable = false
                     }
                 } else {
+                    Log.i("Test_chat", "entra con chat")
                     vm.chat.observe(this.viewLifecycleOwner) { ref ->
                         slot_id = ref.slot_id.toString()
                         receiverUser = ref.other.toString()
@@ -158,7 +157,7 @@ class ChatFragment: Fragment() {
                             reject_btn.isClickable = false
                         }
 
-                        activity?.title = receiverUser
+                        activity?.title = ref.title
                         Log.i("recuser",receiverUser)
                     }
                 }
@@ -389,7 +388,7 @@ class ChatFragment: Fragment() {
             .document(slot_id)
             .collection("messages")
             .orderBy("sentTime")
-            .addSnapshotListener { snapshot, e ->
+            .get().addOnSuccessListener { snapshot ->
                 if (snapshot != null) {
                     Log.i("snapshotsb", "Current data: ${snapshot.documents}$")
                     messageList.clear()
@@ -425,6 +424,27 @@ class ChatFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId.equals(R.id.slotDetails)) {
             Log.i("ENTRAMENU", "on create options menu")
+
+            vm.slot.observe(this.viewLifecycleOwner) { it ->
+                if (it.title == "") {
+                    db.collection("slots").document(slot_id).get()
+                        .addOnSuccessListener { s ->
+                            var add= Slot(
+                                s["title"].toString(),
+                                s["description"].toString(),
+                                s["date"].toString(),
+                                s["duration"].toString(),
+                                s["location"].toString(),
+                                s["pos"].toString().toInt(),
+                                s["user"].toString(),
+                                s["status"].toString(),
+                                s["hours"].toString().toInt()
+                            )
+                            add.reference(slot_id)
+                            vm.setSlot(add)
+                        }
+                }
+                }
             activity?.supportFragmentManager?.commit {
                 addToBackStack(TimeSlotDetailsFragment::class.toString())
                 setReorderingAllowed(true)
