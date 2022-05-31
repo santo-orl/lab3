@@ -1,5 +1,6 @@
 package it.polito.lab4
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -46,7 +47,7 @@ class ViewModel: ViewModel() {
     private val _photoString = MutableLiveData<String>("")
     var photoString: LiveData<String> = _photoString
 
-    /*fun uploadImage(photoString: String): Uri {
+    fun uploadImage(photoString: String): Uri {
         // Defining the child of storageReference
         val ref = storageRef.child(
             "images/"
@@ -79,7 +80,7 @@ class ViewModel: ViewModel() {
         }
         Log.i("test_vm","after ref ${ref.downloadUrl.toString()}")
         return downloadUri
-    }*/
+    }
 
     fun createUser(
         name: String, nickname: String, email: String,
