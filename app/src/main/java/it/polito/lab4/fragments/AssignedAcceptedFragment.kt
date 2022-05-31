@@ -91,7 +91,7 @@ class AssignedAcceptedFragment : Fragment() {
                     Log.i("testList", slotList.toString())
                     slotList.add(
                         Slot(
-                            "No jobs yet",
+                            "No jobs yet!",
                             "Hire someone or do a job!",
                             "",
                             "",
@@ -173,8 +173,8 @@ class AssignedAcceptedFragment : Fragment() {
                     Log.i("testList", slotList.toString())
                     slotList.add(
                         Slot(
-                            "No advertisement",
-                            "No advertisements for this skill",
+                            "No jobs yet!",
+                            "Hire someone or do a job!",
                             "",
                             "",
                             "",
