@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.*
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -109,18 +110,15 @@ class ChatFragment: Fragment() {
 
 
             vm.slot.observe(this.viewLifecycleOwner) { it ->
+
                 if (it.title != "") {
+                    Log.i("Test_chat", "entra con slot")
                     slot = it
                     slot_id = slot.id
                     receiverUser = slot.user
 
-                    activity?.title = receiverUser
+                    activity?.title = it.title
                     Log.i("recuser",receiverUser)
-
-                    val rx = receiverUser.split("@", ".")
-                    for (s in rx) {
-                        splitRec += s
-                    }
                     readData(receiverUser, slot_id)
 
                     if(slot.user == senderUser){
@@ -137,6 +135,7 @@ class ChatFragment: Fragment() {
                         reject_btn.isClickable = false
                     }
                 } else {
+                    Log.i("Test_chat", "entra con chat")
                     vm.chat.observe(this.viewLifecycleOwner) { ref ->
                         slot_id = ref.slot_id.toString()
                         receiverUser = ref.other.toString()
@@ -158,7 +157,7 @@ class ChatFragment: Fragment() {
                             reject_btn.isClickable = false
                         }
 
-                        activity?.title = receiverUser
+                        activity?.title = ref.title
                         Log.i("recuser",receiverUser)
                     }
                 }
@@ -182,11 +181,11 @@ class ChatFragment: Fragment() {
                 accept_btn.setOnClickListener {
 
                     db.collection("slots").document(slot_id).get().addOnSuccessListener {
-                        var aaslot = AAslot(it.get("title").toString(),senderUser,receiverUser)
+                        var aaslot = AAslot(it.get("title").toString(), slot_id, senderUser,receiverUser)
                         db.collection("assigned_accepted_slot").document(slot_id).set(aaslot)
                     }
 
-                    //rendi lo slot non available
+                    //rendi lo slot non available!!!!!!!!!!!!!!!!!
                     db.collection("users").document(receiverUser).get()
                         .addOnSuccessListener { rec ->
                             db.collection("slots").document(slot_id).get()
@@ -205,11 +204,13 @@ class ChatFragment: Fragment() {
                                             .set(map, SetOptions.merge())
                                         map = HashMap()
                                         map["hours"] = cost.toString()
+                                        //togli il costo da uno
                                         db.collection("users").document(receiverUser)
                                             .set(map, SetOptions.merge())
+                                        //aggiungi pagamento all'altro
+                                        db.collection("users").document(senderUser)
+                                            .set(map, SetOptions.merge())
                                         sendMessage("ACCEPTED")
-
-
                                     } else {
                                         Toast.makeText(
                                             context,
@@ -230,6 +231,14 @@ class ChatFragment: Fragment() {
                 reject_btn.setOnClickListener {
                     //torna indietro senza cambiare lo stato dello slot
                     //cancella la chat relativa allo slot
+                    sendMessage("REJECTED")
+                    activity?.supportFragmentManager?.commit {
+                        addToBackStack(ChatListFragment::class.toString())
+                        setReorderingAllowed(true)
+                        replace<ChatListFragment>(R.id.myNavHostFragment)
+                    }
+                    Toast.makeText(this.context,"Request rejected",Toast.LENGTH_SHORT).show()
+
                 }
 
             }
@@ -237,11 +246,15 @@ class ChatFragment: Fragment() {
 
     private fun sendMessage(b: String) {
         var message = ""
+
         if (b.equals("NORMAL")) {
             message = messageBox.text.toString()
         }else if(b.equals("ERROR")){
             message = "YOUR REQUEST HAS BEEN REJECTED BECAUSE YOU DON'T HAVE ENOUGH TIME TO SPEND IN THIS SLOT"
-        }else{
+        }else if(b.equals("REJECTED")){
+            message = "YOUR REQUEST HAS BEEN REJECTED FROM THE OWNER"
+        }
+        else{
             message = "YOUR REQUEST HAS BEEN ACCEPTED"
         }
         val timeZone = TimeZone.getTimeZone("UTC")
@@ -389,7 +402,7 @@ class ChatFragment: Fragment() {
             .document(slot_id)
             .collection("messages")
             .orderBy("sentTime")
-            .addSnapshotListener { snapshot, e ->
+            .get().addOnSuccessListener { snapshot ->
                 if (snapshot != null) {
                     Log.i("snapshotsb", "Current data: ${snapshot.documents}$")
                     messageList.clear()
@@ -425,6 +438,27 @@ class ChatFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId.equals(R.id.slotDetails)) {
             Log.i("ENTRAMENU", "on create options menu")
+
+            vm.slot.observe(this.viewLifecycleOwner) { it ->
+                if (it.title == "") {
+                    db.collection("slots").document(slot_id).get()
+                        .addOnSuccessListener { s ->
+                            var add= Slot(
+                                s["title"].toString(),
+                                s["description"].toString(),
+                                s["date"].toString(),
+                                s["duration"].toString(),
+                                s["location"].toString(),
+                                s["pos"].toString().toInt(),
+                                s["user"].toString(),
+                                s["status"].toString(),
+                                s["hours"].toString().toInt()
+                            )
+                            add.reference(slot_id)
+                            vm.setSlot(add)
+                        }
+                }
+                }
             activity?.supportFragmentManager?.commit {
                 addToBackStack(TimeSlotDetailsFragment::class.toString())
                 setReorderingAllowed(true)

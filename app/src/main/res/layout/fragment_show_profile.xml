@@ -32,9 +32,10 @@
             android:id="@+id/simpleRatingBar"
             style="@android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:numStars="5"
             app:layout_constraintBottom_toTopOf="@+id/name"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/reviews_btn"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <TextView
@@ -149,18 +150,14 @@
             app:layout_constraintVertical_bias="0.48000002"
             app:layout_constraintVertical_weight="5" />
 
-        <TextView
+        <Button
             android:id="@+id/reviews_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
-            android:padding="10dp"
-            android:shadowColor="@color/black"
             android:text="Reviews"
-            android:textAlignment="viewEnd"
-            android:textColor="@color/dark_blue"
-            android:textSize="25sp"
-            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.409"

@@ -86,6 +86,7 @@ class TimeSlotOthersListFragment : Fragment() {
                         val s = document.data as HashMap<*, *>
                         if (s["user"] != id) {
                          //   Log.i("TEST", "${document.id} + ${document.data}  ")
+                            if(s["status"].toString() != "Sold"){
                             var add = Slot(
                                 s["title"].toString(),
                                 s["description"].toString(),
@@ -98,9 +99,11 @@ class TimeSlotOthersListFragment : Fragment() {
                                 s["hours"].toString().toInt()
                             )
                                 add.reference(document.id)
-                            slotList.add(
-                                add
-                            )
+                                slotList.add(
+                                    add
+                                )
+                            }
+
                         }
                 }
                 if (slotList.isEmpty()) {

@@ -3,16 +3,15 @@ package it.polito.lab4.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import androidx.fragment.app.*
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ViewModel
 import it.polito.lab4.R
@@ -41,9 +40,21 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var id: String
     private lateinit var slot: Slot
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val view: View = inflater.inflate(R.layout.fragment_time_slot_details, container, false)
+        return view
+    }
+
+
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         activity?.setTitle("Details advertisement")
         //Log.i("test!!!", "prima $pos")
         title_field = view.findViewById(R.id.title)
@@ -76,13 +87,19 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             if (slot.user == id) {
                 show_prof_button.visibility = View.GONE
                 show_prof_button.isClickable = false
-                edit_button.visibility = View.VISIBLE
-                edit_button.isClickable = true
-                copied_button.visibility = View.VISIBLE
-                copied_button.isClickable = true
                 chat_button.visibility = View.GONE
                 chat_button.isClickable = false
-
+                if(slot.status.equals("Available")) {
+                    edit_button.visibility = View.VISIBLE
+                    edit_button.isClickable = true
+                    copied_button.visibility = View.VISIBLE
+                    copied_button.isClickable = true
+                }else{
+                    edit_button.visibility = View.GONE
+                    edit_button.isClickable = false
+                    copied_button.visibility = View.VISIBLE
+                    copied_button.isClickable = true
+                }
             } else {
                 edit_button.visibility = View.GONE
                 edit_button.isClickable = false
@@ -90,10 +107,15 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 copied_button.isClickable = false
                 show_prof_button.isClickable = true
                 show_prof_button.visibility = View.VISIBLE
-                chat_button.visibility = View.VISIBLE
-                //user can open the chat only if the slot is available
-                //chat_button.isClickable = status == "Available"
-                chat_button.isClickable = true
+                if(slot.status.equals("Available")) {
+                    //user can open the chat only if the slot is available
+                    chat_button.visibility = View.VISIBLE
+                    chat_button.isClickable = true
+                }else{
+                    chat_button.visibility = View.GONE
+                    chat_button.isClickable = false
+
+                }
             }
             if (slot.title != "") {
                 Log.i("test_edit", "entra? ${slot.title}")
@@ -168,6 +190,8 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 })
         }
 
+
+
         /*private fun readData(id: String){
         Log.i("test_edit", "db?" + id)
         db.collection("slots").document(id).get().addOnSuccessListener {
@@ -200,6 +224,34 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         }
 
     }*/
+        super.onViewCreated(view, savedInstanceState)
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString("Title", title_field.text.toString())
+        outState.putString("Description", description_field.text.toString())
+        outState.putString("Date", date_field.text.toString())
+        outState.putString("Location", location_field.text.toString())
+        outState.putString("Duration", duration_field.text.toString())
+        outState.putString("Hours", hours_field.text.toString())
+
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if(savedInstanceState != null){
+            title_field.setText(savedInstanceState.getString("Title","0"))
+            description_field.setText(savedInstanceState.getString("Description","0"))
+            date_field.setText(savedInstanceState.getString("Date","0"))
+            location_field.setText(savedInstanceState.getString("Location","0"))
+            duration_field.setText(savedInstanceState.getString("Duration","0"))
+            hours_field.setText(savedInstanceState.getString("Hours","0"))
+
+        }
+    }
+
+
+
 }
 
