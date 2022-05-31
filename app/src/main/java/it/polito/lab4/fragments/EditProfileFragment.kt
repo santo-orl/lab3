@@ -159,7 +159,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             }
         }
         if(uriImageString != oldPhoto) {
-            //val uri = vm.uploadImage(uriImageString).toString()
+            val uri = vm.uploadImage(uriImageString).toString()
             //Log.i("test_PHOTO","after uri ${uri.toString()}")
         }
         vm.createUser(nameToUpdate,nicknameToUpdate,emailToUpdate,locationToUpdate, uriImageString,listNoEmpty)

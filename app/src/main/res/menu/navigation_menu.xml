@@ -37,7 +37,7 @@
         <item
             android:id="@+id/managedSlot"
             android:icon="@drawable/spunta"
-            android:title="Slot in progress"
+            android:title="Completed jobs"
             android:visible="true" />
     </group>
 

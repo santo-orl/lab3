@@ -222,11 +222,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
 
         db.collection("skills").whereEqualTo("user", id).get().addOnSuccessListener { result ->
             skillList = arrayListOf()
-           /* if (it.exists()) {
-               it.data!!.forEach { (c,s) ->
-                   s as HashMap<*,*>
-                   skillList.add(Skill(s["title"].toString(),s["description"].toString(),s["pos"].toString().toInt(), id,s["title"].toString().lowercase()))
-                }*/
                 for (document in result) {
                     val s = document.data as HashMap<*, *>
                     Log.i("test_home!!!!", s.toString())
@@ -274,43 +269,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
             return false
         }
 
-    /* function used for saving fields' state */
-  /*  override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString("Full name", "nome")
-        outState.putString("Nickname", "nick")
-        outState.putString("Email","mail")
-        outState.putString("Location", "location")
-        outState.putString("Picture", uriImageString)
-        outState.putParcelableArrayList("Skills", skillList)
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            val name = savedInstanceState.getString("Full name", "0")
-            name_field.text = name
-            val nickname = savedInstanceState.getString("Nickname", "0")
-            nickname_field.text = nickname
-            val location = savedInstanceState.getString("Location", "0")
-            location_field.text = location
-            val email = savedInstanceState.getString("Email", "0")
-            email_field.text = email
-
-            if (savedInstanceState.getString("Picture", "0") != "") {
-                uriImageString = savedInstanceState.getString("Picture", "0")
-                uriImage = Uri.parse(uriImageString)
-                photo_field.setImageURI(uriImage)
-            }
-            skillList = arrayListOf()
-            skillList = savedInstanceState.getParcelableArrayList<Skill>("Skills") as ArrayList<Skill>
-
-            recycler.layoutManager = LinearLayoutManager(this.activity)
-            adapterShowProfile = Adapter_showProfile(skillList)
-            recycler.adapter = adapterShowProfile
-        }
-
-        super.onViewStateRestored(savedInstanceState)
-    }*/
 
 
 }
