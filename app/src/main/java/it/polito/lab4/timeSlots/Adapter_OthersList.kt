@@ -89,6 +89,15 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
            //viewHolder.cardView.setCardBackgroundColor(Color.parseColor("#FF0800"))
        }
        //caso che mostra gli slot assegnati o accettati
+       else if(dataSet[position].title == "No jobs yet!"
+           && dataSet[position].description == "Hire someone or do a job!"
+           ){
+           viewHolder.cardView.isClickable = false
+           val s2 =  dataSet[position].title
+           viewHolder.title.text = s2
+           viewHolder.description.text = dataSet[position].description
+       }
+       /*
        else if(dataSet[position].title != ""
            && dataSet[position].description == "null"
            && dataSet[position].location == "null"){
@@ -96,7 +105,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
            val s2 = "Title: " + dataSet[position].title
            viewHolder.title.text = s2
            viewHolder.description.text = ""
-       }
+       }*/
        else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
            viewHolder.cardView.isClickable = true
            viewHolder.cardView.setOnClickListener {
