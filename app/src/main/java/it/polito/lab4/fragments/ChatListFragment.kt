@@ -86,6 +86,7 @@ class ChatListFragment: Fragment() {
                     val getOther = it.data as HashMap<*, *>
                     for (i in 1..it.data?.size!!) {
                         ref.collection(getOther[i.toString()].toString()).get()
+                                //!!!!!!!!!!!!!!!!!!
                             .addOnSuccessListener { result ->
                                 for (document in result) {
 

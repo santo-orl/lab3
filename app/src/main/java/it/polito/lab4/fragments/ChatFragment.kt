@@ -208,8 +208,18 @@ class ChatFragment: Fragment() {
                                         db.collection("users").document(receiverUser)
                                             .set(map, SetOptions.merge())
                                         //aggiungi pagamento all'altro
-                                        db.collection("users").document(senderUser)
-                                            .set(map, SetOptions.merge())
+                                        var updateCost = 0
+                                        db.collection("users").document(senderUser).get()
+                                            .addOnSuccessListener { sen ->
+                                                updateCost = sen.get("hours").toString().toInt()
+                                                Log.i("Test pagamento", "costo: $updateCost")
+                                                map = HashMap()
+                                                updateCost += cost
+                                                Log.i("Test pagamento", "costo: $updateCost")
+                                                map["hours"] = updateCost.toString()
+                                                db.collection("users").document(senderUser)
+                                                    .set(map, SetOptions.merge())
+                                            }
                                         sendMessage("ACCEPTED")
                                     } else {
                                         Toast.makeText(
