@@ -25,7 +25,7 @@ class ViewModel: ViewModel() {
     private val _slot = MutableLiveData<Slot>(Slot("","","","","",-1,"",""))*/
     private val _user = MutableLiveData<User>(User("", "", "", "", ""))
 
-    private val _slot = MutableLiveData<Slot>(Slot("", "", "", "", "", -1, "", "", -1))
+    private val _slot = MutableLiveData<Slot>(Slot("", "", "", "", "", -1, "", "", -0.1))
     val slot: LiveData<Slot> = _slot
 
     private val _chat = MutableLiveData<Chat>(Chat("","","",""))
@@ -202,9 +202,9 @@ class ViewModel: ViewModel() {
         _chat.value = chat
         Log.i("TESTVM", chat.toString())
     }
-    fun setHourUser(hours: Int, user: String){
-        val map: MutableMap<String, Int> = HashMap()
-        map["hours"] = hours
+    fun setHourUser(hours: Double, user: String){
+        val map: MutableMap<String, String> = HashMap()
+        map["hours"] = hours.toString()
         db.collection("users").document(user).set(map, SetOptions.merge()).addOnSuccessListener { documentReference ->
             Log.i("test","DocumentSnapshot added with ID:${documentReference}")
         }

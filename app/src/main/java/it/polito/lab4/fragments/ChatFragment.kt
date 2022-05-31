@@ -7,7 +7,6 @@ import android.view.*
 import android.widget.*
 import android.widget.Button
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -34,7 +33,7 @@ class ChatFragment: Fragment() {
     private var receiverUser: String = ""
     private lateinit var accept_btn: Button
     private lateinit var reject_btn: Button
-    private var slot= Slot("", "", "", "", "", -1, "", "", -1)
+    private var slot= Slot("", "", "", "", "", -1, "", "", -0.1)
     private var slot_id = ""
 
     private lateinit var chatRecyclerView: RecyclerView
@@ -185,18 +184,18 @@ class ChatFragment: Fragment() {
                         db.collection("assigned_accepted_slot").document(slot_id).set(aaslot)
                     }
 
-                    //rendi lo slot non available!!!!!!!!!!!!!!!!!
+
                     db.collection("users").document(receiverUser).get()
                         .addOnSuccessListener { rec ->
                             db.collection("slots").document(slot_id).get()
                                 .addOnSuccessListener { slot ->
-                                    if (rec.get("hours").toString().toInt() >= slot.get("hours")
-                                            .toString().toInt()
+                                    if (rec.get("hours").toString().toDouble() >= slot.get("hours")
+                                            .toString().toDouble()
                                     ) {
                                         Log.i("Test pagamento", "entra")
-                                        val cost =
-                                            rec.get("hours").toString().toInt() - slot.get("hours")
-                                                .toString().toInt()
+                                        val cost =  rec.get("hours").toString().toDouble()- slot.get("hours")
+                                            .toString().toDouble()
+
                                         Log.i("Test pagamento", "costo: $cost")
                                         var map: MutableMap<String, String> = HashMap()
                                         map["status"] = "Sold"
@@ -208,10 +207,10 @@ class ChatFragment: Fragment() {
                                         db.collection("users").document(receiverUser)
                                             .set(map, SetOptions.merge())
                                         //aggiungi pagamento all'altro
-                                        var updateCost = 0
+                                        var updateCost = 0.0
                                         db.collection("users").document(senderUser).get()
                                             .addOnSuccessListener { sen ->
-                                                updateCost = sen.get("hours").toString().toInt()
+                                                updateCost = sen.get("hours").toString().toDouble()
                                                 Log.i("Test pagamento", "costo: $updateCost")
                                                 map = HashMap()
                                                 updateCost += cost
@@ -252,6 +251,8 @@ class ChatFragment: Fragment() {
                 }
 
             }
+
+
 
 
     private fun sendMessage(b: String) {
@@ -462,7 +463,7 @@ class ChatFragment: Fragment() {
                                 s["pos"].toString().toInt(),
                                 s["user"].toString(),
                                 s["status"].toString(),
-                                s["hours"].toString().toInt()
+                                s["hours"].toString().toDouble()
                             )
                             add.reference(slot_id)
                             vm.setSlot(add)

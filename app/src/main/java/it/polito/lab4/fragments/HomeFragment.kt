@@ -142,6 +142,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        skillList = arrayListOf()
         setHasOptionsMenu(true)
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Home"
