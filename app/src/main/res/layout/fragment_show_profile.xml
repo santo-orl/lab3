@@ -30,11 +30,10 @@
 
         <RatingBar
             android:id="@+id/simpleRatingBar"
+            style="@android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
             android:numStars="5"
             app:layout_constraintBottom_toTopOf="@+id/name"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintRight_toLeftOf="@id/reviews_btn"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -164,6 +163,7 @@
             app:layout_constraintVertical_bias="0.48000002"
             app:layout_constraintVertical_weight="5" />
 
+     
 
 
 
