@@ -36,7 +36,7 @@
             android:visible="true" />
         <item
             android:id="@+id/managedSlot"
-            android:icon="@drawable/spuntat"
+            android:icon="@drawable/spunta"
             android:title="Slot in progress"
             android:visible="true" />
     </group>
@@ -46,7 +46,7 @@
 
         <item
             android:id="@+id/help"
-            android:icon="@drawable/help_img"
+            android:icon="@android:drawable/ic_menu_help"
             android:title="Help"
             android:visible="true" />
 
