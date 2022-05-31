@@ -32,13 +32,17 @@
             android:id="@+id/simpleRatingBar"
             style="@android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:numStars="5"
             app:layout_constraintBottom_toTopOf="@+id/name"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/reviews_btn"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintVertical_weight="1"
+            />
         <Button
             android:id="@+id/reviews_btn"
+            app:layout_constraintVertical_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
@@ -123,17 +127,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
-            android:ems="7"
             android:fontFamily="sans-serif-condensed-light"
             android:text="Time-credit:"
             android:textColor="@color/dark_blue"
             android:textSize="24sp"
             android:textStyle="italic"
+            app:layout_constraintVertical_weight="1"
             app:layout_constraintBottom_toTopOf="@+id/recycler"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location"
             app:layout_constraintRight_toLeftOf="@id/hour"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/location" />
 
         <TextView
             android:id="@+id/hour"
@@ -144,6 +147,7 @@
             android:textColor="@color/dark_blue"
             android:textSize="26sp"
             android:textStyle="italic"
+            app:layout_constraintVertical_weight="1"
             app:layout_constraintBottom_toTopOf="@+id/recycler"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/fixedText"
