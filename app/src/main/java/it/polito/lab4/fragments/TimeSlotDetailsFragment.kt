@@ -87,13 +87,19 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             if (slot.user == id) {
                 show_prof_button.visibility = View.GONE
                 show_prof_button.isClickable = false
-                edit_button.visibility = View.VISIBLE
-                edit_button.isClickable = true
-                copied_button.visibility = View.VISIBLE
-                copied_button.isClickable = true
                 chat_button.visibility = View.GONE
                 chat_button.isClickable = false
-
+                if(slot.status.equals("Available")) {
+                    edit_button.visibility = View.VISIBLE
+                    edit_button.isClickable = true
+                    copied_button.visibility = View.VISIBLE
+                    copied_button.isClickable = true
+                }else{
+                    edit_button.visibility = View.GONE
+                    edit_button.isClickable = false
+                    copied_button.visibility = View.VISIBLE
+                    copied_button.isClickable = true
+                }
             } else {
                 edit_button.visibility = View.GONE
                 edit_button.isClickable = false
@@ -101,10 +107,15 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 copied_button.isClickable = false
                 show_prof_button.isClickable = true
                 show_prof_button.visibility = View.VISIBLE
-                chat_button.visibility = View.VISIBLE
-                //user can open the chat only if the slot is available
-                //chat_button.isClickable = status == "Available"
-                chat_button.isClickable = true
+                if(slot.status.equals("Available")) {
+                    //user can open the chat only if the slot is available
+                    chat_button.visibility = View.VISIBLE
+                    chat_button.isClickable = true
+                }else{
+                    chat_button.visibility = View.GONE
+                    chat_button.isClickable = false
+
+                }
             }
             if (slot.title != "") {
                 Log.i("test_edit", "entra? ${slot.title}")

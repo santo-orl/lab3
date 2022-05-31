@@ -115,8 +115,16 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
                }
            }
          //   val s1 = "Date: " + dataSet[position].date
-            val s2 = "Title: " + dataSet[position].title
-            val s3 = "Description: " + dataSet[position].description
+           var s2 = ""
+           var s3 =""
+           if(dataSet[position].status.equals("Sold")){
+                s2 =  dataSet[position].title
+                s3 = dataSet[position].description
+           }else{
+                s2 = "Title: " + dataSet[position].title
+                s3 = "Description: " + dataSet[position].description
+           }
+
             viewHolder.title.text = s2
             viewHolder.description.text = s3
 

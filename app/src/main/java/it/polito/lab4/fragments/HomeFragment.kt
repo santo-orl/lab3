@@ -34,6 +34,7 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     ): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_home_skilllist, container, false)
+        skillList = arrayListOf()
         vm.email.observe(this.viewLifecycleOwner) {
             id = it
             if (id != "") {
