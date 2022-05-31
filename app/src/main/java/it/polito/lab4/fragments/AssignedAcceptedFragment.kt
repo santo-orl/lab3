@@ -48,6 +48,7 @@ class AssignedAcceptedFragment : Fragment() {
 
 
         vm.email.observe(this.viewLifecycleOwner) {
+            slotList = arrayListOf()
             id = it.toString()
             readDataAccepter(id)
             readDataAssigned(id)
@@ -68,16 +69,16 @@ class AssignedAcceptedFragment : Fragment() {
                     val s = document.data as HashMap<*, *>
                         //   Log.i("TEST", "${document.id} + ${document.data}  ")
 
-                    //title = title, description = assigned user, user = accepter user (OWNER)
+                    //title = title, description = accepter user (OWNER), user = assigned user
                     var add = Slot(
                         s["title"].toString(),
-                        s["assignedUser"].toString(),
+                        s["accepterUser"].toString(),
                         "",
                         "",
                         "",
                         slotList.size,
-                        s["accepterUser"].toString(),
-                        "",
+                        s["assignedUser"].toString(),
+                        "Sold",
                         0
                     )
                     add.id = s["id"].toString()
@@ -114,6 +115,27 @@ class AssignedAcceptedFragment : Fragment() {
                     }
 
                     override fun onSlotClick(position: Int) {
+                        Log.i("test on click", slotList.toString())
+                        db.collection("slots").document(slotList[position].id).get()
+                            .addOnSuccessListener { s ->
+                                var add = Slot(
+                                    s["title"].toString(),
+                                    s["description"].toString(),
+                                    s["date"].toString(),
+                                    s["duration"].toString(),
+                                    s["location"].toString(),
+                                    slotList.size,
+                                    s["user"].toString(),
+                                    s["status"].toString(),
+                                    s["hours"].toString().toInt()
+                                )
+                                add.id = s["id"].toString()
+                                slotList.add(
+                                    add
+                                )
+
+                                vm.setSlot(add)
+                            }
                     }
                 })
             }
@@ -129,15 +151,16 @@ class AssignedAcceptedFragment : Fragment() {
                 for (document in result) {
                     val s = document.data as HashMap<*, *>
                     //   Log.i("TEST", "${document.id} + ${document.data}  ")
+                    //title = title, description = accepter user (OWNER), user = assigned user
                     var add = Slot(
                         s["title"].toString(),
-                        s["description"].toString(),
-                        s["date"].toString(),
-                        s["duration"].toString(),
-                        s["location"].toString(),
+                        s["accepterUser"].toString(),
+                        "",
+                        "",
+                        "",
                         slotList.size,
-                        s["user"].toString(),
-                        s["status"].toString(),
+                        s["assignedUser"].toString(),
+                        "Sold",
                         0
                     )
                     add.id = s["id"].toString()
@@ -171,29 +194,31 @@ class AssignedAcceptedFragment : Fragment() {
                 vm.setSlot(Slot("", "", "", "", "", -1, "", "", -1))
                 adapterList.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                     override fun onSlotDeleted(position: Int) {
-                        /*vm.deleteSlot(slotList[position])
-                        slotList.removeAt(position)
-                        adapterUserList.notifyDataSetChanged()
-                        if(slotList.size==0){
-                            slotList.add(
-                                Slot(
-                                    "No advertisement",
-                                    "Click on the button below to add your first advertisement",
-                                    "",
-                                    "",
-                                    "",
-                                    0,
-                                    "",
-                                    "",
-                                    -1
-                                )
-                            )
-                        }*/
                     }
 
                     override fun onSlotClick(position: Int) {
-                        /* Log.i("test on click", slotList.toString())
-                         vm.setSlot(slotList[position])*/
+                         Log.i("test on click", slotList.toString())
+                        db.collection("slots").document(slotList[position].id).get()
+                            .addOnSuccessListener { s ->
+                                var add = Slot(
+                                    s["title"].toString(),
+                                    s["description"].toString(),
+                                    s["date"].toString(),
+                                    s["duration"].toString(),
+                                    s["location"].toString(),
+                                    slotList.size,
+                                    s["user"].toString(),
+                                    s["status"].toString(),
+                                    s["hours"].toString().toInt()
+                                )
+                                add.id = s["id"].toString()
+                                slotList.add(
+                                    add
+                                )
+                                Log.i("test on click", add.toString())
+                                vm.setSlot(add)
+                            }
+
                     }
                 })
             }
