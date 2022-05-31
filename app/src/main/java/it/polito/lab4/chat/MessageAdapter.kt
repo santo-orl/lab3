@@ -1,6 +1,7 @@
 package it.polito.lab4.chat
 
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +27,11 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>, 
         }else if(viewType==ITEM_RECEIVE){
             val view: View = LayoutInflater.from(context).inflate(R.layout.receive,parent,false)
             return ReceiveViewHolder(view)
-        }else{
+        }else if(viewType==ITEM_ERROR){
             val view: View = LayoutInflater.from(context).inflate(R.layout.error, parent, false)
+            return SentViewHolder(view)
+        }else{
+            val view: View = LayoutInflater.from(context).inflate(R.layout.default_message, parent, false)
             return SentViewHolder(view)
         }
 
@@ -56,6 +60,8 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>, 
         //if(FirebaseAuth.getInstance().currentUser?.uid.equals(currentMessage.senderId)){
         if (currentMessage.message.equals("YOUR REQUEST HAS BEEN REJECTED BECAUSE YOU DON'T HAVE ENOUGH TIME TO SPEND IN THIS SLOT")){
             return ITEM_ERROR
+        }else if (currentMessage.message.equals("YOUR REQUEST HAS BEEN REJECTED FROM THE OWNER")) {
+            return 4
         }else{
         if(currentMessage.senderId.toString() == appUser){
             return ITEM_SENT

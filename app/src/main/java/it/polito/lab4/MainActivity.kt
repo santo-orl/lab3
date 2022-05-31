@@ -31,7 +31,6 @@ import com.google.firebase.storage.ktx.storage
 import it.polito.lab4.fragments.*
 
 import it.polito.lab4.timeSlots.Slot
-import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
 
@@ -75,7 +74,7 @@ class MainActivity : AppCompatActivity(){
         actionBarDrawerToggle!!.syncState()
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        vm.setSlot(Slot("", "", "", "", "", -1, "", "", -1))
+        vm.setSlot(Slot("", "", "", "", "", -1, "", "", -0.1))
         //collego i listener al menu a sinistra che si apre
         nv.setNavigationItemSelectedListener {
             when (it.itemId) {

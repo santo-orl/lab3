@@ -8,16 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.R
 import it.polito.lab4.ViewModel
-import it.polito.lab4.reviews.ReviewAdapter
-import it.polito.lab4.skills.Adapter_SkillUserFrg
-import it.polito.lab4.skills.Skill
-import it.polito.lab4.skills.SkillUI
 import it.polito.lab4.timeSlots.Adapter_OthersList
-import it.polito.lab4.timeSlots.Adapter_UserList
 import it.polito.lab4.timeSlots.Slot
 import it.polito.lab4.timeSlots.SlotUI
 import kotlinx.android.synthetic.main.fragment_time_slot_list.*
@@ -79,7 +73,7 @@ class AssignedAcceptedFragment : Fragment() {
                         slotList.size,
                         s["assignedUser"].toString(),
                         "Sold",
-                        0
+                        0.0
                     )
                     add.id = s["id"].toString()
                         slotList.add(
@@ -99,7 +93,7 @@ class AssignedAcceptedFragment : Fragment() {
                             0,
                             "",
                             "",
-                            -1
+                            -0.1
                         )
                     )
 
@@ -109,7 +103,7 @@ class AssignedAcceptedFragment : Fragment() {
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
                 adapterList = Adapter_OthersList(slotList)
                 recycler_view.adapter = adapterList
-                vm.setSlot(Slot("", "", "", "", "", -1, "", "", -1))
+                vm.setSlot(Slot("", "", "", "", "", -1, "", "", -0.1))
                 adapterList.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                     override fun onSlotDeleted(position: Int) {
                     }
@@ -127,7 +121,7 @@ class AssignedAcceptedFragment : Fragment() {
                                     slotList.size,
                                     s["user"].toString(),
                                     s["status"].toString(),
-                                    s["hours"].toString().toInt()
+                                    s["hours"].toString().toDouble()
                                 )
                                 add.id = s["id"].toString()
                                 slotList.add(
@@ -161,7 +155,7 @@ class AssignedAcceptedFragment : Fragment() {
                         slotList.size,
                         s["assignedUser"].toString(),
                         "Sold",
-                        0
+                        0.0
                     )
                     add.id = s["id"].toString()
                     slotList.add(
@@ -181,7 +175,7 @@ class AssignedAcceptedFragment : Fragment() {
                             0,
                             "",
                             "",
-                            -1
+                            -0.1
                         )
                     )
 
@@ -191,7 +185,7 @@ class AssignedAcceptedFragment : Fragment() {
                 recycler_view.layoutManager = LinearLayoutManager(requireView().context)
                 adapterList = Adapter_OthersList(slotList)
                 recycler_view.adapter = adapterList
-                vm.setSlot(Slot("", "", "", "", "", -1, "", "", -1))
+                vm.setSlot(Slot("", "", "", "", "", -1, "", "", -0.1))
                 adapterList.setOnTodoDeleteClick(object : SlotUI.SlotListener {
                     override fun onSlotDeleted(position: Int) {
                     }
@@ -209,7 +203,7 @@ class AssignedAcceptedFragment : Fragment() {
                                     slotList.size,
                                     s["user"].toString(),
                                     s["status"].toString(),
-                                    s["hours"].toString().toInt()
+                                    s["hours"].toString().toDouble()
                                 )
                                 add.id = s["id"].toString()
                                 slotList.add(

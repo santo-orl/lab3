@@ -8,9 +8,6 @@
     tools:context=".fragments.ShowProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_show_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -54,19 +51,19 @@
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:ems="10"
             android:background="@color/dirty_white"
+            android:ems="10"
             android:fontFamily="sans-serif-condensed-medium"
             android:lineSpacingExtra="8sp"
             android:text="@string/full_name"
             android:textAlignment="viewStart"
             android:textColor="@color/dark_blue"
-            android:textSize="30sp"
+            android:textSize="26sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/nickname"
-            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintBottom_toTopOf="@+id/email"
+            app:layout_constraintHorizontal_weight="5"
             app:layout_constraintLeft_toRightOf="@+id/divider"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/nickname"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="1"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -75,17 +72,17 @@
             android:id="@+id/nickname"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:fontFamily="sans-serif-condensed-light"
             android:background="@color/dirty_white"
+            android:fontFamily="sans-serif-condensed-light"
             android:text="@string/nickname"
             android:textColor="@color/dark_blue"
             android:textSize="26sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toTopOf="@+id/email"
-            app:layout_constraintHorizontal_weight="10"
-            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintLeft_toRightOf="@id/name"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="1"
             tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
@@ -118,13 +115,73 @@
             android:textColor="@color/dark_blue"
             android:textSize="26sp"
             android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/recycler"
-            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintHorizontal_weight="3.3"
+            app:layout_constraintBottom_toTopOf="@+id/simpleRatingBar"
             app:layout_constraintLeft_toRightOf="@id/divider"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/fixedText"
             app:layout_constraintTop_toBottomOf="@+id/email"
             app:layout_constraintVertical_weight="1"
             tools:ignore="SpeakableTextPresentCheck" />
+
+
+        <TextView
+            android:id="@+id/fixedText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="Time-credit:"
+            android:textColor="@color/dark_blue"
+            app:layout_constraintHorizontal_weight="3.3"
+            android:textSize="24sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/simpleRatingBar"
+            app:layout_constraintLeft_toRightOf="@id/location"
+            app:layout_constraintRight_toLeftOf="@id/hour"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
+
+        <TextView
+            android:id="@+id/hour"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="Hour"
+            app:layout_constraintHorizontal_weight="3.3"
+            android:textColor="@color/dark_blue"
+            android:textSize="26sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/simpleRatingBar"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/fixedText"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
+
+
+        <RatingBar
+            android:id="@+id/simpleRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:numStars="5"
+            app:layout_constraintBottom_toTopOf="@+id/recycler"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@id/divider"
+            app:layout_constraintRight_toLeftOf="@id/reviews_btn"
+            app:layout_constraintTop_toBottomOf="@+id/location"
+         />
+        <Button
+            android:id="@+id/reviews_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Reviews"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/simpleRatingBar"
+            app:layout_constraintBottom_toTopOf="@+id/recycler"
+            app:layout_constraintTop_toBottomOf="@+id/location" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -135,7 +192,7 @@
             app:layout_constraintHorizontal_weight="10"
             app:layout_constraintLeft_toRightOf="@id/divider"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location"
+            app:layout_constraintTop_toBottomOf="@+id/simpleRatingBar"
             app:layout_constraintVertical_weight="5">
 
 
