@@ -231,6 +231,14 @@ class ChatFragment: Fragment() {
                 reject_btn.setOnClickListener {
                     //torna indietro senza cambiare lo stato dello slot
                     //cancella la chat relativa allo slot
+                    sendMessage("REJECTED")
+                    activity?.supportFragmentManager?.commit {
+                        addToBackStack(ChatListFragment::class.toString())
+                        setReorderingAllowed(true)
+                        replace<ChatListFragment>(R.id.myNavHostFragment)
+                    }
+                    Toast.makeText(this.context,"Request rejected",Toast.LENGTH_SHORT).show()
+
                 }
 
             }
@@ -238,11 +246,15 @@ class ChatFragment: Fragment() {
 
     private fun sendMessage(b: String) {
         var message = ""
+
         if (b.equals("NORMAL")) {
             message = messageBox.text.toString()
         }else if(b.equals("ERROR")){
             message = "YOUR REQUEST HAS BEEN REJECTED BECAUSE YOU DON'T HAVE ENOUGH TIME TO SPEND IN THIS SLOT"
-        }else{
+        }else if(b.equals("REJECTED")){
+            message = "YOUR REQUEST HAS BEEN REJECTED FROM THE OWNER"
+        }
+        else{
             message = "YOUR REQUEST HAS BEEN ACCEPTED"
         }
         val timeZone = TimeZone.getTimeZone("UTC")
