@@ -8,11 +8,9 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
+import androidx.fragment.app.*
 import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ViewModel
 import it.polito.lab4.R
@@ -154,19 +152,19 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
                 setReorderingAllowed(true)
                 replace<ChatFragment>(R.id.myNavHostFragment)
             }
-
+        }
 
             activity?.onBackPressedDispatcher?.addCallback(
                 viewLifecycleOwner,
                 object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
+                        saveInfo()
                         this@TimeSlotDetailsFragment.activity?.supportFragmentManager?.popBackStack()
+
                         //findNavController().navigate(R.id.action_showProfileFragment_to_homeFragment)
-
-
                     }
                 })
-        }
+
 
         /*private fun readData(id: String){
         Log.i("test_edit", "db?" + id)
@@ -200,6 +198,14 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
         }
 
     }*/
+    }
+
+    private fun saveInfo() {
+        Log.i("test details", "boh")
+        vm.setSlot(Slot("", "", "", "", "", -1, "", "", -1))  //?????????
+        vm.slot.observe(viewLifecycleOwner){
+            Log.i("test details", slot.title)
+        }
     }
 }
 
