@@ -5,8 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -118,6 +121,15 @@ class ChatListFragment: Fragment() {
 
 
         }
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                activity?.supportFragmentManager?.commit {
+                    addToBackStack(HomeFragment::class.toString())
+                    setReorderingAllowed(true)
+                    replace<HomeFragment>(R.id.myNavHostFragment)
+                }
 
+            }
+        })
     }
 }

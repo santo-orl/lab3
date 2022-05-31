@@ -85,22 +85,23 @@ class TimeSlotUserListFragment: Fragment(R.layout.fragment_time_slot_list) {
                 for (document in result) {
                     val s = document.data as HashMap<*, *>
                     Log.i("TEST", "${document.id} + ${document.data}  ")
-                    var add = Slot(
-                        s["title"].toString(),
-                        s["description"].toString(),
-                        s["date"].toString(),
-                        s["duration"].toString(),
-                        s["location"].toString(),
-                        slotList.size,
-                        s["user"].toString(),
-                        s["status"].toString(),
-                        s["hours"].toString().toInt()
-                    )
-                    add.id = s["id"].toString()
-                    slotList.add(
-                        add
-                    )
-
+                    if(s["status"].toString() != "Sold") {
+                        var add = Slot(
+                            s["title"].toString(),
+                            s["description"].toString(),
+                            s["date"].toString(),
+                            s["duration"].toString(),
+                            s["location"].toString(),
+                            slotList.size,
+                            s["user"].toString(),
+                            s["status"].toString(),
+                            s["hours"].toString().toInt()
+                        )
+                        add.id = s["id"].toString()
+                        slotList.add(
+                            add
+                        )
+                    }
 
                 }
                 Log.i("Slot List User", slotList.toString())
