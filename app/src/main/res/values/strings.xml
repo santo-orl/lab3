@@ -22,8 +22,19 @@
         testo da definire
     </string>
     <string name="help">hh</string>
-    <string name="guideProfile">Welcome in our app! The first step is to fill in your profile, with your best picture and some other information about yourself. Make sure that you add some skills, these will represent the jobs that you are offering to the other users</string>
-    <string name="guideSlot">Now you have to create some temporal slot for your offers. Make sure to keep update your slots, in order to be always free when you make an offer.</string>
-    <string name="guideHome">In the home you can see the offers made from other users. Click on one of them for seeing in which slot time the owner of the slot is available. Also, from the description of the time slot you can see the profile of the owner, with his/her ranking and the review from other users.</string>
-    <string name="guideChat">In this page you can see all your messages, the ones that other users send to you, when they want to hire you, and the ones that you can send to them. If you want to hire someone you are oblide to write him/her a message. Then the other user can accept or denied your request.</string>
+    <string name="guideProfile">Welcome to our app! The first step is to fill in your profile,
+        with your best picture and some other information about yourself. Make sure you
+        add some skills - these will represent the jobs that you are offering to the other users.</string>
+    <string name="guideSlot">Now you have to create some temporal slot for your offers.
+        Make sure to keep your slots update, in order to be always free during the time of your offer.</string>
+    <string name="guideHome">In the "Home" section you can see the offers made from other users.
+        Click on one of them to see its details: you can see the time at which the owner of the slot is available.
+        Also, from the description of the time slot you can see the profile of the owner,
+        with their rating and the reviews from other users.</string>
+    <string name="guideChat">In the section "Chats" you can see all your messages, both the ones that other users
+        sent to you in order to hire you, and the ones that you sent to them.
+        If you want to be hired by someone, you must write them a message.
+        Then the other user can accept or deny your request.</string>
+    <string name="guideAssignedSlot">In order to remind you the slots you have sent a message for, or the slots
+    someone else has requested to you, you can go to the Assigned/Accepted Slot section.</string>
 </resources>
