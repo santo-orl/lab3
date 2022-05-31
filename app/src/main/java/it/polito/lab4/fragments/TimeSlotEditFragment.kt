@@ -14,7 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import it.polito.lab4.ViewModel
 import it.polito.lab4.R
 import it.polito.lab4.timeSlots.Slot
-import kotlinx.android.synthetic.main.fragment_edit_profile.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,7 +35,7 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     private lateinit var title_field: EditText
     private lateinit var description_field: EditText
     private lateinit var location_field: EditText
-    private  var eliminare = Slot("", "", "", "", "", 0, "", "", -1)
+    private  var eliminare = Slot("", "", "", "", "", 0, "", "", -0.1)
 
     //val vm by viewModels<TimeSlotViewModel>()
     private val vm: ViewModel by activityViewModels()
@@ -279,11 +278,9 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
             if (title != slot.title || description != slot.description || date != slot.date ||
                 "$from-$to" != slot.duration || location != slot.location) {
 
-                var hours = to.split(":")[0].toInt() - from.split(":")[0].toInt()
+                var hours = calculateCost(to, from)
                 Log.i("Test hours", hours.toString())
-                if (hours == 0) {
-                    hours = 1
-                }
+
                 Log.i("Test hours", hours.toString())
                 var new = Slot(
                     title,
@@ -308,6 +305,18 @@ class TimeSlotEditFragment : Fragment(R.layout.fragment_time_slot_edit) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         findNavController().navigate(R.id.timeSlotDetailsFragment)
         return true
+    }
+    private fun calculateCost(to: String, from: String): Double {
+        var cost = 0.0
+        cost = (to.split(":")[0].toInt() - from.split(":")[0].toInt()).toDouble()
+        var minute = to.split(":")[1].toInt() - from.split(":")[1].toInt()
+        Log.i("test minute",minute.toString())
+        if (minute > 30 || (-30 < minute && minute < 0)) {
+            cost += 0.5
+        }
+
+        Log.i("test costo",cost.toString())
+        return cost
     }
 
 }

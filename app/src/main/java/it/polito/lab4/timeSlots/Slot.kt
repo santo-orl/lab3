@@ -12,7 +12,7 @@ data class Slot(
     val pos: Int,
     val user: String,
     val status: String, //Available or Not available,
-    val hours: Int
+    val hours: Double
 ) : Parcelable {
  var id =""
     override fun toString(): String {

@@ -1,17 +1,15 @@
 package it.polito.lab4.fragments
 
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.TimePickerDialog
-import android.icu.text.DateFormat
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.widget.NumberPicker
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
-import java.lang.reflect.Field
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -28,10 +26,13 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
             hour = calendar.get(Calendar.HOUR_OF_DAY)
             minute = calendar.get(Calendar.MINUTE)
 
-        return TimePickerDialog(requireActivity(),this, hour ,minute,true)
+        val timePickerDialog = TimePickerDialog(requireActivity(),this, hour ,minute,true)
+        return timePickerDialog
     }
 
+
     override fun onTimeSet(view: TimePicker, hour: Int, minute: Int) {
+
         Log.i("time", "PROVA")
         calendar.set(Calendar.HOUR_OF_DAY, hour)
         calendar.set(Calendar.MINUTE, minute)

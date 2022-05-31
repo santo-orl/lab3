@@ -20,8 +20,6 @@ import it.polito.lab4.ViewModel
 import it.polito.lab4.skills.Adapter_showProfile
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.timeSlots.Slot
-import kotlinx.android.synthetic.main.fragment_show_profile.*
-import org.w3c.dom.Text
 import java.io.File
 
 
@@ -70,7 +68,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 trans.replace(R.id.myNavHostFragment, ShowProfileFragment())
                 trans.commit()
             }else{
-                vm.setSlot(Slot("", "", "", "", "", -1, "", "", -1))
+                vm.setSlot(Slot("", "", "", "", "", -1, "", "", -0.1))
             }
             //getSupportFragmentManager().executePendingTransactions();   //unnecessary
         }
@@ -211,7 +209,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     hour_field.text = it.get("hours").toString()
                 }else{
                     hour_field.text = "2"
-                    vm.setHourUser(2,it.get("email").toString() )
+                    vm.setHourUser(2.0,it.get("email").toString() )
                 }
             }else{
                 /*vm.name.observe(this.viewLifecycleOwner) {

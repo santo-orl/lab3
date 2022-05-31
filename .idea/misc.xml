@@ -68,16 +68,30 @@
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/drawable/error_message.xml" value="0.2405" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/drawable/my_message_bubble.xml" value="0.2405" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/drawable/other_message_bubble.xml" value="0.2405" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout-land/fragment_assigned_or_acceptedslot.xml" value="0.21164021164021163" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout-land/fragment_edit_profile.xml" value="0.21164021164021163" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout-land/fragment_help.xml" value="0.21164021164021163" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout-land/fragment_reviews.xml" value="0.21164021164021163" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout-land/fragment_show_profile.xml" value="0.21164021164021163" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout-land/fragment_time_slot_details.xml" value="0.21164021164021163" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/default_message.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/error.xml" value="0.234375" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/fragment_assigned_or_acceptedslot.xml" value="0.25" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/fragment_chat.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/fragment_chat_list.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/fragment_item_list.xml" value="0.24547101449275363" />
+
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/fragment_reviews.xml" value="0.25" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/fragment_show_profile.xml" value="0.25" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/fragment_time_slot_details.xml" value="0.25" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/fragment_time_slot_edit.xml" value="0.25" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/fragment_time_slot_list.xml" value="0.25" />
+
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/my_message.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/other_message.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/receive.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/review.xml" value="0.25" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/sent.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/simon/StudioProjects/lab3/app/src/main/res/layout/user_chat_list.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/valen/AndroidStudioProjects/lab4/app/src/main/res/layout/activity_login.xml" value="0.1" />
