@@ -16,7 +16,7 @@ import it.polito.lab4.fragments.TimeSlotOthersListFragment
 import it.polito.lab4.skills.Skill
 import it.polito.lab4.skills.SkillUI
 
-import kotlinx.android.synthetic.main.fragment_item_list.view.*
+import kotlinx.android.synthetic.main.fragment_item_list1.view.*
 
 
 
@@ -34,6 +34,7 @@ class Adapter_homeFrg(private val dataSet: ArrayList<Skill>) :
                      skillSaved: SkillUI.SkillSaved) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.title_itemList
         val description: TextView = view.slotDesc
+        val user: TextView = view.userItem
         val iconDeleteSlot: ImageView = view.delete_card
         val cardView: CardView = itemView.findViewById(R.id.card_list)
 
@@ -69,7 +70,7 @@ class Adapter_homeFrg(private val dataSet: ArrayList<Skill>) :
     ): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.fragment_item_list, viewGroup, false)
+            .inflate(R.layout.fragment_item_list1, viewGroup, false)
         return ViewHolder(view, skillListener,this)
     }
 
@@ -91,12 +92,16 @@ class Adapter_homeFrg(private val dataSet: ArrayList<Skill>) :
             viewHolder.iconDeleteSlot.isClickable = false
             viewHolder.iconDeleteSlot.visibility = View.GONE
 
+            viewHolder.user.visibility = View.GONE
+
         }else if  (dataSet[position].title == "" && dataSet[position].description == "" ) {
             viewHolder.title.text = "No skills available"
             viewHolder.description.text = "No one has published any skills"
             viewHolder.cardView.isClickable = false
             viewHolder.iconDeleteSlot.isClickable = false
              viewHolder.iconDeleteSlot.visibility = View.GONE
+
+            viewHolder.user.visibility = View.GONE
         }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
             viewHolder.cardView.isClickable = true
             viewHolder.iconDeleteSlot.isClickable = false
@@ -122,6 +127,7 @@ class Adapter_homeFrg(private val dataSet: ArrayList<Skill>) :
 
             viewHolder.title.text = dataSet[position].title
             viewHolder.description.text = dataSet[position].description
+            viewHolder.user.text = dataSet[position].user
 
         }
     }

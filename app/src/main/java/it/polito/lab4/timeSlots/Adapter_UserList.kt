@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab4.R
 import it.polito.lab4.fragments.TimeSlotDetailsFragment
 
-import kotlinx.android.synthetic.main.fragment_item_list.view.*
+import kotlinx.android.synthetic.main.fragment_item_list1.view.*
 
 
 
@@ -34,6 +34,7 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
                      slotSaved: SlotUI.SlotSaved) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.title_itemList
         val description: TextView = view.slotDesc
+        val user: TextView = view.userItem
         val iconDeleteSlot: ImageView = view.delete_card
         val cardView: CardView = itemView.findViewById(R.id.card_list)
 
@@ -69,7 +70,7 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
     ): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.fragment_item_list, viewGroup, false)
+            .inflate(R.layout.fragment_item_list1, viewGroup, false)
         return ViewHolder(view, slotListener,this)
     }
 
@@ -87,12 +88,16 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.iconDeleteSlot.isClickable = false
            viewHolder.iconDeleteSlot.visibility = View.GONE
 
+           viewHolder.user.visibility = View.GONE
+
        }else if  (dataSet[position].title == "" && dataSet[position].description == "" ) {
            viewHolder.title.text = "No advertisement"
            viewHolder.description.text = "Click on the button below to add your first advertisement"
            viewHolder.cardView.isClickable = false
            viewHolder.iconDeleteSlot.isClickable = false
            viewHolder.iconDeleteSlot.visibility = View.GONE
+
+           viewHolder.user.visibility = View.GONE
        }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
            viewHolder.cardView.isClickable = true
            viewHolder.cardView.setOnClickListener {
@@ -120,6 +125,7 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
             val s3 = "Description: " + dataSet[position].description
             viewHolder.title.text = s2
             viewHolder.description.text = s3
+           viewHolder.user.text = dataSet[position].user
 
         }
     }

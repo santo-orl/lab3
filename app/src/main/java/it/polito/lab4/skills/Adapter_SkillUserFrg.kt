@@ -1,5 +1,6 @@
 package it.polito.lab4.skills
 
+    import android.opengl.Visibility
     import android.util.Log
     import android.view.LayoutInflater
     import android.view.View
@@ -15,7 +16,7 @@ package it.polito.lab4.skills
     import it.polito.lab4.fragments.TimeSlotUserListFragment
 
 
-    import kotlinx.android.synthetic.main.fragment_item_list.view.*
+    import kotlinx.android.synthetic.main.fragment_item_list1.view.*
 
     class Adapter_SkillUserFrg(private val dataSet: ArrayList<Skill>) :
         RecyclerView.Adapter<Adapter_SkillUserFrg.ViewHolder>(),SkillUI.SkillSaved {
@@ -32,6 +33,7 @@ package it.polito.lab4.skills
 
             val title: TextView = view.title_itemList
             val description: TextView = view.slotDesc
+            val user: TextView = view.userItem
             val iconDeleteSlot: ImageView = view.delete_card
             val cardView: CardView = itemView.findViewById(R.id.card_list)
 
@@ -67,7 +69,7 @@ package it.polito.lab4.skills
         ): ViewHolder {
             // Create a new view, which defines the UI of the list item
             val view = LayoutInflater.from(viewGroup.context)
-                .inflate(R.layout.fragment_item_list, viewGroup, false)
+                .inflate(R.layout.fragment_item_list1, viewGroup, false)
             return ViewHolder(view, skillListener,this)
         }
 
@@ -85,10 +87,13 @@ package it.polito.lab4.skills
                 viewHolder.title.text = dataSet[position].title
                 viewHolder.description.text = dataSet[position].description
 
+                viewHolder.user.visibility = View.GONE
 
             }else if  (dataSet[position].title == "" && dataSet[position].description == "" ) {
                 viewHolder.title.text = "No skills available"
                 viewHolder.description.text = "Add new skills in your profile!"
+
+                viewHolder.user.visibility = View.GONE
 
             }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
                 viewHolder.cardView.isClickable = true
@@ -111,6 +116,7 @@ package it.polito.lab4.skills
                 val s3 = "Description: " + dataSet[position].description
                 viewHolder.title.text = dataSet[position].title
                 viewHolder.description.text = dataSet[position].description
+                viewHolder.user.text = dataSet[position].user
 
             }
         }
