@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab4.R
 import it.polito.lab4.fragments.TimeSlotDetailsFragment
 
-import kotlinx.android.synthetic.main.fragment_item_list.view.*
+import kotlinx.android.synthetic.main.fragment_item_list1.view.*
 
 
 
@@ -32,6 +32,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
                      slotSaved: SlotUI.SlotSaved) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.title_itemList
         val description: TextView = view.slotDesc
+        val user: TextView = view.userItem
         val iconDeleteSlot: ImageView = view.delete_card
         val cardView: CardView = itemView.findViewById(R.id.card_list)
 
@@ -65,7 +66,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
     ): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.fragment_item_list, viewGroup, false)
+            .inflate(R.layout.fragment_item_list1, viewGroup, false)
         return ViewHolder(view, slotListener,this)
     }
 
@@ -80,13 +81,16 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.title.text = dataSet[position].title
            viewHolder.description.text = dataSet[position].description
            viewHolder.cardView.isClickable = false
-           //viewHolder.cardView.setCardBackgroundColor(Color.parseColor("#FF0800"))
+
+           viewHolder.user.visibility = View.GONE
+
 
        }else if  (dataSet[position].title == "" && dataSet[position].description == "" ) {
            viewHolder.title.text = "No advertisement"
            viewHolder.description.text = "Click on the button below to add your first advertisement"
            viewHolder.cardView.isClickable = false
-           //viewHolder.cardView.setCardBackgroundColor(Color.parseColor("#FF0800"))
+
+           viewHolder.user.visibility = View.GONE
        }
        //caso che mostra gli slot assegnati o accettati
        else if(dataSet[position].title == "No jobs yet!"
@@ -96,6 +100,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
            val s2 =  dataSet[position].title
            viewHolder.title.text = s2
            viewHolder.description.text = dataSet[position].description
+           viewHolder.user.text = dataSet[position].user
        }
        /*
        else if(dataSet[position].title != ""
@@ -137,6 +142,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
             viewHolder.title.text = s2
             viewHolder.description.text = s3
 
+           viewHolder.user.text = dataSet[position].user
         }
 
 

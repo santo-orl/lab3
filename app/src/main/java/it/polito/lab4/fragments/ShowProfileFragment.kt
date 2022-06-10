@@ -35,6 +35,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
     private lateinit var email_field: TextView
     private lateinit var photo_field: ImageView
     private lateinit var hour_field: TextView
+    private lateinit var fixed_text: TextView
     private lateinit var ratingBar : RatingBar
 
     //per differenziare i due recycler quando mostra le skills
@@ -83,6 +84,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
         location_field = view.findViewById(R.id.location)
         photo_field = view.findViewById(R.id.imageView)
         hour_field = view.findViewById(R.id.hour)
+        fixed_text = view.findViewById(R.id.fixedText)
 
         recycler = view.findViewById(R.id.recycler)
 
@@ -113,6 +115,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                readData(slot.user)
 
                 hour_field.visibility = View.GONE
+                fixed_text.visibility = View.GONE
             }else{
                 readData(id)
                 Log.i("test_show", "id utente"+id)
