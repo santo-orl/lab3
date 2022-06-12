@@ -87,56 +87,60 @@ class HomeFragment : Fragment(R.layout.fragment_home_skilllist) {
     private fun searchSkill(query: String?, id: String): String {
         Log.i("test_home!!!!", "query $query")
         skillList = arrayListOf()
-        db.collection("skills").whereNotEqualTo("user", id).whereEqualTo("search", query)
+        //db.collection("skills").whereNotEqualTo("user", id).whereEqualTo("search", query)
+        db.collection("skills").whereNotEqualTo("user", id)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     // if (document.id != id) {
                     val s = document.data as HashMap<*, *>
                     Log.i("test_home!!!!", s.toString())
-                    var p = Skill(
-                        s["title"].toString(),
-                        s["description"].toString(),
-                        s["pos"].toString().toInt(),
-                        s["user"].toString(),
-                        s["search"].toString(),
-                    )
-                    p.reference(s["id"].toString())
-                    skillList.add(p)
-                    Log.i("testList", p.toString())
-                }
-                if (skillList.isEmpty()) {
-                    Log.i("testList", skillList.toString())
-                    skillList.add(
-                        Skill(
-                            "No skills found",
-                            "No one has the skill you are searching for!",
-                            0,
-                            ""
+                    if (s["search"].toString().contains(query.toString())) {
+                        var p = Skill(
+                            s["title"].toString(),
+                            s["description"].toString(),
+                            s["pos"].toString().toInt(),
+                            s["user"].toString(),
+                            s["search"].toString(),
                         )
-                    )
+                        p.reference(s["id"].toString())
+                        skillList.add(p)
+                        Log.i("testList", p.toString())
+
+                        if (skillList.isEmpty()) {
+                            Log.i("testList", skillList.toString())
+                            skillList.add(
+                                Skill(
+                                    "No skills found",
+                                    "No one has the skill you are searching for!",
+                                    0,
+                                    ""
+                                )
+                            )
+                        }
+                        Log.i("testList2", skillList.toString())
+                        recycler_view.layoutManager = LinearLayoutManager(this.activity)
+                        adapterSkill = Adapter_homeFrg(skillList)
+                        recycler_view.adapter = adapterSkill
+
+                        adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
+                            override fun onSkillClick(position: Int) {
+                                vm.setSkill(skillList[position].title)
+                                vm.setDesc(skillList[position].description)
+                            }
+
+                            override fun onSkillDeleted(position: Int) {
+                            }
+
+                        })
+                    }
                 }
-                Log.i("testList2", skillList.toString())
-                recycler_view.layoutManager = LinearLayoutManager(this.activity)
-                adapterSkill = Adapter_homeFrg(skillList)
-                recycler_view.adapter = adapterSkill
-
-                adapterSkill.setOnTodoClick(object : SkillUI.SkillListener {
-                    override fun onSkillClick(position: Int) {
-                        vm.setSkill(skillList[position].title)
-                        vm.setDesc(skillList[position].description)
+            }
+                    .addOnFailureListener { exception ->
+                        Log.i("test_SKILLS", "Error getting SKILLS: ", exception)
                     }
 
-                    override fun onSkillDeleted(position: Int) {
-                    }
-
-                })
-
-            }
-            .addOnFailureListener { exception ->
-                Log.i("test_SKILLS", "Error getting SKILLS: ", exception)
-            }
-        return "search"
+                return "search"
 
 
     }
