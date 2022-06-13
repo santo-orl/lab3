@@ -33,7 +33,7 @@
                 android:id="@+id/txt_sent_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="18dp"
+                android:padding="14dp"
                 android:text="This is sent message"
                 android:textColor="@color/black"
                 android:textSize="18sp" />

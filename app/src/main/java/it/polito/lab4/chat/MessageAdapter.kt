@@ -44,12 +44,14 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>, 
             //do the stuff for sent view holder
             val viewHolder = holder as SentViewHolder
             holder.sentMessage.text = currentMessage.message
-            holder.sentTime.text = currentMessage.sentTime
+            Log.i("sent time", currentMessage.sentTime.toString())
+
+            holder.sentTime.text = currentMessage.sentTime?.dropLast(3)
         }else{
             //do stuff for receive view holder
             val viewHolder = holder as ReceiveViewHolder
             holder.receiveMessage.text = currentMessage.message
-            holder.sentTime.text = currentMessage.sentTime
+            holder.sentTime.text = currentMessage.sentTime?.dropLast(3)
         }
 
     }
