@@ -15,7 +15,11 @@ import it.polito.lab4.R
 import it.polito.lab4.fragments.TimeSlotDetailsFragment
 
 import kotlinx.android.synthetic.main.fragment_item_list1.view.*
-
+import kotlinx.android.synthetic.main.fragment_item_list1.view.delete_card
+import kotlinx.android.synthetic.main.fragment_item_list1.view.slotDesc
+import kotlinx.android.synthetic.main.fragment_item_list1.view.title_itemList
+import kotlinx.android.synthetic.main.fragment_item_list1.view.userItem
+import kotlinx.android.synthetic.main.fragment_item_slot.view.*
 
 
 class Adapter_OthersList (private val dataSet: ArrayList<Slot>) :
@@ -33,6 +37,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
         val title: TextView = view.title_itemList
         val description: TextView = view.slotDesc
         val user: TextView = view.userItem
+        val date: TextView = view.date_item
         val iconDeleteSlot: ImageView = view.delete_card
         val cardView: CardView = itemView.findViewById(R.id.card_list)
 
@@ -66,7 +71,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
     ): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.fragment_item_list1, viewGroup, false)
+            .inflate(R.layout.fragment_item_slot, viewGroup, false)
         return ViewHolder(view, slotListener,this)
     }
 
@@ -83,7 +88,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.cardView.isClickable = false
 
            viewHolder.user.visibility = View.GONE
-
+           viewHolder.date.visibility = View.GONE
 
        }else if  (dataSet[position].title == "" && dataSet[position].description == "" ) {
            viewHolder.title.text = "No advertisement"
@@ -91,6 +96,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.cardView.isClickable = false
 
            viewHolder.user.visibility = View.GONE
+           viewHolder.date.visibility = View.GONE
        }
        //caso che mostra gli slot assegnati o accettati
        else if(dataSet[position].title == "No jobs yet!"
@@ -101,6 +107,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.title.text = s2
            viewHolder.description.text = dataSet[position].description
            viewHolder.user.text = dataSet[position].user
+           viewHolder.date.text = dataSet[position].date
        }
        /*
        else if(dataSet[position].title != ""
@@ -143,6 +150,7 @@ RecyclerView.Adapter<Adapter_OthersList.ViewHolder>(),SlotUI.SlotSaved {
             viewHolder.description.text = s3
 
            viewHolder.user.text = dataSet[position].user
+           viewHolder.date.text = dataSet[position].date
         }
 
 
