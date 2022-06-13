@@ -25,8 +25,9 @@ class UserChatAdapter(val context: Context, val userList: ArrayList<Chat>):
     class UserViewHolder(itemView: View, chatListener: ChatUI.ChatListener)
         : RecyclerView.ViewHolder(itemView) {
         val card = itemView.findViewById<CardView>(R.id.card_chats)
-        val title: TextView = itemView.findViewById<TextView>(R.id.title_slot)
-        val user: TextView = itemView.findViewById<TextView>(R.id.slotUser)
+        val title: TextView = itemView.findViewById<TextView>(R.id.title_slotChat)
+        val user: TextView = itemView.findViewById<TextView>(R.id.userChat)
+
 
         init {
             card.setOnClickListener {
