@@ -38,8 +38,8 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
                      slotSaved: SlotUI.SlotSaved) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.title_itemList
         val description: TextView = view.slotDesc
-        val user: TextView = view.userItem
         val date: TextView = view.date_item
+        val time: TextView = view.time_item
         val iconDeleteSlot: ImageView = view.delete_card
         val cardView: CardView = itemView.findViewById(R.id.card_list)
 
@@ -93,7 +93,7 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.iconDeleteSlot.isClickable = false
            viewHolder.iconDeleteSlot.visibility = View.GONE
 
-           viewHolder.user.visibility = View.GONE
+            viewHolder.time.visibility = View.GONE
            viewHolder.date.visibility = View.GONE
 
        }else if  (dataSet[position].title == "" && dataSet[position].description == "" ) {
@@ -103,7 +103,7 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
            viewHolder.iconDeleteSlot.isClickable = false
            viewHolder.iconDeleteSlot.visibility = View.GONE
 
-           viewHolder.user.visibility = View.GONE
+           viewHolder.time.visibility = View.GONE
            viewHolder.date.visibility = View.GONE
        }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
            viewHolder.cardView.isClickable = true
@@ -132,9 +132,9 @@ RecyclerView.Adapter<Adapter_UserList.ViewHolder>(),SlotUI.SlotSaved {
             val s3 = "Description: " + dataSet[position].description
             viewHolder.title.text = s2
             viewHolder.description.text = s3
-           viewHolder.user.text = dataSet[position].user
-           viewHolder.date.text = dataSet[position].date
 
+           viewHolder.date.text = dataSet[position].date
+           viewHolder.time.text = dataSet[position].duration
         }
     }
     override fun getItemCount() = dataSet.size
