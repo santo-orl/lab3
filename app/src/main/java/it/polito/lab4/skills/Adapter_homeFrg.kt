@@ -99,7 +99,7 @@ class Adapter_homeFrg(private val dataSet: ArrayList<Skill>) :
             viewHolder.description.text = "No one has published any skills"
             viewHolder.cardView.isClickable = false
             viewHolder.iconDeleteSlot.isClickable = false
-             viewHolder.iconDeleteSlot.visibility = View.GONE
+            viewHolder.iconDeleteSlot.visibility = View.GONE
 
             viewHolder.user.visibility = View.GONE
         }else if (dataSet[position].title != "" && dataSet[position].description != "" ) {
