@@ -63,7 +63,7 @@
 
             <EditText
                 android:id="@+id/date_edit"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
                 android:fontFamily="sans-serif-condensed-medium"
@@ -72,8 +72,10 @@
                 android:textColor="#000000"
                 android:textSize="25sp"
                 card_view:layout_constraintBottom_toTopOf="@+id/location_edit"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                card_view:layout_constraintRight_toLeftOf="@id/from_edit"
+                card_view:layout_constraintEnd_toStartOf="@+id/from_edit"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintHorizontal_chainStyle="spread"
+                card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/editDescription"
                 card_view:layout_constraintVertical_weight="1"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -89,8 +91,9 @@
                 android:textColor="#000000"
                 android:textSize="25sp"
                 card_view:layout_constraintBottom_toTopOf="@+id/location_edit"
-                card_view:layout_constraintLeft_toRightOf="@+id/date_edit"
-                card_view:layout_constraintRight_toRightOf="@+id/to_edit"
+                card_view:layout_constraintEnd_toStartOf="@+id/to_edit"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintStart_toEndOf="@+id/date_edit"
                 card_view:layout_constraintTop_toBottomOf="@+id/editDescription"
                 card_view:layout_constraintVertical_weight="1"
                 tools:ignore="TouchTargetSizeCheck" />
@@ -106,8 +109,9 @@
                 android:textColor="#000000"
                 android:textSize="25sp"
                 card_view:layout_constraintBottom_toTopOf="@+id/location_edit"
-                card_view:layout_constraintLeft_toRightOf="@id/from_edit"
-                card_view:layout_constraintRight_toRightOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintStart_toEndOf="@+id/from_edit"
                 card_view:layout_constraintTop_toBottomOf="@+id/editDescription"
                 card_view:layout_constraintVertical_weight="1"
                 tools:ignore="TouchTargetSizeCheck" />
