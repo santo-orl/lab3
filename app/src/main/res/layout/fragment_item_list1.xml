@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="#37A4C3DB"
-                android:fontFamily="sans-serif-condensed-light"
+                android:fontFamily="sans-serif-medium"
                 android:text="User"
 
                 android:textAlignment="viewStart"
@@ -44,7 +44,7 @@
                 android:id="@+id/title_itemList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fontFamily="sans-serif-smallcaps"
+                android:fontFamily="sans-serif-condensed-light"
                 android:text="Title"
                 android:textAlignment="viewStart"
                 android:textColor="#000000"

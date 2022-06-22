@@ -179,11 +179,6 @@ class ChatFragment: Fragment() {
 
                 accept_btn.setOnClickListener {
 
-                    db.collection("slots").document(slot_id).get().addOnSuccessListener {
-                        var aaslot = AAslot(it.get("title").toString(), slot_id, senderUser,receiverUser)
-                        db.collection("assigned_accepted_slot").document(slot_id).set(aaslot)
-                    }
-
 
                     db.collection("users").document(receiverUser).get()
                         .addOnSuccessListener { rec ->
@@ -192,6 +187,10 @@ class ChatFragment: Fragment() {
                                     if (rec.get("hours").toString().toDouble() >= slot.get("hours")
                                             .toString().toDouble()
                                     ) {
+                                        db.collection("slots").document(slot_id).get().addOnSuccessListener {
+                                            var aaslot = AAslot(it.get("title").toString(), slot_id, senderUser,receiverUser)
+                                            db.collection("assigned_accepted_slot").document(slot_id).set(aaslot)
+                                        }
                                         Log.i("Test pagamento", "entra")
                                         val cost =  rec.get("hours").toString().toDouble()- slot.get("hours")
                                             .toString().toDouble()
