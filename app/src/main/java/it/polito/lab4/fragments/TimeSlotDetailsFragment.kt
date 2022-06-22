@@ -139,6 +139,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             activity?.supportFragmentManager?.commit {
                 addToBackStack(TimeSlotEditFragment::class.toString())
                 setReorderingAllowed(true)
+                setCustomAnimations(R.anim.slide_in,R.anim.fade_out,R.anim.fade_in,R.anim.slide_out)
                 replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
                 //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
             }
@@ -152,6 +153,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             activity?.supportFragmentManager?.commit {
                 addToBackStack(TimeSlotEditFragment::class.toString())
                 setReorderingAllowed(true)
+                setCustomAnimations(R.anim.slide_in,R.anim.fade_out,R.anim.fade_in,R.anim.slide_out)
                 replace<TimeSlotEditFragment>(R.id.myNavHostFragment)
                 //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
             }
@@ -163,6 +165,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             activity?.supportFragmentManager?.commit {
                 addToBackStack(ShowProfileFragment::class.toString())
                 setReorderingAllowed(true)
+                setCustomAnimations(R.anim.slide_in,R.anim.fade_out,R.anim.fade_in,R.anim.slide_out)
                 replace<ShowProfileFragment>(R.id.myNavHostFragment)
                 //findNavController().navigate(R.id.action_timeSlotDetailsFragment_to_timeSlotEditFragment)
             }
@@ -174,6 +177,7 @@ class TimeSlotDetailsFragment : Fragment(R.layout.fragment_time_slot_details) {
             activity?.supportFragmentManager?.commit {
                 addToBackStack(ShowProfileFragment::class.toString())
                 setReorderingAllowed(true)
+                setCustomAnimations(R.anim.slide_in,R.anim.fade_out,R.anim.fade_in,R.anim.slide_out)
                 replace<ChatFragment>(R.id.myNavHostFragment)
             }
 
