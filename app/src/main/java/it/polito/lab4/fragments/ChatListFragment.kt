@@ -80,41 +80,41 @@ class ChatListFragment: Fragment() {
             vm.setSlot(Slot("", "", "", "", "", -1, "", "", -0.1))
             var ref = db.collection("chats").document(id)
             ref.get().addOnSuccessListener {
-
+                Log.i("test chat list","ENTRA?")
                 if (!it.data.isNullOrEmpty()) {
-                    Log.i("test chat list", it.data?.size.toString())
+                    Log.i("test chat list1", it.data?.size.toString())
                     val getOther = it.data as HashMap<*, *>
                     for (i in 1..it.data?.size!!) {
+                        Log.i("test chat list!!", getOther[i.toString()].toString())
                         ref.collection(getOther[i.toString()].toString()).get()
-                                //!!!!!!!!!!!!!!!!!!
+                            //!!!!!!!!!!!!!!!!!!
                             .addOnSuccessListener { result ->
-                                for (document in result) {
-
-                                    val getSlot = document.data as HashMap<*, *>
-                                    Log.i("test chat list", getSlot.toString())
+                                Log.i("test chat list55555", result.size().toString())
+                                if (result.size() != 0) {
+                                    for (document in result) {
+                                        val getSlot = document.data as HashMap<*, *>
+                                        chatList.add(
+                                            Chat(
+                                                getSlot["title"].toString(),
+                                                getOther[i.toString()].toString(),
+                                                getSlot["id"].toString(),
+                                                getSlot["user"].toString()
+                                            )
+                                        )
+                                    }
+                                } else {
                                     chatList.add(
                                         Chat(
-                                            getSlot["title"].toString(),
-                                            getOther[i.toString()].toString(),
-                                            getSlot["id"].toString(),
-                                            getSlot["user"].toString()
+                                            "Start a conversation with someone!",
+                                            "No chats", "",
+                                            ""
                                         )
                                     )
                                 }
                                 userChatAdapter.notifyDataSetChanged()
-
+                                Log.i("test chat list", chatList.toString())
                             }
                     }
-
-                }else{
-                    chatList.add(
-                        Chat(
-                            "Start a conversation with someone!",
-                           "No chats yet", "",
-                           ""
-                        )
-                    )
-                    userChatAdapter.notifyDataSetChanged()
 
                 }
                 userChatAdapter.setOnClick(object : ChatUI.ChatListener {
