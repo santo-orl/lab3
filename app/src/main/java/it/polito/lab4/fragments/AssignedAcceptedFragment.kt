@@ -45,7 +45,7 @@ class AssignedAcceptedFragment : Fragment() {
             slotList = arrayListOf()
             id = it.toString()
             readDataAccepter(id)
-            readDataAssigned(id)
+
 
         }
 
@@ -81,6 +81,7 @@ class AssignedAcceptedFragment : Fragment() {
                         )
 
                 }
+                readDataAssigned(id)
                 if (slotList.isEmpty()) {
                     Log.i("testList", slotList.toString())
                     slotList.add(
