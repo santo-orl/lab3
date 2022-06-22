@@ -262,6 +262,7 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 activity?.supportFragmentManager?.commit {
                     addToBackStack(EditProfileFragment::class.toString())
                     setReorderingAllowed(true)
+                    setCustomAnimations(R.anim.slide_in,R.anim.fade_out,R.anim.fade_in,R.anim.slide_out)
                     replace<EditProfileFragment>(R.id.myNavHostFragment)
                 }
                // findNavController().navigate(R.id.action_showProfileFragment_to_editProfileFragment)
