@@ -5,13 +5,14 @@
     android:id="@+id/spf"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray"
     tools:context=".fragments.ShowProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_show_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dirty_white"
+        android:background="@color/gray"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         tools:context=".MainActivity">
@@ -20,8 +21,8 @@
             android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:textColor="@color/dark_blue"
             android:src="@drawable/default_user_profile_picture_hvoncb"
+            android:textColor="@color/dark_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_weight="5"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -36,7 +37,7 @@
             android:layout_width="16dp"
             android:layout_height="match_parent"
 
-            android:background="@color/dirty_white"
+            android:background="@color/gray"
             android:textColor="@color/dark_blue"
             android:textSize="26sp"
             android:textStyle="italic"
@@ -50,8 +51,8 @@
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/dirty_white"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
             android:ems="10"
             android:fontFamily="sans-serif-condensed-medium"
             android:lineSpacingExtra="8sp"
@@ -71,8 +72,8 @@
         <TextView
             android:id="@+id/nickname"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/dirty_white"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
             android:fontFamily="sans-serif-condensed-light"
             android:text="@string/nickname"
             android:textColor="@color/dark_blue"
@@ -89,14 +90,15 @@
         <TextView
             android:id="@+id/email"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/dirty_white"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
             android:fontFamily="sans-serif-condensed-light"
             android:text="@string/email_address"
             android:textColor="@color/dark_blue"
-            android:textSize="26sp"
+            android:textSize="23sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toTopOf="@+id/location"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_weight="10"
             app:layout_constraintLeft_toRightOf="@id/divider"
             app:layout_constraintRight_toRightOf="parent"
@@ -107,16 +109,16 @@
         <TextView
             android:id="@+id/location"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
 
+            android:background="@color/gray"
             android:fontFamily="sans-serif-condensed-light"
             android:text="@string/location"
-            android:background="@color/dirty_white"
             android:textColor="@color/dark_blue"
             android:textSize="26sp"
             android:textStyle="italic"
-            app:layout_constraintHorizontal_weight="3.3"
             app:layout_constraintBottom_toTopOf="@+id/simpleRatingBar"
+            app:layout_constraintHorizontal_weight="3.3"
             app:layout_constraintLeft_toRightOf="@id/divider"
             app:layout_constraintRight_toLeftOf="@+id/fixedText"
             app:layout_constraintTop_toBottomOf="@+id/email"
@@ -130,12 +132,13 @@
             android:layout_height="wrap_content"
             android:clickable="false"
             android:fontFamily="sans-serif-condensed-light"
+            android:gravity="end"
             android:text="Time-credit:"
             android:textColor="@color/dark_blue"
-            app:layout_constraintHorizontal_weight="3.3"
             android:textSize="24sp"
-            android:textStyle="italic"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/simpleRatingBar"
+            app:layout_constraintHorizontal_weight="3.3"
             app:layout_constraintLeft_toRightOf="@id/location"
             app:layout_constraintRight_toLeftOf="@id/hour"
             app:layout_constraintTop_toBottomOf="@+id/email" />
@@ -146,13 +149,13 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
             android:text="Hour"
-            app:layout_constraintHorizontal_weight="3.3"
             android:textColor="@color/dark_blue"
             android:textSize="26sp"
-            android:textStyle="italic"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/simpleRatingBar"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_weight="3.3"
             app:layout_constraintLeft_toRightOf="@+id/fixedText"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email" />
 
 
@@ -166,28 +169,31 @@
             app:layout_constraintHorizontal_weight="10"
             app:layout_constraintLeft_toRightOf="@id/divider"
             app:layout_constraintRight_toLeftOf="@id/reviews_btn"
-            app:layout_constraintTop_toBottomOf="@+id/location"
-         />
+            app:layout_constraintTop_toBottomOf="@+id/location" />
+
         <Button
             android:id="@+id/reviews_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#8594EA"
             android:fontFamily="sans-serif-condensed-medium"
             android:text="Reviews"
             android:textColor="@color/white"
-            android:textSize="18sp"
 
-            app:layout_constraintHorizontal_weight="10"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/simpleRatingBar"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/recycler"
-            app:layout_constraintTop_toBottomOf="@+id/location" />
+            app:layout_constraintHorizontal_weight="10"
+            app:layout_constraintLeft_toRightOf="@+id/simpleRatingBar"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location"
+            app:strokeColor="#555F9C"
+            app:strokeWidth="2dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/dirty_white"
+            android:background="@color/gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_weight="10"
             app:layout_constraintLeft_toRightOf="@id/divider"
