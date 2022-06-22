@@ -127,7 +127,11 @@ class Adapter_homeFrg(private val dataSet: ArrayList<Skill>) :
 
             viewHolder.title.text = dataSet[position].title
             viewHolder.description.text = dataSet[position].description
-            viewHolder.user.text = dataSet[position].user
+            if(dataSet[position].nickname != "Nickname"){
+                viewHolder.user.text = dataSet[position].nickname
+            }else {
+                viewHolder.user.text = dataSet[position].user
+            }
 
         }
     }

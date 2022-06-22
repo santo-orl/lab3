@@ -9,8 +9,8 @@ data class Skill(
     var description: String,
     var pos: Int,
     var user: String,
-    //var search: String = title.lowercase()
-    var search: String = title.lowercase()
+    var search: String = title.lowercase(),
+    var nickname: String = "Nickname"
     ) : Parcelable {
     var id = ""
 
