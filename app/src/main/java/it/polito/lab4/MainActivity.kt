@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -222,6 +223,7 @@ class MainActivity : AppCompatActivity(){
                 email_field.text = it.get("email").toString()
 
                 if (it.get("photoString").toString() != "") {
+
                     uriImageString = it.get("photoString").toString()
                     val pathReference = storageRef.child("images/"+email_field.text.toString())
                     val localFile = File.createTempFile("images", "jpg")

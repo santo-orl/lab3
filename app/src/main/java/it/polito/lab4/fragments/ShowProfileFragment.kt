@@ -120,7 +120,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                 readData(id)
                 Log.i("test_show", "id utente"+id)
                 setHasOptionsMenu(true)
-
             }
 
 
@@ -193,7 +192,6 @@ class ShowProfileFragment : Fragment(R.layout.fragment_show_profile) {
                     }.addOnFailureListener {
                         // Handle any errors
                     }
-
                   Log.i("test_show", pathReference.toString())
                 }else {
                     photo_field.setImageResource(R.drawable.default_user_profile_picture_hvoncb) //default pic

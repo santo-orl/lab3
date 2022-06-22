@@ -152,9 +152,9 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                     s.user = emailToUpdate
                     listNoEmpty.add(s)
                 }else if(s.title.length < 5){
-                    Toast.makeText(activity,"Sorry, the title must be at least of 5 characters",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Sorry, the title of the skills must be at least of 5 characters",Toast.LENGTH_SHORT).show()
                 }else if(s.description.length < 10){
-                    Toast.makeText(activity,"Sorry, the description must be at least of 10 characters",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Sorry, the description of the skills must be at least of 10 characters",Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -181,14 +181,14 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 uriImageString = oldPhoto
                 val localFile = File.createTempFile("images", "jpg")
 
-                /*pathReference.getFile(localFile).addOnSuccessListener {
+                pathReference.getFile(localFile).addOnSuccessListener {
                     // Local temp file has been created
                     val uriImage = Uri.parse(localFile.path)
                    // Log.i("test_show", localFile.path.toString())
                     imageButton.setImageURI(uriImage)
                 }.addOnFailureListener {
                     // Handle any errors
-                }*/
+                }
 
               //  Log.i("test_show", pathReference.toString())
 
@@ -332,7 +332,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
 
-        //vm.setPhoto(uriImageString)
     }
 
     private fun Bitmap.saveImage(context: Context): Uri? {
@@ -354,9 +353,6 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
        // name_field.doAfterTextChanged { editable-> if(editable!=null)
       //      profViewModel.setName(editable.toString()) }
-
-
-
                 return uri
             }
         } else {

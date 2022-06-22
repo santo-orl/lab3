@@ -78,8 +78,10 @@ class LoginActivity : AppCompatActivity() {
                             .makeText(this,"user logged in",Toast.LENGTH_SHORT)
                             .show()
                         Toast
-                            .makeText(this,"Two hours-credit have been assigned to your profile",Toast.LENGTH_LONG)
+                            .makeText(this,"Two hours-credit have been assigned to your profile",
+                                Toast.LENGTH_LONG)
                             .show()
+
                     }
                     .addOnFailureListener{
                         Toast
