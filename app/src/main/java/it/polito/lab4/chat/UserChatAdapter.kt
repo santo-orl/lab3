@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import it.polito.lab4.R
 import it.polito.lab4.fragments.*
 
-class UserChatAdapter(val context: Context, val userList: ArrayList<Chat>):
+class UserChatAdapter(val context: Context, val chatList: ArrayList<Chat>):
     RecyclerView.Adapter<UserChatAdapter.UserViewHolder>() {
 
     private lateinit var chatListener: ChatUI.ChatListener
@@ -44,7 +44,12 @@ class UserChatAdapter(val context: Context, val userList: ArrayList<Chat>):
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        val currentUser = userList[position]
+
+
+        val currentUser = chatList[position]
+        if(chatList[position].title == "Start a conversation with someone!"){
+            holder.card.isClickable = false
+        }
         Log.i("testAdapter", currentUser.toString())
 
         if (holder.javaClass == UserViewHolder::class.java) {
@@ -69,7 +74,7 @@ class UserChatAdapter(val context: Context, val userList: ArrayList<Chat>):
     }
 
     override fun getItemCount(): Int {
-        return userList.size
+        return chatList.size
     }
 
 

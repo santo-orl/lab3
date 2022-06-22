@@ -41,7 +41,7 @@ class ChatListFragment: Fragment() {
     private var id = ""
 
     private lateinit var userListRecView: RecyclerView
-    private lateinit var userList: ArrayList<Chat>
+    private lateinit var chatList: ArrayList<Chat>
     private lateinit var userChatAdapter: UserChatAdapter
 
     private var splitSend:String = ""
@@ -66,8 +66,8 @@ class ChatListFragment: Fragment() {
 
         vm.email.observe(this.viewLifecycleOwner) { it ->
             id = it
-            userList = arrayListOf()
-            userChatAdapter = UserChatAdapter(this.requireContext(), userList)
+            chatList = arrayListOf()
+            userChatAdapter = UserChatAdapter(this.requireContext(), chatList)
 
             userListRecView.layoutManager = LinearLayoutManager(this.requireContext())
             userListRecView.adapter = userChatAdapter
@@ -92,7 +92,7 @@ class ChatListFragment: Fragment() {
 
                                     val getSlot = document.data as HashMap<*, *>
                                     Log.i("test chat list", getSlot.toString())
-                                    userList.add(
+                                    chatList.add(
                                         Chat(
                                             getSlot["title"].toString(),
                                             getOther[i.toString()].toString(),
@@ -106,10 +106,20 @@ class ChatListFragment: Fragment() {
                             }
                     }
 
+                }else{
+                    chatList.add(
+                        Chat(
+                            "Start a conversation with someone!",
+                           "No chats yet", "",
+                           ""
+                        )
+                    )
+                    userChatAdapter.notifyDataSetChanged()
+
                 }
                 userChatAdapter.setOnClick(object : ChatUI.ChatListener {
                     override fun onChatClick(position: Int) {
-                        vm.setChat(userList[position])
+                        vm.setChat(chatList[position])
                         Log.i("listChat", "click")
                     }
 
