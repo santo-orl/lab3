@@ -24,6 +24,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.fragment.app.commit
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -117,6 +118,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
 
         btn_save.setOnClickListener {
            saveInfo()
+
             this@EditProfileFragment.activity?.supportFragmentManager?.popBackStack()
         }
         super.onViewCreated(view, savedInstanceState)
