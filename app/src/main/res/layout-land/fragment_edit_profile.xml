@@ -12,7 +12,7 @@
         android:id="@+id/edit_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dirty_white"
+        android:background="@color/gray"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:scrollbarSize="6dp">
@@ -20,17 +20,17 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/editName"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
-            android:background="#AEECEF"
-            android:backgroundTint="@color/dirty_white"
+            android:background="@color/gray"
+            android:backgroundTint="@color/gray"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@+id/recycler"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/editName"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="5"
             app:srcCompat="@drawable/camera_icon_21"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -39,26 +39,26 @@
             android:id="@+id/editName"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/dirty_white"
+            android:background="@color/gray"
             android:fontFamily="sans-serif-condensed-medium"
             android:hint="Full name"
             android:inputType="textPersonName|textCapSentences"
             android:textColor="@color/dark_blue"
             android:textSize="28sp"
             android:textStyle="bold"
-            app:layout_constraintVertical_weight="1"
             app:layout_constraintBottom_toTopOf="@+id/editNick"
             app:layout_constraintHorizontal_weight="10"
             app:layout_constraintLeft_toRightOf="@+id/imageButton"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/editNick"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/dirty_white"
+            android:background="@color/gray"
             android:ems="10"
             android:fontFamily="sans-serif-condensed-light"
             android:hint="Nickname"
@@ -78,7 +78,7 @@
             android:id="@+id/editEmail"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/dirty_white"
+            android:background="@color/gray"
             android:fontFamily="sans-serif-condensed-light"
             android:hint="email@address"
             android:inputType="textEmailAddress"
@@ -98,7 +98,7 @@
             android:id="@+id/editLocation"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/dirty_white"
+            android:background="@color/gray"
             android:fontFamily="sans-serif-condensed-light"
             android:hint="Location"
             android:inputType="text|textCapSentences"
@@ -117,17 +117,16 @@
             android:id="@+id/recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/dirty_white"
+            android:background="@color/gray"
             android:scrollbarStyle="insideInset"
             android:scrollbars="vertical"
             android:textColor="@color/dark_blue"
-            app:layout_constraintVertical_weight="5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_weight="5"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/editName"
             app:layout_constraintTop_toBottomOf="@+id/imageButton"
-            >
+            app:layout_constraintVertical_weight="5">
 
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -141,9 +140,9 @@
             android:textColor="#FFFF"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editLocation"
             app:layout_constraintLeft_toRightOf="@+id/imageButton"
             app:layout_constraintRight_toLeftOf="@id/btn_save"
+            app:layout_constraintTop_toBottomOf="@+id/editLocation"
             app:layout_constraintVertical_weight="1"
             tools:ignore="ButtonStyle,RtlSymmetry" />
 
@@ -155,9 +154,9 @@
             android:textColor="#FFFF"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editLocation"
             app:layout_constraintLeft_toRightOf="@+id/btn_add_skill"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editLocation"
             app:layout_constraintVertical_weight="1"
 
 
